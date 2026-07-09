@@ -1,0 +1,60 @@
+/* Galyan Global Styles */
+html, body {
+  font-family: var(--gy-font-sans);
+  font-size: var(--gy-font-size-md);
+  line-height: var(--gy-line-height-normal);
+  color: var(--gy-text);
+  background-color: var(--gy-background);
+  transition: background-color var(--gy-duration-normal) var(--gy-ease-in-out),
+              color var(--gy-duration-normal) var(--gy-ease-in-out);
+}
+
+::selection {
+  background-color: var(--gy-primary-muted);
+  color: var(--gy-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gy-focus-outline);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gy-background-subtle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gy-border-strong);
+  border-radius: var(--gy-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gy-text-subtle);
+}
+
+/* Smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

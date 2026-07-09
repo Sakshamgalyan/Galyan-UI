@@ -1,0 +1,79 @@
+/* ── Modal ────────────────────────────────────────────────────────────────── */
+.gy-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--gy-overlay);
+  backdrop-filter: blur(4px);
+  z-index: var(--gy-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gy-spacing-4);
+  animation: gy-fade-in var(--gy-duration-normal) var(--gy-ease-out);
+}
+
+.gy-modal {
+  background: var(--gy-surface);
+  border-radius: var(--gy-radius-2xl);
+  box-shadow: var(--gy-shadow-modal);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+  width: 100%;
+  animation: gy-zoom-in var(--gy-duration-normal) var(--gy-ease-spring);
+  outline: none;
+}
+
+.gy-modal--xs  { max-width: 20rem; }
+.gy-modal--sm  { max-width: 28rem; }
+.gy-modal--md  { max-width: 36rem; }
+.gy-modal--lg  { max-width: 48rem; }
+.gy-modal--xl  { max-width: 64rem; }
+.gy-modal--full { max-width: calc(100vw - 2rem); max-height: calc(100vh - 2rem); }
+
+.gy-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--gy-spacing-5) var(--gy-spacing-6);
+  border-bottom: 1px solid var(--gy-border);
+  flex-shrink: 0;
+}
+
+.gy-modal-title {
+  font-size: var(--gy-font-size-lg);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text);
+}
+
+.gy-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--gy-radius-md);
+  color: var(--gy-text-subtle);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color var(--gy-duration-fast), background var(--gy-duration-fast);
+}
+
+.gy-modal-close:hover { color: var(--gy-text); background: var(--gy-background-muted); }
+
+.gy-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--gy-spacing-6);
+}
+
+.gy-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--gy-spacing-3);
+  padding: var(--gy-spacing-4) var(--gy-spacing-6);
+  border-top: 1px solid var(--gy-border);
+  flex-shrink: 0;
+}

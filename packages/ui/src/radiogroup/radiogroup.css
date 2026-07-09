@@ -1,0 +1,80 @@
+/* ── RadioGroup ───────────────────────────────────────────────────────────── */
+.gy-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-2);
+}
+
+.gy-radio-group--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.gy-radio-group-label {
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text);
+  margin-bottom: var(--gy-spacing-1);
+}
+
+.gy-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gy-spacing-2);
+  cursor: pointer;
+}
+
+.gy-radio--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.gy-radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.gy-radio-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  border: 2px solid var(--gy-border-strong);
+  background: var(--gy-surface);
+  flex-shrink: 0;
+  transition:
+    border-color var(--gy-duration-fast) var(--gy-ease-in-out),
+    box-shadow var(--gy-duration-fast) var(--gy-ease-in-out);
+}
+
+.gy-radio:not(.gy-radio--disabled):hover .gy-radio-circle {
+  border-color: var(--gy-primary);
+}
+
+.gy-radio-input:focus-visible + .gy-radio-circle {
+  box-shadow: 0 0 0 3px var(--gy-focus-ring);
+  border-color: var(--gy-primary);
+}
+
+.gy-radio-circle--checked {
+  border-color: var(--gy-primary);
+}
+
+.gy-radio-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--gy-primary);
+  animation: gy-zoom-in var(--gy-duration-fast) var(--gy-ease-spring);
+}
+
+.gy-radio-label {
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-medium);
+  color: var(--gy-text);
+  line-height: 1.4;
+}

@@ -1,0 +1,122 @@
+/* ── Drag & Drop ─────────────────────────────────────────────────────────── */
+
+/* ── List Reorder ── */
+.gy-dnd-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-2);
+  width: 100%;
+}
+
+.gy-dnd-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gy-spacing-3);
+  padding: var(--gy-spacing-3) var(--gy-spacing-4);
+  background: var(--gy-surface);
+  border: 1.5px solid var(--gy-border);
+  border-radius: var(--gy-radius-lg);
+  transition: box-shadow var(--gy-duration-fast), border-color var(--gy-duration-fast), opacity var(--gy-duration-fast);
+  cursor: default;
+  user-select: none;
+}
+
+.gy-dnd-item--dragging {
+  opacity: 0.4;
+  border-color: var(--gy-primary);
+  border-style: dashed;
+}
+
+.gy-dnd-item--drag-over {
+  border-color: var(--gy-primary);
+  background: var(--gy-primary-subtle);
+  box-shadow: 0 0 0 3px var(--gy-focus-ring);
+}
+
+.gy-dnd-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gy-text-subtle);
+  cursor: grab;
+  flex-shrink: 0;
+  padding: 2px;
+  border-radius: var(--gy-radius-sm);
+  transition: color var(--gy-duration-fast);
+}
+
+.gy-dnd-handle:hover { color: var(--gy-text-muted); }
+.gy-dnd-handle:active { cursor: grabbing; }
+
+.gy-dnd-item-content { flex: 1; min-width: 0; }
+
+/* ── Kanban Board ── */
+.gy-kanban {
+  display: flex;
+  gap: var(--gy-spacing-4);
+  overflow-x: auto;
+  padding-bottom: var(--gy-spacing-4);
+  align-items: flex-start;
+  min-height: 200px;
+}
+
+.gy-kanban-column {
+  flex-shrink: 0;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-3);
+}
+
+.gy-kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--gy-spacing-2) var(--gy-spacing-3);
+  background: var(--gy-background-muted);
+  border-radius: var(--gy-radius-lg);
+}
+
+.gy-kanban-column-title {
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text);
+}
+
+.gy-kanban-column-count {
+  font-size: var(--gy-font-size-xs);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text-subtle);
+  background: var(--gy-surface);
+  padding: 1px var(--gy-spacing-2);
+  border-radius: var(--gy-radius-full);
+}
+
+.gy-kanban-drop-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-2);
+  min-height: 80px;
+  border-radius: var(--gy-radius-lg);
+  padding: var(--gy-spacing-1);
+  transition: background-color var(--gy-duration-fast), border-color var(--gy-duration-fast);
+}
+
+.gy-kanban-drop-zone--over {
+  background: var(--gy-primary-subtle);
+  border: 2px dashed var(--gy-primary);
+}
+
+.gy-kanban-card {
+  background: var(--gy-surface);
+  border: 1px solid var(--gy-border);
+  border-radius: var(--gy-radius-lg);
+  padding: var(--gy-spacing-3);
+  cursor: grab;
+  transition: box-shadow var(--gy-duration-fast), opacity var(--gy-duration-fast);
+  user-select: none;
+}
+
+.gy-kanban-card:hover { box-shadow: var(--gy-shadow-md); }
+.gy-kanban-card--dragging { opacity: 0.4; cursor: grabbing; }

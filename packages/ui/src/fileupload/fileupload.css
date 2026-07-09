@@ -1,0 +1,118 @@
+/* ── FileUpload ──────────────────────────────────────────────────────────── */
+.gy-fileupload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-2);
+  width: 100%;
+}
+
+.gy-fileupload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gy-spacing-2);
+  padding: var(--gy-spacing-8) var(--gy-spacing-4);
+  background: var(--gy-surface);
+  border: 2px dashed var(--gy-border-strong);
+  border-radius: var(--gy-radius-xl);
+  cursor: pointer;
+  transition: all var(--gy-duration-normal) var(--gy-ease-out);
+  text-align: center;
+}
+
+.gy-fileupload-zone:hover, .gy-fileupload-zone--drag-active {
+  background: var(--gy-primary-subtle);
+  border-color: var(--gy-primary);
+}
+
+.gy-fileupload-zone--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.gy-fileupload-icon {
+  color: var(--gy-primary);
+  opacity: 0.8;
+  margin-bottom: var(--gy-spacing-2);
+}
+
+.gy-fileupload-text {
+  font-size: var(--gy-font-size-sm);
+  color: var(--gy-text);
+  font-weight: var(--gy-font-weight-medium);
+}
+
+.gy-fileupload-subtext {
+  font-size: var(--gy-font-size-xs);
+  color: var(--gy-text-subtle);
+}
+
+.gy-fileupload-input {
+  display: none;
+}
+
+/* File list */
+.gy-fileupload-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-2);
+  margin-top: var(--gy-spacing-2);
+}
+
+.gy-fileupload-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gy-spacing-3);
+  padding: var(--gy-spacing-2) var(--gy-spacing-3);
+  background: var(--gy-surface);
+  border: 1px solid var(--gy-border);
+  border-radius: var(--gy-radius-lg);
+}
+
+.gy-fileupload-item-icon {
+  color: var(--gy-text-subtle);
+  display: flex;
+  align-items: center;
+}
+
+.gy-fileupload-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.gy-fileupload-item-name {
+  font-size: var(--gy-font-size-sm);
+  color: var(--gy-text);
+  font-weight: var(--gy-font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gy-fileupload-item-size {
+  font-size: var(--gy-font-size-xs);
+  color: var(--gy-text-subtle);
+}
+
+.gy-fileupload-item-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--gy-radius-md);
+  color: var(--gy-text-subtle);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--gy-duration-fast), background var(--gy-duration-fast);
+}
+
+.gy-fileupload-item-remove:hover {
+  color: var(--gy-danger);
+  background: var(--gy-danger-subtle);
+}

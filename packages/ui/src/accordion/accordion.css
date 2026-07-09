@@ -1,0 +1,78 @@
+/* ── Accordion ───────────────────────────────────────────────────────────── */
+.gy-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-1);
+  width: 100%;
+}
+
+.gy-accordion-item {
+  border: 1px solid var(--gy-border);
+  border-radius: var(--gy-radius-lg);
+  overflow: hidden;
+}
+
+.gy-accordion-item--flush {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.gy-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--gy-spacing-4) var(--gy-spacing-4);
+  background: var(--gy-surface);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: var(--gy-spacing-3);
+  transition: background-color var(--gy-duration-fast);
+}
+
+.gy-accordion-trigger:hover {
+  background: var(--gy-background-subtle);
+}
+
+.gy-accordion-trigger:focus-visible {
+  outline: 2px solid var(--gy-focus-outline);
+  outline-offset: -2px;
+}
+
+.gy-accordion-trigger--open {
+  background: var(--gy-background-subtle);
+}
+
+.gy-accordion-title {
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text);
+  flex: 1;
+}
+
+.gy-accordion-icon {
+  flex-shrink: 0;
+  color: var(--gy-text-subtle);
+  transition: transform var(--gy-duration-normal) var(--gy-ease-spring);
+}
+
+.gy-accordion-icon--open {
+  transform: rotate(180deg);
+}
+
+.gy-accordion-panel {
+  overflow: hidden;
+  background: var(--gy-surface);
+}
+
+.gy-accordion-panel-inner {
+  padding: 0 var(--gy-spacing-4) var(--gy-spacing-4);
+  font-size: var(--gy-font-size-sm);
+  color: var(--gy-text-muted);
+  line-height: var(--gy-line-height-relaxed);
+  border-top: 1px solid var(--gy-border);
+  padding-top: var(--gy-spacing-3);
+}

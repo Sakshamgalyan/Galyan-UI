@@ -1,0 +1,92 @@
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.gy-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.gy-tabs--vertical {
+  flex-direction: row;
+  gap: var(--gy-spacing-4);
+}
+
+.gy-tabs-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--gy-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.gy-tabs-list::-webkit-scrollbar { display: none; }
+
+.gy-tabs--vertical .gy-tabs-list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 2px solid var(--gy-border);
+  min-width: 160px;
+  align-items: stretch;
+}
+
+.gy-tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gy-spacing-2);
+  padding: var(--gy-spacing-2-5) var(--gy-spacing-4);
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-medium);
+  color: var(--gy-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: relative;
+  transition: color var(--gy-duration-fast);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.gy-tabs--vertical .gy-tabs-trigger {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+  margin-bottom: 0;
+  margin-right: -2px;
+  border-radius: var(--gy-radius-md) 0 0 var(--gy-radius-md);
+}
+
+.gy-tabs-trigger:hover { color: var(--gy-text); }
+.gy-tabs-trigger:focus-visible { outline: none; color: var(--gy-primary); }
+
+.gy-tabs-trigger--active {
+  color: var(--gy-primary) !important;
+  border-color: var(--gy-primary);
+}
+
+.gy-tabs-trigger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gy-tabs-trigger-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 0.65rem;
+  font-weight: var(--gy-font-weight-semibold);
+  background: var(--gy-primary-muted);
+  color: var(--gy-primary-hover);
+  border-radius: var(--gy-radius-full);
+}
+
+.gy-tabs-panel {
+  padding: var(--gy-spacing-4) 0;
+  animation: gy-fade-in var(--gy-duration-normal) var(--gy-ease-out);
+}
+
+.gy-tabs--vertical .gy-tabs-panel {
+  flex: 1;
+  padding: 0 var(--gy-spacing-4);
+}

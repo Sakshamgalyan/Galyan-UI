@@ -1,0 +1,22 @@
+/* ── DatePicker ──────────────────────────────────────────────────────────── */
+.gy-datepicker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gy-spacing-1-5);
+  width: 100%;
+}
+
+.gy-datepicker-popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: var(--gy-z-dropdown);
+  background: var(--gy-surface);
+  border: 1px solid var(--gy-border);
+  border-radius: var(--gy-radius-xl);
+  box-shadow: var(--gy-shadow-dropdown);
+  padding: 0;
+  overflow: hidden;
+  animation: gy-slide-in-up var(--gy-duration-fast) var(--gy-ease-out);
+}

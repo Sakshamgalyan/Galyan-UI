@@ -1,0 +1,46 @@
+/* ── Skeleton ─────────────────────────────────────────────────────────────── */
+.gy-skeleton {
+  background: var(--gy-skeleton-base);
+  border-radius: var(--gy-radius-md);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Wave animation */
+.gy-skeleton--wave::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 25%, var(--gy-border) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: gy-wave 1.5s var(--gy-ease) infinite;
+}
+
+/* Pulse animation */
+.gy-skeleton--pulse {
+  animation: gy-pulse 1.5s var(--gy-ease-in-out) infinite;
+}
+
+/* Shapes */
+.gy-skeleton--text {
+  height: 1em;
+  border-radius: var(--gy-radius-sm);
+}
+
+.gy-skeleton--circle {
+  border-radius: 50%;
+}
+
+.gy-skeleton--rect {
+  border-radius: var(--gy-radius-md);
+}
+
+.gy-skeleton--card {
+  border-radius: var(--gy-radius-xl);
+}
+
+/* Width presets */
+.gy-skeleton--w-full  { width: 100%; }
+.gy-skeleton--w-3-4   { width: 75%; }
+.gy-skeleton--w-1-2   { width: 50%; }
+.gy-skeleton--w-1-4   { width: 25%; }

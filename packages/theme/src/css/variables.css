@@ -1,0 +1,462 @@
+/* Galyan CSS Variable System
+ * Two role themes: [data-theme="customer"] (green) | [data-theme="professional"] (blue)
+ * Prefix: --gy-
+ * Usage: var(--gy-primary), var(--gy-text), var(--gy-spacing-md), etc.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHARED TOKENS (theme-independent)
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Typography */
+  --gy-font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --gy-font-serif: 'Georgia', 'Times New Roman', serif;
+  --gy-font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  --gy-font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --gy-font-weight-thin: 100;
+  --gy-font-weight-light: 300;
+  --gy-font-weight-regular: 400;
+  --gy-font-weight-medium: 500;
+  --gy-font-weight-semibold: 600;
+  --gy-font-weight-bold: 700;
+  --gy-font-weight-extrabold: 800;
+  --gy-font-weight-black: 900;
+
+  --gy-font-size-2xs: 0.625rem;
+  --gy-font-size-xs: 0.75rem;
+  --gy-font-size-sm: 0.875rem;
+  --gy-font-size-md: 1rem;
+  --gy-font-size-lg: 1.125rem;
+  --gy-font-size-xl: 1.25rem;
+  --gy-font-size-2xl: 1.5rem;
+  --gy-font-size-3xl: 1.875rem;
+  --gy-font-size-4xl: 2.25rem;
+  --gy-font-size-5xl: 3rem;
+  --gy-font-size-6xl: 3.75rem;
+  --gy-font-size-7xl: 4.5rem;
+
+  --gy-line-height-none: 1;
+  --gy-line-height-tight: 1.25;
+  --gy-line-height-snug: 1.375;
+  --gy-line-height-normal: 1.5;
+  --gy-line-height-relaxed: 1.625;
+  --gy-line-height-loose: 2;
+
+  --gy-letter-spacing-tighter: -0.05em;
+  --gy-letter-spacing-tight: -0.025em;
+  --gy-letter-spacing-normal: 0em;
+  --gy-letter-spacing-wide: 0.025em;
+  --gy-letter-spacing-wider: 0.05em;
+  --gy-letter-spacing-widest: 0.1em;
+
+  /* Spacing */
+  --gy-spacing-0: 0px;
+  --gy-spacing-0-5: 0.125rem;
+  --gy-spacing-1: 0.25rem;
+  --gy-spacing-1-5: 0.375rem;
+  --gy-spacing-2: 0.5rem;
+  --gy-spacing-2-5: 0.625rem;
+  --gy-spacing-3: 0.75rem;
+  --gy-spacing-3-5: 0.875rem;
+  --gy-spacing-4: 1rem;
+  --gy-spacing-5: 1.25rem;
+  --gy-spacing-6: 1.5rem;
+  --gy-spacing-8: 2rem;
+  --gy-spacing-10: 2.5rem;
+  --gy-spacing-12: 3rem;
+  --gy-spacing-16: 4rem;
+  --gy-spacing-20: 5rem;
+  --gy-spacing-24: 6rem;
+  --gy-spacing-32: 8rem;
+  --gy-spacing-xs: 0.25rem;
+  --gy-spacing-sm: 0.5rem;
+  --gy-spacing-md: 1rem;
+  --gy-spacing-lg: 1.5rem;
+  --gy-spacing-xl: 2rem;
+  --gy-spacing-2xl: 3rem;
+
+  /* Border Radius */
+  --gy-radius-none: 0px;
+  --gy-radius-xs: 0.125rem;
+  --gy-radius-sm: 0.25rem;
+  --gy-radius-md: 0.375rem;
+  --gy-radius-lg: 0.5rem;
+  --gy-radius-xl: 0.75rem;
+  --gy-radius-2xl: 1rem;
+  --gy-radius-3xl: 1.5rem;
+  --gy-radius-full: 9999px;
+
+  /* Shadows */
+  --gy-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --gy-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --gy-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --gy-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --gy-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --gy-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --gy-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --gy-shadow-modal: 0 32px 64px -12px rgb(0 0 0 / 0.35), 0 0 0 1px rgb(0 0 0 / 0.05);
+  --gy-shadow-dropdown: 0 4px 16px -2px rgb(0 0 0 / 0.12), 0 2px 6px -1px rgb(0 0 0 / 0.08);
+  --gy-shadow-popover: 0 8px 24px -4px rgb(0 0 0 / 0.15), 0 2px 8px -2px rgb(0 0 0 / 0.08);
+
+  /* Z-Index */
+  --gy-z-dropdown: 1000;
+  --gy-z-sticky: 1100;
+  --gy-z-fixed: 1200;
+  --gy-z-drawer: 1300;
+  --gy-z-modal: 1400;
+  --gy-z-popover: 1500;
+  --gy-z-toast: 1600;
+  --gy-z-tooltip: 1700;
+  --gy-z-loading: 1800;
+
+  /* Durations */
+  --gy-duration-instant: 0ms;
+  --gy-duration-fast: 100ms;
+  --gy-duration-normal: 200ms;
+  --gy-duration-slow: 300ms;
+  --gy-duration-slower: 500ms;
+
+  /* Easings */
+  --gy-ease: ease;
+  --gy-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --gy-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --gy-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --gy-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --gy-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Shared Status Colors */
+  --gy-success: #10b981;
+  --gy-success-subtle: #ecfdf5;
+  --gy-success-muted: #a7f3d0;
+  --gy-success-emphasis: #059669;
+  --gy-success-fg: #ffffff;
+
+  --gy-warning: #f59e0b;
+  --gy-warning-subtle: #fffbeb;
+  --gy-warning-muted: #fde68a;
+  --gy-warning-emphasis: #d97706;
+  --gy-warning-fg: #ffffff;
+
+  --gy-danger: #ef4444;
+  --gy-danger-subtle: #fef2f2;
+  --gy-danger-muted: #fecaca;
+  --gy-danger-emphasis: #dc2626;
+  --gy-danger-fg: #ffffff;
+
+  --gy-info: #0ea5e9;
+  --gy-info-subtle: #f0f9ff;
+  --gy-info-muted: #bae6fd;
+  --gy-info-emphasis: #0284c7;
+  --gy-info-fg: #ffffff;
+
+  /* Chart Colors */
+  --gy-chart-1: #6366f1;
+  --gy-chart-2: #22c55e;
+  --gy-chart-3: #f59e0b;
+  --gy-chart-4: #ef4444;
+  --gy-chart-5: #0ea5e9;
+  --gy-chart-6: #a855f7;
+  --gy-chart-7: #f97316;
+  --gy-chart-8: #14b8a6;
+
+  /* Status */
+  --gy-status-online: #10b981;
+  --gy-status-offline: #94a3b8;
+  --gy-status-busy: #ef4444;
+  --gy-status-away: #f59e0b;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOMER THEME (Green)
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="customer"],
+.gy-theme-customer {
+  /* Primary Scale */
+  --gy-color-primary-50: #f0fdf4;
+  --gy-color-primary-100: #dcfce7;
+  --gy-color-primary-200: #bbf7d0;
+  --gy-color-primary-300: #86efac;
+  --gy-color-primary-400: #4ade80;
+  --gy-color-primary-500: #22c55e;
+  --gy-color-primary-600: #16a34a;
+  --gy-color-primary-700: #15803d;
+  --gy-color-primary-800: #166534;
+  --gy-color-primary-900: #14532d;
+  --gy-color-primary-950: #052e16;
+
+  /* Semantic Primary */
+  --gy-primary: #22c55e;
+  --gy-primary-hover: #16a34a;
+  --gy-primary-active: #15803d;
+  --gy-primary-muted: #bbf7d0;
+  --gy-primary-subtle: #f0fdf4;
+  --gy-primary-fg: #ffffff;
+
+  /* Secondary (Teal) */
+  --gy-secondary: #14b8a6;
+  --gy-secondary-hover: #0d9488;
+  --gy-secondary-muted: #99f6e4;
+  --gy-secondary-subtle: #f0fdfa;
+  --gy-secondary-fg: #ffffff;
+
+  /* Background */
+  --gy-background: #ffffff;
+  --gy-background-subtle: #f8fafc;
+  --gy-background-muted: #f1f5f9;
+  --gy-background-inverse: #0f172a;
+
+  /* Surface */
+  --gy-surface: #ffffff;
+  --gy-surface-raised: #ffffff;
+  --gy-surface-overlay: #ffffff;
+  --gy-surface-sunken: #f8fafc;
+  --gy-surface-disabled: #f1f5f9;
+
+  /* Text */
+  --gy-text: #0f172a;
+  --gy-text-muted: #475569;
+  --gy-text-subtle: #94a3b8;
+  --gy-text-disabled: #cbd5e1;
+  --gy-text-inverse: #ffffff;
+  --gy-text-link: #16a34a;
+  --gy-text-link-hover: #15803d;
+
+  /* Border */
+  --gy-border: #e2e8f0;
+  --gy-border-muted: #f1f5f9;
+  --gy-border-strong: #cbd5e1;
+  --gy-border-focus: #22c55e;
+  --gy-border-error: #ef4444;
+
+  /* Divider */
+  --gy-divider: #e2e8f0;
+  --gy-divider-strong: #cbd5e1;
+
+  /* Focus */
+  --gy-focus-ring: rgba(34, 197, 94, 0.4);
+  --gy-focus-outline: #22c55e;
+
+  /* Disabled */
+  --gy-disabled-bg: #f1f5f9;
+  --gy-disabled-text: #94a3b8;
+  --gy-disabled-border: #e2e8f0;
+
+  /* Skeleton */
+  --gy-skeleton-base: #f1f5f9;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+
+  /* Brand */
+  --gy-brand: #22c55e;
+  --gy-brand-dark: #15803d;
+  --gy-brand-light: #bbf7d0;
+
+  /* Gradient */
+  --gy-gradient-primary: linear-gradient(135deg, #22c55e 0%, #14b8a6 100%);
+  --gy-gradient-hero: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdfa 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #16a34a 0%, #0d9488 100%);
+
+  /* Elevation */
+  --gy-elevation-0: #ffffff;
+  --gy-elevation-1: #f8fafc;
+  --gy-elevation-2: #f1f5f9;
+  --gy-elevation-3: #e2e8f0;
+
+  /* Overlay */
+  --gy-overlay: rgba(0, 0, 0, 0.4);
+  --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROFESSIONAL THEME (Blue/Indigo)
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="professional"],
+.gy-theme-professional {
+  /* Primary Scale */
+  --gy-color-primary-50: #eff6ff;
+  --gy-color-primary-100: #dbeafe;
+  --gy-color-primary-200: #bfdbfe;
+  --gy-color-primary-300: #93c5fd;
+  --gy-color-primary-400: #60a5fa;
+  --gy-color-primary-500: #3b82f6;
+  --gy-color-primary-600: #2563eb;
+  --gy-color-primary-700: #1d4ed8;
+  --gy-color-primary-800: #1e40af;
+  --gy-color-primary-900: #1e3a8a;
+  --gy-color-primary-950: #172554;
+
+  /* Semantic Primary */
+  --gy-primary: #3b82f6;
+  --gy-primary-hover: #2563eb;
+  --gy-primary-active: #1d4ed8;
+  --gy-primary-muted: #bfdbfe;
+  --gy-primary-subtle: #eff6ff;
+  --gy-primary-fg: #ffffff;
+
+  /* Secondary (Indigo) */
+  --gy-secondary: #6366f1;
+  --gy-secondary-hover: #4f46e5;
+  --gy-secondary-muted: #c7d2fe;
+  --gy-secondary-subtle: #eef2ff;
+  --gy-secondary-fg: #ffffff;
+
+  /* Background */
+  --gy-background: #ffffff;
+  --gy-background-subtle: #f8fafc;
+  --gy-background-muted: #f1f5f9;
+  --gy-background-inverse: #0f172a;
+
+  /* Surface */
+  --gy-surface: #ffffff;
+  --gy-surface-raised: #ffffff;
+  --gy-surface-overlay: #ffffff;
+  --gy-surface-sunken: #f8fafc;
+  --gy-surface-disabled: #f1f5f9;
+
+  /* Text */
+  --gy-text: #0f172a;
+  --gy-text-muted: #475569;
+  --gy-text-subtle: #94a3b8;
+  --gy-text-disabled: #cbd5e1;
+  --gy-text-inverse: #ffffff;
+  --gy-text-link: #2563eb;
+  --gy-text-link-hover: #1d4ed8;
+
+  /* Border */
+  --gy-border: #e2e8f0;
+  --gy-border-muted: #f1f5f9;
+  --gy-border-strong: #cbd5e1;
+  --gy-border-focus: #3b82f6;
+  --gy-border-error: #ef4444;
+
+  /* Divider */
+  --gy-divider: #e2e8f0;
+  --gy-divider-strong: #cbd5e1;
+
+  /* Focus */
+  --gy-focus-ring: rgba(59, 130, 246, 0.4);
+  --gy-focus-outline: #3b82f6;
+
+  /* Disabled */
+  --gy-disabled-bg: #f1f5f9;
+  --gy-disabled-text: #94a3b8;
+  --gy-disabled-border: #e2e8f0;
+
+  /* Skeleton */
+  --gy-skeleton-base: #f1f5f9;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+
+  /* Brand */
+  --gy-brand: #3b82f6;
+  --gy-brand-dark: #1d4ed8;
+  --gy-brand-light: #bfdbfe;
+
+  /* Gradient */
+  --gy-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --gy-gradient-hero: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #eef2ff 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+
+  /* Elevation */
+  --gy-elevation-0: #ffffff;
+  --gy-elevation-1: #f8fafc;
+  --gy-elevation-2: #f1f5f9;
+  --gy-elevation-3: #e2e8f0;
+
+  /* Overlay */
+  --gy-overlay: rgba(0, 0, 0, 0.4);
+  --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes gy-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gy-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes gy-slide-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gy-slide-in-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gy-slide-in-left {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gy-slide-in-right {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gy-zoom-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gy-zoom-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+@keyframes gy-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gy-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes gy-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25%); }
+}
+
+@keyframes gy-shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+@keyframes gy-ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes gy-wave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gy-collapse-open {
+  from { height: 0; opacity: 0; }
+  to { height: var(--gy-collapse-height, auto); opacity: 1; }
+}
+
+@keyframes gy-collapse-close {
+  from { height: var(--gy-collapse-height, auto); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+
+@keyframes gy-slide-toast-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes gy-count-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

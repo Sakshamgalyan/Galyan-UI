@@ -1,0 +1,141 @@
+/* ── Stepper ──────────────────────────────────────────────────────────────── */
+.gy-stepper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.gy-stepper--vertical {
+  flex-direction: column;
+}
+
+.gy-stepper-step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.gy-stepper--vertical .gy-stepper-step {
+  flex-direction: column;
+  align-items: flex-start;
+  flex: none;
+  width: 100%;
+}
+
+/* Connector line */
+.gy-stepper-connector {
+  flex: 1;
+  height: 2px;
+  background: var(--gy-border);
+  margin: 0 var(--gy-spacing-2);
+  transition: background-color var(--gy-duration-slow);
+}
+
+.gy-stepper-connector--completed { background: var(--gy-primary); }
+
+.gy-stepper--vertical .gy-stepper-connector {
+  width: 2px;
+  height: 2.5rem;
+  flex: none;
+  margin: var(--gy-spacing-1) 0;
+  margin-left: 19px;
+}
+
+/* Step indicator */
+.gy-stepper-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 2px solid var(--gy-border-strong);
+  background: var(--gy-surface);
+  font-size: var(--gy-font-size-sm);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text-muted);
+  flex-shrink: 0;
+  transition:
+    background-color var(--gy-duration-normal),
+    border-color var(--gy-duration-normal),
+    color var(--gy-duration-normal);
+  cursor: default;
+  position: relative;
+  z-index: 1;
+}
+
+.gy-stepper-indicator--active {
+  border-color: var(--gy-primary);
+  color: var(--gy-primary);
+  background: var(--gy-primary-subtle);
+  box-shadow: 0 0 0 4px var(--gy-focus-ring);
+}
+
+.gy-stepper-indicator--completed {
+  border-color: var(--gy-primary);
+  background: var(--gy-primary);
+  color: var(--gy-primary-fg);
+}
+
+.gy-stepper-indicator--error {
+  border-color: var(--gy-danger);
+  background: var(--gy-danger);
+  color: white;
+}
+
+.gy-stepper-indicator--clickable {
+  cursor: pointer;
+}
+
+.gy-stepper-indicator--clickable:hover {
+  border-color: var(--gy-primary);
+  color: var(--gy-primary);
+}
+
+/* Step content */
+.gy-stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gy-stepper--vertical .gy-stepper-item {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gy-spacing-3);
+  text-align: left;
+}
+
+.gy-stepper-label {
+  font-size: var(--gy-font-size-xs);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text-muted);
+  margin-top: var(--gy-spacing-2);
+  white-space: nowrap;
+}
+
+.gy-stepper--vertical .gy-stepper-label { margin-top: 0; }
+
+.gy-stepper-label--active { color: var(--gy-primary); }
+.gy-stepper-label--completed { color: var(--gy-text); }
+
+.gy-stepper-description {
+  font-size: var(--gy-font-size-xs);
+  color: var(--gy-text-subtle);
+  margin-top: 2px;
+}
+
+/* Panel */
+.gy-stepper-panel {
+  margin-top: var(--gy-spacing-6);
+  animation: gy-fade-in var(--gy-duration-normal) var(--gy-ease-out);
+}
+
+.gy-stepper-actions {
+  display: flex;
+  gap: var(--gy-spacing-3);
+  margin-top: var(--gy-spacing-4);
+  flex-wrap: wrap;
+}

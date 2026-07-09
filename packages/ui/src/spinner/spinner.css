@@ -1,0 +1,39 @@
+/* ── Spinner ──────────────────────────────────────────────────────────────── */
+.gy-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gy-spinner__circle {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--gy-primary-muted);
+  border-top-color: var(--gy-primary);
+  animation: gy-spin var(--gy-duration-slower) linear infinite;
+}
+
+.gy-spinner--xs .gy-spinner__circle  { width: 1rem;   height: 1rem;   border-width: 2px; }
+.gy-spinner--sm .gy-spinner__circle  { width: 1.25rem; height: 1.25rem; border-width: 2px; }
+.gy-spinner--md .gy-spinner__circle  { width: 1.5rem;  height: 1.5rem;  border-width: 2.5px; }
+.gy-spinner--lg .gy-spinner__circle  { width: 2rem;    height: 2rem;    border-width: 3px; }
+.gy-spinner--xl .gy-spinner__circle  { width: 3rem;    height: 3rem;    border-width: 4px; }
+
+/* Color variants */
+.gy-spinner--primary   .gy-spinner__circle { border-color: var(--gy-primary-muted); border-top-color: var(--gy-primary); }
+.gy-spinner--white     .gy-spinner__circle { border-color: rgba(255,255,255,0.3); border-top-color: #ffffff; }
+.gy-spinner--neutral   .gy-spinner__circle { border-color: var(--gy-border); border-top-color: var(--gy-text-muted); }
+
+.gy-spinner__label {
+  margin-top: var(--gy-spacing-2);
+  font-size: var(--gy-font-size-xs);
+  color: var(--gy-text-subtle);
+  text-align: center;
+}
+
+.gy-spinner-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
