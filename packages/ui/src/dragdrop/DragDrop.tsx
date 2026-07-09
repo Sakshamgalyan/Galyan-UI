@@ -34,8 +34,10 @@ export function ReorderList<T>({ items, onReorder, keyExtractor, renderItem, cla
     if (fromIdx !== idx) {
       const next = [...items];
       const [moved] = next.splice(fromIdx, 1);
-      next.splice(idx, 0, moved);
-      onReorder(next);
+      if (moved !== undefined) {
+        next.splice(idx, 0, moved);
+        onReorder(next);
+      }
     }
     setDraggedIdx(null);
     setDragOverIdx(null);

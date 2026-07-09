@@ -35,8 +35,8 @@ export function Breadcrumb({
 
   if (shouldCollapse) {
     // Always show first and last
-    const first = items[0];
-    const last = items[items.length - 1];
+    const first = items[0]!;
+    const last = items[items.length - 1]!;
 
     displayed.push(renderItem(first, false, separator));
     displayed.push(

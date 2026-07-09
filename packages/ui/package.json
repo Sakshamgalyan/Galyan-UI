@@ -1,34 +1,74 @@
 {
   "name": "@galyan/ui",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.2",
+  "description": "React UI Components with Galyan Design System",
+  "author": "Saksham Galyan",
+  "license": "MIT",
   "type": "module",
-  "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
+  "private": false,
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sakshamgalyan/Galyan-UI.git"
   },
+
+  "homepage": "https://github.com/Sakshamgalyan/Galyan-UI",
+
+  "bugs": {
+    "url": "https://github.com/Sakshamgalyan/Galyan-UI/issues"
+  },
+
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+
+  "sideEffects": [
+    "*.css"
+  ],
+
+  "publishConfig": {
+    "access": "public"
+  },
+
   "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
+
+  "dependencies": {
+    "@floating-ui/react": "^0.26.28",
+    "@galyan/theme": "^0.0.1",
+    "recharts": "^2.15.3"
+  },
+
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "eslint": "^9.39.1",
-    "typescript": "5.9.2"
-  },
-  "dependencies": {
-    "@galyan/theme": "workspace:*",
-    "@floating-ui/react": "^0.26.28",
-    "recharts": "^2.15.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
-  },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.2"
   }
 }

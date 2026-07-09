@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ThemeContext, type ThemeRole, type ColorMode } from './ThemeContext';
+import { ThemeContext, type ThemeRole, type ColorMode } from './ThemeContext.js';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
