@@ -18,15 +18,20 @@ export default function Home() {
 
   return (
     <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <Typography variant="h1">Galyan UI Playground</Typography>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Typography variant="body-md" color="muted">Role Theme:</Typography>
-          <Toggle 
-            checked={role === 'professional'} 
-            onChange={(c) => setRole(c ? 'professional' : 'customer')} 
-            label="Professional"
-          />
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <Button as="a" href="/button" variant="neumorphic">
+            Go to /button Showcase ⚡
+          </Button>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <Typography variant="body-md" color="muted">Role Theme:</Typography>
+            <Toggle 
+              checked={role === 'professional'} 
+              onChange={(c) => setRole(c ? 'professional' : 'customer')} 
+              label="Professional"
+            />
+          </div>
         </div>
       </header>
 

@@ -165,11 +165,18 @@
   --gy-status-offline: #94a3b8;
   --gy-status-busy: #ef4444;
   --gy-status-away: #f59e0b;
+
+  /* Neumorphism Design Tokens */
+  --gy-neu-distance: 6px;
+  --gy-neu-blur: 12px;
+  --gy-neu-intensity: 0.15;
+  --gy-neu-radius: var(--gy-radius-xl);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CUSTOMER THEME (Green)
+   CUSTOMER THEME (Green) — Also Default :root Theme
    ═══════════════════════════════════════════════════════════════════════════ */
+:root,
 [data-theme="customer"],
 .gy-theme-customer {
   /* Primary Scale */
@@ -365,6 +372,276 @@
   /* Overlay */
   --gy-overlay: rgba(0, 0, 0, 0.4);
   --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+
+  /* Neumorphism surface defaults (Light mode) */
+  --gy-neu-bg: #e3e8f0;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --gy-neu-shadow-dark: rgba(163, 177, 198, 0.5);
+}
+
+/* Also add customer light neumorphic surface */
+[data-theme="customer"],
+.gy-theme-customer {
+  --gy-neu-bg: #e2ece5;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --gy-neu-shadow-dark: rgba(165, 190, 172, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AGENT THEME (Coral / Light Red #f87171)
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="agent"],
+.gy-theme-agent {
+  /* Primary Scale */
+  --gy-color-primary-50: #fef2f2;
+  --gy-color-primary-100: #fee2e2;
+  --gy-color-primary-200: #fecaca;
+  --gy-color-primary-300: #fca5a5;
+  --gy-color-primary-400: #f87171;
+  --gy-color-primary-500: #ef4444;
+  --gy-color-primary-600: #dc2626;
+  --gy-color-primary-700: #b91c1c;
+  --gy-color-primary-800: #991b1b;
+  --gy-color-primary-900: #7f1d1d;
+  --gy-color-primary-950: #450a0a;
+
+  /* Semantic Primary */
+  --gy-primary: #f87171;
+  --gy-primary-hover: #ef4444;
+  --gy-primary-active: #dc2626;
+  --gy-primary-muted: #fca5a5;
+  --gy-primary-subtle: #fef2f2;
+  --gy-primary-fg: #ffffff;
+
+  /* Secondary (Warm Orange) */
+  --gy-secondary: #fb923c;
+  --gy-secondary-hover: #f97316;
+  --gy-secondary-muted: #ffedd5;
+  --gy-secondary-subtle: #fff7ed;
+  --gy-secondary-fg: #ffffff;
+
+  /* Background */
+  --gy-background: #ffffff;
+  --gy-background-subtle: #faf5f5;
+  --gy-background-muted: #f5eaea;
+  --gy-background-inverse: #1c1917;
+
+  /* Surface */
+  --gy-surface: #ffffff;
+  --gy-surface-raised: #ffffff;
+  --gy-surface-overlay: #ffffff;
+  --gy-surface-sunken: #faf5f5;
+  --gy-surface-disabled: #f5eaea;
+
+  /* Text */
+  --gy-text: #1c1917;
+  --gy-text-muted: #57534e;
+  --gy-text-subtle: #a8a29e;
+  --gy-text-disabled: #d6d3d1;
+  --gy-text-inverse: #ffffff;
+  --gy-text-link: #f87171;
+  --gy-text-link-hover: #ef4444;
+
+  /* Border */
+  --gy-border: #e7e5e4;
+  --gy-border-muted: #f5f5f4;
+  --gy-border-strong: #d6d3d1;
+  --gy-border-focus: #f87171;
+  --gy-border-error: #ef4444;
+
+  /* Divider */
+  --gy-divider: #e7e5e4;
+  --gy-divider-strong: #d6d3d1;
+
+  /* Focus */
+  --gy-focus-ring: rgba(248, 113, 113, 0.4);
+  --gy-focus-outline: #f87171;
+
+  /* Disabled */
+  --gy-disabled-bg: #f5eaea;
+  --gy-disabled-text: #a8a29e;
+  --gy-disabled-border: #e7e5e4;
+
+  /* Skeleton */
+  --gy-skeleton-base: #f5eaea;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #f5eaea 25%, #e7e5e4 50%, #f5eaea 75%);
+
+  /* Brand */
+  --gy-brand: #f87171;
+  --gy-brand-dark: #ef4444;
+  --gy-brand-light: #fca5a5;
+
+  /* Gradient */
+  --gy-gradient-primary: linear-gradient(135deg, #f87171 0%, #fb923c 100%);
+  --gy-gradient-hero: linear-gradient(135deg, #fef2f2 0%, #fee2e2 50%, #fff7ed 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+
+  /* Elevation */
+  --gy-elevation-0: #ffffff;
+  --gy-elevation-1: #faf5f5;
+  --gy-elevation-2: #f5eaea;
+  --gy-elevation-3: #e7e5e4;
+
+  /* Overlay */
+  --gy-overlay: rgba(0, 0, 0, 0.4);
+  --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+
+  /* Neumorphism surface defaults (Light mode) */
+  --gy-neu-bg: #f2e6e6;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --gy-neu-shadow-dark: rgba(200, 170, 170, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ADMIN THEME (Indigo #6366f1)
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="admin"],
+.gy-theme-admin {
+  /* Primary Scale */
+  --gy-color-primary-50: #eef2ff;
+  --gy-color-primary-100: #e0e7ff;
+  --gy-color-primary-200: #c7d2fe;
+  --gy-color-primary-300: #a5b4fc;
+  --gy-color-primary-400: #818cf8;
+  --gy-color-primary-500: #6366f1;
+  --gy-color-primary-600: #4f46e5;
+  --gy-color-primary-700: #4338ca;
+  --gy-color-primary-800: #3730a3;
+  --gy-color-primary-900: #312e81;
+  --gy-color-primary-950: #1e1b4b;
+
+  /* Semantic Primary */
+  --gy-primary: #6366f1;
+  --gy-primary-hover: #4f46e5;
+  --gy-primary-active: #4338ca;
+  --gy-primary-muted: #c7d2fe;
+  --gy-primary-subtle: #eef2ff;
+  --gy-primary-fg: #ffffff;
+
+  /* Secondary (Violet) */
+  --gy-secondary: #8b5cf6;
+  --gy-secondary-hover: #7c3aed;
+  --gy-secondary-muted: #ddd6fe;
+  --gy-secondary-subtle: #f5f3ff;
+  --gy-secondary-fg: #ffffff;
+
+  /* Background */
+  --gy-background: #ffffff;
+  --gy-background-subtle: #f8fafc;
+  --gy-background-muted: #f1f5f9;
+  --gy-background-inverse: #0f172a;
+
+  /* Surface */
+  --gy-surface: #ffffff;
+  --gy-surface-raised: #ffffff;
+  --gy-surface-overlay: #ffffff;
+  --gy-surface-sunken: #f8fafc;
+  --gy-surface-disabled: #f1f5f9;
+
+  /* Text */
+  --gy-text: #0f172a;
+  --gy-text-muted: #475569;
+  --gy-text-subtle: #94a3b8;
+  --gy-text-disabled: #cbd5e1;
+  --gy-text-inverse: #ffffff;
+  --gy-text-link: #6366f1;
+  --gy-text-link-hover: #4f46e5;
+
+  /* Border */
+  --gy-border: #e2e8f0;
+  --gy-border-muted: #f1f5f9;
+  --gy-border-strong: #cbd5e1;
+  --gy-border-focus: #6366f1;
+  --gy-border-error: #ef4444;
+
+  /* Divider */
+  --gy-divider: #e2e8f0;
+  --gy-divider-strong: #cbd5e1;
+
+  /* Focus */
+  --gy-focus-ring: rgba(99, 102, 241, 0.4);
+  --gy-focus-outline: #6366f1;
+
+  /* Disabled */
+  --gy-disabled-bg: #f1f5f9;
+  --gy-disabled-text: #94a3b8;
+  --gy-disabled-border: #e2e8f0;
+
+  /* Skeleton */
+  --gy-skeleton-base: #f1f5f9;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+
+  /* Brand */
+  --gy-brand: #6366f1;
+  --gy-brand-dark: #4338ca;
+  --gy-brand-light: #c7d2fe;
+
+  /* Gradient */
+  --gy-gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --gy-gradient-hero: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f5f3ff 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+
+  /* Elevation */
+  --gy-elevation-0: #ffffff;
+  --gy-elevation-1: #f8fafc;
+  --gy-elevation-2: #f1f5f9;
+  --gy-elevation-3: #e2e8f0;
+
+  /* Overlay */
+  --gy-overlay: rgba(0, 0, 0, 0.4);
+  --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+
+  /* Neumorphism surface defaults (Light mode) */
+  --gy-neu-bg: #e4e2f2;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --gy-neu-shadow-dark: rgba(168, 163, 200, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES FOR ALL 4 ROLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-color-mode="dark"],
+.gy-dark {
+  --gy-background: #0f172a;
+  --gy-background-subtle: #1e293b;
+  --gy-background-muted: #334155;
+  --gy-background-inverse: #ffffff;
+
+  --gy-surface: #1e293b;
+  --gy-surface-raised: #334155;
+  --gy-surface-overlay: #1e293b;
+  --gy-surface-sunken: #0f172a;
+  --gy-surface-disabled: #334155;
+
+  --gy-text: #f8fafc;
+  --gy-text-muted: #cbd5e1;
+  --gy-text-subtle: #94a3b8;
+  --gy-text-disabled: #64748b;
+  --gy-text-inverse: #0f172a;
+
+  --gy-border: #334155;
+  --gy-border-muted: #1e293b;
+  --gy-border-strong: #475569;
+
+  --gy-divider: #334155;
+  --gy-divider-strong: #475569;
+
+  --gy-disabled-bg: #334155;
+  --gy-disabled-text: #64748b;
+  --gy-disabled-border: #475569;
+
+  --gy-skeleton-base: #1e293b;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+
+  --gy-elevation-0: #0f172a;
+  --gy-elevation-1: #1e293b;
+  --gy-elevation-2: #334155;
+  --gy-elevation-3: #475569;
+
+  /* Dark mode neumorphism defaults */
+  --gy-neu-bg: #1e293b;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.06);
+  --gy-neu-shadow-dark: rgba(0, 0, 0, 0.6);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

@@ -4,6 +4,7 @@ import "@galyan/theme/css/reset";
 import "@galyan/theme/css/variables";
 import "@galyan/theme/css/globals";
 import "@galyan/theme/css/fonts";
+import "@galyan/ui/styles.css";
 import "./globals.css";
 import { ToasterProvider } from "@galyan/ui";
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider defaultRole="customer">
           <ToasterProvider>

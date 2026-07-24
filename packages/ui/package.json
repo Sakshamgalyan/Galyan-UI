@@ -27,7 +27,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./styles.css": "./dist/index.css"
   },
 
   "files": [
@@ -45,14 +46,14 @@
   },
 
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
 
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
-    "@galyan/theme": "^0.0.1",
+    "@galyan/theme": "workspace:*",
     "recharts": "^2.15.3"
   },
 

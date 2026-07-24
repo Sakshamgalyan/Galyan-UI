@@ -67,7 +67,12 @@ export function Modal({
     };
   }, [open, onClose, closeOnEscape]);
 
-  if (!open) return null;
+  const [mounted, setMounted] = React.useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!open || !mounted) return null;
 
   const content = (
     <div

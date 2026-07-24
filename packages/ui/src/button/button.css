@@ -67,6 +67,36 @@
 
 /* ── Variants ─────────────────────────────────────────────────────────────── */
 
+/* Neumorphic (Default Variant) */
+.gy-btn--neumorphic {
+  background: var(--gy-neu-bg, #e3e8f0);
+  border-color: transparent;
+  color: var(--gy-primary);
+  border-radius: var(--gy-neu-radius, 0.75rem);
+  box-shadow:
+    var(--gy-neu-distance, 6px) var(--gy-neu-distance, 6px) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
+    calc(-1 * var(--gy-neu-distance, 6px)) calc(-1 * var(--gy-neu-distance, 6px)) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
+  transition:
+    box-shadow var(--gy-duration-normal, 200ms) var(--gy-ease-in-out),
+    transform var(--gy-duration-fast, 100ms) var(--gy-ease-out),
+    color var(--gy-duration-fast, 100ms) var(--gy-ease-in-out),
+    background-color var(--gy-duration-fast, 100ms) var(--gy-ease-in-out);
+}
+
+.gy-btn--neumorphic:hover:not(:disabled) {
+  box-shadow:
+    calc(var(--gy-neu-distance, 6px) + 2px) calc(var(--gy-neu-distance, 6px) + 2px) calc(var(--gy-neu-blur, 12px) + 4px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
+    calc(-1 * (var(--gy-neu-distance, 6px) + 2px)) calc(-1 * (var(--gy-neu-distance, 6px) + 2px)) calc(var(--gy-neu-blur, 12px) + 4px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
+  color: var(--gy-primary-hover);
+}
+
+.gy-btn--neumorphic:active:not(:disabled) {
+  box-shadow:
+    inset var(--gy-neu-distance, 6px) var(--gy-neu-distance, 6px) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
+    inset calc(-1 * var(--gy-neu-distance, 6px)) calc(-1 * var(--gy-neu-distance, 6px)) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
+  transform: scale(0.99);
+}
+
 /* Solid */
 .gy-btn--solid {
   background-color: var(--gy-primary);
@@ -170,6 +200,11 @@
   border-radius: 50%;
   animation: gy-spin var(--gy-duration-slower) linear infinite;
   flex-shrink: 0;
+}
+
+.gy-btn__loading-text {
+  margin-left: var(--gy-spacing-1-5, 0.375rem);
+  font-weight: var(--gy-font-weight-medium, 500);
 }
 
 /* ── Icon-only ──────────────────────────────────────────────────────────── */

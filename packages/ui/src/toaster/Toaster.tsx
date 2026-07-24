@@ -38,6 +38,11 @@ const icons: Record<ToastVariant, React.ReactNode> = {
 
 export function ToasterProvider({ children, position = 'top-right' }: { children: React.ReactNode; position?: ToastPosition }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const dismiss = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -96,7 +101,7 @@ export function ToasterProvider({ children, position = 'top-right' }: { children
   return (
     <ToastContext.Provider value={{ toasts, toast, dismiss, dismissAll }}>
       {children}
-      {typeof document !== 'undefined' && createPortal(toasterNode, document.body)}
+      {mounted && createPortal(toasterNode, document.body)}
     </ToastContext.Provider>
   );
 }

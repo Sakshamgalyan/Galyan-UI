@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 
-export type ThemeRole = 'customer' | 'professional';
+export type ThemeRole = 'customer' | 'professional' | 'agent' | 'admin';
 export type ColorMode = 'light' | 'dark' | 'system';
 
 export interface ThemeContextValue {
