@@ -4,23 +4,33 @@ import React, { forwardRef, useCallback } from 'react';
 import type { ThemeRole, ColorMode } from '@galyan/theme';
 import './button.css';
 
-export type ButtonVariant = 'neumorphic' | 'solid' | 'outline' | 'ghost' | 'soft' | 'link' | 'danger';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'danger-soft'
+  | 'soft'
+  | 'link'
+  | 'ghost'
+  | 'solid'
+  | 'outline';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant — defaults to 'neumorphic' */
+  /** Visual style variant — defaults to 'primary' */
   variant?: ButtonVariant;
   /** Size preset */
   size?: ButtonSize;
-  /** Legacy loading boolean (use isLoading instead) */
-  loading?: boolean;
   /** Show loading state with spinner */
   isLoading?: boolean;
   /** Text to render next to spinner while loading (replaces children) */
   loadingText?: string;
   /** Stretch to full width of parent container */
   fullWidth?: boolean;
-  /** Convenience prop: renders with outline variant styling */
+  /** Render outlined version of variant styling */
   outline?: boolean;
   /** Icon placed before children */
   leftIcon?: React.ReactNode;
@@ -32,6 +42,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   themeRole?: ThemeRole;
   /** Override color mode (light/dark) for this button component */
   colorMode?: ColorMode;
+  /** Additional CSS class names for custom styling */
+  className?: string;
   /** Polymorphic element tag */
   as?: React.ElementType;
   href?: string;
@@ -39,9 +51,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
-    variant = 'neumorphic',
+    variant = 'primary',
     size = 'md',
-    loading = false,
     isLoading = false,
     loadingText,
     fullWidth = false,
@@ -61,7 +72,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 ) {
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      // Ripple effect for non-neumorphic or active feedback
+      // Ripple effect for active feedback
       const btn = e.currentTarget;
       const rect = btn.getBoundingClientRect();
       const s = Math.max(rect.width, rect.height);
@@ -81,19 +92,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     [onClick]
   );
 
-  const activeLoading = isLoading || loading;
-  const isDisabled = disabled || activeLoading;
+  const isDisabled = disabled || isLoading;
   
-  // Resolution of variant: outline shorthand overrides default variant if set
-  const resolvedVariant = outline && variant === 'neumorphic' ? 'outline' : variant;
-  const iconOnly = !children && (leftIcon || rightIcon) && !activeLoading;
+  const iconOnly = !children && (leftIcon || rightIcon) && !isLoading;
 
   const classes = [
     'gy-btn',
-    `gy-btn--${resolvedVariant}`,
+    `gy-btn--${variant}`,
+    outline ? 'gy-btn--outline' : '',
     `gy-btn--${size}`,
     fullWidth ? 'gy-btn--full' : '',
-    activeLoading ? 'gy-btn--loading' : '',
+    isLoading ? 'gy-btn--loading' : '',
     iconOnly ? 'gy-btn--icon-only' : '',
     isDisabled ? 'gy-btn--disabled' : '',
     className,
@@ -112,11 +121,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       className={classes}
       disabled={isDisabled}
       onClick={handleClick}
-      aria-busy={activeLoading}
+      aria-busy={isLoading}
       {...dataProps}
       {...rest}
     >
-      {activeLoading ? (
+      {isLoading ? (
         <>
           <span className="gy-btn__spinner" aria-hidden="true" />
           {loadingText && <span className="gy-btn__loading-text">{loadingText}</span>}

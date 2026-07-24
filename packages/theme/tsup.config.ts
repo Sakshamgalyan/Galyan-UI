@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import fs from 'fs';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -6,7 +7,9 @@ export default defineConfig({
   dts: true,
   clean: true,
   banner: {
-    js: "'use client';",
+    js: '"use client";',
   },
-  onSuccess: 'mkdir -p dist/css && cp -r src/css/* dist/css/',
+  onSuccess: async () => {
+    fs.cpSync('src/css', 'dist/css', { recursive: true });
+  },
 });

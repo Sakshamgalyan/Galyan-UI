@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useId } from 'react';
+import React, { forwardRef, useId, useState } from 'react';
 import './checkbox.css';
 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
@@ -40,7 +40,17 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   const uid = useId();
   const inputId = id ?? uid;
 
-  const isChecked = checked ?? defaultChecked ?? false;
+  const isControlled = checked !== undefined;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+  const isChecked = isControlled ? checked : internalChecked;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextChecked = e.target.checked;
+    if (!isControlled) {
+      setInternalChecked(nextChecked);
+    }
+    onChange?.(nextChecked);
+  };
 
   const boxClasses = [
     'gy-checkbox-box',
@@ -68,12 +78,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         id={inputId}
         name={name}
         value={value}
-        checked={checked}
-        defaultChecked={defaultChecked}
+        checked={isChecked}
         disabled={disabled}
         className="gy-checkbox-input"
-        onChange={(e) => onChange?.(e.target.checked)}
-        aria-checked={indeterminate ? 'mixed' : checked}
+        onChange={handleChange}
+        aria-checked={indeterminate ? 'mixed' : isChecked}
       />
       <span className={boxClasses} aria-hidden="true">
         {(isChecked || indeterminate) && (

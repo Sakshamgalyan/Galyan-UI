@@ -4,6 +4,9 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "storybook": "pnpm --filter storybook storybook",
+    "build-storybook": "pnpm --filter storybook build-storybook",
+    "chromatic": "pnpm --filter storybook chromatic",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"

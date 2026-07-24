@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
 import './radiogroup.css';
 
 export interface RadioOption {
@@ -35,6 +35,10 @@ export function RadioGroup({
   const uid = useId();
   const groupName = name ?? uid;
 
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const currentValue = isControlled ? value : internalValue;
+
   return (
     <div
       role="radiogroup"
@@ -43,7 +47,7 @@ export function RadioGroup({
     >
       {groupLabel && <div className="gy-radio-group-label">{groupLabel}</div>}
       {options.map((opt) => {
-        const isChecked = value !== undefined ? value === opt.value : undefined;
+        const isChecked = currentValue === opt.value;
         const isDisabled = disabled || opt.disabled;
 
         return (
@@ -56,10 +60,14 @@ export function RadioGroup({
               name={groupName}
               value={opt.value}
               checked={isChecked}
-              defaultChecked={defaultValue === opt.value}
               disabled={isDisabled}
               className="gy-radio-input"
-              onChange={() => onChange?.(opt.value)}
+              onChange={() => {
+                if (!isControlled) {
+                  setInternalValue(opt.value);
+                }
+                onChange?.(opt.value);
+              }}
             />
             <span className={`gy-radio-circle ${isChecked ? 'gy-radio-circle--checked' : ''}`}>
               {isChecked && <span className="gy-radio-dot" />}

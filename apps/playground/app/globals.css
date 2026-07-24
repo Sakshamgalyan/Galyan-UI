@@ -1,7 +1,0 @@
-/* Reset globals for playground, since we use @galyan/theme */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--gy-background);
-  color: var(--gy-text);
-}

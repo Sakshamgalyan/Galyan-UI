@@ -39,24 +39,41 @@ export function Card({ variant = 'default', size = 'md', hoverable = false, clas
   );
 }
 
-export function CardHeader({ children, className = '' }: { children?: React.ReactNode; className?: string }) {
-  return <div className={`gy-card-header ${className}`}>{children}</div>;
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
 }
 
-export function CardBody({ children, size, className = '' }: { children?: React.ReactNode; size?: CardSize; className?: string }) {
+export function CardHeader({ children, className = '', style, ...props }: CardHeaderProps) {
+  return <div className={`gy-card-header ${className}`} style={style} {...props}>{children}</div>;
+}
+
+export interface CardBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  size?: CardSize;
+}
+
+export function CardBody({ children, size, className = '', style, ...props }: CardBodyProps) {
   return (
-    <div className={['gy-card-body', size ? `gy-card-body--${size}` : '', className].filter(Boolean).join(' ')}>
+    <div
+      className={['gy-card-body', size ? `gy-card-body--${size}` : '', className].filter(Boolean).join(' ')}
+      style={style}
+      {...props}
+    >
       {children}
     </div>
   );
 }
 
-export function CardFooter({ children, className = '' }: { children?: React.ReactNode; className?: string }) {
-  return <div className={`gy-card-footer ${className}`}>{children}</div>;
+export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export function CardFooter({ children, className = '', style, ...props }: CardFooterProps) {
+  return <div className={`gy-card-footer ${className}`} style={style} {...props}>{children}</div>;
 }
 
 // ── CardInfo ──────────────────────────────────────────────────────────────────
-export interface CardInfoProps {
+export interface CardInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   value: string | number;
   icon?: React.ReactNode;
@@ -65,10 +82,10 @@ export interface CardInfoProps {
   className?: string;
 }
 
-export function CardInfo({ title, value, icon, trend, footer, className = '' }: CardInfoProps) {
+export function CardInfo({ title, value, icon, trend, footer, className = '', style, ...props }: CardInfoProps) {
   const isUp = trend ? trend.value >= 0 : null;
   return (
-    <div className={`gy-card-info ${className}`}>
+    <div className={`gy-card-info ${className}`} style={style} {...props}>
       <div className="gy-card-info__header">
         <span className="gy-card-info__title">{title}</span>
         {icon && <span className="gy-card-info__icon">{icon}</span>}

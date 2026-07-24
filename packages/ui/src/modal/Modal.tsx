@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './modal.css';
 
@@ -29,11 +29,16 @@ export function Modal({
   closeOnEscape = true,
   className = '',
 }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Focus trap and keyboard handling
   useEffect(() => {
-    if (!open) return;
+    if (!open || !mounted) return;
 
     const previous = document.activeElement as HTMLElement;
     dialogRef.current?.focus();
@@ -65,12 +70,7 @@ export function Modal({
       document.body.style.overflow = '';
       previous?.focus();
     };
-  }, [open, onClose, closeOnEscape]);
-
-  const [mounted, setMounted] = React.useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  }, [open, mounted, onClose, closeOnEscape]);
 
   if (!open || !mounted) return null;
 

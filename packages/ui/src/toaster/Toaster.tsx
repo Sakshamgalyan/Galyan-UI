@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useCallback, useContext, useId, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Spinner } from '../spinner/Spinner';
 import './toaster.css';
@@ -40,7 +40,7 @@ export function ToasterProvider({ children, position = 'top-right' }: { children
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 

@@ -29,6 +29,7 @@ export interface BannerProps {
   layout?: BannerLayout;
   title?: string;
   description?: React.ReactNode;
+  children?: React.ReactNode;
   icon?: React.ReactNode;
   dismissible?: boolean;
   onDismiss?: () => void;
@@ -40,6 +41,7 @@ export function Banner({
   layout = 'inline',
   title,
   description,
+  children,
   icon,
   dismissible = false,
   onDismiss,
@@ -53,6 +55,8 @@ export function Banner({
     setDismissed(true);
     onDismiss?.();
   };
+
+  const bodyContent = children ?? description;
 
   return (
     <div
@@ -69,7 +73,7 @@ export function Banner({
       <span className="gy-banner__icon">{icon ?? icons[variant]}</span>
       <div className="gy-banner__content">
         {title && <div className="gy-banner__title">{title}</div>}
-        {description && <div className="gy-banner__description">{description}</div>}
+        {bodyContent && <div className="gy-banner__description">{bodyContent}</div>}
       </div>
       {dismissible && (
         <button className="gy-banner__close" onClick={handleDismiss} aria-label="Dismiss">

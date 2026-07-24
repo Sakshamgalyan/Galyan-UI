@@ -6,6 +6,6 @@ export default defineConfig({
   dts: true,
   clean: true,
   banner: {
-    js: "'use client';",
+    js: '"use client";',
   },
 });

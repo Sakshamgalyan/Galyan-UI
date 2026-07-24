@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useId } from 'react';
+import React, { forwardRef, useId, useState } from 'react';
 import './toggle.css';
 
 export type ToggleSize = 'sm' | 'md' | 'lg';
@@ -35,7 +35,18 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(function Toggle(
 ) {
   const uid = useId();
   const inputId = id ?? uid;
-  const isChecked = checked ?? defaultChecked ?? false;
+
+  const isControlled = checked !== undefined;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+  const isChecked = isControlled ? checked : internalChecked;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextChecked = e.target.checked;
+    if (!isControlled) {
+      setInternalChecked(nextChecked);
+    }
+    onChange?.(nextChecked);
+  };
 
   const track = (
     <span
@@ -73,12 +84,11 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(function Toggle(
         type="checkbox"
         role="switch"
         name={name}
-        checked={checked}
-        defaultChecked={defaultChecked}
+        checked={isChecked}
         disabled={disabled}
         className="gy-toggle-input"
         aria-checked={isChecked}
-        onChange={(e) => onChange?.(e.target.checked)}
+        onChange={handleChange}
       />
       {labelPosition === 'left' && labelEl}
       {track}

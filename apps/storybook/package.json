@@ -1,0 +1,36 @@
+{
+  "name": "storybook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006",
+    "build": "storybook build",
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic"
+  },
+  "dependencies": {
+    "@galyan/theme": "workspace:*",
+    "@galyan/ui": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.5",
+    "@storybook/addon-essentials": "^8.6.4",
+    "@storybook/addon-interactions": "^8.6.4",
+    "@storybook/addon-links": "^8.6.4",
+    "@storybook/blocks": "^8.6.4",
+    "@storybook/react": "^8.6.4",
+    "@storybook/react-vite": "^8.6.4",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "chromatic": "^11.25.2",
+    "storybook": "^8.6.4",
+    "typescript": "^5.9.2",
+    "vite": "^6.2.1"
+  }
+}

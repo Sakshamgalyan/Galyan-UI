@@ -77,16 +77,24 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
 
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "typescript": "^5.9.2",
+    "eslint": "^9.39.1",
+    "react": "^19.0.0",
     "tsup": "^8.5.1",
-    "eslint": "^9.39.1"
+    "typescript": "^5.9.2"
   }
 }

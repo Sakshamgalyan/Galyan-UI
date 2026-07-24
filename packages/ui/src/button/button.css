@@ -1,21 +1,22 @@
-/* ── Button Component ─────────────────────────────────────────────────────── */
+/* ── Enterprise Button Component ───────────────────────────────────────────── */
 .gy-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--gy-spacing-2);
-  font-family: var(--gy-font-sans);
-  font-weight: var(--gy-font-weight-medium);
-  letter-spacing: var(--gy-letter-spacing-wide);
-  border-radius: var(--gy-radius-lg);
-  border: 1.5px solid transparent;
+  gap: var(--gy-spacing-2, 0.5rem);
+  font-family: var(--gy-font-sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 0.625rem;
+  border: 1px solid transparent;
+  box-shadow: var(--gy-shadow-sm, 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1));
   cursor: pointer;
   transition:
-    background-color var(--gy-duration-fast) var(--gy-ease-in-out),
-    border-color var(--gy-duration-fast) var(--gy-ease-in-out),
-    color var(--gy-duration-fast) var(--gy-ease-in-out),
-    box-shadow var(--gy-duration-fast) var(--gy-ease-in-out),
-    transform var(--gy-duration-fast) var(--gy-ease-out);
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out,
+    transform 0.1s ease-in-out;
   user-select: none;
   white-space: nowrap;
   text-decoration: none;
@@ -26,151 +27,378 @@
 
 .gy-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--gy-focus-ring);
+  box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.35));
 }
 
 .gy-btn:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 /* ── Sizes ────────────────────────────────────────────────────────────────── */
 .gy-btn--xs {
   height: 1.75rem;
-  padding: 0 var(--gy-spacing-2);
-  font-size: var(--gy-font-size-xs);
-  border-radius: var(--gy-radius-md);
+  padding: 0 0.625rem;
+  font-size: var(--gy-font-size-xs, 0.75rem);
+  border-radius: var(--gy-radius-lg, 0.5rem);
 }
 
 .gy-btn--sm {
   height: 2rem;
-  padding: 0 var(--gy-spacing-3);
-  font-size: var(--gy-font-size-sm);
+  padding: 0 0.75rem;
+  font-size: var(--gy-font-size-sm, 0.875rem);
 }
 
 .gy-btn--md {
   height: 2.5rem;
-  padding: 0 var(--gy-spacing-4);
-  font-size: var(--gy-font-size-sm);
+  padding: 0 1rem;
+  font-size: var(--gy-font-size-sm, 0.875rem);
 }
 
 .gy-btn--lg {
   height: 2.75rem;
-  padding: 0 var(--gy-spacing-5);
-  font-size: var(--gy-font-size-md);
+  padding: 0 1.25rem;
+  font-size: var(--gy-font-size-md, 1rem);
 }
 
 .gy-btn--xl {
   height: 3.25rem;
-  padding: 0 var(--gy-spacing-6);
-  font-size: var(--gy-font-size-lg);
+  padding: 0 1.5rem;
+  font-size: var(--gy-font-size-lg, 1.125rem);
 }
 
-/* ── Variants ─────────────────────────────────────────────────────────────── */
+/* ── Enterprise Variants ──────────────────────────────────────────────────── */
 
-/* Neumorphic (Default Variant) */
-.gy-btn--neumorphic {
-  background: var(--gy-neu-bg, #e3e8f0);
-  border-color: transparent;
-  color: var(--gy-primary);
-  border-radius: var(--gy-neu-radius, 0.75rem);
-  box-shadow:
-    var(--gy-neu-distance, 6px) var(--gy-neu-distance, 6px) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
-    calc(-1 * var(--gy-neu-distance, 6px)) calc(-1 * var(--gy-neu-distance, 6px)) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
-  transition:
-    box-shadow var(--gy-duration-normal, 200ms) var(--gy-ease-in-out),
-    transform var(--gy-duration-fast, 100ms) var(--gy-ease-out),
-    color var(--gy-duration-fast, 100ms) var(--gy-ease-in-out),
-    background-color var(--gy-duration-fast, 100ms) var(--gy-ease-in-out);
-}
-
-.gy-btn--neumorphic:hover:not(:disabled) {
-  box-shadow:
-    calc(var(--gy-neu-distance, 6px) + 2px) calc(var(--gy-neu-distance, 6px) + 2px) calc(var(--gy-neu-blur, 12px) + 4px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
-    calc(-1 * (var(--gy-neu-distance, 6px) + 2px)) calc(-1 * (var(--gy-neu-distance, 6px) + 2px)) calc(var(--gy-neu-blur, 12px) + 4px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
-  color: var(--gy-primary-hover);
-}
-
-.gy-btn--neumorphic:active:not(:disabled) {
-  box-shadow:
-    inset var(--gy-neu-distance, 6px) var(--gy-neu-distance, 6px) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-dark, rgba(163, 177, 198, 0.5)),
-    inset calc(-1 * var(--gy-neu-distance, 6px)) calc(-1 * var(--gy-neu-distance, 6px)) var(--gy-neu-blur, 12px) var(--gy-neu-shadow-light, rgba(255, 255, 255, 0.85));
-  transform: scale(0.99);
-}
-
-/* Solid */
+/* 1. Primary (Solid Green Default) */
+.gy-btn--primary,
 .gy-btn--solid {
-  background-color: var(--gy-primary);
-  border-color: var(--gy-primary);
-  color: var(--gy-primary-fg);
+  background-color: var(--gy-primary, #22c55e);
+  border-color: transparent;
+  color: var(--gy-primary-fg, #ffffff);
+  box-shadow: var(--gy-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
 }
 
+.gy-btn--primary:hover:not(:disabled),
 .gy-btn--solid:hover:not(:disabled) {
-  background-color: var(--gy-primary-hover);
-  border-color: var(--gy-primary-hover);
+  background-color: var(--gy-primary-hover, #16a34a);
+  box-shadow: var(--gy-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
 }
 
+.gy-btn--primary:active:not(:disabled),
 .gy-btn--solid:active:not(:disabled) {
-  background-color: var(--gy-primary-active);
+  background-color: var(--gy-primary-active, #15803d);
+  box-shadow: none;
 }
 
-/* Outline */
-.gy-btn--outline {
+/* Primary Outline (when outline prop is true) */
+.gy-btn--primary.gy-btn--outline,
+.gy-btn--solid.gy-btn--outline {
   background-color: transparent;
-  border-color: var(--gy-primary);
-  color: var(--gy-primary);
+  border-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary, #22c55e);
+  box-shadow: none;
 }
 
-.gy-btn--outline:hover:not(:disabled) {
-  background-color: var(--gy-primary-subtle);
+.gy-btn--primary.gy-btn--outline:hover:not(:disabled),
+.gy-btn--solid.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-primary-subtle, #f0fdf4);
+  border-color: var(--gy-primary-hover, #16a34a);
+  color: var(--gy-primary-hover, #16a34a);
 }
 
-/* Ghost */
-.gy-btn--ghost {
+/* 2. Secondary (Soft background with outlined border) */
+.gy-btn--secondary {
+  background-color: var(--gy-secondary-subtle, #f0fdfa);
+  border-color: var(--gy-secondary-muted, #99f6e4);
+  color: var(--gy-secondary-hover, #0d9488);
+}
+
+.gy-btn--secondary:hover:not(:disabled) {
+  background-color: var(--gy-secondary-muted, #99f6e4);
+  border-color: var(--gy-secondary, #14b8a6);
+  color: var(--gy-secondary-hover, #0d9488);
+}
+
+.gy-btn--secondary:active:not(:disabled) {
+  background-color: #5eead4;
+}
+
+/* Secondary Outline (when outline prop is true) */
+.gy-btn--secondary.gy-btn--outline {
   background-color: transparent;
-  border-color: transparent;
-  color: var(--gy-primary);
+  border-color: var(--gy-secondary, #14b8a6);
+  color: var(--gy-secondary, #14b8a6);
+  box-shadow: none;
 }
 
-.gy-btn--ghost:hover:not(:disabled) {
-  background-color: var(--gy-primary-subtle);
+.gy-btn--secondary.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-secondary-subtle, #f0fdfa);
+  border-color: var(--gy-secondary-hover, #0d9488);
+  color: var(--gy-secondary-hover, #0d9488);
 }
 
-/* Soft */
-.gy-btn--soft {
-  background-color: var(--gy-primary-subtle);
-  border-color: transparent;
-  color: var(--gy-primary-hover);
+/* 3. Tertiary (Neutral Gray for dark/light neutral actions) */
+.gy-btn--tertiary {
+  background-color: var(--gy-background-muted, #f1f5f9);
+  border-color: var(--gy-border, #e2e8f0);
+  color: var(--gy-text, #0f172a);
 }
 
-.gy-btn--soft:hover:not(:disabled) {
-  background-color: var(--gy-primary-muted);
+.gy-btn--tertiary:hover:not(:disabled) {
+  background-color: var(--gy-border, #e2e8f0);
+  border-color: var(--gy-border-strong, #cbd5e1);
+  color: var(--gy-text, #0f172a);
 }
 
-/* Link */
-.gy-btn--link {
+.gy-btn--tertiary:active:not(:disabled) {
+  background-color: var(--gy-border-strong, #cbd5e1);
+}
+
+/* Tertiary Outline (when outline prop is true) */
+.gy-btn--tertiary.gy-btn--outline {
   background-color: transparent;
-  border-color: transparent;
-  color: var(--gy-text-link);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  height: auto;
-  padding: 0;
+  border-color: var(--gy-border-strong, #cbd5e1);
+  color: var(--gy-text-muted, #475569);
+  box-shadow: none;
 }
 
-.gy-btn--link:hover:not(:disabled) {
-  color: var(--gy-text-link-hover);
+.gy-btn--tertiary.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-background-subtle, #f8fafc);
+  border-color: var(--gy-text-muted, #475569);
+  color: var(--gy-text, #0f172a);
 }
 
-/* Danger variant */
+/* Dark Mode Tertiary (Fade Up / Glass Elevation Overlay) */
+[data-color-mode="dark"] .gy-btn--tertiary,
+.gy-dark .gy-btn--tertiary {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--gy-text, #f8fafc);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-color-mode="dark"] .gy-btn--tertiary:hover:not(:disabled),
+.gy-dark .gy-btn--tertiary:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+[data-color-mode="dark"] .gy-btn--tertiary:active:not(:disabled),
+.gy-dark .gy-btn--tertiary:active:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-color-mode="dark"] .gy-btn--tertiary.gy-btn--outline,
+.gy-dark .gy-btn--tertiary.gy-btn--outline {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--gy-text-muted, #cbd5e1);
+  box-shadow: none;
+}
+
+[data-color-mode="dark"] .gy-btn--tertiary.gy-btn--outline:hover:not(:disabled),
+.gy-dark .gy-btn--tertiary.gy-btn--outline:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* 4. Danger (Solid Red Destructive Action) */
 .gy-btn--danger {
-  background-color: var(--gy-danger);
-  border-color: var(--gy-danger);
-  color: var(--gy-danger-fg);
+  background-color: var(--gy-danger, #ef4444);
+  border-color: transparent;
+  color: var(--gy-danger-fg, #ffffff);
+  box-shadow: var(--gy-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
 }
 
 .gy-btn--danger:hover:not(:disabled) {
-  background-color: var(--gy-danger-emphasis);
-  border-color: var(--gy-danger-emphasis);
+  background-color: var(--gy-danger-emphasis, #dc2626);
+  box-shadow: var(--gy-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.gy-btn--danger:active:not(:disabled) {
+  background-color: #b91c1c;
+  box-shadow: none;
+}
+
+/* Danger Outline (when variant="danger" AND outline=true) */
+.gy-btn--danger.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-danger, #ef4444);
+  color: var(--gy-danger, #ef4444);
+  box-shadow: none;
+}
+
+.gy-btn--danger.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-danger-subtle, #fef2f2);
+  border-color: var(--gy-danger-emphasis, #dc2626);
+  color: var(--gy-danger-emphasis, #dc2626);
+}
+
+/* 5. Success (Solid Emerald Green) */
+.gy-btn--success {
+  background-color: var(--gy-success, #10b981);
+  border-color: transparent;
+  color: var(--gy-success-fg, #ffffff);
+  box-shadow: var(--gy-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.gy-btn--success:hover:not(:disabled) {
+  background-color: var(--gy-success-emphasis, #059669);
+  box-shadow: var(--gy-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.gy-btn--success:active:not(:disabled) {
+  background-color: #047857;
+  box-shadow: none;
+}
+
+.gy-btn--success.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-success, #10b981);
+  color: var(--gy-success, #10b981);
+  box-shadow: none;
+}
+
+.gy-btn--success.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-success-subtle, #ecfdf5);
+  border-color: var(--gy-success-emphasis, #059669);
+  color: var(--gy-success-emphasis, #059669);
+}
+
+/* 6. Warning (Solid Amber/Orange) */
+.gy-btn--warning {
+  background-color: var(--gy-warning, #f59e0b);
+  border-color: transparent;
+  color: var(--gy-warning-fg, #ffffff);
+  box-shadow: var(--gy-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.gy-btn--warning:hover:not(:disabled) {
+  background-color: var(--gy-warning-emphasis, #d97706);
+  box-shadow: var(--gy-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.gy-btn--warning:active:not(:disabled) {
+  background-color: #b45309;
+  box-shadow: none;
+}
+
+.gy-btn--warning.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-warning, #f59e0b);
+  color: var(--gy-warning-emphasis, #d97706);
+  box-shadow: none;
+}
+
+.gy-btn--warning.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-warning-subtle, #fffbeb);
+  border-color: var(--gy-warning-emphasis, #d97706);
+  color: #b45309;
+}
+
+/* 7. Danger Soft (Soft Red Tinted) */
+.gy-btn--danger-soft {
+  background-color: var(--gy-danger-subtle, #fef2f2);
+  border-color: transparent;
+  color: var(--gy-danger-emphasis, #dc2626);
+}
+
+.gy-btn--danger-soft:hover:not(:disabled) {
+  background-color: var(--gy-danger-muted, #fecaca);
+  color: #b91c1c;
+}
+
+.gy-btn--danger-soft.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-danger-muted, #fecaca);
+  color: var(--gy-danger-emphasis, #dc2626);
+}
+
+.gy-btn--danger-soft.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-danger-subtle, #fef2f2);
+  border-color: var(--gy-danger, #ef4444);
+}
+
+/* 5. Soft */
+.gy-btn--soft {
+  background-color: var(--gy-primary-subtle, #f0fdf4);
+  border-color: transparent;
+  color: var(--gy-primary-hover, #16a34a);
+}
+
+.gy-btn--soft:hover:not(:disabled) {
+  background-color: var(--gy-primary-muted, #bbf7d0);
+  color: var(--gy-primary-active, #15803d);
+}
+
+.gy-btn--soft.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-primary-muted, #bbf7d0);
+  color: var(--gy-primary-hover, #16a34a);
+}
+
+.gy-btn--soft.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-primary-subtle, #f0fdf4);
+  border-color: var(--gy-primary, #22c55e);
+}
+
+/* 6. Ghost */
+.gy-btn--ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--gy-text-muted, #475569);
+}
+
+.gy-btn--ghost:hover:not(:disabled) {
+  background-color: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-btn--ghost.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-border, #e2e8f0);
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-btn--ghost.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-background-subtle, #f8fafc);
+  border-color: var(--gy-border-strong, #cbd5e1);
+}
+
+/* 7. Link */
+.gy-btn--link {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--gy-text-link, #16a34a);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+
+.gy-btn--link:hover:not(:disabled) {
+  color: var(--gy-text-link-hover, #15803d);
+}
+
+/* Standalone .gy-btn--outline fallback */
+.gy-btn--outline {
+  background-color: transparent;
+  border-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary, #22c55e);
+}
+
+.gy-btn--outline:hover:not(:disabled) {
+  background-color: var(--gy-primary-subtle, #f0fdf4);
+  border-color: var(--gy-primary-hover, #16a34a);
+  color: var(--gy-primary-hover, #16a34a);
 }
 
 /* ── Full width ──────────────────────────────────────────────────────────── */
@@ -182,7 +410,11 @@
 .gy-btn:disabled,
 .gy-btn--disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.55;
+  background-color: var(--gy-disabled-bg, #f1f5f9) !important;
+  color: var(--gy-disabled-text, #94a3b8) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
   transform: none !important;
 }
 
@@ -190,6 +422,7 @@
 .gy-btn--loading {
   cursor: wait;
   pointer-events: none;
+  opacity: 0.85;
 }
 
 .gy-btn__spinner {
@@ -198,13 +431,13 @@
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
-  animation: gy-spin var(--gy-duration-slower) linear infinite;
+  animation: gy-spin var(--gy-duration-slower, 500ms) linear infinite;
   flex-shrink: 0;
 }
 
 .gy-btn__loading-text {
   margin-left: var(--gy-spacing-1-5, 0.375rem);
-  font-weight: var(--gy-font-weight-medium, 500);
+  font-weight: 500;
 }
 
 /* ── Icon-only ──────────────────────────────────────────────────────────── */
@@ -220,6 +453,6 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   transform: scale(0);
-  animation: gy-ripple 0.6s linear;
+  animation: gy-ripple 0.5s linear;
   pointer-events: none;
 }
