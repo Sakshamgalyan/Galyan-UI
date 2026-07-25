@@ -22,7 +22,7 @@ Welcome to **Galyan UI**, a modern React 19 component library and design system 
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start 
 
 ### 1. Install Dependencies
 ```bash
