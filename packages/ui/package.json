@@ -1,27 +1,22 @@
 {
   "name": "@galyan/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React UI Components with Galyan Design System",
   "author": "Saksham Galyan",
   "license": "MIT",
   "type": "module",
   "private": false,
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sakshamgalyan/Galyan-UI.git"
   },
-
   "homepage": "https://github.com/Sakshamgalyan/Galyan-UI",
-
   "bugs": {
     "url": "https://github.com/Sakshamgalyan/Galyan-UI/issues"
   },
-
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -30,38 +25,31 @@
     },
     "./styles.css": "./dist/index.css"
   },
-
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-
   "sideEffects": [
     "*.css"
   ],
-
   "publishConfig": {
     "access": "public"
   },
-
   "scripts": {
     "build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
-
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
     "@galyan/theme": "workspace:*",
     "recharts": "^2.15.3"
   },
-
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
