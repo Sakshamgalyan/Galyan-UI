@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "changeset": "changeset",
-    "version-packages": "changeset version",
+    "auto-changeset": "node scripts/auto-changeset.mjs",
+    "version-packages": "pnpm auto-changeset && changeset version",
     "release": "turbo run build && changeset publish"
   },
   "devDependencies": {
