@@ -26,18 +26,31 @@ const defaultIcons: Record<BannerVariant, React.ReactNode> = {
 };
 
 export interface BannerProps {
+  /** The semantic variant/color theme of the banner ('info', 'success', 'warning', 'danger', 'neutral'). Default is 'info'. */
   variant?: BannerVariant;
+  /** Visual style variant ('subtle', 'solid', 'outline'). Default is 'subtle'. */
   bannerStyle?: BannerStyle;
+  /** Title header element or text displayed at the top of the banner. */
   title?: React.ReactNode;
+  /** Description message content displayed within the banner body. */
   description?: React.ReactNode;
+  /** Size variant controlling banner padding and font sizes ('sm', 'md', 'lg'). Default is 'md'. */
   size?: BannerSize;
+  /** Custom leading icon to replace the default variant icon. */
   icon?: React.ReactNode;
+  /** Custom action element or button displayed on the right side of the banner. */
   button?: React.ReactNode;
+  /** Whether the banner takes up the full width of its container. Default is true. */
   fullWidth?: boolean;
+  /** Whether to render a close button allowing users to dismiss the banner. Default is false. */
   dismissible?: boolean;
+  /** Callback triggered when the dismiss close button is clicked. */
   onDismiss?: () => void;
+  /** Additional CSS class names to apply to the root banner container. */
   className?: string;
+  /** Whether to render a border around the banner. Default is true. */
   bordered?: boolean;
+  /** Children content passed as fallback or alternative for description. */
   children?: React.ReactNode;
 }
 
