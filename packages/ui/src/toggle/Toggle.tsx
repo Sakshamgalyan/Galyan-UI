@@ -1,98 +1,120 @@
 'use client';
 
-import React, { forwardRef, useId, useState } from 'react';
+import React, { forwardRef } from 'react';
 import './toggle.css';
 
-export type ToggleSize = 'sm' | 'md' | 'lg';
-
-export interface ToggleProps {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  onChange?: (checked: boolean) => void;
-  disabled?: boolean;
+export interface ToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  /** Text label displayed next to the toggle */
   label?: React.ReactNode;
-  labelPosition?: 'left' | 'right';
-  size?: ToggleSize;
-  id?: string;
-  name?: string;
+  /** Whether to show icons inside the toggle thumb/track */
+  withIcon?: boolean;
+  /** Custom icons for the on and off states */
+  icon?: {
+    on: React.ReactNode;
+    off: React.ReactNode;
+  };
+  /** If true, the toggle will be disabled */
+  isDisabled?: boolean;
+  /** Custom class for the wrapper */
   className?: string;
 }
 
-export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(function Toggle(
-  {
-    checked,
-    defaultChecked,
-    onChange,
-    disabled = false,
-    label,
-    labelPosition = 'right',
-    size = 'md',
-    id,
-    name,
-    className = '',
-  },
-  ref
-) {
-  const uid = useId();
-  const inputId = id ?? uid;
+const DefaultTickIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="gy-toggle__icon gy-toggle__icon--on"
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
 
-  const isControlled = checked !== undefined;
-  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
-  const isChecked = isControlled ? checked : internalChecked;
+const DefaultCrossIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="gy-toggle__icon gy-toggle__icon--off"
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nextChecked = e.target.checked;
-    if (!isControlled) {
-      setInternalChecked(nextChecked);
-    }
-    onChange?.(nextChecked);
-  };
+export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
+  (
+    {
+      label,
+      checked,
+      withIcon = false,
+      icon,
+      isDisabled = false,
+      className = '',
+      id,
+      ...props
+    },
+    ref
+  ) => {
+    const fallbackId = React.useId();
+    const toggleId = id || fallbackId;
 
-  const track = (
-    <span
-      className={[
-        'gy-toggle-track',
-        `gy-toggle-track--${size}`,
-        isChecked ? 'gy-toggle-track--checked' : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      aria-hidden="true"
-    >
-      <span className="gy-toggle-thumb" />
-    </span>
-  );
+    const wrapperClasses = [
+      'gy-toggle-wrapper',
+      isDisabled ? 'gy-toggle--disabled' : '',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  const labelEl = label && (
-    <span className="gy-toggle-label">{label}</span>
-  );
+    const renderOnIcon = () => {
+      if (!withIcon) return null;
+      if (icon?.on) return <span className="gy-toggle__icon gy-toggle__icon--on">{icon.on}</span>;
+      return <DefaultTickIcon />;
+    };
 
-  return (
-    <label
-      htmlFor={inputId}
-      className={[
-        'gy-toggle-root',
-        disabled ? 'gy-toggle-root--disabled' : '',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <input
-        ref={ref}
-        id={inputId}
-        type="checkbox"
-        role="switch"
-        name={name}
-        checked={isChecked}
-        disabled={disabled}
-        className="gy-toggle-input"
-        aria-checked={isChecked}
-        onChange={handleChange}
-      />
-      {labelPosition === 'left' && labelEl}
-      {track}
-      {labelPosition === 'right' && labelEl}
-    </label>
-  );
-});
+    const renderOffIcon = () => {
+      if (!withIcon) return null;
+      if (icon?.off) return <span className="gy-toggle__icon gy-toggle__icon--off">{icon.off}</span>;
+      return <DefaultCrossIcon />;
+    };
+
+    return (
+      <label className={wrapperClasses} htmlFor={toggleId}>
+        <div className="gy-toggle__control">
+          <input
+            type="checkbox"
+            role="switch"
+            id={toggleId}
+            ref={ref}
+            className="gy-toggle__input"
+            checked={checked}
+            disabled={isDisabled}
+            aria-checked={checked}
+            {...props}
+          />
+          <div className="gy-toggle__track">
+            {withIcon && (
+              <div className="gy-toggle__track-icons">
+                {renderOnIcon()}
+                {renderOffIcon()}
+              </div>
+            )}
+            <div className="gy-toggle__thumb">
+              {/* Optional: we can render icons inside thumb instead of track if we want to change behavior, but rendering inside track is standard for switches with cross/tick. */}
+            </div>
+          </div>
+        </div>
+        {label && <span className="gy-toggle__label">{label}</span>}
+      </label>
+    );
+  }
+);
+
+Toggle.displayName = 'Toggle';

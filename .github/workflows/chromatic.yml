@@ -1,41 +1,38 @@
-name: 'Chromatic'
+name: 'Chromatic Storybook Publish'
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
 
 jobs:
   chromatic:
-    name: 'Run Chromatic Visual Tests & Deploy Storybook'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+          fetch-depth: 0 # Required by Chromatic for git history tracking
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Turbo projects
+      - name: Build monorepo packages
         run: pnpm build
 
       - name: Publish to Chromatic
-        uses: chromaui/action@v11
+        uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          workingDir: apps/storybook
-          buildScriptName: build-storybook
+          configFile: 'apps/storybook/chromatic.config.json'

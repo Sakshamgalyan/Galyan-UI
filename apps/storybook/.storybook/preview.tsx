@@ -11,6 +11,11 @@ import '@galyan/ui/styles.css';
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ['INTRODUCTION', ['Welcome', 'Catalog'], 'Galyan UI', '*'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -18,14 +23,14 @@ const preview: Preview = {
       },
     },
     backgrounds: {
-      default: 'white',
-      values: [
-        { name: 'white', value: '#ffffff' },
-        { name: 'light-subtle', value: '#f8fafc' },
-        { name: 'dark', value: '#0f172a' },
-      ],
+      options: {
+        white: { name: 'white', value: '#ffffff' },
+        "light-subtle": { name: 'light-subtle', value: '#f8fafc' },
+        dark: { name: 'dark', value: '#0f172a' }
+      }
     },
   },
+
   globalTypes: {
     themeRole: {
       description: 'Galyan Theme Role',
@@ -39,6 +44,7 @@ const preview: Preview = {
           { value: 'agent', title: 'Agent (Coral)' },
           { value: 'admin', title: 'Admin (Indigo)' },
         ],
+        dynamicTitle: true,
       },
     },
     colorMode: {
@@ -51,16 +57,18 @@ const preview: Preview = {
           { value: 'light', title: 'Light' },
           { value: 'dark', title: 'Dark' },
         ],
+        dynamicTitle: true,
       },
     },
   },
+
   decorators: [
     (Story, context) => {
       const role = context.globals.themeRole || 'customer';
       const mode = context.globals.colorMode || 'light';
 
       return (
-        <ThemeProvider defaultRole={role} defaultColorMode={mode}>
+        <ThemeProvider key={`${role}-${mode}`} defaultRole={role} defaultColorMode={mode} storageKey={null}>
           <ToasterProvider>
             <div
               data-theme={role}
@@ -84,6 +92,14 @@ const preview: Preview = {
       );
     },
   ],
+
+  initialGlobals: {
+    themeRole: 'customer',
+    colorMode: 'light',
+    backgrounds: {
+      value: 'white'
+    }
+  }
 };
 
 export default preview;

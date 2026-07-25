@@ -7,7 +7,7 @@ interface ThemeProviderProps {
   children: React.ReactNode;
   defaultRole?: ThemeRole;
   defaultColorMode?: ColorMode;
-  storageKey?: string;
+  storageKey?: string | null;
 }
 
 export function ThemeProvider({
@@ -20,6 +20,15 @@ export function ThemeProvider({
   const [colorMode, setColorModeState] = useState<ColorMode>(defaultColorMode);
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
 
+  // Sync state when defaultRole or defaultColorMode prop changes
+  useEffect(() => {
+    if (defaultRole) setRoleState(defaultRole);
+  }, [defaultRole]);
+
+  useEffect(() => {
+    if (defaultColorMode) setColorModeState(defaultColorMode);
+  }, [defaultColorMode]);
+
   // Detect system dark mode
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -31,6 +40,7 @@ export function ThemeProvider({
 
   // Load persisted preferences
   useEffect(() => {
+    if (!storageKey) return;
     try {
       const stored = localStorage.getItem(storageKey);
       if (stored) {
@@ -57,6 +67,7 @@ export function ThemeProvider({
 
   const setRole = useCallback((newRole: ThemeRole) => {
     setRoleState(newRole);
+    if (!storageKey) return;
     try {
       const stored = localStorage.getItem(storageKey);
       const current = stored ? JSON.parse(stored) : {};
@@ -66,6 +77,7 @@ export function ThemeProvider({
 
   const setColorMode = useCallback((newMode: ColorMode) => {
     setColorModeState(newMode);
+    if (!storageKey) return;
     try {
       const stored = localStorage.getItem(storageKey);
       const current = stored ? JSON.parse(stored) : {};

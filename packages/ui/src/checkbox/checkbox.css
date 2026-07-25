@@ -1,76 +1,140 @@
-/* ── Checkbox ─────────────────────────────────────────────────────────────── */
-.gy-checkbox-root {
+/* ── Checkbox Component ─────────────────────────────────────────────────── */
+.gy-checkbox-wrapper {
   display: inline-flex;
-  align-items: flex-start;
-  gap: var(--gy-spacing-2);
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
+  vertical-align: middle;
 }
 
-.gy-checkbox-root--disabled {
-  cursor: not-allowed;
+.gy-checkbox--disabled {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.gy-checkbox-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-
-.gy-checkbox-box {
-  display: flex;
+.gy-checkbox__control {
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 2px solid var(--gy-border-strong);
-  border-radius: var(--gy-radius-sm);
-  background: var(--gy-surface);
-  transition:
-    background-color var(--gy-duration-fast) var(--gy-ease-in-out),
-    border-color var(--gy-duration-fast) var(--gy-ease-in-out),
-    box-shadow var(--gy-duration-fast) var(--gy-ease-in-out);
 }
 
-.gy-checkbox-box--sm { width: 1rem; height: 1rem; }
-.gy-checkbox-box--md { width: 1.125rem; height: 1.125rem; }
-.gy-checkbox-box--lg { width: 1.25rem; height: 1.25rem; }
-
-.gy-checkbox-root:not(.gy-checkbox-root--disabled):hover .gy-checkbox-box {
-  border-color: var(--gy-primary);
+.gy-checkbox__input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: inherit;
+  margin: 0;
+  z-index: 1;
 }
 
-.gy-checkbox-input:focus-visible + .gy-checkbox-box {
-  box-shadow: 0 0 0 3px var(--gy-focus-ring);
-  border-color: var(--gy-primary);
-}
-
-.gy-checkbox-box--checked,
-.gy-checkbox-box--indeterminate {
-  background: var(--gy-primary);
-  border-color: var(--gy-primary);
-}
-
-.gy-checkbox-icon {
-  color: var(--gy-primary-fg);
-  animation: gy-zoom-in var(--gy-duration-fast) var(--gy-ease-spring);
-}
-
-.gy-checkbox-content {
+.gy-checkbox__box {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gy-border, #cbd5e1);
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  transition: all 0.2s ease-in-out;
+  background-color: var(--gy-background, #ffffff);
+  color: transparent;
 }
 
-.gy-checkbox-label {
-  font-size: var(--gy-font-size-sm);
-  font-weight: var(--gy-font-weight-medium);
-  color: var(--gy-text);
-  line-height: 1.4;
+.gy-checkbox__icon {
+  width: 70%;
+  height: 70%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.gy-checkbox-description {
-  font-size: var(--gy-font-size-xs);
-  color: var(--gy-text-subtle);
+.gy-checkbox__input:checked + .gy-checkbox__box .gy-checkbox__icon,
+.gy-checkbox__input:indeterminate + .gy-checkbox__box .gy-checkbox__icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gy-checkbox__input:focus-visible + .gy-checkbox__box {
+  outline: 2px solid var(--gy-primary-muted, #bbf7d0);
+  outline-offset: 2px;
+}
+
+.gy-checkbox__label {
+  font-size: var(--gy-font-size-sm, 0.875rem);
+  color: var(--gy-text, #0f172a);
+  user-select: none;
+}
+
+/* ── Sizes ── */
+.gy-checkbox--sm .gy-checkbox__box { width: 1rem; height: 1rem; }
+.gy-checkbox--md .gy-checkbox__box { width: 1.25rem; height: 1.25rem; }
+.gy-checkbox--lg .gy-checkbox__box { width: 1.5rem; height: 1.5rem; }
+
+/* ── Variants & Colors ── */
+
+/* Solid - Primary */
+.gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: var(--gy-primary, #22c55e);
+  border-color: var(--gy-primary, #22c55e);
+  color: white;
+}
+
+/* Solid - Error */
+.gy-checkbox--error.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--error.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: var(--gy-danger, #ef4444);
+  border-color: var(--gy-danger, #ef4444);
+  color: white;
+}
+
+/* Outline - Primary */
+.gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: transparent;
+  border-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary, #22c55e);
+}
+
+/* Outline - Error */
+.gy-checkbox--error.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--error.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: transparent;
+  border-color: var(--gy-danger, #ef4444);
+  color: var(--gy-danger, #ef4444);
+}
+
+/* Soft - Primary */
+.gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: var(--gy-primary-subtle, #f0fdf4);
+  border-color: var(--gy-primary-subtle, #f0fdf4);
+  color: var(--gy-primary, #22c55e);
+}
+
+/* Soft - Error */
+.gy-checkbox--error.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-checkbox--error.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: var(--gy-danger-subtle, #fef2f2);
+  border-color: var(--gy-danger-subtle, #fef2f2);
+  color: var(--gy-danger, #ef4444);
+}
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-checkbox__box {
+  background-color: var(--gy-background-inverse, #0f172a);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-dark .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+.gy-dark .gy-checkbox--error.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
+.gy-dark .gy-checkbox--error.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.15);
 }

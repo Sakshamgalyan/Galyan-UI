@@ -1,9 +1,15 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Typography, TypographyWeight } from '../typography';
+
+export type AnimatedNumberVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+export type AnimatedNumberWeight = 'bold' | 'semibold' | 'medium' | 'regular' | 'light';
 
 export interface AnimatedNumberProps {
   value: number;
+  variant?: AnimatedNumberVariant;
+  weight?: AnimatedNumberWeight;
   duration?: number;
   format?: (n: number) => string;
   className?: string;
@@ -18,6 +24,8 @@ function easeInOut(t: number) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2
 
 export function AnimatedNumber({
   value,
+  variant = 'span',
+  weight = 'regular',
   duration = 1000,
   format,
   className = '',
@@ -63,9 +71,26 @@ export function AnimatedNumber({
     ? format(displayed)
     : displayed.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+  const content = `${prefix}${formatted}${suffix}`;
+
+  const weightMap: Record<AnimatedNumberWeight, TypographyWeight> = {
+    bold: 'bold',
+    semibold: 'semibold',
+    medium: 'medium',
+    regular: 'normal',
+    light: 'light',
+  };
+
+  const Component = variant.startsWith('h') ? (variant as any) : variant === 'p' ? 'p' : 'span';
+
   return (
-    <span className={`gy-animated-number ${className}`} aria-live="polite" aria-atomic="true">
-      {prefix}{formatted}{suffix}
-    </span>
+    <Typography
+      as={Component}
+      variant={variant === 'p' ? 'p' : variant === 'span' ? 'span' : (variant as any)}
+      weight={weightMap[weight]}
+      className={`gy-animated-number ${className}`}
+    >
+      {content}
+    </Typography>
   );
 }

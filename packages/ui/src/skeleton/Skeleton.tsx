@@ -3,59 +3,45 @@
 import React from 'react';
 import './skeleton.css';
 
-export type SkeletonShape = 'text' | 'circle' | 'rect' | 'card';
+export type SkeletonVariant = 'text' | 'circular' | 'rectangular';
+export type SkeletonShape = SkeletonVariant;
 export type SkeletonAnimation = 'wave' | 'pulse' | 'none';
 
-export interface SkeletonProps {
-  shape?: SkeletonShape;
-  animation?: SkeletonAnimation;
-  width?: string | number;
-  height?: string | number;
+export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+  width?: string;
+  height?: string;
   className?: string;
-  lines?: number;
-  gap?: string;
+  variant?: SkeletonVariant;
 }
 
 export function Skeleton({
-  shape = 'rect',
-  animation = 'wave',
+  variant = 'text',
   width,
   height,
   className = '',
-  lines,
-  gap = '0.5rem',
+  style,
+  ...rest
 }: SkeletonProps) {
   const classes = [
     'gy-skeleton',
-    `gy-skeleton--${shape}`,
-    animation !== 'none' ? `gy-skeleton--${animation}` : '',
-    !width ? 'gy-skeleton--w-full' : '',
+    `gy-skeleton--${variant}`,
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const style: React.CSSProperties = {
-    width: width,
-    height: height,
+  const customStyle: React.CSSProperties = {
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
+    ...style,
   };
 
-  if (lines) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap }}>
-        {Array.from({ length: lines }).map((_, i) => (
-          <div
-            key={i}
-            className={`gy-skeleton gy-skeleton--text ${animation !== 'none' ? `gy-skeleton--${animation}` : ''} ${
-              i === lines - 1 ? 'gy-skeleton--w-3-4' : 'gy-skeleton--w-full'
-            }`}
-            style={{ height: height ?? '1em' }}
-            aria-hidden="true"
-          />
-        ))}
-      </div>
-    );
-  }
-
-  return <div className={classes} style={style} aria-hidden="true" />;
+  return (
+    <div
+      className={classes}
+      style={customStyle}
+      aria-hidden="true"
+      {...rest}
+    />
+  );
 }

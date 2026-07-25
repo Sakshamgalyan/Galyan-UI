@@ -3,13 +3,38 @@ import { Chip, ChipsInput } from './Chips';
 import React, { useState } from 'react';
 
 const meta: Meta<typeof Chip> = {
-  title: 'Components/Chip',
+  title: 'Galyan UI/Chip',
   component: Chip,
+  parameters: { layout: 'centered' },
   tags: ['autodocs'],
-};
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['solid', 'soft', 'outline', 'success', 'warning', 'danger', 'neutral'],
+    },
+    size: {
+      control: 'inline-radio',
+      options: ['sm', 'md', 'lg'],
+    },
+    removable: { control: 'boolean' },
+    clickable: { control: 'boolean' },
+    selected: { control: 'boolean' },
+  },
+} satisfies Meta<typeof Chip>;
 
 export default meta;
 type Story = StoryObj<typeof Chip>;
+
+export const Default: Story = {
+  args: {
+    children: 'Interactive Chip',
+    variant: 'soft',
+    size: 'md',
+    removable: false,
+    clickable: true,
+    selected: false,
+  },
+};
 
 export const Variants: Story = {
   render: () => (

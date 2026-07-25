@@ -1,110 +1,115 @@
 'use client';
 
-import React, { forwardRef, useId, useState } from 'react';
+import React, { forwardRef } from 'react';
 import './checkbox.css';
 
-export type CheckboxSize = 'sm' | 'md' | 'lg';
-
-export interface CheckboxProps {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  indeterminate?: boolean;
-  onChange?: (checked: boolean) => void;
-  disabled?: boolean;
+export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  /** Size of the checkbox */
+  size?: 'sm' | 'md' | 'lg';
+  /** Color theme of the checkbox */
+  color?: 'primary' | 'error';
+  /** The variant style of the checkbox */
+  variant?: 'solid' | 'outline' | 'soft';
+  /** Text label displayed next to the checkbox */
   label?: React.ReactNode;
-  description?: string;
-  size?: CheckboxSize;
-  id?: string;
-  name?: string;
-  value?: string;
+  /** If true, renders the checkbox in an indeterminate state */
+  indeterminate?: boolean;
+  /** If true, the checkbox will be disabled */
+  isDisabled?: boolean;
+  /** Custom class for the wrapper */
   className?: string;
 }
 
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-  {
-    checked,
-    defaultChecked,
-    indeterminate = false,
-    onChange,
-    disabled = false,
-    label,
-    description,
-    size = 'md',
-    id,
-    name,
-    value,
-    className = '',
-  },
-  ref
-) {
-  const uid = useId();
-  const inputId = id ?? uid;
+const CheckIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="gy-checkbox__icon"
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
 
-  const isControlled = checked !== undefined;
-  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
-  const isChecked = isControlled ? checked : internalChecked;
+const MinusIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="gy-checkbox__icon"
+  >
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nextChecked = e.target.checked;
-    if (!isControlled) {
-      setInternalChecked(nextChecked);
-    }
-    onChange?.(nextChecked);
-  };
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+  (
+    {
+      size = 'md',
+      color = 'primary',
+      variant = 'solid',
+      label,
+      checked,
+      indeterminate = false,
+      isDisabled = false,
+      className = '',
+      id,
+      ...props
+    },
+    ref
+  ) => {
+    // We use a local ref to set the indeterminate property on the underlying input if needed
+    const innerRef = React.useRef<HTMLInputElement>(null);
 
-  const boxClasses = [
-    'gy-checkbox-box',
-    `gy-checkbox-box--${size}`,
-    isChecked ? 'gy-checkbox-box--checked' : '',
-    indeterminate ? 'gy-checkbox-box--indeterminate' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLInputElement);
 
-  return (
-    <label
-      className={[
-        'gy-checkbox-root',
-        disabled ? 'gy-checkbox-root--disabled' : '',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      htmlFor={inputId}
-    >
-      <input
-        ref={ref}
-        type="checkbox"
-        id={inputId}
-        name={name}
-        value={value}
-        checked={isChecked}
-        disabled={disabled}
-        className="gy-checkbox-input"
-        onChange={handleChange}
-        aria-checked={indeterminate ? 'mixed' : isChecked}
-      />
-      <span className={boxClasses} aria-hidden="true">
-        {(isChecked || indeterminate) && (
-          <span className="gy-checkbox-icon">
-            {indeterminate ? (
-              <svg width="10" height="2" viewBox="0 0 10 2" fill="currentColor">
-                <rect x="0" y="0" width="10" height="2" rx="1" />
-              </svg>
-            ) : (
-              <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="1,4 4,7 9,1" />
-              </svg>
-            )}
-          </span>
-        )}
-      </span>
-      {(label || description) && (
-        <span className="gy-checkbox-content">
-          {label && <span className="gy-checkbox-label">{label}</span>}
-          {description && <span className="gy-checkbox-description">{description}</span>}
-        </span>
-      )}
-    </label>
-  );
-});
+    React.useEffect(() => {
+      if (innerRef.current) {
+        innerRef.current.indeterminate = indeterminate;
+      }
+    }, [indeterminate]);
+
+    const fallbackId = React.useId();
+    const checkboxId = id || fallbackId;
+
+    const wrapperClasses = [
+      'gy-checkbox-wrapper',
+      `gy-checkbox--${size}`,
+      `gy-checkbox--${color}`,
+      `gy-checkbox--${variant}`,
+      isDisabled ? 'gy-checkbox--disabled' : '',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    return (
+      <label className={wrapperClasses} htmlFor={checkboxId}>
+        <div className="gy-checkbox__control">
+          <input
+            type="checkbox"
+            id={checkboxId}
+            ref={innerRef}
+            className="gy-checkbox__input"
+            checked={checked}
+            disabled={isDisabled}
+            aria-checked={indeterminate ? 'mixed' : checked}
+            {...props}
+          />
+          <div className="gy-checkbox__box">
+            {indeterminate ? <MinusIcon /> : <CheckIcon />}
+          </div>
+        </div>
+        {label && <span className="gy-checkbox__label">{label}</span>}
+      </label>
+    );
+  }
+);
+
+Checkbox.displayName = 'Checkbox';

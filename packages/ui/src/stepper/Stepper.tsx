@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import './stepper.css';
 
 export type StepStatus = 'upcoming' | 'active' | 'completed' | 'error';
+export type StepperSize = 'sm' | 'md' | 'lg';
 
 export interface Step {
   id: string;
   label: string;
   description?: string;
+  icon?: React.ReactNode;
   content?: React.ReactNode;
   optional?: boolean;
 }
@@ -17,9 +19,9 @@ export interface StepperProps {
   steps: Step[];
   activeStep?: number;
   defaultStep?: number;
-  /** 'linear' = must complete in order; 'free' = can jump to any step */
-  variant?: 'linear' | 'free';
   orientation?: 'horizontal' | 'vertical';
+  size?: StepperSize;
+  onStepClick?: (index: number) => void;
   onStepChange?: (index: number) => void;
   onComplete?: () => void;
   className?: string;
@@ -31,18 +33,13 @@ const CheckIcon = () => (
   </svg>
 );
 
-const ErrorIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="2" y1="2" x2="10" y2="10" /><line x1="10" y1="2" x2="2" y2="10" />
-  </svg>
-);
-
 export function Stepper({
   steps,
   activeStep: controlledStep,
   defaultStep = 0,
-  variant = 'linear',
   orientation = 'horizontal',
+  size = 'md',
+  onStepClick,
   onStepChange,
   onComplete,
   className = '',
@@ -51,21 +48,11 @@ export function Stepper({
   const current = controlledStep ?? internalStep;
 
   const goTo = (idx: number) => {
-    if (variant === 'linear' && idx > current + 1) return;
     if (idx < 0 || idx >= steps.length) return;
     setInternalStep(idx);
     onStepChange?.(idx);
+    onStepClick?.(idx);
   };
-
-  const next = () => {
-    if (current === steps.length - 1) {
-      onComplete?.();
-    } else {
-      goTo(current + 1);
-    }
-  };
-
-  const prev = () => goTo(current - 1);
 
   const getStatus = (idx: number): StepStatus => {
     if (idx < current) return 'completed';
@@ -73,52 +60,62 @@ export function Stepper({
     return 'upcoming';
   };
 
+  const rootClasses = [
+    'gy-stepper',
+    `gy-stepper--${orientation}`,
+    `gy-stepper--${size}`,
+    className,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`gy-stepper ${orientation === 'vertical' ? 'gy-stepper--vertical' : ''} ${className}`}>
-      {/* Step Indicators */}
-      <div className={`gy-stepper ${orientation === 'vertical' ? 'gy-stepper--vertical' : ''}`} style={{ width: '100%' }}>
+    <div className={rootClasses}>
+      <div className="gy-stepper__track">
         {steps.map((step, idx) => {
           const status = getStatus(idx);
-          const isClickable = variant === 'free' || idx <= current;
-
           return (
             <React.Fragment key={step.id}>
-              <div className="gy-stepper-item">
-                <span
+              <div className="gy-stepper__item">
+                <button
+                  type="button"
                   className={[
-                    'gy-stepper-indicator',
-                    `gy-stepper-indicator--${status}`,
-                    isClickable ? 'gy-stepper-indicator--clickable' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  onClick={() => isClickable && goTo(idx)}
-                  role={isClickable ? 'button' : undefined}
-                  tabIndex={isClickable ? 0 : undefined}
-                  onKeyDown={isClickable ? (e) => { if (e.key === 'Enter') goTo(idx); } : undefined}
+                    'gy-stepper__indicator',
+                    `gy-stepper__indicator--${status}`,
+                  ].filter(Boolean).join(' ')}
+                  onClick={() => goTo(idx)}
                   aria-label={`Step ${idx + 1}: ${step.label}`}
                   aria-current={status === 'active' ? 'step' : undefined}
                 >
-                  {status === 'completed' ? <CheckIcon /> : status === 'error' ? <ErrorIcon /> : idx + 1}
-                </span>
-                <div>
-                  <div className={`gy-stepper-label gy-stepper-label--${status}`}>{step.label}</div>
-                  {step.optional && <div className="gy-stepper-description">Optional</div>}
-                  {step.description && <div className="gy-stepper-description">{step.description}</div>}
+                  {status === 'completed' ? (
+                    <CheckIcon />
+                  ) : step.icon ? (
+                    step.icon
+                  ) : (
+                    idx + 1
+                  )}
+                </button>
+                <div className="gy-stepper__text">
+                  <div className={`gy-stepper__label gy-stepper__label--${status}`}>
+                    {step.label}
+                  </div>
+                  {step.description && (
+                    <div className="gy-stepper__description">{step.description}</div>
+                  )}
+                  {step.optional && !step.description && (
+                    <div className="gy-stepper__description">Optional</div>
+                  )}
                 </div>
               </div>
 
               {idx < steps.length - 1 && (
-                <div className={`gy-stepper-connector ${idx < current ? 'gy-stepper-connector--completed' : ''}`} />
+                <div className={`gy-stepper__connector ${idx < current ? 'gy-stepper__connector--completed' : ''}`} />
               )}
             </React.Fragment>
           );
         })}
       </div>
 
-      {/* Active Panel */}
       {steps[current]?.content && (
-        <div key={current} className="gy-stepper-panel">
+        <div key={current} className="gy-stepper__panel">
           {steps[current].content}
         </div>
       )}

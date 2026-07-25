@@ -1,0 +1,105 @@
+/* ── Tooltip Component ─────────────────────────────────────────────────── */
+.gy-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.gy-tooltip {
+  position: absolute;
+  z-index: 1000;
+  padding: 0.5rem 0.875rem;
+  color: var(--gy-text, #0f172a);
+  background-color: #ffffff;
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-md, 0.5rem);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  --gy-tooltip-tx: 0;
+  --gy-tooltip-ty: 0;
+  transform: translate(var(--gy-tooltip-tx), var(--gy-tooltip-ty));
+  animation: gy-tooltip-fade-in 0.15s ease-out forwards;
+}
+
+@keyframes gy-tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--gy-tooltip-tx), var(--gy-tooltip-ty)) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(var(--gy-tooltip-tx), var(--gy-tooltip-ty)) scale(1);
+  }
+}
+
+/* Positions & Arrows */
+.gy-tooltip--top {
+  bottom: 100%;
+  left: 50%;
+  --gy-tooltip-tx: -50%;
+  margin-bottom: 0.5rem;
+}
+
+.gy-tooltip--top .gy-tooltip__arrow {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-color: #ffffff transparent transparent transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+}
+
+.gy-tooltip--bottom {
+  top: 100%;
+  left: 50%;
+  --gy-tooltip-tx: -50%;
+  margin-top: 0.5rem;
+}
+
+.gy-tooltip--bottom .gy-tooltip__arrow {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent #ffffff transparent;
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.05));
+}
+
+.gy-tooltip--left {
+  right: 100%;
+  top: 50%;
+  --gy-tooltip-ty: -50%;
+  margin-right: 0.5rem;
+}
+
+.gy-tooltip--left .gy-tooltip__arrow {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 0 6px 6px;
+  border-color: transparent transparent transparent #ffffff;
+  filter: drop-shadow(1px 0 1px rgba(0, 0, 0, 0.05));
+}
+
+.gy-tooltip--right {
+  left: 100%;
+  top: 50%;
+  --gy-tooltip-ty: -50%;
+  margin-left: 0.5rem;
+}
+
+.gy-tooltip--right .gy-tooltip__arrow {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 6px 6px 0;
+  border-color: transparent #ffffff transparent transparent;
+  filter: drop-shadow(-1px 0 1px rgba(0, 0, 0, 0.05));
+}
+
+.gy-tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}

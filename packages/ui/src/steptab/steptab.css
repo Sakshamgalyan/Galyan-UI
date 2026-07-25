@@ -1,0 +1,144 @@
+/* ── StepTab Timeline (Image 3) ─────────────────────────────────────────── */
+.gy-steptab-timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--gy-font-sans, system-ui, sans-serif);
+}
+
+.gy-steptab-timeline__header {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  margin-bottom: 1.25rem;
+}
+
+.gy-steptab-timeline__container {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+/* Spine line */
+.gy-steptab-timeline__spine {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 0.75rem;
+  width: 2px;
+  background: var(--gy-primary, #6366f1);
+  border-radius: 9999px;
+}
+
+.gy-steptab-timeline__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gy-steptab-timeline__item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Branch tick connecting spine line to card */
+.gy-steptab-timeline__tick {
+  position: absolute;
+  top: 1.25rem;
+  left: -0.75rem;
+  width: 0.75rem;
+  height: 2px;
+  background: var(--gy-border, #cbd5e1);
+  transition: background-color 0.2s ease;
+}
+
+.gy-steptab-timeline__item--active .gy-steptab-timeline__tick {
+  background: var(--gy-primary, #6366f1);
+}
+
+/* Main Card */
+.gy-steptab-timeline__card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-lg, 0.625rem);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+
+.gy-steptab-timeline__card:hover {
+  border-color: var(--gy-primary, #6366f1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Active Card (Purple / Tinted background) */
+.gy-steptab-timeline__item--active .gy-steptab-timeline__card {
+  background: var(--gy-primary-subtle, #f3e8ff);
+  border-color: var(--gy-primary, #a855f7);
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.12);
+}
+
+.gy-steptab-timeline__card-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+  line-height: 1.4;
+}
+
+.gy-steptab-timeline__card-time {
+  font-size: 0.8125rem;
+  color: var(--gy-text-subtle, #94a3b8);
+  margin-top: 0.25rem;
+}
+
+.gy-steptab-timeline__card-time--bottom {
+  margin-top: 0.875rem;
+}
+
+/* Details Box inside active card */
+.gy-steptab-timeline__card-body {
+  margin-top: 0.875rem;
+}
+
+.gy-steptab-timeline__card-desc {
+  font-size: 0.875rem;
+  color: var(--gy-text-muted, #475569);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.gy-steptab-timeline__card-details {
+  background: var(--gy-background-muted, #f8fafc);
+  border-radius: var(--gy-radius-md, 0.5rem);
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.gy-steptab-timeline__detail-row {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.gy-steptab-timeline__detail-label {
+  color: var(--gy-text-subtle, #64748b);
+  min-width: 140px;
+}
+
+.gy-steptab-timeline__detail-value {
+  color: var(--gy-text, #0f172a);
+  font-weight: 500;
+}
+
+/* Sizes */
+.gy-steptab-timeline--sm .gy-steptab-timeline__card { padding: 0.75rem 1rem; }
+.gy-steptab-timeline--sm .gy-steptab-timeline__card-title { font-size: 0.875rem; }
+
+.gy-steptab-timeline--lg .gy-steptab-timeline__card { padding: 1.25rem 1.5rem; }
+.gy-steptab-timeline--lg .gy-steptab-timeline__card-title { font-size: 1.0625rem; }

@@ -1,36 +1,90 @@
 'use client';
 
 import React from 'react';
+import { Skeleton } from '../skeleton/Skeleton';
 import './card.css';
 
-// ── Card ─────────────────────────────────────────────────────────────────────
 export type CardVariant = 'default' | 'elevated' | 'outlined' | 'filled';
-export type CardSize = 'sm' | 'md' | 'lg';
+export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+export type CardShadow = 'none' | 'sm' | 'md' | 'lg';
+export type CardHoverEffect = 'none' | 'lift' | 'glow' | 'border';
+export type CardRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 export interface CardProps {
   variant?: CardVariant;
-  size?: CardSize;
-  hoverable?: boolean;
+  padding?: CardPadding;
+  shadow?: CardShadow;
+  hoverEffect?: CardHoverEffect;
+  bgColor?: string;
+  customPadding?: string;
+  border?: boolean;
+  radius?: CardRadius;
   className?: string;
+  isLoading?: boolean;
+  skeletonLines?: number;
+  skeletonContent?: React.ReactNode;
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   style?: React.CSSProperties;
 }
 
-export function Card({ variant = 'default', size = 'md', hoverable = false, className = '', children, onClick, style }: CardProps) {
+export function Card({
+  variant = 'default',
+  padding = 'md',
+  shadow = 'sm',
+  hoverEffect = 'none',
+  bgColor,
+  customPadding,
+  border = true,
+  radius = 'lg',
+  className = '',
+  isLoading = false,
+  skeletonLines = 3,
+  skeletonContent,
+  children,
+  onClick,
+  style,
+}: CardProps) {
+  const cardStyle: React.CSSProperties = {
+    ...(bgColor ? { backgroundColor: bgColor } : {}),
+    ...(customPadding ? { padding: customPadding } : {}),
+    ...style,
+  };
+
+  const rootClasses = [
+    'gy-card',
+    `gy-card--${variant}`,
+    padding !== 'none' ? `gy-card--padding-${padding}` : '',
+    shadow !== 'none' ? `gy-card--shadow-${shadow}` : '',
+    hoverEffect !== 'none' ? `gy-card--hover-${hoverEffect}` : '',
+    border ? 'gy-card--bordered' : 'gy-card--no-border',
+    `gy-card--radius-${radius}`,
+    onClick ? 'gy-card--clickable' : '',
+    className,
+  ].filter(Boolean).join(' ');
+
+  if (isLoading) {
+    return (
+      <div className={rootClasses} style={cardStyle}>
+        {skeletonContent ? (
+          skeletonContent
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <Skeleton width="40%" height="1.25rem" />
+            {Array.from({ length: skeletonLines }).map((_, idx) => (
+              <Skeleton key={idx} width={idx === skeletonLines - 1 ? '70%' : '100%'} height="0.875rem" />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
-      className={[
-        'gy-card',
-        variant !== 'default' ? `gy-card--${variant}` : '',
-        size !== 'md' ? `gy-card--${size}` : '',
-        hoverable ? 'gy-card--hoverable' : '',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      className={rootClasses}
+      style={cardStyle}
       onClick={onClick}
-      style={style}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
@@ -42,37 +96,24 @@ export function Card({ variant = 'default', size = 'md', hoverable = false, clas
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
-
 export function CardHeader({ children, className = '', style, ...props }: CardHeaderProps) {
   return <div className={`gy-card-header ${className}`} style={style} {...props}>{children}</div>;
 }
 
 export interface CardBodyProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
-  size?: CardSize;
 }
-
-export function CardBody({ children, size, className = '', style, ...props }: CardBodyProps) {
-  return (
-    <div
-      className={['gy-card-body', size ? `gy-card-body--${size}` : '', className].filter(Boolean).join(' ')}
-      style={style}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+export function CardBody({ children, className = '', style, ...props }: CardBodyProps) {
+  return <div className={`gy-card-body ${className}`} style={style} {...props}>{children}</div>;
 }
 
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
-
 export function CardFooter({ children, className = '', style, ...props }: CardFooterProps) {
   return <div className={`gy-card-footer ${className}`} style={style} {...props}>{children}</div>;
 }
 
-// ── CardInfo ──────────────────────────────────────────────────────────────────
 export interface CardInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   value: string | number;
@@ -81,7 +122,6 @@ export interface CardInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   footer?: string;
   className?: string;
 }
-
 export function CardInfo({ title, value, icon, trend, footer, className = '', style, ...props }: CardInfoProps) {
   const isUp = trend ? trend.value >= 0 : null;
   return (

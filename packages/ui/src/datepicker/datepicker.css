@@ -1,22 +1,102 @@
-/* ── DatePicker ──────────────────────────────────────────────────────────── */
-.gy-datepicker {
+/* ── DatePicker & MonthPicker Component ───────────────────────────────────── */
+.gy-datepicker, .gy-monthpicker {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gy-spacing-1-5);
+  display: inline-block;
   width: 100%;
 }
 
-.gy-datepicker-popover {
+.gy-datepicker-popover, .gy-monthpicker-popover {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 0.375rem);
   left: 0;
-  z-index: var(--gy-z-dropdown);
-  background: var(--gy-surface);
-  border: 1px solid var(--gy-border);
-  border-radius: var(--gy-radius-xl);
-  box-shadow: var(--gy-shadow-dropdown);
-  padding: 0;
-  overflow: hidden;
-  animation: gy-slide-in-up var(--gy-duration-fast) var(--gy-ease-out);
+  z-index: 1000;
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem;
+  min-width: 280px;
+  animation: gy-datepicker-fade 0.15s ease-out;
+}
+
+.gy-datepicker-popover--top { top: auto; bottom: calc(100% + 0.375rem); }
+.gy-datepicker-popover--right { left: auto; right: 0; }
+
+@keyframes gy-datepicker-fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gy-datepicker-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gy-border, #e2e8f0);
+}
+
+/* MonthPicker Grid */
+.gy-monthpicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem 0.75rem;
+}
+
+.gy-monthpicker-year {
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-monthpicker-nav {
+  border: none;
+  background: none;
+  font-size: 1.25rem;
+  color: var(--gy-text-muted, #64748b);
+  cursor: pointer;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+}
+.gy-monthpicker-nav:hover { background: var(--gy-background-muted, #f1f5f9); }
+
+.gy-monthpicker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.gy-monthpicker-cell {
+  padding: 0.625rem;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: var(--gy-radius-md, 0.375rem);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--gy-text, #0f172a);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.gy-monthpicker-cell:hover {
+  background: var(--gy-primary-subtle, #f0fdf4);
+  color: var(--gy-primary, #22c55e);
+}
+.gy-monthpicker-cell--selected {
+  background: var(--gy-primary, #22c55e) !important;
+  border-color: var(--gy-primary, #22c55e) !important;
+  color: #ffffff !important;
+}
+
+.gy-monthpicker-year {
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  transition: background 0.15s ease;
+}
+.gy-monthpicker-year:hover {
+  background: var(--gy-primary-subtle, #f0fdf4);
+  color: var(--gy-primary, #22c55e);
 }

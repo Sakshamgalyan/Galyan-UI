@@ -3,7 +3,7 @@ import { Button } from './Button';
 import React from 'react';
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: 'Galyan UI/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {

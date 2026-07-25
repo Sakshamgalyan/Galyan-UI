@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import './banner.css';
 
 export type BannerVariant = 'info' | 'success' | 'warning' | 'danger' | 'neutral';
-export type BannerLayout = 'inline' | 'full';
+export type BannerStyle = 'subtle' | 'solid' | 'outline';
+export type BannerSize = 'sm' | 'md' | 'lg';
 
-const icons: Record<BannerVariant, React.ReactNode> = {
+const defaultIcons: Record<BannerVariant, React.ReactNode> = {
   info: (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3a1 1 0 110 2 1 1 0 010-2zm0 3a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 7z"/></svg>
   ),
@@ -26,26 +27,34 @@ const icons: Record<BannerVariant, React.ReactNode> = {
 
 export interface BannerProps {
   variant?: BannerVariant;
-  layout?: BannerLayout;
-  title?: string;
+  bannerStyle?: BannerStyle;
+  title?: React.ReactNode;
   description?: React.ReactNode;
-  children?: React.ReactNode;
+  size?: BannerSize;
   icon?: React.ReactNode;
+  button?: React.ReactNode;
+  fullWidth?: boolean;
   dismissible?: boolean;
   onDismiss?: () => void;
   className?: string;
+  bordered?: boolean;
+  children?: React.ReactNode;
 }
 
 export function Banner({
   variant = 'info',
-  layout = 'inline',
+  bannerStyle = 'subtle',
   title,
   description,
-  children,
+  size = 'md',
   icon,
+  button,
+  fullWidth = true,
   dismissible = false,
   onDismiss,
   className = '',
+  bordered = true,
+  children,
 }: BannerProps) {
   const [dismissed, setDismissed] = useState(false);
 
@@ -58,23 +67,24 @@ export function Banner({
 
   const bodyContent = children ?? description;
 
+  const rootClasses = [
+    'gy-banner',
+    `gy-banner--${variant}`,
+    `gy-banner--${bannerStyle}`,
+    `gy-banner--${size}`,
+    fullWidth ? 'gy-banner--full-width' : '',
+    bordered ? 'gy-banner--bordered' : '',
+    className,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div
-      className={[
-        'gy-banner',
-        `gy-banner--${variant}`,
-        `gy-banner--${layout}`,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      role="alert"
-    >
-      <span className="gy-banner__icon">{icon ?? icons[variant]}</span>
+    <div className={rootClasses} role="alert">
+      <span className="gy-banner__icon">{icon ?? defaultIcons[variant]}</span>
       <div className="gy-banner__content">
         {title && <div className="gy-banner__title">{title}</div>}
         {bodyContent && <div className="gy-banner__description">{bodyContent}</div>}
       </div>
+      {button && <div className="gy-banner__action">{button}</div>}
       {dismissible && (
         <button className="gy-banner__close" onClick={handleDismiss} aria-label="Dismiss">
           <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

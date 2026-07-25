@@ -1,73 +1,103 @@
-/* ── ProgressBar ─────────────────────────────────────────────────────────── */
+/* ── Linear ProgressBar ─────────────────────────────────────────────────── */
 .gy-progress {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--gy-spacing-1-5);
-  width: 100%;
+  gap: 0.375rem;
 }
 
-.gy-progress-header {
+.gy-progress__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: var(--gy-font-size-sm, 0.875rem);
+  color: var(--gy-text, #0f172a);
+  font-weight: 500;
 }
 
-.gy-progress-label {
-  font-size: var(--gy-font-size-sm);
-  font-weight: var(--gy-font-weight-medium);
-  color: var(--gy-text);
+.gy-progress__header--circular {
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 0.25rem;
 }
 
-.gy-progress-value {
-  font-size: var(--gy-font-size-sm);
-  color: var(--gy-text-muted);
-  font-weight: var(--gy-font-weight-medium);
+.gy-progress--circular {
+  align-items: center;
 }
 
-.gy-progress-track {
-  background: var(--gy-background-muted);
-  border-radius: var(--gy-radius-full);
+.gy-progress__value {
+  color: var(--gy-text-muted, #64748b);
+  font-family: var(--gy-font-mono, monospace);
+  font-size: 0.85em;
+}
+
+.gy-progress__track {
+  width: 100%;
+  background: var(--gy-background-muted, #e2e8f0);
+  border-radius: 9999px;
   overflow: hidden;
+  position: relative;
 }
 
-.gy-progress-track--xs { height: 0.25rem; }
-.gy-progress-track--sm { height: 0.375rem; }
-.gy-progress-track--md { height: 0.5rem; }
-.gy-progress-track--lg { height: 0.75rem; }
-.gy-progress-track--xl { height: 1rem; }
+/* Linear Track Sizes */
+.gy-progress__track--sm { height: 0.375rem; }
+.gy-progress__track--md { height: 0.625rem; }
+.gy-progress__track--lg { height: 0.875rem; }
+.gy-progress__track--xl { height: 1.25rem; }
 
-.gy-progress-fill {
+.gy-progress__bar {
   height: 100%;
-  border-radius: var(--gy-radius-full);
-  background: var(--gy-primary);
-  transition: width var(--gy-duration-slow) var(--gy-ease-out);
+  border-radius: 9999px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.gy-progress-fill--success { background: var(--gy-success); }
-.gy-progress-fill--warning { background: var(--gy-warning); }
-.gy-progress-fill--danger  { background: var(--gy-danger); }
-
-.gy-progress-fill--gradient {
-  background: var(--gy-gradient-primary);
+/* Color Variants for Linear Bar */
+.gy-progress__bar--primary { background-color: var(--gy-primary, #22c55e); }
+.gy-progress__bar--success { background-color: var(--gy-success, #10b981); }
+.gy-progress__bar--warning { background-color: var(--gy-warning, #f59e0b); }
+.gy-progress__bar--danger  { background-color: var(--gy-danger, #ef4444); }
+.gy-progress__bar--info    { background-color: var(--gy-info, #06b6d4); }
+.gy-progress__bar--indigo  { background-color: #6366f1; }
+.gy-progress__bar--gradient {
+  background: linear-gradient(90deg, #6366f1 0%, #ec4899 50%, #f43f5e 100%);
 }
 
-.gy-progress-fill--striped {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 8px,
-    rgba(255,255,255,0.2) 8px,
-    rgba(255,255,255,0.2) 16px
-  );
-  background-size: 32px 32px;
+/* ── Circular ProgressBar ───────────────────────────────────────────────── */
+.gy-progress-circular {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.gy-progress-fill--indeterminate {
-  width: 40% !important;
-  animation: gy-progress-indeterminate 1.5s var(--gy-ease-in-out) infinite;
+.gy-progress-circular__svg {
+  transform: rotate(-90deg);
 }
 
-@keyframes gy-progress-indeterminate {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(250%); }
+.gy-progress-circular__bg {
+  fill: none;
+  stroke: var(--gy-background-muted, #e2e8f0);
 }
+
+.gy-progress-circular__fill {
+  fill: none;
+  transition: stroke-dashoffset 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-progress-circular__content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Color Variants for Circular Fill */
+.gy-progress-circular--primary .gy-progress-circular__fill { stroke: var(--gy-primary, #22c55e); }
+.gy-progress-circular--success .gy-progress-circular__fill { stroke: var(--gy-success, #10b981); }
+.gy-progress-circular--warning .gy-progress-circular__fill { stroke: var(--gy-warning, #f59e0b); }
+.gy-progress-circular--danger  .gy-progress-circular__fill { stroke: var(--gy-danger, #ef4444); }
+.gy-progress-circular--info    .gy-progress-circular__fill { stroke: var(--gy-info, #06b6d4); }
+.gy-progress-circular--indigo  .gy-progress-circular__fill { stroke: #6366f1; }
+.gy-progress-circular--gradient .gy-progress-circular__fill { stroke: url(#gy-progress-gradient); stroke: #8b5cf6; }

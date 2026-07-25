@@ -9,6 +9,7 @@ export interface CalendarProps {
   onChange?: (date: Date | [Date, Date]) => void;
   minDate?: Date;
   maxDate?: Date;
+  firstDayOfWeek?: 0 | 1;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -26,13 +27,24 @@ const isBetween = (d: Date, start?: Date, end?: Date) => {
   return d > start && d < end;
 };
 
-export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, className = '', style }: CalendarProps) {
+export function Calendar({
+  mode = 'single',
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  firstDayOfWeek = 0,
+  className = '',
+  style,
+}: CalendarProps) {
   const [view, setView] = useState<'days' | 'months' | 'years'>('days');
   const [current, setCurrent] = useState(() => {
     if (Array.isArray(value)) return value[0] ?? new Date();
     return value ?? new Date();
   });
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
+
+  const [isPicking, setIsPicking] = useState(false);
 
   const [selStart, selEnd] = Array.isArray(value) ? value : [value, undefined];
 
@@ -47,18 +59,23 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
   const nextDecade = () => setCurrent(new Date(y + 10, m, 1));
 
   const daysInMonth = getDaysInMonth(y, m);
-  const firstDay = getFirstDay(y, m);
+  const rawFirstDay = getFirstDay(y, m);
+  const firstDay = firstDayOfWeek === 1 ? (rawFirstDay === 0 ? 6 : rawFirstDay - 1) : rawFirstDay;
   const daysInPrev = getDaysInMonth(y, m - 1);
 
   const handleSelectDay = (date: Date) => {
     if (mode === 'single') {
       onChange?.(date);
     } else {
-      if (!selStart || (selStart && selEnd)) {
-        onChange?.([date, date] as any); // Reset to start
+      if (!isPicking || !selStart) {
+        setIsPicking(true);
+        setHoverDate(null);
+        onChange?.([date, undefined as any]);
       } else {
         const start = date < selStart ? date : selStart;
         const end = date < selStart ? selStart : date;
+        setIsPicking(false);
+        setHoverDate(null);
         onChange?.([start, end]);
       }
     }
@@ -68,17 +85,17 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
     const days = [];
     const today = new Date();
 
-    // Prev month
+    // Prev month days
     for (let i = firstDay - 1; i >= 0; i--) {
       const d = new Date(y, m - 1, daysInPrev - i);
       days.push(<Day key={`prev-${i}`} date={d} outside />);
     }
-    // Current month
+    // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
       const d = new Date(y, m, i);
       days.push(<Day key={`curr-${i}`} date={d} isToday={isSameDay(d, today)} />);
     }
-    // Next month
+    // Next month days
     const total = days.length;
     for (let i = 1; i <= 42 - total; i++) {
       const d = new Date(y, m + 1, i);
@@ -88,12 +105,20 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
     return days;
   };
 
+  const normalizeDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+
   const Day = ({ date, outside, isToday }: { date: Date; outside?: boolean; isToday?: boolean }) => {
     const disabled = (minDate && date < minDate) || (maxDate && date > maxDate);
-    const selected = isSameDay(date, selStart) || isSameDay(date, selEnd);
-    const inRange = mode === 'range' && isBetween(date, selStart, selEnd ?? hoverDate ?? undefined);
-    const isStart = mode === 'range' && isSameDay(date, selStart);
-    const isEnd = mode === 'range' && isSameDay(date, selEnd ?? hoverDate ?? undefined) && date > (selStart as Date);
+    const activeEnd = isPicking ? (hoverDate ?? undefined) : selEnd;
+
+    const dateTime = normalizeDay(date);
+    const sTime = selStart ? normalizeDay(selStart) : null;
+    const eTime = activeEnd ? normalizeDay(activeEnd) : null;
+
+    const selected = isSameDay(date, selStart) || (isSameDay(date, selEnd) && !isPicking);
+    const inRange = mode === 'range' && isBetween(date, selStart, activeEnd);
+    const isStart = mode === 'range' && sTime !== null && eTime !== null && dateTime === Math.min(sTime, eTime);
+    const isEnd = mode === 'range' && sTime !== null && eTime !== null && dateTime === Math.max(sTime, eTime) && sTime !== eTime;
 
     const cls = [
       'gy-calendar-day',
@@ -101,7 +126,7 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
       isToday ? 'gy-calendar-day--today' : '',
       selected ? 'gy-calendar-day--selected' : '',
       inRange ? 'gy-calendar-day--range-in' : '',
-      isStart && (selEnd ?? hoverDate) ? 'gy-calendar-day--range-start' : '',
+      isStart ? 'gy-calendar-day--range-start' : '',
       isEnd ? 'gy-calendar-day--range-end' : '',
       disabled ? 'gy-calendar-day--disabled' : '',
     ]
@@ -114,7 +139,7 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
         className={cls}
         disabled={disabled}
         onClick={() => handleSelectDay(date)}
-        onMouseEnter={() => mode === 'range' && selStart && !selEnd ? setHoverDate(date) : null}
+        onMouseEnter={() => (mode === 'range' && isPicking ? setHoverDate(date) : null)}
       >
         {date.getDate()}
       </button>
@@ -123,6 +148,9 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthName = current.toLocaleString('default', { month: 'long' });
+  const weekHeadings = firstDayOfWeek === 1
+    ? ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+    : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   return (
     <div className={`gy-calendar ${className}`} style={style}>
@@ -136,7 +164,7 @@ export function Calendar({ mode = 'single', value, onChange, minDate, maxDate, c
             <button className="gy-calendar-nav" onClick={nextMonth}>›</button>
           </div>
           <div className="gy-calendar-grid">
-            {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((d) => (
+            {weekHeadings.map((d) => (
               <div key={d} className="gy-calendar-weekday">{d}</div>
             ))}
             {renderDays()}

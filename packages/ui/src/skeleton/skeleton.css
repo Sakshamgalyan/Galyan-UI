@@ -1,46 +1,60 @@
-/* ── Skeleton ─────────────────────────────────────────────────────────────── */
+/* ── Skeleton Component ─────────────────────────────────────────────────── */
 .gy-skeleton {
-  background: var(--gy-skeleton-base);
-  border-radius: var(--gy-radius-md);
-  overflow: hidden;
+  background: var(--gy-skeleton-base, #e2e8f0);
   position: relative;
+  overflow: hidden;
+  display: block;
 }
 
-/* Wave animation */
-.gy-skeleton--wave::after {
+/* Shimmer Wave Animation */
+.gy-skeleton::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent 25%, var(--gy-border) 50%, transparent 75%);
-  background-size: 200% 100%;
-  animation: gy-wave 1.5s var(--gy-ease) infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: gy-skeleton-shimmer 1.6s ease-in-out infinite;
 }
 
-/* Pulse animation */
-.gy-skeleton--pulse {
-  animation: gy-pulse 1.5s var(--gy-ease-in-out) infinite;
+[data-color-mode="dark"] .gy-skeleton::after,
+.gy-dark .gy-skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
 }
 
-/* Shapes */
+@keyframes gy-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Variants */
 .gy-skeleton--text {
-  height: 1em;
-  border-radius: var(--gy-radius-sm);
+  height: 1.25rem;
+  width: 100%;
+  border-radius: var(--gy-radius-sm, 0.375rem);
 }
 
-.gy-skeleton--circle {
+.gy-skeleton--circular {
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.gy-skeleton--rect {
-  border-radius: var(--gy-radius-md);
+.gy-skeleton--rectangular {
+  width: 100%;
+  height: 8rem;
+  border-radius: var(--gy-radius-md, 0.625rem);
 }
-
-.gy-skeleton--card {
-  border-radius: var(--gy-radius-xl);
-}
-
-/* Width presets */
-.gy-skeleton--w-full  { width: 100%; }
-.gy-skeleton--w-3-4   { width: 75%; }
-.gy-skeleton--w-1-2   { width: 50%; }
-.gy-skeleton--w-1-4   { width: 25%; }

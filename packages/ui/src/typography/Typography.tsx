@@ -4,55 +4,90 @@ import React from 'react';
 import './typography.css';
 
 export type TypographyVariant =
-  | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  | 'body-xl' | 'body-lg' | 'body-md' | 'body-sm' | 'body-xs'
-  | 'caption-lg' | 'caption-md'
-  | 'label' | 'code';
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'p'
+  | 'span'
+  | 'label'
+  | 'small';
 
-export type TypographyColor =
-  | 'default' | 'muted' | 'subtle' | 'disabled' | 'inverse'
-  | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+export type TypographyWeight =
+  | 'light'
+  | 'normal'
+  | 'medium'
+  | 'semibold'
+  | 'bold'
+  | 'extrabold';
 
-const variantTagMap: Record<TypographyVariant, React.ElementType> = {
-  h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6',
-  'body-xl': 'p', 'body-lg': 'p', 'body-md': 'p', 'body-sm': 'p', 'body-xs': 'p',
-  'caption-lg': 'span', 'caption-md': 'span',
+export type TypographyAlign = 'left' | 'center' | 'right' | 'justify';
+
+export type TypographyMargin = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+const defaultTagMap: Record<TypographyVariant, React.ElementType> = {
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
+  p: 'p',
+  span: 'span',
   label: 'label',
-  code: 'code',
+  small: 'small',
 };
 
-export interface TypographyProps {
+export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
-  color?: TypographyColor;
-  as?: React.ElementType;
-  truncate?: boolean;
+  weight?: TypographyWeight;
+  align?: TypographyAlign;
+  margin?: TypographyMargin;
+  textColor?: string;
+  bgColor?: string;
   className?: string;
   children?: React.ReactNode;
-  id?: string;
+  as?: React.ElementType;
   htmlFor?: string;
-  style?: React.CSSProperties;
 }
 
 export function Typography({
-  variant = 'body-md',
-  color = 'default',
-  as,
-  truncate = false,
+  variant = 'p',
+  weight,
+  align,
+  margin = 'none',
+  textColor,
+  bgColor,
   className = '',
   children,
+  as,
+  style,
   ...rest
 }: TypographyProps) {
-  const Tag = as ?? variantTagMap[variant];
+  const Tag = as ?? defaultTagMap[variant] ?? 'p';
 
   const classes = [
-    'gy-text',
-    `gy-text--${variant}`,
-    `gy-text--color-${color}`,
-    truncate ? 'gy-text--truncate' : '',
+    'gy-typography',
+    `gy-typography--${variant}`,
+    weight ? `gy-typography--weight-${weight}` : '',
+    align ? `gy-typography--align-${align}` : '',
+    margin && margin !== 'none' ? `gy-typography--margin-${margin}` : '',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  return <Tag className={classes} {...rest}>{children}</Tag>;
+  const customStyle: React.CSSProperties = {
+    ...(textColor ? { color: textColor } : {}),
+    ...(bgColor ? { backgroundColor: bgColor } : {}),
+    ...style,
+  };
+
+  return (
+    <Tag className={classes} style={customStyle} {...rest}>
+      {children}
+    </Tag>
+  );
 }

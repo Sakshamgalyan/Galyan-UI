@@ -1,141 +1,123 @@
-/* ── Stepper ──────────────────────────────────────────────────────────────── */
-.gy-stepper {
+/* ── Stepper ────────────────────────────────────────────────────────────── */
+.gy-stepper { display: flex; flex-direction: column; width: 100%; }
+
+.gy-stepper__track {
   display: flex;
   align-items: flex-start;
-  width: 100%;
 }
 
-.gy-stepper--vertical {
+/* Horizontal */
+.gy-stepper--horizontal .gy-stepper__track {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Vertical */
+.gy-stepper--vertical .gy-stepper__track {
   flex-direction: column;
 }
 
-.gy-stepper-step {
+/* ── Step Item ── */
+.gy-stepper__item {
   display: flex;
   align-items: center;
-  flex: 1;
-  position: relative;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
-
-.gy-stepper--vertical .gy-stepper-step {
-  flex-direction: column;
+.gy-stepper--vertical .gy-stepper__item {
   align-items: flex-start;
-  flex: none;
-  width: 100%;
 }
 
-/* Connector line */
-.gy-stepper-connector {
-  flex: 1;
-  height: 2px;
-  background: var(--gy-border);
-  margin: 0 var(--gy-spacing-2);
-  transition: background-color var(--gy-duration-slow);
-}
-
-.gy-stepper-connector--completed { background: var(--gy-primary); }
-
-.gy-stepper--vertical .gy-stepper-connector {
-  width: 2px;
-  height: 2.5rem;
-  flex: none;
-  margin: var(--gy-spacing-1) 0;
-  margin-left: 19px;
-}
-
-/* Step indicator */
-.gy-stepper-indicator {
+/* ── Indicator (circle) ── */
+.gy-stepper__indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
   border-radius: 50%;
-  border: 2px solid var(--gy-border-strong);
-  background: var(--gy-surface);
-  font-size: var(--gy-font-size-sm);
-  font-weight: var(--gy-font-weight-semibold);
-  color: var(--gy-text-muted);
+  font-weight: 600;
   flex-shrink: 0;
-  transition:
-    background-color var(--gy-duration-normal),
-    border-color var(--gy-duration-normal),
-    color var(--gy-duration-normal);
-  cursor: default;
-  position: relative;
-  z-index: 1;
-}
-
-.gy-stepper-indicator--active {
-  border-color: var(--gy-primary);
-  color: var(--gy-primary);
-  background: var(--gy-primary-subtle);
-  box-shadow: 0 0 0 4px var(--gy-focus-ring);
-}
-
-.gy-stepper-indicator--completed {
-  border-color: var(--gy-primary);
-  background: var(--gy-primary);
-  color: var(--gy-primary-fg);
-}
-
-.gy-stepper-indicator--error {
-  border-color: var(--gy-danger);
-  background: var(--gy-danger);
-  color: white;
-}
-
-.gy-stepper-indicator--clickable {
+  border: 2px solid var(--gy-border, #cbd5e1);
+  background: var(--gy-surface, #ffffff);
+  color: var(--gy-text-muted, #64748b);
   cursor: pointer;
+  transition: all 0.25s ease;
+}
+.gy-stepper__indicator:hover {
+  border-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary, #22c55e);
 }
 
-.gy-stepper-indicator--clickable:hover {
-  border-color: var(--gy-primary);
-  color: var(--gy-primary);
+.gy-stepper__indicator--active {
+  background: var(--gy-primary, #22c55e);
+  border-color: var(--gy-primary, #22c55e);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+}
+.gy-stepper__indicator--completed {
+  background: var(--gy-primary, #22c55e);
+  border-color: var(--gy-primary, #22c55e);
+  color: #ffffff;
 }
 
-/* Step content */
-.gy-stepper-item {
+/* ── Sizes ── */
+.gy-stepper--sm .gy-stepper__indicator { width: 1.75rem; height: 1.75rem; font-size: 0.7rem; }
+.gy-stepper--md .gy-stepper__indicator { width: 2.25rem; height: 2.25rem; font-size: 0.8rem; }
+.gy-stepper--lg .gy-stepper__indicator { width: 2.75rem; height: 2.75rem; font-size: 0.95rem; }
+
+/* ── Text ── */
+.gy-stepper__text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
 }
-
-.gy-stepper--vertical .gy-stepper-item {
-  flex-direction: row;
-  align-items: center;
-  gap: var(--gy-spacing-3);
-  text-align: left;
-}
-
-.gy-stepper-label {
-  font-size: var(--gy-font-size-xs);
-  font-weight: var(--gy-font-weight-semibold);
-  color: var(--gy-text-muted);
-  margin-top: var(--gy-spacing-2);
+.gy-stepper__label {
+  font-size: var(--gy-font-size-sm, 0.875rem);
+  font-weight: 500;
+  color: var(--gy-text-muted, #64748b);
   white-space: nowrap;
 }
+.gy-stepper__label--active { color: var(--gy-text, #0f172a); font-weight: 600; }
+.gy-stepper__label--completed { color: var(--gy-text, #0f172a); }
 
-.gy-stepper--vertical .gy-stepper-label { margin-top: 0; }
-
-.gy-stepper-label--active { color: var(--gy-primary); }
-.gy-stepper-label--completed { color: var(--gy-text); }
-
-.gy-stepper-description {
-  font-size: var(--gy-font-size-xs);
-  color: var(--gy-text-subtle);
-  margin-top: 2px;
+.gy-stepper__description {
+  font-size: var(--gy-font-size-xs, 0.75rem);
+  color: var(--gy-text-subtle, #94a3b8);
 }
 
-/* Panel */
-.gy-stepper-panel {
-  margin-top: var(--gy-spacing-6);
-  animation: gy-fade-in var(--gy-duration-normal) var(--gy-ease-out);
+/* ── Connector ── */
+.gy-stepper__connector {
+  background: var(--gy-border, #e2e8f0);
+  transition: background-color 0.3s ease;
+}
+.gy-stepper__connector--completed {
+  background: var(--gy-primary, #22c55e);
 }
 
-.gy-stepper-actions {
-  display: flex;
-  gap: var(--gy-spacing-3);
-  margin-top: var(--gy-spacing-4);
-  flex-wrap: wrap;
+/* Horizontal connector */
+.gy-stepper--horizontal .gy-stepper__connector {
+  height: 2px;
+  flex: 1;
+  min-width: 2rem;
+  margin: 0 0.5rem;
+}
+
+/* Vertical connector */
+.gy-stepper--vertical .gy-stepper__connector {
+  width: 2px;
+  min-height: 2rem;
+  margin-left: 1.125rem; /* center of md indicator */
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.gy-stepper--vertical.gy-stepper--sm .gy-stepper__connector { margin-left: 0.875rem; }
+.gy-stepper--vertical.gy-stepper--lg .gy-stepper__connector { margin-left: 1.375rem; }
+
+/* ── Panel ── */
+.gy-stepper__panel {
+  margin-top: 1.5rem;
+  animation: gy-stepper-fade 0.25s ease;
+}
+
+@keyframes gy-stepper-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }

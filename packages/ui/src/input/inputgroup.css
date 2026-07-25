@@ -1,0 +1,58 @@
+/* ── InputGroup & DropdownGroup ────────────────────────────────────────────── */
+.gy-input-group {
+  display: inline-flex;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+}
+
+.gy-input-group--full-width {
+  width: 100%;
+}
+
+.gy-input-group__addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.875rem;
+  background: var(--gy-background-muted, #f8fafc);
+  border: 1px solid var(--gy-border, #cbd5e1);
+  color: var(--gy-text-muted, #64748b);
+  font-size: var(--gy-font-size-sm, 0.875rem);
+  white-space: nowrap;
+}
+
+.gy-input-group__addon--left {
+  border-right: none;
+  border-top-left-radius: var(--gy-radius-md, 0.5rem);
+  border-bottom-left-radius: var(--gy-radius-md, 0.5rem);
+}
+
+.gy-input-group__addon--right {
+  border-left: none;
+  border-top-right-radius: var(--gy-radius-md, 0.5rem);
+  border-bottom-right-radius: var(--gy-radius-md, 0.5rem);
+}
+
+.gy-input-group__control {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+
+.gy-input-group--has-left .gy-input-group__control .gy-input,
+.gy-input-group--has-left .gy-input-group__control .gy-input-container {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.gy-input-group--has-right .gy-input-group__control .gy-input,
+.gy-input-group--has-right .gy-input-group__control .gy-input-container {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Sizes */
+.gy-input-group--sm .gy-input-group__addon { padding: 0 0.625rem; font-size: 0.75rem; }
+.gy-input-group--md .gy-input-group__addon { padding: 0 0.875rem; font-size: 0.875rem; }
+.gy-input-group--lg .gy-input-group__addon { padding: 0 1.125rem; font-size: 1rem; }
