@@ -1,71 +1,80 @@
-# Galyan Monorepo
+# Galyan UI Monorepo
 
-Welcome to the Galyan monorepo, built with [Turborepo](https://turbo.build/repo).
+[![Storybook](https://img.shields.io/badge/Storybook-8.6-FF4785?style=flat-square&logo=storybook)](https://storybook.js.org/)
+[![Turborepo](https://img.shields.io/badge/Turborepo-2.10-EF4444?style=flat-square&logo=turborepo)](https://turbo.build/repo)
+[![pnpm](https://img.shields.io/badge/pnpm-9.0-F69220?style=flat-square&logo=pnpm)](https://pnpm.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 
-## What's inside?
+Welcome to **Galyan UI**, a modern React 19 component library and design system monorepo built with [Turborepo](https://turbo.build/repo), [pnpm](https://pnpm.io/), and [Storybook](https://storybook.js.org/).
 
-This repository is structured as a monorepo containing the following apps and packages:
+---
 
-### Apps
-- `playground`: A [Next.js](https://nextjs.org/) app used for testing and developing components and themes.
+## 📦 What's Inside?
 
-### Packages
-- `@galyan/ui`: A React component library (`packages/ui`) built with React 19 and Floating UI.
-- `@galyan/theme`: Shared design tokens, reset, globals, variables, and fonts (`packages/theme`).
-- `@repo/eslint-config`: Shared `eslint` configurations (`packages/eslint-config`).
-- `@repo/typescript-config`: Shared `tsconfig.json` configurations used throughout the workspace (`packages/typescript-config`).
+### Packages (`packages/`)
+- **`@galyan/ui`**: High-performance React 19 component library containing Buttons, Inputs, Dropdowns, DatePickers, MonthPickers, FileUpload, Modals, Menus, Chips, Steppers, and more.
+- **`@galyan/theme`**: Design tokens, color palettes, role-based theme system (Customer, Professional, Agent, Admin), typography, CSS variables, and global resets.
+- **`@repo/eslint-config`**: Shared ESLint configurations.
+- **`@repo/typescript-config`**: Shared TypeScript configuration files (`tsconfig.json`).
 
-## Tooling
+### Apps (`apps/`)
+- **`storybook`**: Storybook 8 documentation and component preview app with interactive controls and Chromatic visual testing integration.
 
-This Turborepo is pre-configured with industry-standard tools:
-- [TypeScript](https://www.typescriptlang.org/) for static type checking.
-- [ESLint](https://eslint.org/) for code linting.
-- [Prettier](https://prettier.io) for code formatting.
-- [pnpm](https://pnpm.io/) as the package manager.
+---
 
-## Commands
+## 🚀 Quick Start
 
-### Install Dependencies
-To install all dependencies across the monorepo, run:
-```sh
+### 1. Install Dependencies
+```bash
 pnpm install
 ```
 
-### Build
-To build all apps and packages, run the following command from the root:
-```sh
-pnpm run build
+### 2. Run Storybook Locally
+```bash
+pnpm storybook
 ```
-Or with global `turbo`:
-```sh
-turbo build
+Open [http://localhost:6006](http://localhost:6006) to interactively explore and test components.
+
+### 3. Build All Packages & Apps
+```bash
+pnpm build
 ```
 
-### Develop
-To start the development servers for all apps and packages:
-```sh
-pnpm run dev
-```
-To develop a specific app (like `playground`), you can filter the task:
-```sh
-turbo dev --filter=playground
-```
+---
 
-### Lint and Format
-To lint all packages and apps:
-```sh
-pnpm run lint
-```
-To format the code with Prettier:
-```sh
-pnpm run format
-```
-To check TypeScript types without emitting:
-```sh
-pnpm run check-types
-```
+## 🛠️ CLI Commands
 
-## Useful Links
-- [Turborepo Documentation](https://turbo.build/repo/docs)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [pnpm Documentation](https://pnpm.io/motivation)
+| Command | Description |
+|---|---|
+| `pnpm storybook` | Starts the Storybook 8 development server locally |
+| `pnpm build` | Builds all packages (`@galyan/theme`, `@galyan/ui`) and apps in dependency order |
+| `pnpm check-types` | Runs TypeScript type checking (`tsc --noEmit`) across the entire workspace |
+| `pnpm lint` | Runs ESLint across all apps and packages |
+| `pnpm format` | Formats code with Prettier |
+| `pnpm changeset` | Generates a version bump changeset for `@galyan/ui` or `@galyan/theme` |
+| `pnpm release` | Builds workspace packages and publishes updated versions to NPM |
+
+---
+
+## 🎨 Theme & Role Color System
+
+Galyan UI includes dynamic role-based theme variables:
+- **Customer Role**: `--gy-primary` (Emerald Green `#22c55e`)
+- **Professional Role**: `--gy-primary` (Blue `#3b82f6`)
+- **Agent Role**: `--gy-primary` (Coral `#f97316`)
+- **Admin Role**: `--gy-primary` (Indigo `#6366f1`)
+
+Components automatically adapt their accent colors, active states, and hover transitions based on the active role theme.
+
+---
+
+## 🚢 CI/CD & Automated Publishing
+
+- **Chromatic Storybook**: Pushing to `main` or opening a Pull Request automatically builds Storybook, runs visual regression tests, and publishes preview links on Chromatic.
+- **Automated NPM Releases**: Merging changesets to `main` automatically triggers GitHub Actions to bump versions (`@changesets/cli`) and publish `@galyan/theme` & `@galyan/ui` to the NPM registry.
+
+---
+
+## 📄 License
+
+MIT © Saksham Galyan
