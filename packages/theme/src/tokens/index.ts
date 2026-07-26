@@ -1,12 +1,19 @@
-export { colors } from './colors.js';
-export { typography, fontFamily, fontWeight, fontSize, lineHeight, letterSpacing } from './typography.js';
-export { spacing } from './spacing.js';
-export { radius } from './radius.js';
-export { shadows } from './shadows.js';
-export { borders } from './borders.js';
-export { breakpoints } from './breakpoints.js';
-export { animations } from './animations.js';
-export { durations } from './durations.js';
-export { easings } from './easings.js';
-export { zIndex } from './zIndex.js';
-export { opacity } from './opacity.js';
+export { colors } from "./colors.js";
+export {
+  typography,
+  fontFamily,
+  fontWeight,
+  fontSize,
+  lineHeight,
+  letterSpacing,
+} from "./typography.js";
+export { spacing } from "./spacing.js";
+export { radius } from "./radius.js";
+export { shadows } from "./shadows.js";
+export { borders } from "./borders.js";
+export { breakpoints } from "./breakpoints.js";
+export { animations } from "./animations.js";
+export { durations } from "./durations.js";
+export { easings } from "./easings.js";
+export { zIndex } from "./zIndex.js";
+export { opacity } from "./opacity.js";

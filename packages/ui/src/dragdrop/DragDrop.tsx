@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import './dragdrop.css';
+import React, { useState, useRef } from "react";
+import "./dragdrop.css";
 
 // ── Reorderable List ────────────────────────────────────────────────────────
 export interface ReorderListProps<T> {
@@ -12,25 +12,31 @@ export interface ReorderListProps<T> {
   className?: string;
 }
 
-export function ReorderList<T>({ items, onReorder, keyExtractor, renderItem, className = '' }: ReorderListProps<T>) {
+export function ReorderList<T>({
+  items,
+  onReorder,
+  keyExtractor,
+  renderItem,
+  className = "",
+}: ReorderListProps<T>) {
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
 
   const handleDragStart = (idx: number, e: React.DragEvent) => {
     setDraggedIdx(idx);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', idx.toString());
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", idx.toString());
   };
 
   const handleDragOver = (idx: number, e: React.DragEvent) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
     if (idx !== dragOverIdx) setDragOverIdx(idx);
   };
 
   const handleDrop = (idx: number, e: React.DragEvent) => {
     e.preventDefault();
-    const fromIdx = Number(e.dataTransfer.getData('text/plain'));
+    const fromIdx = Number(e.dataTransfer.getData("text/plain"));
     if (fromIdx !== idx) {
       const next = [...items];
       const [moved] = next.splice(fromIdx, 1);
@@ -52,24 +58,35 @@ export function ReorderList<T>({ items, onReorder, keyExtractor, renderItem, cla
           <div
             key={keyExtractor(item)}
             className={[
-              'gy-dnd-item',
-              isDragging ? 'gy-dnd-item--dragging' : '',
-              isOver && !isDragging ? 'gy-dnd-item--drag-over' : '',
+              "gy-dnd-item",
+              isDragging ? "gy-dnd-item--dragging" : "",
+              isOver && !isDragging ? "gy-dnd-item--drag-over" : "",
             ]
               .filter(Boolean)
-              .join(' ')}
+              .join(" ")}
             draggable
             onDragStart={(e) => handleDragStart(idx, e)}
             onDragOver={(e) => handleDragOver(idx, e)}
             onDragLeave={() => setDragOverIdx(null)}
             onDrop={(e) => handleDrop(idx, e)}
-            onDragEnd={() => { setDraggedIdx(null); setDragOverIdx(null); }}
+            onDragEnd={() => {
+              setDraggedIdx(null);
+              setDragOverIdx(null);
+            }}
           >
             <div className="gy-dnd-handle" aria-hidden="true">
-              <svg width="12" height="16" viewBox="0 0 12 16" fill="currentColor">
-                <circle cx="4" cy="4" r="1.5" /><circle cx="8" cy="4" r="1.5" />
-                <circle cx="4" cy="8" r="1.5" /><circle cx="8" cy="8" r="1.5" />
-                <circle cx="4" cy="12" r="1.5" /><circle cx="8" cy="12" r="1.5" />
+              <svg
+                width="12"
+                height="16"
+                viewBox="0 0 12 16"
+                fill="currentColor"
+              >
+                <circle cx="4" cy="4" r="1.5" />
+                <circle cx="8" cy="4" r="1.5" />
+                <circle cx="4" cy="8" r="1.5" />
+                <circle cx="8" cy="8" r="1.5" />
+                <circle cx="4" cy="12" r="1.5" />
+                <circle cx="8" cy="12" r="1.5" />
               </svg>
             </div>
             <div className="gy-dnd-item-content">
@@ -91,25 +108,45 @@ export interface KanbanColumnDef<T> {
 
 export interface KanbanBoardProps<T> {
   columns: KanbanColumnDef<T>[];
-  onMove: (itemKey: string, fromCol: string, toCol: string, toIndex: number) => void;
+  onMove: (
+    itemKey: string,
+    fromCol: string,
+    toCol: string,
+    toIndex: number,
+  ) => void;
   keyExtractor: (item: T) => string;
   renderCard: (item: T, isDragging: boolean) => React.ReactNode;
   className?: string;
 }
 
-export function KanbanBoard<T>({ columns, onMove, keyExtractor, renderCard, className = '' }: KanbanBoardProps<T>) {
-  const [dragged, setDragged] = useState<{ key: string; colId: string; idx: number } | null>(null);
+export function KanbanBoard<T>({
+  columns,
+  onMove,
+  keyExtractor,
+  renderCard,
+  className = "",
+}: KanbanBoardProps<T>) {
+  const [dragged, setDragged] = useState<{
+    key: string;
+    colId: string;
+    idx: number;
+  } | null>(null);
   const [overCol, setOverCol] = useState<string | null>(null);
 
-  const handleDragStart = (e: React.DragEvent, key: string, colId: string, idx: number) => {
+  const handleDragStart = (
+    e: React.DragEvent,
+    key: string,
+    colId: string,
+    idx: number,
+  ) => {
     setDragged({ key, colId, idx });
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('application/json', JSON.stringify({ key, colId }));
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/json", JSON.stringify({ key, colId }));
   };
 
   const handleDragOver = (e: React.DragEvent, colId: string) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
     if (overCol !== colId) setOverCol(colId);
   };
 
@@ -117,8 +154,12 @@ export function KanbanBoard<T>({ columns, onMove, keyExtractor, renderCard, clas
     e.preventDefault();
     setOverCol(null);
     try {
-      const data = JSON.parse(e.dataTransfer.getData('application/json'));
-      if (data.colId === toCol && data.key === dragged?.key && toIndex === dragged?.idx) {
+      const data = JSON.parse(e.dataTransfer.getData("application/json"));
+      if (
+        data.colId === toCol &&
+        data.key === dragged?.key &&
+        toIndex === dragged?.idx
+      ) {
         // dropped in same place
         return;
       }
@@ -136,7 +177,7 @@ export function KanbanBoard<T>({ columns, onMove, keyExtractor, renderCard, clas
             <span className="gy-kanban-column-count">{col.items.length}</span>
           </div>
           <div
-            className={`gy-kanban-drop-zone ${overCol === col.id ? 'gy-kanban-drop-zone--over' : ''}`}
+            className={`gy-kanban-drop-zone ${overCol === col.id ? "gy-kanban-drop-zone--over" : ""}`}
             onDragOver={(e) => handleDragOver(e, col.id)}
             onDragLeave={() => setOverCol(null)}
             onDrop={(e) => handleDrop(e, col.id, col.items.length)}
@@ -147,10 +188,13 @@ export function KanbanBoard<T>({ columns, onMove, keyExtractor, renderCard, clas
               return (
                 <div
                   key={key}
-                  className={`gy-kanban-card ${isDragging ? 'gy-kanban-card--dragging' : ''}`}
+                  className={`gy-kanban-card ${isDragging ? "gy-kanban-card--dragging" : ""}`}
                   draggable
                   onDragStart={(e) => handleDragStart(e, key, col.id, idx)}
-                  onDragEnd={() => { setDragged(null); setOverCol(null); }}
+                  onDragEnd={() => {
+                    setDragged(null);
+                    setOverCol(null);
+                  }}
                   onDrop={(e) => {
                     e.stopPropagation();
                     handleDrop(e, col.id, idx);

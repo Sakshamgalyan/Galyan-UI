@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useRef, useState } from 'react';
-import './accordion.css';
+import React, { useRef, useState } from "react";
+import "./accordion.css";
 
-export type AccordionSize = 'sm' | 'md' | 'lg';
-export type AccordionVariant = 'default' | 'bordered' | 'flush' | 'separated';
-export type ExpandIconPosition = 'left' | 'right';
+export type AccordionSize = "sm" | "md" | "lg";
+export type AccordionVariant = "default" | "bordered" | "flush" | "separated";
+export type ExpandIconPosition = "left" | "right";
 
 export interface AccordionProps {
   size?: AccordionSize;
@@ -28,27 +28,37 @@ export interface AccordionProps {
 }
 
 const ChevronIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="4,6 8,10 12,6" />
   </svg>
 );
 
 export function Accordion({
-  size = 'md',
-  variant = 'default',
+  size = "md",
+  variant = "default",
   disabled = false,
   defaultExpanded = false,
   expanded: controlledExpanded,
   onChange,
   unmountOnExit = false,
-  expandIconPosition = 'right',
+  expandIconPosition = "right",
   title,
   children,
   items,
-  className = '',
+  className = "",
 }: AccordionProps) {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
-  const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
+  const isExpanded =
+    controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
 
   const handleToggle = () => {
     if (disabled) return;
@@ -60,21 +70,25 @@ export function Accordion({
   };
 
   const contentRef = useRef<HTMLDivElement>(null);
-  const height = isExpanded ? (contentRef.current?.scrollHeight ?? 'auto') : 0;
+  const height = isExpanded ? (contentRef.current?.scrollHeight ?? "auto") : 0;
 
   const rootClasses = [
-    'gy-accordion',
+    "gy-accordion",
     `gy-accordion--${size}`,
     `gy-accordion--${variant}`,
-    disabled ? 'gy-accordion--disabled' : '',
-    isExpanded ? 'gy-accordion--expanded' : '',
+    disabled ? "gy-accordion--disabled" : "",
+    isExpanded ? "gy-accordion--expanded" : "",
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // If `items` prop is passed, render list of items
   if (items && items.length > 0) {
     return (
-      <div className={`gy-accordion-group gy-accordion-group--${variant} ${className}`}>
+      <div
+        className={`gy-accordion-group gy-accordion-group--${variant} ${className}`}
+      >
         {items.map((item) => (
           <Accordion
             key={item.id}
@@ -101,14 +115,18 @@ export function Accordion({
         disabled={disabled}
         aria-expanded={isExpanded}
       >
-        {expandIconPosition === 'left' && (
-          <span className={`gy-accordion__icon ${isExpanded ? 'gy-accordion__icon--open' : ''}`}>
+        {expandIconPosition === "left" && (
+          <span
+            className={`gy-accordion__icon ${isExpanded ? "gy-accordion__icon--open" : ""}`}
+          >
             <ChevronIcon />
           </span>
         )}
         <span className="gy-accordion__title">{title}</span>
-        {expandIconPosition === 'right' && (
-          <span className={`gy-accordion__icon ${isExpanded ? 'gy-accordion__icon--open' : ''}`}>
+        {expandIconPosition === "right" && (
+          <span
+            className={`gy-accordion__icon ${isExpanded ? "gy-accordion__icon--open" : ""}`}
+          >
             <ChevronIcon />
           </span>
         )}
@@ -117,7 +135,11 @@ export function Accordion({
       {(!unmountOnExit || isExpanded) && (
         <div
           className="gy-accordion__panel"
-          style={{ height, transition: 'height 250ms cubic-bezier(0.4, 0, 0.2, 1)', overflow: 'hidden' }}
+          style={{
+            height,
+            transition: "height 250ms cubic-bezier(0.4, 0, 0.2, 1)",
+            overflow: "hidden",
+          }}
         >
           <div ref={contentRef} className="gy-accordion__content">
             {children}

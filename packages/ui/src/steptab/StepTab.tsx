@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import './steptab.css';
+import React, { useState } from "react";
+import "./steptab.css";
 
-export type StepTabSize = 'sm' | 'md' | 'lg';
+export type StepTabSize = "sm" | "md" | "lg";
 
 export interface StepTabItemDetail {
   label: string;
@@ -17,7 +17,7 @@ export interface StepTabItem {
   details?: StepTabItemDetail[];
   description?: React.ReactNode;
   content?: React.ReactNode;
-  status?: 'completed' | 'active' | 'upcoming' | 'error';
+  status?: "completed" | "active" | "upcoming" | "error";
 }
 
 export interface StepTabProps {
@@ -36,10 +36,12 @@ export function StepTab({
   defaultActiveId,
   onStepChange,
   header,
-  size = 'md',
-  className = '',
+  size = "md",
+  className = "",
 }: StepTabProps) {
-  const [internalId, setInternalId] = useState(defaultActiveId ?? items[0]?.id ?? '');
+  const [internalId, setInternalId] = useState(
+    defaultActiveId ?? items[0]?.id ?? "",
+  );
   const currentId = activeId ?? internalId;
 
   const handleSelect = (id: string) => {
@@ -48,10 +50,12 @@ export function StepTab({
   };
 
   const rootClasses = [
-    'gy-steptab-timeline',
+    "gy-steptab-timeline",
     `gy-steptab-timeline--${size}`,
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className={rootClasses}>
@@ -68,7 +72,7 @@ export function StepTab({
             return (
               <div
                 key={item.id}
-                className={`gy-steptab-timeline__item ${isActive ? 'gy-steptab-timeline__item--active' : ''}`}
+                className={`gy-steptab-timeline__item ${isActive ? "gy-steptab-timeline__item--active" : ""}`}
               >
                 {/* Horizontal branch tick connecting spine to card */}
                 <div className="gy-steptab-timeline__tick" />
@@ -79,27 +83,43 @@ export function StepTab({
                   onClick={() => handleSelect(item.id)}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleSelect(item.id); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ")
+                      handleSelect(item.id);
+                  }}
                 >
-                  <div className="gy-steptab-timeline__card-title">{item.title}</div>
+                  <div className="gy-steptab-timeline__card-title">
+                    {item.title}
+                  </div>
 
                   {item.timestamp && !isActive && (
-                    <div className="gy-steptab-timeline__card-time">{item.timestamp}</div>
+                    <div className="gy-steptab-timeline__card-time">
+                      {item.timestamp}
+                    </div>
                   )}
 
                   {/* Expanded Content / Details inside active card */}
                   {isActive && (
                     <div className="gy-steptab-timeline__card-body">
                       {item.description && (
-                        <div className="gy-steptab-timeline__card-desc">{item.description}</div>
+                        <div className="gy-steptab-timeline__card-desc">
+                          {item.description}
+                        </div>
                       )}
 
                       {item.details && item.details.length > 0 && (
                         <div className="gy-steptab-timeline__card-details">
                           {item.details.map((detail, idx) => (
-                            <div key={idx} className="gy-steptab-timeline__detail-row">
-                              <span className="gy-steptab-timeline__detail-label">{detail.label}:</span>
-                              <span className="gy-steptab-timeline__detail-value">{detail.value}</span>
+                            <div
+                              key={idx}
+                              className="gy-steptab-timeline__detail-row"
+                            >
+                              <span className="gy-steptab-timeline__detail-label">
+                                {detail.label}:
+                              </span>
+                              <span className="gy-steptab-timeline__detail-value">
+                                {detail.value}
+                              </span>
                             </div>
                           ))}
                         </div>

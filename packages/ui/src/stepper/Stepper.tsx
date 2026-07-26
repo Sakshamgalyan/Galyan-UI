@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import './stepper.css';
+import React, { useState } from "react";
+import "./stepper.css";
 
-export type StepStatus = 'upcoming' | 'active' | 'completed' | 'error';
-export type StepperSize = 'sm' | 'md' | 'lg';
+export type StepStatus = "upcoming" | "active" | "completed" | "error";
+export type StepperSize = "sm" | "md" | "lg";
 
 export interface Step {
   id: string;
@@ -19,7 +19,7 @@ export interface StepperProps {
   steps: Step[];
   activeStep?: number;
   defaultStep?: number;
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
   size?: StepperSize;
   onStepClick?: (index: number) => void;
   onStepChange?: (index: number) => void;
@@ -28,7 +28,16 @@ export interface StepperProps {
 }
 
 const CheckIcon = () => (
-  <svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="14"
+    height="11"
+    viewBox="0 0 14 11"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="1,5 5,9 13,1" />
   </svg>
 );
@@ -37,12 +46,12 @@ export function Stepper({
   steps,
   activeStep: controlledStep,
   defaultStep = 0,
-  orientation = 'horizontal',
-  size = 'md',
+  orientation = "horizontal",
+  size = "md",
   onStepClick,
   onStepChange,
   onComplete,
-  className = '',
+  className = "",
 }: StepperProps) {
   const [internalStep, setInternalStep] = useState(defaultStep);
   const current = controlledStep ?? internalStep;
@@ -55,17 +64,19 @@ export function Stepper({
   };
 
   const getStatus = (idx: number): StepStatus => {
-    if (idx < current) return 'completed';
-    if (idx === current) return 'active';
-    return 'upcoming';
+    if (idx < current) return "completed";
+    if (idx === current) return "active";
+    return "upcoming";
   };
 
   const rootClasses = [
-    'gy-stepper',
+    "gy-stepper",
     `gy-stepper--${orientation}`,
     `gy-stepper--${size}`,
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className={rootClasses}>
@@ -78,14 +89,16 @@ export function Stepper({
                 <button
                   type="button"
                   className={[
-                    'gy-stepper__indicator',
+                    "gy-stepper__indicator",
                     `gy-stepper__indicator--${status}`,
-                  ].filter(Boolean).join(' ')}
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                   onClick={() => goTo(idx)}
                   aria-label={`Step ${idx + 1}: ${step.label}`}
-                  aria-current={status === 'active' ? 'step' : undefined}
+                  aria-current={status === "active" ? "step" : undefined}
                 >
-                  {status === 'completed' ? (
+                  {status === "completed" ? (
                     <CheckIcon />
                   ) : step.icon ? (
                     step.icon
@@ -94,11 +107,15 @@ export function Stepper({
                   )}
                 </button>
                 <div className="gy-stepper__text">
-                  <div className={`gy-stepper__label gy-stepper__label--${status}`}>
+                  <div
+                    className={`gy-stepper__label gy-stepper__label--${status}`}
+                  >
                     {step.label}
                   </div>
                   {step.description && (
-                    <div className="gy-stepper__description">{step.description}</div>
+                    <div className="gy-stepper__description">
+                      {step.description}
+                    </div>
                   )}
                   {step.optional && !step.description && (
                     <div className="gy-stepper__description">Optional</div>
@@ -107,7 +124,9 @@ export function Stepper({
               </div>
 
               {idx < steps.length - 1 && (
-                <div className={`gy-stepper__connector ${idx < current ? 'gy-stepper__connector--completed' : ''}`} />
+                <div
+                  className={`gy-stepper__connector ${idx < current ? "gy-stepper__connector--completed" : ""}`}
+                />
               )}
             </React.Fragment>
           );

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import './menu.css';
+import React, { useState } from "react";
+import "./menu.css";
 
 // Re-export Tooltip for backwards compat
-import { Tooltip } from '../tooltip/Tooltip';
-export type { TooltipProps, TooltipPosition } from '../tooltip/Tooltip';
+import { Tooltip } from "../tooltip/Tooltip";
+export type { TooltipProps, TooltipPosition } from "../tooltip/Tooltip";
 export { Tooltip };
 
 // ── Menu Types ──────────────────────────────────────────────────────────────
-export type MenuSize = 'sm' | 'md' | 'lg';
-export type MenuVariant = 'default' | 'bordered' | 'minimal';
+export type MenuSize = "sm" | "md" | "lg";
+export type MenuVariant = "default" | "bordered" | "minimal";
 
 export interface MenuItem {
   id: string;
@@ -24,7 +24,7 @@ export interface MenuItem {
 
 export interface MenuProps {
   items: MenuItem[];
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: "vertical" | "horizontal";
   size?: MenuSize;
   variant?: MenuVariant;
   onItemClick?: (id: string) => void;
@@ -40,9 +40,9 @@ export interface MenuProps {
 
 export function Menu({
   items,
-  orientation = 'vertical',
-  size = 'md',
-  variant = 'bordered',
+  orientation = "vertical",
+  size = "md",
+  variant = "bordered",
   onItemClick,
   activeItemId,
   collapsible = true,
@@ -51,7 +51,7 @@ export function Menu({
   maxHeight,
   children,
   readOnly = false,
-  className = '',
+  className = "",
 }: MenuProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
     const expanded = new Set<string>();
@@ -68,23 +68,26 @@ export function Menu({
     e.stopPropagation();
     setExpandedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   };
 
   const rootClasses = [
-    'gy-nav-menu',
+    "gy-nav-menu",
     `gy-nav-menu--${orientation}`,
     `gy-nav-menu--${size}`,
     `gy-nav-menu--${variant}`,
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const rootStyle: React.CSSProperties = {};
   if (maxHeight) {
     rootStyle.maxHeight = maxHeight;
-    rootStyle.overflowY = 'auto';
+    rootStyle.overflowY = "auto";
   }
 
   const renderItem = (item: MenuItem, depth: number = 0) => {
@@ -98,18 +101,21 @@ export function Menu({
     const isChild = depth > 0;
 
     const itemClasses = [
-      'gy-nav-menu__item',
-      isChild ? 'gy-nav-menu__item--child' : '',
-      isActive ? 'gy-nav-menu__item--active' : '',
-      item.disabled ? 'gy-nav-menu__item--disabled' : '',
-    ].filter(Boolean).join(' ');
+      "gy-nav-menu__item",
+      isChild ? "gy-nav-menu__item--child" : "",
+      isActive ? "gy-nav-menu__item--active" : "",
+      item.disabled ? "gy-nav-menu__item--disabled" : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const handleClick = (e: React.MouseEvent) => {
       if (readOnly || item.disabled) return;
       if (hasChildren && collapsible) {
         setExpandedIds((prev) => {
           const next = new Set(prev);
-          if (next.has(item.id)) next.delete(item.id); else next.add(item.id);
+          if (next.has(item.id)) next.delete(item.id);
+          else next.add(item.id);
           return next;
         });
       }
@@ -127,26 +133,39 @@ export function Menu({
           type="button"
           className={itemClasses}
           style={{
-            paddingLeft: isChild ? `${1 + depth * 1.25}rem` : '0.875rem',
+            paddingLeft: isChild ? `${1 + depth * 1.25}rem` : "0.875rem",
             ...customActiveStyle,
           }}
           onClick={handleClick}
           disabled={item.disabled}
-          aria-current={isActive ? 'page' : undefined}
+          aria-current={isActive ? "page" : undefined}
           aria-expanded={hasChildren ? isExpanded : undefined}
         >
           {/* Active left vertical accent line */}
-          {isActive && !isChild && <span className="gy-nav-menu__accent-line" />}
+          {isActive && !isChild && (
+            <span className="gy-nav-menu__accent-line" />
+          )}
 
           {item.icon && <span className="gy-nav-menu__icon">{item.icon}</span>}
           <span className="gy-nav-menu__label">{item.label}</span>
-          {item.badge && <span className="gy-nav-menu__badge">{item.badge}</span>}
+          {item.badge && (
+            <span className="gy-nav-menu__badge">{item.badge}</span>
+          )}
 
           {hasChildren && collapsible && (
             <span
-              className={`gy-nav-menu__chevron ${isExpanded ? 'gy-nav-menu__chevron--open' : ''}`}
+              className={`gy-nav-menu__chevron ${isExpanded ? "gy-nav-menu__chevron--open" : ""}`}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </span>

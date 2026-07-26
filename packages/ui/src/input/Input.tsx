@@ -1,12 +1,21 @@
-'use client';
+"use client";
 
-import React, { forwardRef, useId, useState } from 'react';
-import './input.css';
+import React, { forwardRef, useId, useState } from "react";
+import "./input.css";
 
-export type InputSize = 'sm' | 'md' | 'lg';
-export type InputVariant = 'default' | 'filled' | 'focused' | 'error' | 'success' | 'disabled';
+export type InputSize = "sm" | "md" | "lg";
+export type InputVariant =
+  | "default"
+  | "filled"
+  | "focused"
+  | "error"
+  | "success"
+  | "disabled";
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
   /** Label text displayed above the input */
   label?: string;
   /** Placeholder text inside the input */
@@ -58,10 +67,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     label,
     placeholder,
     helperText,
-    size = 'md',
+    size = "md",
     fullWidth = true,
-    variant = 'default',
-    type = 'text',
+    variant = "default",
+    type = "text",
     required,
     hasError,
     hasSuccess,
@@ -71,7 +80,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     rightIcon,
     onLeftIconClick,
     onRightIconClick,
-    className = '',
+    className = "",
     clearable,
     onClear,
     disableBorderEffects = false,
@@ -86,17 +95,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     autoFocus,
     ...rest
   },
-  ref
+  ref,
 ) {
   const uid = useId();
   const inputId = id ?? uid;
 
   // Merge legacy `disabled` prop with `isDisabled`
-  const resolvedDisabled = isDisabled || disabled || variant === 'disabled';
+  const resolvedDisabled = isDisabled || disabled || variant === "disabled";
   // Merge legacy `error` string prop with `hasError`
-  const resolvedError = hasError || !!error || variant === 'error';
-  const resolvedSuccess = hasSuccess || variant === 'success';
-  const resolvedFocused = isFocused || variant === 'focused';
+  const resolvedError = hasError || !!error || variant === "error";
+  const resolvedSuccess = hasSuccess || variant === "success";
+  const resolvedFocused = isFocused || variant === "focused";
 
   // Track internal focus for styling
   const [internalFocused, setInternalFocused] = useState(false);
@@ -113,22 +122,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   };
 
   const wrapperClasses = [
-    'gy-input-wrapper',
+    "gy-input-wrapper",
     `gy-input-wrapper--${size}`,
-    variant === 'filled' ? 'gy-input-wrapper--filled' : '',
-    resolvedError ? 'gy-input-wrapper--error' : '',
-    resolvedSuccess ? 'gy-input-wrapper--success' : '',
-    resolvedDisabled ? 'gy-input-wrapper--disabled' : '',
-    showFocused && !disableBorderEffects ? 'gy-input-wrapper--focused' : '',
-    disableBorderEffects ? 'gy-input-wrapper--no-border-fx' : '',
+    variant === "filled" ? "gy-input-wrapper--filled" : "",
+    resolvedError ? "gy-input-wrapper--error" : "",
+    resolvedSuccess ? "gy-input-wrapper--success" : "",
+    resolvedDisabled ? "gy-input-wrapper--disabled" : "",
+    showFocused && !disableBorderEffects ? "gy-input-wrapper--focused" : "",
+    disableBorderEffects ? "gy-input-wrapper--no-border-fx" : "",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   const showClear = clearable && value && !resolvedDisabled;
 
   // Error message from either `error` string or `helperText` when hasError
-  const errorMessage = error || (resolvedError && helperText ? helperText : undefined);
+  const errorMessage =
+    error || (resolvedError && helperText ? helperText : undefined);
   const showHelper = !resolvedError && helperText;
 
   const wrapperStyle: React.CSSProperties = {};
@@ -137,10 +147,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   }
 
   return (
-    <div className={`gy-input-root ${fullWidth ? '' : 'gy-input-root--inline'} ${className}`}>
+    <div
+      className={`gy-input-root ${fullWidth ? "" : "gy-input-root--inline"} ${className}`}
+    >
       {label && (
         <label
-          className={`gy-input-label ${required ? 'gy-input-label--required' : ''}`}
+          className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
           htmlFor={inputId}
         >
           {label}
@@ -150,10 +162,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       <div className={wrapperClasses} style={wrapperStyle}>
         {leftIcon && (
           <span
-            className={`gy-input-addon gy-input-addon--left ${onLeftIconClick ? 'gy-input-addon--clickable' : ''}`}
+            className={`gy-input-addon gy-input-addon--left ${onLeftIconClick ? "gy-input-addon--clickable" : ""}`}
             aria-hidden="true"
             onClick={onLeftIconClick}
-            role={onLeftIconClick ? 'button' : undefined}
+            role={onLeftIconClick ? "button" : undefined}
             tabIndex={onLeftIconClick ? 0 : undefined}
           >
             {leftIcon}
@@ -192,7 +204,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             aria-label="Clear input"
             tabIndex={-1}
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <line x1="1" y1="1" x2="13" y2="13" />
               <line x1="13" y1="1" x2="1" y2="13" />
             </svg>
@@ -201,10 +220,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
         {rightIcon && !showClear && (
           <span
-            className={`gy-input-addon gy-input-addon--right ${onRightIconClick ? 'gy-input-addon--clickable' : ''}`}
+            className={`gy-input-addon gy-input-addon--right ${onRightIconClick ? "gy-input-addon--clickable" : ""}`}
             aria-hidden="true"
             onClick={onRightIconClick}
-            role={onRightIconClick ? 'button' : undefined}
+            role={onRightIconClick ? "button" : undefined}
             tabIndex={onRightIconClick ? 0 : undefined}
           >
             {rightIcon}
@@ -213,12 +232,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       </div>
 
       {resolvedError && errorMessage && (
-        <span id={`${inputId}-error`} className="gy-input-helper gy-input-helper--error" role="alert">
+        <span
+          id={`${inputId}-error`}
+          className="gy-input-helper gy-input-helper--error"
+          role="alert"
+        >
           {errorMessage}
         </span>
       )}
       {resolvedSuccess && !resolvedError && helperText && (
-        <span id={`${inputId}-helper`} className="gy-input-helper gy-input-helper--success">
+        <span
+          id={`${inputId}-helper`}
+          className="gy-input-helper gy-input-helper--success"
+        >
           {helperText}
         </span>
       )}

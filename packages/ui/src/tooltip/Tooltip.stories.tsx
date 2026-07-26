@@ -1,33 +1,33 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip } from './Tooltip';
-import { Button } from '../button/Button';
-import React from 'react';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Tooltip } from "./Tooltip";
+import { Button } from "../button/Button";
+import React from "react";
 
 const meta: Meta<typeof Tooltip> = {
-  title: 'Galyan UI/Tooltip',
+  title: "Galyan UI/Tooltip",
   component: Tooltip,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     position: {
-      control: 'select',
-      options: ['top', 'bottom', 'left', 'right'],
-      description: 'Tooltip popup positioning relative to target',
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+      description: "Tooltip popup positioning relative to target",
       table: {
         type: { summary: "'top' | 'bottom' | 'left' | 'right'" },
         defaultValue: { summary: "'top'" },
       },
     },
     delay: {
-      control: 'number',
-      description: 'Delay in milliseconds before showing tooltip on hover',
+      control: "number",
+      description: "Delay in milliseconds before showing tooltip on hover",
     },
     width: {
-      control: 'text',
-      description: 'Custom max width for the tooltip container',
+      control: "text",
+      description: "Custom max width for the tooltip container",
     },
     content: {
-      control: 'text',
-      description: 'Content inside the tooltip popup',
+      control: "text",
+      description: "Content inside the tooltip popup",
     },
   },
 };
@@ -37,23 +37,30 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Default: Story = {
   args: {
-    content: 'Helpful tooltip information',
-    position: 'top',
+    content: "Helpful tooltip information",
+    position: "top",
     delay: 150,
   },
 };
 
 export const WithCustomTarget: Story = {
   args: {
-    content: 'Clicking or hovering this button shows additional context',
-    position: 'top',
+    content: "Clicking or hovering this button shows additional context",
+    position: "top",
     children: <Button variant="primary">Hover Me</Button>,
   },
 };
 
 export const Positions: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', padding: '3rem 1rem' }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "1.5rem",
+        justifyContent: "center",
+        padding: "3rem 1rem",
+      }}
+    >
       <Tooltip content="Tooltip on top" position="top">
         <Button variant="secondary">Hover Top</Button>
       </Tooltip>
@@ -72,9 +79,19 @@ export const Positions: Story = {
 
 export const StandaloneWithoutChildren: Story = {
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '2rem' }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        padding: "2rem",
+      }}
+    >
       <span>Feature info</span>
-      <Tooltip content="Standalone tooltip without children prop!" position="right" />
+      <Tooltip
+        content="Standalone tooltip without children prop!"
+        position="right"
+      />
     </div>
   ),
 };

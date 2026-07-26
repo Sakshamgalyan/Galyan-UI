@@ -1,22 +1,46 @@
-/* ── Table ───────────────────────────────────────────────────────────────── */
+/* ── Table Container & Wrapper ───────────────────────────────────────────── */
 .gy-table-wrapper {
   width: 100%;
-  overflow-x: auto;
   border-radius: var(--gy-radius-xl);
   border: 1px solid var(--gy-border);
+  background: var(--gy-background);
+  transition: border-color var(--gy-duration-normal);
+}
+
+.gy-table-wrapper--no-border {
+  border: none;
+  border-radius: 0;
+}
+
+.gy-table-container {
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
 }
 
 .gy-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: var(--gy-font-sans);
   font-size: var(--gy-font-size-sm);
+  color: var(--gy-text);
+  text-align: left;
 }
 
-.gy-table-header { background: var(--gy-background-subtle); }
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.gy-table-header {
+  background: var(--gy-background-subtle);
+}
+
+.gy-table-header--sticky th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: inset 0 -1px 0 var(--gy-border);
+}
 
 .gy-table-th {
   padding: var(--gy-spacing-3) var(--gy-spacing-4);
-  text-align: left;
   font-weight: var(--gy-font-weight-semibold);
   color: var(--gy-text-muted);
   white-space: nowrap;
@@ -25,49 +49,264 @@
   text-transform: uppercase;
   border-bottom: 1px solid var(--gy-border);
   user-select: none;
-  position: relative;
+  background: inherit;
 }
 
-.gy-table-th--sortable { cursor: pointer; }
-.gy-table-th--sortable:hover { color: var(--gy-text); background: var(--gy-background-muted); }
+.gy-table-th--sortable {
+  cursor: pointer;
+  transition: background-color var(--gy-duration-fast), color var(--gy-duration-fast);
+}
+
+.gy-table-th--sortable:hover {
+  color: var(--gy-text);
+  background: var(--gy-background-muted);
+}
 
 .gy-table-th-inner {
   display: inline-flex;
   align-items: center;
   gap: var(--gy-spacing-1-5);
+  width: 100%;
 }
 
-.gy-table-sort-icon { color: var(--gy-text-subtle); }
-.gy-table-sort-icon--active { color: var(--gy-primary); }
+.gy-table-sort-icon {
+  color: var(--gy-text-subtle);
+  transition: color var(--gy-duration-fast), transform var(--gy-duration-fast);
+}
 
+.gy-table-sort-icon--active {
+  color: var(--gy-primary);
+}
+
+/* ── Table Cells & Rows ─────────────────────────────────────────────────── */
 .gy-table-td {
   padding: var(--gy-spacing-3) var(--gy-spacing-4);
-  color: var(--gy-text);
   border-bottom: 1px solid var(--gy-border);
   vertical-align: middle;
+  transition: background-color var(--gy-duration-fast);
 }
 
-.gy-table-tr:last-child .gy-table-td { border-bottom: none; }
+.gy-table-tr {
+  background: var(--gy-background);
+  transition: background-color var(--gy-duration-fast);
+}
 
-.gy-table-tr { transition: background-color var(--gy-duration-fast); }
-.gy-table-tr:hover { background: var(--gy-background-subtle); }
-.gy-table-tr--selected { background: var(--gy-primary-subtle); }
+.gy-table-tr:last-child .gy-table-td {
+  border-bottom: none;
+}
+
+/* Hoverable state */
+.gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton) {
+  background: var(--gy-background-subtle);
+}
+
+/* Selection state */
+.gy-table-tr--selected {
+  background: var(--gy-primary-subtle) !important;
+}
+
+.gy-table-tr--selected .gy-table-td {
+  border-bottom-color: var(--gy-primary-muted);
+}
+
+/* Column sizes */
+.gy-table--sm .gy-table-th,
+.gy-table--sm .gy-table-td {
+  padding: var(--gy-spacing-2) var(--gy-spacing-3);
+  font-size: var(--gy-font-size-xs);
+}
+
+.gy-table--lg .gy-table-th,
+.gy-table--lg .gy-table-td {
+  padding: var(--gy-spacing-4) var(--gy-spacing-5);
+  font-size: var(--gy-font-size-md);
+}
 
 /* Selection checkbox column */
 .gy-table-th--checkbox,
 .gy-table-td--checkbox {
-  width: 40px;
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
   padding-right: var(--gy-spacing-2);
+  text-align: center;
 }
 
-/* Empty state */
+/* ── Table Variants ─────────────────────────────────────────────────────── */
+/* Striped Variant */
+.gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) {
+  background: var(--gy-background-subtle);
+}
+
+/* Simple Variant (Flat, minimal borders) */
+.gy-table--variant-simple {
+  border-collapse: collapse;
+}
+.gy-table--variant-simple .gy-table-header {
+  background: transparent;
+}
+.gy-table--variant-simple .gy-table-th {
+  border-bottom: 2px solid var(--gy-border);
+  text-transform: none;
+  font-size: var(--gy-font-size-sm);
+  color: var(--gy-text);
+  font-weight: var(--gy-font-weight-bold);
+}
+
+/* Brand role color variants */
+.gy-table--variant-primary .gy-table-header {
+  background: var(--gy-primary-subtle);
+}
+.gy-table--variant-primary .gy-table-th {
+  color: var(--gy-primary-hover);
+  border-bottom-color: var(--gy-primary-muted);
+}
+
+.gy-table--variant-secondary .gy-table-header {
+  background: var(--gy-secondary-subtle);
+}
+.gy-table--variant-secondary .gy-table-th {
+  color: var(--gy-secondary-hover);
+  border-bottom-color: var(--gy-secondary-muted);
+}
+
+.gy-table--variant-metalixia .gy-table-header {
+  background: #f0f2fb;
+}
+.gy-table--variant-metalixia .gy-table-th {
+  color: #5a67c4;
+  border-bottom-color: #b9c2f0;
+}
+
+/* ── Sticky/Fixed Columns ───────────────────────────────────────────────── */
+.gy-table-th--fixed-left,
+.gy-table-td--fixed-left {
+  position: sticky;
+  z-index: 2;
+  box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.08);
+}
+
+.gy-table-th--fixed-right,
+.gy-table-td--fixed-right {
+  position: sticky;
+  z-index: 2;
+  box-shadow: -2px 0 5px -2px rgba(0, 0, 0, 0.08);
+}
+
+.gy-table-th--fixed-left {
+  background: var(--gy-background-subtle);
+}
+.gy-table-td--fixed-left {
+  background: var(--gy-background);
+}
+.gy-table-tr--selected .gy-table-td--fixed-left {
+  background: var(--gy-primary-subtle);
+}
+.gy-table--hoverable .gy-table-tr:hover .gy-table-td--fixed-left {
+  background: var(--gy-background-subtle);
+}
+
+.gy-table-th--fixed-right {
+  background: var(--gy-background-subtle);
+}
+.gy-table-td--fixed-right {
+  background: var(--gy-background);
+}
+.gy-table-tr--selected .gy-table-td--fixed-right {
+  background: var(--gy-primary-subtle);
+}
+.gy-table--hoverable .gy-table-tr:hover .gy-table-td--fixed-right {
+  background: var(--gy-background-subtle);
+}
+
+/* ── Tree/Nested Collapsible Rows ────────────────────────────────────────── */
+.gy-table-cell-first {
+  display: flex;
+  align-items: center;
+  gap: var(--gy-spacing-2);
+}
+
+.gy-table-expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: var(--gy-text-muted);
+  cursor: pointer;
+  border-radius: var(--gy-radius-sm);
+  padding: 0;
+  transition: background-color var(--gy-duration-fast), color var(--gy-duration-fast);
+}
+
+.gy-table-expand-btn:hover {
+  background: var(--gy-background-muted);
+  color: var(--gy-text);
+}
+
+.gy-table-expand-btn svg {
+  transition: transform var(--gy-duration-fast);
+}
+
+.gy-table-expand-btn--expanded svg {
+  transform: rotate(90deg);
+}
+
+.gy-table-expand-spacer {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.gy-table-tr--nested {
+  background: rgba(var(--gy-primary-rgb, 112, 127, 221), 0.01);
+}
+
+/* ── Empty State ────────────────────────────────────────────────────────── */
 .gy-table-empty {
   text-align: center;
-  padding: var(--gy-spacing-12) var(--gy-spacing-4);
-  color: var(--gy-text-subtle);
+  padding: 0;
 }
 
-/* Pagination */
+.gy-table-empty-container {
+  padding: var(--gy-spacing-12) var(--gy-spacing-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gy-table-empty-icon {
+  margin-bottom: var(--gy-spacing-4);
+  color: var(--gy-text-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gy-table-empty-label {
+  margin: 0;
+  font-size: var(--gy-font-size-md);
+  font-weight: var(--gy-font-weight-semibold);
+  color: var(--gy-text-muted);
+}
+
+.gy-table-empty-message {
+  margin: var(--gy-spacing-2) 0 0 0;
+  font-size: var(--gy-font-size-sm);
+  color: var(--gy-text-subtle);
+  max-width: 320px;
+}
+
+/* ── Loading Skeleton Row ────────────────────────────────────────────────── */
+.gy-table-tr--skeleton {
+  pointer-events: none;
+}
+
+/* ── Pagination ────────────────────────────────────────────────────────── */
 .gy-table-pagination {
   display: flex;
   align-items: center;
@@ -78,12 +317,19 @@
   font-size: var(--gy-font-size-sm);
 }
 
-.gy-table-pagination-info { color: var(--gy-text-muted); }
+.gy-table-pagination-info {
+  color: var(--gy-text-muted);
+}
 
 .gy-table-pagination-controls {
   display: flex;
   align-items: center;
   gap: var(--gy-spacing-1);
+}
+
+.gy-table-pagination-ellipsis {
+  padding: 0 var(--gy-spacing-1);
+  color: var(--gy-text-subtle);
 }
 
 .gy-table-pagination-btn {

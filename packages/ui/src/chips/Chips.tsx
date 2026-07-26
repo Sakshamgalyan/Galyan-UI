@@ -1,10 +1,17 @@
-'use client';
+"use client";
 
-import React, { useRef, useState } from 'react';
-import './chips.css';
+import React, { useRef, useState } from "react";
+import "./chips.css";
 
-export type ChipVariant = 'solid' | 'soft' | 'outline' | 'success' | 'warning' | 'danger' | 'neutral';
-export type ChipSize = 'sm' | 'md' | 'lg';
+export type ChipVariant =
+  | "solid"
+  | "soft"
+  | "outline"
+  | "success"
+  | "warning"
+  | "danger"
+  | "neutral";
+export type ChipSize = "sm" | "md" | "lg";
 
 export interface ChipProps {
   children: React.ReactNode;
@@ -21,32 +28,38 @@ export interface ChipProps {
 
 export function Chip({
   children,
-  variant = 'soft',
-  size = 'md',
+  variant = "soft",
+  size = "md",
   removable = false,
   onRemove,
   clickable = false,
   selected = false,
   onClick,
   icon,
-  className = '',
+  className = "",
 }: ChipProps) {
   return (
     <span
       className={[
-        'gy-chip',
+        "gy-chip",
         `gy-chip--${variant}`,
         `gy-chip--${size}`,
-        clickable ? 'gy-chip--clickable' : '',
-        selected ? 'gy-chip--selected' : '',
+        clickable ? "gy-chip--clickable" : "",
+        selected ? "gy-chip--selected" : "",
         className,
       ]
         .filter(Boolean)
-        .join(' ')}
-      role={clickable ? 'button' : undefined}
+        .join(" ")}
+      role={clickable ? "button" : undefined}
       tabIndex={clickable ? 0 : undefined}
       onClick={clickable ? onClick : undefined}
-      onKeyDown={clickable ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); } : undefined}
+      onKeyDown={
+        clickable
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") onClick?.();
+            }
+          : undefined
+      }
     >
       {icon && <span aria-hidden="true">{icon}</span>}
       {children}
@@ -54,10 +67,20 @@ export function Chip({
         <button
           type="button"
           className="gy-chip__remove"
-          onClick={(e) => { e.stopPropagation(); onRemove?.(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove?.();
+          }}
           aria-label="Remove"
         >
-          <svg width="8" height="8" viewBox="0 0 8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          <svg
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          >
             <line x1="1" y1="1" x2="7" y2="7" />
             <line x1="7" y1="1" x2="1" y2="7" />
           </svg>
@@ -81,13 +104,13 @@ export interface ChipsInputProps {
 export function ChipsInput({
   values,
   onChange,
-  placeholder = 'Add a tag...',
+  placeholder = "Add a tag...",
   disabled = false,
   maxItems,
-  chipVariant = 'soft',
-  className = '',
+  chipVariant = "soft",
+  className = "",
 }: ChipsInputProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addChip = (val: string) => {
@@ -95,7 +118,7 @@ export function ChipsInput({
     if (!trimmed || values.includes(trimmed)) return;
     if (maxItems && values.length >= maxItems) return;
     onChange([...values, trimmed]);
-    setInput('');
+    setInput("");
   };
 
   const removeChip = (idx: number) => {
@@ -103,11 +126,11 @@ export function ChipsInput({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === ',') {
+    if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
       addChip(input);
     }
-    if (e.key === 'Backspace' && !input && values.length > 0) {
+    if (e.key === "Backspace" && !input && values.length > 0) {
       removeChip(values.length - 1);
     }
   };
@@ -136,7 +159,7 @@ export function ChipsInput({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           onBlur={() => addChip(input)}
-          placeholder={values.length === 0 ? placeholder : ''}
+          placeholder={values.length === 0 ? placeholder : ""}
           disabled={disabled}
           aria-label={placeholder}
         />

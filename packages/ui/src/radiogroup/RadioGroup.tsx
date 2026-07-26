@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useId, useState } from 'react';
-import './radiogroup.css';
+import React, { useId, useState } from "react";
+import "./radiogroup.css";
 
-export type RadioSize = 'sm' | 'md' | 'lg';
+export type RadioSize = "sm" | "md" | "lg";
 
 export interface RadioOption {
   value: string;
@@ -18,7 +18,7 @@ export interface RadioGroupProps {
   defaultValue?: string;
   onChange?: (value: string) => void;
   size?: RadioSize;
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
   label?: string;
   helperText?: string;
   hasError?: boolean;
@@ -33,14 +33,14 @@ export function RadioGroup({
   value,
   defaultValue,
   onChange,
-  size = 'md',
-  orientation = 'vertical',
+  size = "md",
+  orientation = "vertical",
   label,
   helperText,
   hasError = false,
   isDisabled = false,
   isRequired = false,
-  className = '',
+  className = "",
 }: RadioGroupProps) {
   const uid = useId();
   const groupName = name ?? uid;
@@ -52,20 +52,26 @@ export function RadioGroup({
   return (
     <div
       role="radiogroup"
-      aria-label={typeof label === 'string' ? label : undefined}
+      aria-label={typeof label === "string" ? label : undefined}
       className={[
-        'gy-radio-group',
+        "gy-radio-group",
         `gy-radio-group--${size}`,
-        hasError ? 'gy-radio-group--error' : '',
+        hasError ? "gy-radio-group--error" : "",
         className,
-      ].filter(Boolean).join(' ')}
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {label && (
-        <div className={`gy-radio-group__label ${isRequired ? 'gy-radio-group__label--required' : ''}`}>
+        <div
+          className={`gy-radio-group__label ${isRequired ? "gy-radio-group__label--required" : ""}`}
+        >
           {label}
         </div>
       )}
-      <div className={`gy-radio-group__options ${orientation === 'horizontal' ? 'gy-radio-group__options--horizontal' : ''}`}>
+      <div
+        className={`gy-radio-group__options ${orientation === "horizontal" ? "gy-radio-group__options--horizontal" : ""}`}
+      >
         {options.map((opt) => {
           const isChecked = currentValue === opt.value;
           const optDisabled = isDisabled || opt.disabled;
@@ -73,7 +79,7 @@ export function RadioGroup({
           return (
             <label
               key={opt.value}
-              className={`gy-radio ${optDisabled ? 'gy-radio--disabled' : ''}`}
+              className={`gy-radio ${optDisabled ? "gy-radio--disabled" : ""}`}
             >
               <input
                 type="radio"
@@ -88,7 +94,9 @@ export function RadioGroup({
                   onChange?.(opt.value);
                 }}
               />
-              <span className={`gy-radio__circle ${isChecked ? 'gy-radio__circle--checked' : ''} ${hasError ? 'gy-radio__circle--error' : ''}`}>
+              <span
+                className={`gy-radio__circle ${isChecked ? "gy-radio__circle--checked" : ""} ${hasError ? "gy-radio__circle--error" : ""}`}
+              >
                 {isChecked && <span className="gy-radio__dot" />}
               </span>
               <span className="gy-radio__label">{opt.label}</span>
@@ -97,7 +105,9 @@ export function RadioGroup({
         })}
       </div>
       {helperText && (
-        <div className={`gy-radio-group__helper ${hasError ? 'gy-radio-group__helper--error' : ''}`}>
+        <div
+          className={`gy-radio-group__helper ${hasError ? "gy-radio-group__helper--error" : ""}`}
+        >
           {helperText}
         </div>
       )}

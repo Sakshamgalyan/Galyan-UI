@@ -1,15 +1,18 @@
-'use client';
+"use client";
 
-import React, { forwardRef } from 'react';
-import './checkbox.css';
+import React, { forwardRef } from "react";
+import "./checkbox.css";
 
-export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface CheckboxProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
   /** Size of the checkbox */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /** Color theme of the checkbox */
-  color?: 'primary' | 'error';
+  color?: "primary" | "error";
   /** The variant style of the checkbox */
-  variant?: 'solid' | 'outline' | 'soft';
+  variant?: "solid" | "outline" | "soft";
   /** Text label displayed next to the checkbox */
   label?: React.ReactNode;
   /** If true, renders the checkbox in an indeterminate state */
@@ -51,18 +54,18 @@ const MinusIcon = () => (
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
-      size = 'md',
-      color = 'primary',
-      variant = 'solid',
+      size = "md",
+      color = "primary",
+      variant = "solid",
       label,
       checked,
       indeterminate = false,
       isDisabled = false,
-      className = '',
+      className = "",
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     // We use a local ref to set the indeterminate property on the underlying input if needed
     const innerRef = React.useRef<HTMLInputElement>(null);
@@ -79,15 +82,15 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const checkboxId = id || fallbackId;
 
     const wrapperClasses = [
-      'gy-checkbox-wrapper',
+      "gy-checkbox-wrapper",
       `gy-checkbox--${size}`,
       `gy-checkbox--${color}`,
       `gy-checkbox--${variant}`,
-      isDisabled ? 'gy-checkbox--disabled' : '',
+      isDisabled ? "gy-checkbox--disabled" : "",
       className,
     ]
       .filter(Boolean)
-      .join(' ');
+      .join(" ");
 
     return (
       <label className={wrapperClasses} htmlFor={checkboxId}>
@@ -99,7 +102,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             className="gy-checkbox__input"
             checked={checked}
             disabled={isDisabled}
-            aria-checked={indeterminate ? 'mixed' : checked}
+            aria-checked={indeterminate ? "mixed" : checked}
             {...props}
           />
           <div className="gy-checkbox__box">
@@ -109,7 +112,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {label && <span className="gy-checkbox__label">{label}</span>}
       </label>
     );
-  }
+  },
 );
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";

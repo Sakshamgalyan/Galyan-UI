@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import { Typography } from '../typography';
-import './tooltip.css';
+import React, { useState, useRef } from "react";
+import { Typography } from "../typography";
+import "./tooltip.css";
 
-export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
+export type TooltipPosition = "top" | "bottom" | "left" | "right";
 
 export interface TooltipProps {
   /** Content displayed inside the tooltip popover */
@@ -34,7 +34,11 @@ const DefaultInfoIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-label="Info"
-    style={{ cursor: 'pointer', display: 'inline-block', verticalAlign: 'middle' }}
+    style={{
+      cursor: "pointer",
+      display: "inline-block",
+      verticalAlign: "middle",
+    }}
   >
     <circle cx="12" cy="12" r="10" />
     <line x1="12" y1="16" x2="12" y2="12" />
@@ -46,10 +50,10 @@ export function Tooltip({
   content,
   children,
   target,
-  position = 'top',
+  position = "top",
   delay = 150,
   width,
-  className = '',
+  className = "",
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -86,7 +90,7 @@ export function Tooltip({
           role="tooltip"
         >
           <div className="gy-tooltip__content">
-            {typeof content === 'string' ? (
+            {typeof content === "string" ? (
               <Typography variant="small" weight="medium" textColor="inherit">
                 {content}
               </Typography>

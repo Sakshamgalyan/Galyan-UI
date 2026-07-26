@@ -1,4 +1,4 @@
-export { Card, CardHeader, CardBody, CardFooter, CardInfo } from './Card';
+export { Card, CardHeader, CardBody, CardFooter, CardInfo } from "./Card";
 export type {
   CardProps,
   CardVariant,
@@ -10,4 +10,4 @@ export type {
   CardBodyProps,
   CardFooterProps,
   CardInfoProps,
-} from './Card';
+} from "./Card";

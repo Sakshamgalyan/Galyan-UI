@@ -1,9 +1,12 @@
-'use client';
+"use client";
 
-import React, { forwardRef } from 'react';
-import './toggle.css';
+import React, { forwardRef } from "react";
+import "./toggle.css";
 
-export interface ToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+export interface ToggleProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "type"
+> {
   /** Text label displayed next to the toggle */
   label?: React.ReactNode;
   /** Whether to show icons inside the toggle thumb/track */
@@ -56,32 +59,40 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
       withIcon = false,
       icon,
       isDisabled = false,
-      className = '',
+      className = "",
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const fallbackId = React.useId();
     const toggleId = id || fallbackId;
 
     const wrapperClasses = [
-      'gy-toggle-wrapper',
-      isDisabled ? 'gy-toggle--disabled' : '',
+      "gy-toggle-wrapper",
+      isDisabled ? "gy-toggle--disabled" : "",
       className,
     ]
       .filter(Boolean)
-      .join(' ');
+      .join(" ");
 
     const renderOnIcon = () => {
       if (!withIcon) return null;
-      if (icon?.on) return <span className="gy-toggle__icon gy-toggle__icon--on">{icon.on}</span>;
+      if (icon?.on)
+        return (
+          <span className="gy-toggle__icon gy-toggle__icon--on">{icon.on}</span>
+        );
       return <DefaultTickIcon />;
     };
 
     const renderOffIcon = () => {
       if (!withIcon) return null;
-      if (icon?.off) return <span className="gy-toggle__icon gy-toggle__icon--off">{icon.off}</span>;
+      if (icon?.off)
+        return (
+          <span className="gy-toggle__icon gy-toggle__icon--off">
+            {icon.off}
+          </span>
+        );
       return <DefaultCrossIcon />;
     };
 
@@ -114,7 +125,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
         {label && <span className="gy-toggle__label">{label}</span>}
       </label>
     );
-  }
+  },
 );
 
-Toggle.displayName = 'Toggle';
+Toggle.displayName = "Toggle";

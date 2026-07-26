@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import './breadcrumb.css';
+import React, { useState } from "react";
+import "./breadcrumb.css";
 
-export type BreadcrumbSize = 'sm' | 'md' | 'lg';
-export type BreadcrumbVariant = 'default' | 'subtle' | 'ghost';
+export type BreadcrumbSize = "sm" | "md" | "lg";
+export type BreadcrumbVariant = "default" | "subtle" | "ghost";
 
 export interface BreadcrumbItemDef {
   id?: string;
@@ -27,13 +27,31 @@ export interface BreadcrumbProps {
 }
 
 const DefaultChevron = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="4,2 8,6 4,10" />
   </svg>
 );
 
 const BackArrow = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="9,3 4,7 9,11" />
     <line x1="4" y1="7" x2="13" y2="7" />
   </svg>
@@ -45,16 +63,20 @@ export function Breadcrumb({
   onItemClick,
   showBackButton = false,
   onBackClick,
-  size = 'md',
-  variant = 'default',
+  size = "md",
+  variant = "default",
   maxItems,
-  className = '',
+  className = "",
 }: BreadcrumbProps) {
   const [expanded, setExpanded] = useState(false);
 
   const shouldCollapse = maxItems && items.length > maxItems + 1 && !expanded;
 
-  const handleItemClick = (item: BreadcrumbItemDef, index: number, e: React.MouseEvent) => {
+  const handleItemClick = (
+    item: BreadcrumbItemDef,
+    index: number,
+    e: React.MouseEvent,
+  ) => {
     if (item.disabled) {
       e.preventDefault();
       return;
@@ -66,11 +88,13 @@ export function Breadcrumb({
   };
 
   const rootClasses = [
-    'gy-breadcrumb-nav',
+    "gy-breadcrumb-nav",
     `gy-breadcrumb-nav--${size}`,
     `gy-breadcrumb-nav--${variant}`,
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   let visibleItems = items;
   if (shouldCollapse) {
@@ -101,10 +125,12 @@ export function Breadcrumb({
             <li className="gy-breadcrumb-item">
               <a
                 className="gy-breadcrumb-link"
-                href={items[0]?.href ?? '#'}
+                href={items[0]?.href ?? "#"}
                 onClick={(e) => handleItemClick(items[0]!, 0, e)}
               >
-                {items[0]?.icon && <span className="gy-breadcrumb-icon">{items[0].icon}</span>}
+                {items[0]?.icon && (
+                  <span className="gy-breadcrumb-icon">{items[0].icon}</span>
+                )}
                 <span>{items[0]?.label}</span>
               </a>
               <span className="gy-breadcrumb-separator" aria-hidden="true">
@@ -126,7 +152,11 @@ export function Breadcrumb({
             </li>
             <li className="gy-breadcrumb-item">
               <span className="gy-breadcrumb-current" aria-current="page">
-                {items[items.length - 1]?.icon && <span className="gy-breadcrumb-icon">{items[items.length - 1]!.icon}</span>}
+                {items[items.length - 1]?.icon && (
+                  <span className="gy-breadcrumb-icon">
+                    {items[items.length - 1]!.icon}
+                  </span>
+                )}
                 <span>{items[items.length - 1]?.label}</span>
               </span>
             </li>
@@ -139,20 +169,27 @@ export function Breadcrumb({
               <li key={item.id ?? idx} className="gy-breadcrumb-item">
                 {isLast ? (
                   <span className="gy-breadcrumb-current" aria-current="page">
-                    {item.icon && <span className="gy-breadcrumb-icon">{item.icon}</span>}
+                    {item.icon && (
+                      <span className="gy-breadcrumb-icon">{item.icon}</span>
+                    )}
                     <span>{item.label}</span>
                   </span>
                 ) : (
                   <>
                     <a
-                      className={`gy-breadcrumb-link ${item.disabled ? 'gy-breadcrumb-link--disabled' : ''}`}
-                      href={item.href ?? '#'}
+                      className={`gy-breadcrumb-link ${item.disabled ? "gy-breadcrumb-link--disabled" : ""}`}
+                      href={item.href ?? "#"}
                       onClick={(e) => handleItemClick(item, idx, e)}
                     >
-                      {item.icon && <span className="gy-breadcrumb-icon">{item.icon}</span>}
+                      {item.icon && (
+                        <span className="gy-breadcrumb-icon">{item.icon}</span>
+                      )}
                       <span>{item.label}</span>
                     </a>
-                    <span className="gy-breadcrumb-separator" aria-hidden="true">
+                    <span
+                      className="gy-breadcrumb-separator"
+                      aria-hidden="true"
+                    >
                       {separator}
                     </span>
                   </>

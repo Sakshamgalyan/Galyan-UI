@@ -603,7 +603,112 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DARK MODE OVERRIDES FOR ALL 4 ROLES
+   METALIXIA THEME (#707FDD)
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="metalixia"],
+.gy-theme-metalixia {
+  /* Primary Scale */
+  --gy-color-primary-50: #f0f2fb;
+  --gy-color-primary-100: #dbe0f7;
+  --gy-color-primary-200: #b9c2f0;
+  --gy-color-primary-300: #96a3ea;
+  --gy-color-primary-400: #7e8ee5;
+  --gy-color-primary-500: #707fdd;
+  --gy-color-primary-600: #5a67c4;
+  --gy-color-primary-700: #4a57b4;
+  --gy-color-primary-800: #3b4694;
+  --gy-color-primary-900: #2e3776;
+  --gy-color-primary-950: #1b2046;
+
+  /* Semantic Primary */
+  --gy-primary: #707fdd;
+  --gy-primary-hover: #5a67c4;
+  --gy-primary-active: #4a57b4;
+  --gy-primary-muted: #b9c2f0;
+  --gy-primary-subtle: #f0f2fb;
+  --gy-primary-fg: #ffffff;
+
+  /* Secondary */
+  --gy-secondary: #5a67c4;
+  --gy-secondary-hover: #4a57b4;
+  --gy-secondary-muted: #b9c2f0;
+  --gy-secondary-subtle: #f1f2f7;
+  --gy-secondary-fg: #ffffff;
+
+  /* Background */
+  --gy-background: #ffffff;
+  --gy-background-subtle: #f8fafc;
+  --gy-background-muted: #f1f2f7;
+  --gy-background-inverse: #0f172a;
+
+  /* Surface */
+  --gy-surface: #ffffff;
+  --gy-surface-raised: #ffffff;
+  --gy-surface-overlay: #ffffff;
+  --gy-surface-sunken: #f8fafc;
+  --gy-surface-disabled: #f1f5f9;
+
+  /* Text */
+  --gy-text: #0f172a;
+  --gy-text-muted: #475569;
+  --gy-text-subtle: #94a3b8;
+  --gy-text-disabled: #cbd5e1;
+  --gy-text-inverse: #ffffff;
+  --gy-text-link: #707fdd;
+  --gy-text-link-hover: #5a67c4;
+
+  /* Border */
+  --gy-border: #e2e8f0;
+  --gy-border-muted: #f1f2f7;
+  --gy-border-strong: #cbd5e1;
+  --gy-border-focus: #707fdd;
+  --gy-border-error: #ef4444;
+
+  /* Divider */
+  --gy-divider: #e2e8f0;
+  --gy-divider-strong: #cbd5e1;
+
+  /* Focus */
+  --gy-focus-ring: rgba(112, 127, 221, 0.4);
+  --gy-focus-outline: #707fdd;
+
+  /* Disabled */
+  --gy-disabled-bg: #f1f5f9;
+  --gy-disabled-text: #94a3b8;
+  --gy-disabled-border: #e2e8f0;
+
+  /* Skeleton */
+  --gy-skeleton-base: #f1f2f7;
+  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f2f7 25%, #e2e8f0 50%, #f1f2f7 75%);
+
+  /* Brand */
+  --gy-brand: #707fdd;
+  --gy-brand-dark: #4a57b4;
+  --gy-brand-light: #b9c2f0;
+
+  /* Gradient */
+  --gy-gradient-primary: linear-gradient(135deg, #707fdd 0%, #5a67c4 100%);
+  --gy-gradient-hero: linear-gradient(135deg, #f0f2fb 0%, #dbe0f7 50%, #f1f2f7 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #707fdd 0%, #5a67c4 50%, #4a57b4 100%);
+
+  /* Elevation */
+  --gy-elevation-0: #ffffff;
+  --gy-elevation-1: #f8fafc;
+  --gy-elevation-2: #f1f2f7;
+  --gy-elevation-3: #e2e8f0;
+
+  /* Overlay */
+  --gy-overlay: rgba(0, 0, 0, 0.4);
+  --gy-overlay-dark: rgba(0, 0, 0, 0.6);
+
+  /* Neumorphism surface defaults (Light mode) */
+  --gy-neu-bg: #e5e6f5;
+  --gy-neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --gy-neu-shadow-dark: rgba(160, 165, 195, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES FOR ALL 5 ROLES
    ═══════════════════════════════════════════════════════════════════════════ */
 [data-color-mode="dark"],
 .gy-dark {

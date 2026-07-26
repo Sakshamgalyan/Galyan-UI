@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useEffect, useId, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { Spinner } from '../spinner/Spinner';
-import { Checkbox } from '../checkbox/Checkbox';
-import './dropdown.css';
+import React, { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Spinner } from "../spinner/Spinner";
+import { Checkbox } from "../checkbox/Checkbox";
+import "./dropdown.css";
 
 export interface DropdownOption {
   value: string;
@@ -15,7 +15,7 @@ export interface DropdownOption {
   [key: string]: any;
 }
 
-export type DropdownSize = 'sm' | 'md' | 'lg';
+export type DropdownSize = "sm" | "md" | "lg";
 
 export interface DropdownProps {
   options: DropdownOption[];
@@ -48,8 +48,8 @@ export interface DropdownProps {
   renderValue?: (value: string | string[]) => React.ReactNode;
   renderDropdown?: (options: DropdownOption[]) => React.ReactNode;
   maxTagCount?: number;
-  placement?: 'top' | 'bottom';
-  align?: 'left' | 'right';
+  placement?: "top" | "bottom";
+  align?: "left" | "right";
   dropdownWidth?: string;
   showSelectAll?: boolean;
   groupBy?: string;
@@ -60,11 +60,11 @@ export interface DropdownProps {
 
 export function Dropdown({
   options = [],
-  placeholder = 'Select an option',
+  placeholder = "Select an option",
   onChange,
   onOpen,
   onClose,
-  size = 'md',
+  size = "md",
   id,
   value,
   label,
@@ -74,7 +74,7 @@ export function Dropdown({
   disabled = false,
   multiple = false,
   searchable = false,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = "Search...",
   clearable = false,
   loading = false,
   error,
@@ -82,15 +82,15 @@ export function Dropdown({
   hasError = false,
   hasSuccess = false,
   helperText,
-  className = '',
+  className = "",
   onSearch,
   filterOption,
   renderOption,
   renderValue,
   renderDropdown,
   maxTagCount = 3,
-  placement = 'bottom',
-  align = 'left',
+  placement = "bottom",
+  align = "left",
   dropdownWidth,
   showSelectAll = false,
   groupBy,
@@ -101,7 +101,7 @@ export function Dropdown({
   const uid = useId();
   const inputId = id ?? uid;
   const [open, setOpen] = useState(expandedMenu);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const rootRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -113,7 +113,7 @@ export function Dropdown({
       }
     } else {
       onClose?.();
-      setSearchQuery('');
+      setSearchQuery("");
     }
   }, [open, onOpen, onClose, searchable]);
 
@@ -123,8 +123,8 @@ export function Dropdown({
         setOpen(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, [expandedMenu]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,8 +141,12 @@ export function Dropdown({
   });
 
   // Group options if groupBy or group in option
-  const groupedOptions = filteredOptions.reduce<Record<string, DropdownOption[]>>((acc, opt) => {
-    const groupKey = groupBy ? (opt[groupBy] ?? '__default__') : (opt.group ?? '__default__');
+  const groupedOptions = filteredOptions.reduce<
+    Record<string, DropdownOption[]>
+  >((acc, opt) => {
+    const groupKey = groupBy
+      ? (opt[groupBy] ?? "__default__")
+      : (opt.group ?? "__default__");
     acc[groupKey] = [...(acc[groupKey] ?? []), opt];
     return acc;
   }, {});
@@ -167,7 +171,9 @@ export function Dropdown({
   };
 
   const handleSelectAll = () => {
-    const allSelectable = filteredOptions.filter((o) => !o.disabled).map((o) => o.value);
+    const allSelectable = filteredOptions
+      .filter((o) => !o.disabled)
+      .map((o) => o.value);
     const currentValues = Array.isArray(value) ? value : [];
     if (currentValues.length === allSelectable.length) {
       onChange?.([]);
@@ -178,11 +184,11 @@ export function Dropdown({
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onChange?.(multiple ? [] : '');
+    onChange?.(multiple ? [] : "");
   };
 
   const renderTriggerContent = () => {
-    if (renderValue) return renderValue(value ?? (multiple ? [] : ''));
+    if (renderValue) return renderValue(value ?? (multiple ? [] : ""));
 
     if (multiple && Array.isArray(value) && value.length > 0) {
       const selectedOpts = options.filter((o) => value.includes(o.value));
@@ -208,7 +214,9 @@ export function Dropdown({
               </span>
             </span>
           ))}
-          {remaining > 0 && <span className="gy-dropdown-tag-more">+{remaining}</span>}
+          {remaining > 0 && (
+            <span className="gy-dropdown-tag-more">+{remaining}</span>
+          )}
         </div>
       );
     }
@@ -218,7 +226,9 @@ export function Dropdown({
       if (selOpt) {
         return (
           <span className="gy-dropdown-value">
-            {selOpt.icon && <span className="gy-dropdown-value-icon">{selOpt.icon}</span>}
+            {selOpt.icon && (
+              <span className="gy-dropdown-value-icon">{selOpt.icon}</span>
+            )}
             {selOpt.label}
           </span>
         );
@@ -232,13 +242,15 @@ export function Dropdown({
   const displayErrorMsg = error || errorMessage;
 
   const triggerClasses = [
-    'gy-dropdown-trigger',
+    "gy-dropdown-trigger",
     `gy-dropdown-trigger--${size}`,
-    open ? 'gy-dropdown-trigger--open' : '',
-    disabled ? 'gy-dropdown-trigger--disabled' : '',
-    isErrorState ? 'gy-dropdown-trigger--error' : '',
-    hasSuccess ? 'gy-dropdown-trigger--success' : '',
-  ].filter(Boolean).join(' ');
+    open ? "gy-dropdown-trigger--open" : "",
+    disabled ? "gy-dropdown-trigger--disabled" : "",
+    isErrorState ? "gy-dropdown-trigger--error" : "",
+    hasSuccess ? "gy-dropdown-trigger--success" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const menuNode = (
     <div
@@ -263,7 +275,11 @@ export function Dropdown({
         <div className="gy-dropdown-select-all" onClick={handleSelectAll}>
           <Checkbox
             size="sm"
-            checked={Array.isArray(value) && value.length === filteredOptions.length && filteredOptions.length > 0}
+            checked={
+              Array.isArray(value) &&
+              value.length === filteredOptions.length &&
+              filteredOptions.length > 0
+            }
             onChange={() => {}}
             label="Select All"
           />
@@ -284,7 +300,7 @@ export function Dropdown({
           ) : (
             Object.entries(groupedOptions).map(([group, opts]) => (
               <div key={group}>
-                {group !== '__default__' && (
+                {group !== "__default__" && (
                   <div className="gy-dropdown-group-header">{group}</div>
                 )}
                 {opts.map((opt) => {
@@ -293,10 +309,12 @@ export function Dropdown({
                     <div
                       key={opt.value}
                       className={[
-                        'gy-dropdown-option',
-                        selected ? 'gy-dropdown-option--selected' : '',
-                        opt.disabled ? 'gy-dropdown-option--disabled' : '',
-                      ].filter(Boolean).join(' ')}
+                        "gy-dropdown-option",
+                        selected ? "gy-dropdown-option--selected" : "",
+                        opt.disabled ? "gy-dropdown-option--disabled" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                       role="option"
                       aria-selected={selected}
                       onClick={() => handleOptionSelect(opt)}
@@ -311,13 +329,25 @@ export function Dropdown({
                         />
                       ) : (
                         <>
-                          {opt.icon && <span className="gy-dropdown-option-icon">{opt.icon}</span>}
+                          {opt.icon && (
+                            <span className="gy-dropdown-option-icon">
+                              {opt.icon}
+                            </span>
+                          )}
                           <span className="gy-dropdown-option-label">
                             {renderOption ? renderOption(opt) : opt.label}
                           </span>
                           {selected && (
                             <span className="gy-dropdown-check">
-                              <svg width="12" height="10" viewBox="0 0 12 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                              <svg
+                                width="12"
+                                height="10"
+                                viewBox="0 0 12 10"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                              >
                                 <polyline points="1,5 4,8 11,1" />
                               </svg>
                             </span>
@@ -336,9 +366,15 @@ export function Dropdown({
   );
 
   return (
-    <div ref={rootRef} className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}>
+    <div
+      ref={rootRef}
+      className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}
+    >
       {label && (
-        <label className={`gy-input-label ${required ? 'gy-input-label--required' : ''}`} htmlFor={inputId}>
+        <label
+          className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
+          htmlFor={inputId}
+        >
           {label}
         </label>
       )}
@@ -352,29 +388,51 @@ export function Dropdown({
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        {leftIcon && <span className="gy-dropdown-icon gy-dropdown-icon--left">{leftIcon}</span>}
-        <div className="gy-dropdown-trigger-body">{renderTriggerContent()}</div>
-        {loading && <Spinner size="xs" />}
-        {clearable && (value && (Array.isArray(value) ? value.length > 0 : true)) && (
-          <span className="gy-dropdown-clear" onClick={handleClear}>
-            ×
+        {leftIcon && (
+          <span className="gy-dropdown-icon gy-dropdown-icon--left">
+            {leftIcon}
           </span>
         )}
+        <div className="gy-dropdown-trigger-body">{renderTriggerContent()}</div>
+        {loading && <Spinner size="xs" />}
+        {clearable &&
+          value &&
+          (Array.isArray(value) ? value.length > 0 : true) && (
+            <span className="gy-dropdown-clear" onClick={handleClear}>
+              ×
+            </span>
+          )}
         {rightIcon ? (
-          <span className="gy-dropdown-icon gy-dropdown-icon--right">{rightIcon}</span>
+          <span className="gy-dropdown-icon gy-dropdown-icon--right">
+            {rightIcon}
+          </span>
         ) : (
-          <span className={`gy-dropdown-chevron ${open ? 'gy-dropdown-chevron--open' : ''}`}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <span
+            className={`gy-dropdown-chevron ${open ? "gy-dropdown-chevron--open" : ""}`}
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <polyline points="2,4 6,8 10,4" />
             </svg>
           </span>
         )}
       </button>
 
-      {(open || expandedMenu) && (usePortal ? createPortal(menuNode, document.body) : menuNode)}
+      {(open || expandedMenu) &&
+        (usePortal ? createPortal(menuNode, document.body) : menuNode)}
 
       {(displayErrorMsg || helperText) && (
-        <div className={`gy-input-helper ${isErrorState ? 'gy-input-helper--error' : ''}`}>
+        <div
+          className={`gy-input-helper ${isErrorState ? "gy-input-helper--error" : ""}`}
+        >
           {displayErrorMsg || helperText}
         </div>
       )}

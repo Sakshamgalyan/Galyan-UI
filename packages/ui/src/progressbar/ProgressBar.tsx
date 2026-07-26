@@ -1,27 +1,34 @@
-'use client';
+"use client";
 
-import React from 'react';
-import './progressbar.css';
+import React from "react";
+import "./progressbar.css";
 
-export type ProgressSize = 'sm' | 'md' | 'lg' | 'xl';
-export type ProgressColor = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'gradient' | 'indigo';
+export type ProgressSize = "sm" | "md" | "lg" | "xl";
+export type ProgressColor =
+  | "primary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info"
+  | "gradient"
+  | "indigo";
 
 export interface ProgressBarProps {
   /** Current progress value (0-100) */
   progress: number;
   /** Display type: linear bar or circular ring */
-  type?: 'bar' | 'circular';
+  type?: "bar" | "circular";
   /** Height of the bar / diameter of the circle */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /** Color variant */
   variant?:
-    | 'primary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
-    | 'gradient'
-    | 'indigo';
+    | "primary"
+    | "success"
+    | "warning"
+    | "danger"
+    | "info"
+    | "gradient"
+    | "indigo";
   /** Whether to show the percentage label */
   showLabel?: boolean;
   /** Custom label text to show above the bar */
@@ -36,7 +43,7 @@ export interface ProgressBarProps {
   strokeWidth?: number;
 }
 
-const circularSizes: Record<'sm' | 'md' | 'lg' | 'xl', number> = {
+const circularSizes: Record<"sm" | "md" | "lg" | "xl", number> = {
   sm: 40,
   md: 64,
   lg: 96,
@@ -45,34 +52,46 @@ const circularSizes: Record<'sm' | 'md' | 'lg' | 'xl', number> = {
 
 export function ProgressBar({
   progress = 0,
-  type = 'bar',
-  size = 'md',
-  variant = 'primary',
+  type = "bar",
+  size = "md",
+  variant = "primary",
   showLabel = false,
   label,
   showValue = false,
-  className = '',
-  barClassName = '',
+  className = "",
+  barClassName = "",
   strokeWidth: customStrokeWidth,
 }: ProgressBarProps) {
   const clampedProgress = Math.min(Math.max(progress, 0), 100);
 
-  if (type === 'circular') {
+  if (type === "circular") {
     const dim = circularSizes[size];
-    const sw = customStrokeWidth ?? (size === 'sm' ? 4 : size === 'md' ? 6 : size === 'lg' ? 8 : 10);
+    const sw =
+      customStrokeWidth ??
+      (size === "sm" ? 4 : size === "md" ? 6 : size === "lg" ? 8 : 10);
     const radius = (dim - sw) / 2;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = circumference - (clampedProgress / 100) * circumference;
+    const strokeDashoffset =
+      circumference - (clampedProgress / 100) * circumference;
 
     return (
-      <div className={`gy-progress gy-progress--circular gy-progress--${size} ${className}`}>
+      <div
+        className={`gy-progress gy-progress--circular gy-progress--${size} ${className}`}
+      >
         {label && (
           <div className="gy-progress__header gy-progress__header--circular">
             <span className="gy-progress__label">{label}</span>
           </div>
         )}
-        <div className={`gy-progress-circular gy-progress-circular--${size} gy-progress-circular--${variant}`}>
-          <svg width={dim} height={dim} viewBox={`0 0 ${dim} ${dim}`} className="gy-progress-circular__svg">
+        <div
+          className={`gy-progress-circular gy-progress-circular--${size} gy-progress-circular--${variant}`}
+        >
+          <svg
+            width={dim}
+            height={dim}
+            viewBox={`0 0 ${dim} ${dim}`}
+            className="gy-progress-circular__svg"
+          >
             <circle
               className="gy-progress-circular__bg"
               cx={dim / 2}
@@ -93,7 +112,9 @@ export function ProgressBar({
           </svg>
           {(showValue || showLabel) && (
             <div className="gy-progress-circular__content">
-              <span className="gy-progress__value">{Math.round(clampedProgress)}%</span>
+              <span className="gy-progress__value">
+                {Math.round(clampedProgress)}%
+              </span>
             </div>
           )}
         </div>
@@ -107,7 +128,9 @@ export function ProgressBar({
         <div className="gy-progress__header">
           {label && <span className="gy-progress__label">{label}</span>}
           {(showValue || showLabel) && (
-            <span className="gy-progress__value">{Math.round(clampedProgress)}%</span>
+            <span className="gy-progress__value">
+              {Math.round(clampedProgress)}%
+            </span>
           )}
         </div>
       )}
@@ -117,7 +140,7 @@ export function ProgressBar({
         aria-valuenow={clampedProgress}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={label ?? 'Progress'}
+        aria-label={label ?? "Progress"}
       >
         <div
           className={`gy-progress__bar gy-progress__bar--${variant} ${barClassName}`}

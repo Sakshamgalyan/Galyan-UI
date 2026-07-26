@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import './calendar.css';
+import React, { useState } from "react";
+import "./calendar.css";
 
 export interface CalendarProps {
-  mode?: 'single' | 'range';
+  mode?: "single" | "range";
   value?: Date | [Date, Date];
   onChange?: (date: Date | [Date, Date]) => void;
   minDate?: Date;
@@ -14,12 +14,18 @@ export interface CalendarProps {
   style?: React.CSSProperties;
 }
 
-const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
-const getFirstDay = (year: number, month: number) => new Date(year, month, 1).getDay();
+const getDaysInMonth = (year: number, month: number) =>
+  new Date(year, month + 1, 0).getDate();
+const getFirstDay = (year: number, month: number) =>
+  new Date(year, month, 1).getDay();
 
 const isSameDay = (d1?: Date, d2?: Date) => {
   if (!d1 || !d2) return false;
-  return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
 };
 
 const isBetween = (d: Date, start?: Date, end?: Date) => {
@@ -28,16 +34,16 @@ const isBetween = (d: Date, start?: Date, end?: Date) => {
 };
 
 export function Calendar({
-  mode = 'single',
+  mode = "single",
   value,
   onChange,
   minDate,
   maxDate,
   firstDayOfWeek = 0,
-  className = '',
+  className = "",
   style,
 }: CalendarProps) {
-  const [view, setView] = useState<'days' | 'months' | 'years'>('days');
+  const [view, setView] = useState<"days" | "months" | "years">("days");
   const [current, setCurrent] = useState(() => {
     if (Array.isArray(value)) return value[0] ?? new Date();
     return value ?? new Date();
@@ -60,11 +66,16 @@ export function Calendar({
 
   const daysInMonth = getDaysInMonth(y, m);
   const rawFirstDay = getFirstDay(y, m);
-  const firstDay = firstDayOfWeek === 1 ? (rawFirstDay === 0 ? 6 : rawFirstDay - 1) : rawFirstDay;
+  const firstDay =
+    firstDayOfWeek === 1
+      ? rawFirstDay === 0
+        ? 6
+        : rawFirstDay - 1
+      : rawFirstDay;
   const daysInPrev = getDaysInMonth(y, m - 1);
 
   const handleSelectDay = (date: Date) => {
-    if (mode === 'single') {
+    if (mode === "single") {
       onChange?.(date);
     } else {
       if (!isPicking || !selStart) {
@@ -93,7 +104,9 @@ export function Calendar({
     // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
       const d = new Date(y, m, i);
-      days.push(<Day key={`curr-${i}`} date={d} isToday={isSameDay(d, today)} />);
+      days.push(
+        <Day key={`curr-${i}`} date={d} isToday={isSameDay(d, today)} />,
+      );
     }
     // Next month days
     const total = days.length;
@@ -105,9 +118,18 @@ export function Calendar({
     return days;
   };
 
-  const normalizeDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const normalizeDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
 
-  const Day = ({ date, outside, isToday }: { date: Date; outside?: boolean; isToday?: boolean }) => {
+  const Day = ({
+    date,
+    outside,
+    isToday,
+  }: {
+    date: Date;
+    outside?: boolean;
+    isToday?: boolean;
+  }) => {
     const disabled = (minDate && date < minDate) || (maxDate && date > maxDate);
     const activeEnd = isPicking ? (hoverDate ?? undefined) : selEnd;
 
@@ -115,23 +137,33 @@ export function Calendar({
     const sTime = selStart ? normalizeDay(selStart) : null;
     const eTime = activeEnd ? normalizeDay(activeEnd) : null;
 
-    const selected = isSameDay(date, selStart) || (isSameDay(date, selEnd) && !isPicking);
-    const inRange = mode === 'range' && isBetween(date, selStart, activeEnd);
-    const isStart = mode === 'range' && sTime !== null && eTime !== null && dateTime === Math.min(sTime, eTime);
-    const isEnd = mode === 'range' && sTime !== null && eTime !== null && dateTime === Math.max(sTime, eTime) && sTime !== eTime;
+    const selected =
+      isSameDay(date, selStart) || (isSameDay(date, selEnd) && !isPicking);
+    const inRange = mode === "range" && isBetween(date, selStart, activeEnd);
+    const isStart =
+      mode === "range" &&
+      sTime !== null &&
+      eTime !== null &&
+      dateTime === Math.min(sTime, eTime);
+    const isEnd =
+      mode === "range" &&
+      sTime !== null &&
+      eTime !== null &&
+      dateTime === Math.max(sTime, eTime) &&
+      sTime !== eTime;
 
     const cls = [
-      'gy-calendar-day',
-      outside ? 'gy-calendar-day--outside' : '',
-      isToday ? 'gy-calendar-day--today' : '',
-      selected ? 'gy-calendar-day--selected' : '',
-      inRange ? 'gy-calendar-day--range-in' : '',
-      isStart ? 'gy-calendar-day--range-start' : '',
-      isEnd ? 'gy-calendar-day--range-end' : '',
-      disabled ? 'gy-calendar-day--disabled' : '',
+      "gy-calendar-day",
+      outside ? "gy-calendar-day--outside" : "",
+      isToday ? "gy-calendar-day--today" : "",
+      selected ? "gy-calendar-day--selected" : "",
+      inRange ? "gy-calendar-day--range-in" : "",
+      isStart ? "gy-calendar-day--range-start" : "",
+      isEnd ? "gy-calendar-day--range-end" : "",
+      disabled ? "gy-calendar-day--disabled" : "",
     ]
       .filter(Boolean)
-      .join(' ');
+      .join(" ");
 
     return (
       <button
@@ -139,52 +171,86 @@ export function Calendar({
         className={cls}
         disabled={disabled}
         onClick={() => handleSelectDay(date)}
-        onMouseEnter={() => (mode === 'range' && isPicking ? setHoverDate(date) : null)}
+        onMouseEnter={() =>
+          mode === "range" && isPicking ? setHoverDate(date) : null
+        }
       >
         {date.getDate()}
       </button>
     );
   };
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthName = current.toLocaleString('default', { month: 'long' });
-  const weekHeadings = firstDayOfWeek === 1
-    ? ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
-    : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const monthName = current.toLocaleString("default", { month: "long" });
+  const weekHeadings =
+    firstDayOfWeek === 1
+      ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+      : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
   return (
     <div className={`gy-calendar ${className}`} style={style}>
-      {view === 'days' && (
+      {view === "days" && (
         <>
           <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevMonth}>‹</button>
-            <div className="gy-calendar-title" onClick={() => setView('months')}>
+            <button className="gy-calendar-nav" onClick={prevMonth}>
+              ‹
+            </button>
+            <div
+              className="gy-calendar-title"
+              onClick={() => setView("months")}
+            >
               {monthName} {y}
             </div>
-            <button className="gy-calendar-nav" onClick={nextMonth}>›</button>
+            <button className="gy-calendar-nav" onClick={nextMonth}>
+              ›
+            </button>
           </div>
           <div className="gy-calendar-grid">
             {weekHeadings.map((d) => (
-              <div key={d} className="gy-calendar-weekday">{d}</div>
+              <div key={d} className="gy-calendar-weekday">
+                {d}
+              </div>
             ))}
             {renderDays()}
           </div>
         </>
       )}
 
-      {view === 'months' && (
+      {view === "months" && (
         <>
           <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevYear}>‹</button>
-            <div className="gy-calendar-title" onClick={() => setView('years')}>{y}</div>
-            <button className="gy-calendar-nav" onClick={nextYear}>›</button>
+            <button className="gy-calendar-nav" onClick={prevYear}>
+              ‹
+            </button>
+            <div className="gy-calendar-title" onClick={() => setView("years")}>
+              {y}
+            </div>
+            <button className="gy-calendar-nav" onClick={nextYear}>
+              ›
+            </button>
           </div>
           <div className="gy-calendar-picker-grid">
             {months.map((mon, i) => (
               <button
                 key={mon}
-                className={`gy-calendar-picker-item ${m === i ? 'gy-calendar-picker-item--selected' : ''}`}
-                onClick={() => { setCurrent(new Date(y, i, 1)); setView('days'); }}
+                className={`gy-calendar-picker-item ${m === i ? "gy-calendar-picker-item--selected" : ""}`}
+                onClick={() => {
+                  setCurrent(new Date(y, i, 1));
+                  setView("days");
+                }}
               >
                 {mon}
               </button>
@@ -193,23 +259,34 @@ export function Calendar({
         </>
       )}
 
-      {view === 'years' && (
+      {view === "years" && (
         <>
           <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevDecade}>‹</button>
-            <div className="gy-calendar-title">{y - (y % 10)} - {y - (y % 10) + 9}</div>
-            <button className="gy-calendar-nav" onClick={nextDecade}>›</button>
+            <button className="gy-calendar-nav" onClick={prevDecade}>
+              ‹
+            </button>
+            <div className="gy-calendar-title">
+              {y - (y % 10)} - {y - (y % 10) + 9}
+            </div>
+            <button className="gy-calendar-nav" onClick={nextDecade}>
+              ›
+            </button>
           </div>
           <div className="gy-calendar-picker-grid">
-            {Array.from({ length: 12 }, (_, i) => y - (y % 10) - 1 + i).map((year) => (
-              <button
-                key={year}
-                className={`gy-calendar-picker-item ${y === year ? 'gy-calendar-picker-item--selected' : ''}`}
-                onClick={() => { setCurrent(new Date(year, m, 1)); setView('months'); }}
-              >
-                {year}
-              </button>
-            ))}
+            {Array.from({ length: 12 }, (_, i) => y - (y % 10) - 1 + i).map(
+              (year) => (
+                <button
+                  key={year}
+                  className={`gy-calendar-picker-item ${y === year ? "gy-calendar-picker-item--selected" : ""}`}
+                  onClick={() => {
+                    setCurrent(new Date(year, m, 1));
+                    setView("months");
+                  }}
+                >
+                  {year}
+                </button>
+              ),
+            )}
           </div>
         </>
       )}

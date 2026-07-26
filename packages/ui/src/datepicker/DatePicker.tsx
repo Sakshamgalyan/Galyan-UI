@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState, useId } from 'react';
-import { createPortal } from 'react-dom';
-import { Calendar } from '../calendar/Calendar';
-import { Input, InputVariant } from '../input/Input';
-import { Button } from '../button/Button';
-import './datepicker.css';
+import React, { useEffect, useRef, useState, useId } from "react";
+import { createPortal } from "react-dom";
+import { Calendar } from "../calendar/Calendar";
+import { Input, InputVariant } from "../input/Input";
+import { Button } from "../button/Button";
+import "./datepicker.css";
 
 export interface DatePickerProps {
   placeholder?: string;
-  variant?: 'default' | 'filled' | 'focused' | 'error' | 'success' | 'disabled';
+  variant?: "default" | "filled" | "focused" | "error" | "success" | "disabled";
   value?: Date | null;
   onChange?: (date: Date | null) => void;
   leftIcon?: React.ReactNode;
@@ -22,8 +22,8 @@ export interface DatePickerProps {
   onApply?: (date: Date | null) => void;
   dateFormat?: string;
   firstDayOfWeek?: 0 | 1;
-  placement?: 'top' | 'bottom';
-  align?: 'left' | 'right';
+  placement?: "top" | "bottom";
+  align?: "left" | "right";
   zIndex?: number;
   usePortal?: boolean;
   disableFutureDates?: boolean;
@@ -37,7 +37,16 @@ export interface DatePickerProps {
 }
 
 const CalendarIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
     <line x1="16" y1="2" x2="16" y2="6" />
     <line x1="8" y1="2" x2="8" y2="6" />
@@ -46,8 +55,8 @@ const CalendarIcon = () => (
 );
 
 export function DatePicker({
-  placeholder = 'Select date',
-  variant = 'default',
+  placeholder = "Select date",
+  variant = "default",
   value,
   onChange,
   leftIcon,
@@ -58,10 +67,10 @@ export function DatePicker({
   onClose,
   onCancel,
   onApply,
-  dateFormat = 'YYYY-MM-DD',
+  dateFormat = "YYYY-MM-DD",
   firstDayOfWeek = 0,
-  placement = 'bottom',
-  align = 'left',
+  placement = "bottom",
+  align = "left",
   zIndex = 1000,
   usePortal = false,
   disableFutureDates = false,
@@ -71,7 +80,7 @@ export function DatePicker({
   label,
   helperText,
   hasError = false,
-  className = '',
+  className = "",
 }: DatePickerProps) {
   const uid = useId();
   const [open, setOpen] = useState(false);
@@ -93,17 +102,17 @@ export function DatePicker({
         setOpen(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const formatDateStr = (d: Date | null) => {
-    if (!d) return '';
+    if (!d) return "";
     const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    if (dateFormat === 'MM/DD/YYYY') return `${m}/${day}/${y}`;
-    if (dateFormat === 'DD/MM/YYYY') return `${day}/${m}/${y}`;
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    if (dateFormat === "MM/DD/YYYY") return `${m}/${day}/${y}`;
+    if (dateFormat === "DD/MM/YYYY") return `${day}/${m}/${y}`;
     return `${y}-${m}-${day}`;
   };
 
@@ -173,11 +182,15 @@ export function DatePicker({
           variant={variant as InputVariant}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
-          style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+          style={{ cursor: disabled ? "not-allowed" : "pointer" }}
         />
       </div>
 
-      {open && !disabled && (usePortal ? createPortal(popoverContent, document.body) : popoverContent)}
+      {open &&
+        !disabled &&
+        (usePortal
+          ? createPortal(popoverContent, document.body)
+          : popoverContent)}
     </div>
   );
 }
