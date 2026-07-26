@@ -1,6 +1,6 @@
 {
   "name": "@galyan/theme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Design tokens, themes, CSS variables, and global styles for Galyan UI.",
   "author": "Saksham Galyan",
   "license": "MIT",
