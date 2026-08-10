@@ -156,3 +156,81 @@
   from { width: 100%; }
   to { width: 0%; }
 }
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-toast,
+[data-color-mode="dark"] .gy-toast,
+.dark .gy-toast {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-toast-title,
+[data-color-mode="dark"] .gy-toast-title,
+.dark .gy-toast-title {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-toast-description,
+[data-color-mode="dark"] .gy-toast-description,
+.dark .gy-toast-description {
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark .gy-toast-close:hover,
+[data-color-mode="dark"] .gy-toast-close:hover,
+.dark .gy-toast-close:hover {
+  color: var(--gy-text, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.gy-dark .gy-toast--success,
+[data-color-mode="dark"] .gy-toast--success,
+.dark .gy-toast--success {
+  background: #132a1e;
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.gy-dark .gy-toast--error,
+[data-color-mode="dark"] .gy-toast--error,
+.dark .gy-toast--error {
+  background: #2d1518;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.gy-dark .gy-toast--warning,
+[data-color-mode="dark"] .gy-toast--warning,
+.dark .gy-toast--warning {
+  background: #2c2010;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.gy-dark .gy-toast--info,
+[data-color-mode="dark"] .gy-toast--info,
+.dark .gy-toast--info {
+  background: #11263c;
+  border-color: rgba(14, 165, 233, 0.35);
+}
+
+.gy-dark .gy-toast--loading,
+[data-color-mode="dark"] .gy-toast--loading,
+.dark .gy-toast--loading {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-toast-clear-all,
+[data-color-mode="dark"] .gy-toast-clear-all,
+.dark .gy-toast-clear-all {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+  color: #f87171;
+}
+
+.gy-dark .gy-toast-clear-all:hover,
+[data-color-mode="dark"] .gy-toast-clear-all:hover,
+.dark .gy-toast-clear-all:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+

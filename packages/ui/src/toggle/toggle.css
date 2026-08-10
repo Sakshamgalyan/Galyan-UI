@@ -120,13 +120,88 @@
   user-select: none;
 }
 
+/* ── Sizes ── */
+/* Small */
+.gy-toggle--sm .gy-toggle__control {
+  width: 2.5rem;
+  height: 1.25rem;
+}
+.gy-toggle--sm .gy-toggle__thumb {
+  width: 1rem;
+  height: 1rem;
+  top: 0.125rem;
+  left: 0.125rem;
+}
+.gy-toggle--sm .gy-toggle__input:checked + .gy-toggle__track .gy-toggle__thumb {
+  transform: translateX(1.25rem);
+}
+.gy-toggle--sm .gy-toggle__label {
+  font-size: 0.75rem;
+}
+.gy-toggle--sm .gy-toggle__icon {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+/* Medium */
+.gy-toggle--md .gy-toggle__control {
+  width: 3.25rem;
+  height: 1.625rem;
+}
+.gy-toggle--md .gy-toggle__thumb {
+  width: 1.375rem;
+  height: 1.375rem;
+  top: 0.125rem;
+  left: 0.125rem;
+}
+.gy-toggle--md .gy-toggle__input:checked + .gy-toggle__track .gy-toggle__thumb {
+  transform: translateX(1.625rem);
+}
+.gy-toggle--md .gy-toggle__label {
+  font-size: 0.875rem;
+}
+
+/* Large */
+.gy-toggle--lg .gy-toggle__control {
+  width: 4rem;
+  height: 2rem;
+}
+.gy-toggle--lg .gy-toggle__thumb {
+  width: 1.75rem;
+  height: 1.75rem;
+  top: 0.125rem;
+  left: 0.125rem;
+}
+.gy-toggle--lg .gy-toggle__input:checked + .gy-toggle__track .gy-toggle__thumb {
+  transform: translateX(2rem);
+}
+.gy-toggle--lg .gy-toggle__label {
+  font-size: 1rem;
+}
+.gy-toggle--lg .gy-toggle__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* ── Dark Mode Overrides ── */
-.gy-dark .gy-toggle__track {
+.gy-dark .gy-toggle__track,
+[data-color-mode="dark"] .gy-toggle__track,
+.dark .gy-toggle__track {
   background-color: var(--gy-background-muted, #334155);
 }
-.gy-dark .gy-toggle__input:checked + .gy-toggle__track {
+.gy-dark .gy-toggle__input:checked + .gy-toggle__track,
+[data-color-mode="dark"] .gy-toggle__input:checked + .gy-toggle__track,
+.dark .gy-toggle__input:checked + .gy-toggle__track {
   background-color: var(--gy-primary, #22c55e);
 }
-.gy-dark .gy-toggle__icon--off {
+.gy-dark .gy-toggle__icon--off,
+[data-color-mode="dark"] .gy-toggle__icon--off,
+.dark .gy-toggle__icon--off {
   color: var(--gy-text-inverse, #f8fafc);
 }
+.gy-dark .gy-toggle__label,
+[data-color-mode="dark"] .gy-toggle__label,
+.dark .gy-toggle__label {
+  color: var(--gy-text, #f8fafc);
+}
+

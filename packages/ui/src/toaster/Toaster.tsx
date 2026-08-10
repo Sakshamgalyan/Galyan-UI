@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import { Spinner } from "../spinner/Spinner";
-import { Button } from "../button/Button";
 import "./toaster.css";
 
 export type ToastVariant = "success" | "error" | "warning" | "info" | "loading";

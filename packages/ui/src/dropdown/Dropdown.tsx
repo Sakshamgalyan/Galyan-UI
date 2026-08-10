@@ -271,20 +271,25 @@ export function Dropdown({
         </div>
       )}
 
-      {multiple && showSelectAll && options.length > 0 && (
-        <div className="gy-dropdown-select-all" onClick={handleSelectAll}>
-          <Checkbox
-            size="sm"
-            checked={
-              Array.isArray(value) &&
-              value.length === filteredOptions.length &&
-              filteredOptions.length > 0
-            }
-            onChange={() => {}}
-            label="Select All"
-          />
-        </div>
-      )}
+      {multiple && showSelectAll && options.length > 0 && (() => {
+        const selectableOpts = filteredOptions.filter((o) => !o.disabled);
+        const currentVals = Array.isArray(value) ? value : [];
+        const selectedCount = selectableOpts.filter((o) => currentVals.includes(o.value)).length;
+        const isAllSel = selectableOpts.length > 0 && selectedCount === selectableOpts.length;
+        const isIndet = selectedCount > 0 && selectedCount < selectableOpts.length;
+
+        return (
+          <div className="gy-dropdown-select-all" onClick={handleSelectAll}>
+            <Checkbox
+              size="sm"
+              checked={isAllSel}
+              indeterminate={isIndet}
+              onChange={() => {}}
+              label="Select All"
+            />
+          </div>
+        );
+      })()}
 
       {renderDropdown ? (
         renderDropdown(filteredOptions)

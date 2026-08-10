@@ -5,8 +5,10 @@ import "./toggle.css";
 
 export interface ToggleProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "type"
+  "type" | "size"
 > {
+  /** Size variant of the toggle */
+  size?: "sm" | "md" | "lg";
   /** Text label displayed next to the toggle */
   label?: React.ReactNode;
   /** Whether to show icons inside the toggle thumb/track */
@@ -54,6 +56,7 @@ const DefaultCrossIcon = () => (
 export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
   (
     {
+      size = "md",
       label,
       checked,
       withIcon = false,
@@ -70,6 +73,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
 
     const wrapperClasses = [
       "gy-toggle-wrapper",
+      `gy-toggle--${size}`,
       isDisabled ? "gy-toggle--disabled" : "",
       className,
     ]

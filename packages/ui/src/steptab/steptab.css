@@ -59,7 +59,7 @@
 /* Main Card */
 .gy-steptab-timeline__card {
   width: 100%;
-  background: #ffffff;
+  background: var(--gy-surface, #ffffff);
   border: 1px solid var(--gy-border, #e2e8f0);
   border-radius: var(--gy-radius-lg, 0.625rem);
   padding: 1rem 1.25rem;
@@ -142,3 +142,61 @@
 
 .gy-steptab-timeline--lg .gy-steptab-timeline__card { padding: 1.25rem 1.5rem; }
 .gy-steptab-timeline--lg .gy-steptab-timeline__card-title { font-size: 1.0625rem; }
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-steptab-timeline__header,
+[data-color-mode="dark"] .gy-steptab-timeline__header,
+.dark .gy-steptab-timeline__header {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-steptab-timeline__tick,
+[data-color-mode="dark"] .gy-steptab-timeline__tick,
+.dark .gy-steptab-timeline__tick {
+  background: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-steptab-timeline__card,
+[data-color-mode="dark"] .gy-steptab-timeline__card,
+.dark .gy-steptab-timeline__card {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-steptab-timeline__card-title,
+[data-color-mode="dark"] .gy-steptab-timeline__card-title,
+.dark .gy-steptab-timeline__card-title {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-steptab-timeline__card-desc,
+[data-color-mode="dark"] .gy-steptab-timeline__card-desc,
+.dark .gy-steptab-timeline__card-desc {
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark .gy-steptab-timeline__card-details,
+[data-color-mode="dark"] .gy-steptab-timeline__card-details,
+.dark .gy-steptab-timeline__card-details {
+  background: var(--gy-background-muted, rgba(255, 255, 255, 0.04));
+}
+
+.gy-dark .gy-steptab-timeline__detail-label,
+[data-color-mode="dark"] .gy-steptab-timeline__detail-label,
+.dark .gy-steptab-timeline__detail-label {
+  color: var(--gy-text-subtle, #94a3b8);
+}
+
+.gy-dark .gy-steptab-timeline__detail-value,
+[data-color-mode="dark"] .gy-steptab-timeline__detail-value,
+.dark .gy-steptab-timeline__detail-value {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
+[data-color-mode="dark"] .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
+.dark .gy-steptab-timeline__item--active .gy-steptab-timeline__card {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: var(--gy-primary, #a855f7);
+}
+
