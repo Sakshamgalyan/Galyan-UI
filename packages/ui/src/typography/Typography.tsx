@@ -27,6 +27,8 @@ export type TypographyAlign = "left" | "center" | "right" | "justify";
 
 export type TypographyMargin = "none" | "xs" | "sm" | "md" | "lg" | "xl";
 
+export type TypographyPadding = "none" | "xs" | "sm" | "md" | "lg" | "xl";
+
 const defaultTagMap: Record<TypographyVariant, React.ElementType> = {
   h1: "h1",
   h2: "h2",
@@ -45,6 +47,7 @@ export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   weight?: TypographyWeight;
   align?: TypographyAlign;
   margin?: TypographyMargin;
+  padding?: TypographyPadding;
   textColor?: string;
   bgColor?: string;
   className?: string;
@@ -58,6 +61,7 @@ export function Typography({
   weight,
   align,
   margin = "none",
+  padding = "none",
   textColor,
   bgColor,
   className = "",
@@ -74,6 +78,7 @@ export function Typography({
     weight ? `gy-typography--weight-${weight}` : "",
     align ? `gy-typography--align-${align}` : "",
     margin && margin !== "none" ? `gy-typography--margin-${margin}` : "",
+    padding && padding !== "none" ? `gy-typography--padding-${padding}` : "",
     className,
   ]
     .filter(Boolean)

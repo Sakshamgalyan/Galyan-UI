@@ -134,15 +134,17 @@ export function Accordion({
 
       {(!unmountOnExit || isExpanded) && (
         <div
-          className="gy-accordion__panel"
+          className={`gy-accordion__panel ${isExpanded ? "gy-accordion__panel--expanded" : ""}`}
           style={{
-            height,
-            transition: "height 250ms cubic-bezier(0.4, 0, 0.2, 1)",
-            overflow: "hidden",
+            display: "grid",
+            gridTemplateRows: isExpanded ? "1fr" : "0fr",
+            transition: "grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
-          <div ref={contentRef} className="gy-accordion__content">
-            {children}
+          <div className="gy-accordion__panel-inner" style={{ overflow: "hidden" }}>
+            <div ref={contentRef} className="gy-accordion__content">
+              {children}
+            </div>
           </div>
         </div>
       )}

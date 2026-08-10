@@ -87,3 +87,10 @@
 .gy-typography--margin-md { margin-bottom: 1rem !important; }
 .gy-typography--margin-lg { margin-bottom: 1.5rem !important; }
 .gy-typography--margin-xl { margin-bottom: 2rem !important; }
+
+/* Paddings */
+.gy-typography--padding-xs { padding: 0.25rem !important; }
+.gy-typography--padding-sm { padding: 0.5rem !important; }
+.gy-typography--padding-md { padding: 1rem !important; }
+.gy-typography--padding-lg { padding: 1.5rem !important; }
+.gy-typography--padding-xl { padding: 2rem !important; }

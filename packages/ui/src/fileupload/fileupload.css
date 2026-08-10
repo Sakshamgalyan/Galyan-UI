@@ -66,7 +66,7 @@
   padding: 0.75rem 1rem;
   border: 1px solid var(--gy-border, #e2e8f0);
   border-radius: var(--gy-radius-lg, 0.5rem);
-  background: #ffffff;
+  background: var(--gy-surface, #ffffff);
 }
 
 .gy-fileupload-item-icon {
@@ -136,7 +136,7 @@
   align-items: center;
   gap: 0.25rem;
   border: 1px solid var(--gy-border, #e2e8f0);
-  background: #ffffff;
+  background: var(--gy-surface, #ffffff);
   color: var(--gy-text-muted, #475569);
   font-size: 0.75rem;
   font-weight: 500;
@@ -164,3 +164,46 @@
   transition: color 0.15s ease;
 }
 .gy-fileupload-item-remove:hover { color: #ef4444; }
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-fileupload-zone,
+[data-color-mode="dark"] .gy-fileupload-zone,
+.dark .gy-fileupload-zone {
+  background: var(--gy-background-muted, rgba(255, 255, 255, 0.03));
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+[data-color-mode="dark"] .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+.dark .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled) {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: var(--gy-primary, #22c55e);
+}
+
+.gy-dark .gy-fileupload-item,
+[data-color-mode="dark"] .gy-fileupload-item,
+.dark .gy-fileupload-item {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-fileupload-status-badge--success,
+[data-color-mode="dark"] .gy-fileupload-status-badge--success,
+.dark .gy-fileupload-status-badge--success { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+
+.gy-dark .gy-fileupload-status-badge--uploading,
+[data-color-mode="dark"] .gy-fileupload-status-badge--uploading,
+.dark .gy-fileupload-status-badge--uploading { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+.gy-dark .gy-fileupload-status-badge--error,
+[data-color-mode="dark"] .gy-fileupload-status-badge--error,
+.dark .gy-fileupload-status-badge--error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+.gy-dark .gy-fileupload-item-retry,
+[data-color-mode="dark"] .gy-fileupload-item-retry,
+.dark .gy-fileupload-item-retry {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+  color: var(--gy-text-muted, #cbd5e1);
+}
+

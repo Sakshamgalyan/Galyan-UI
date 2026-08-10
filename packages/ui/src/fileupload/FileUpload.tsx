@@ -197,11 +197,11 @@ export function FileUpload({
                       </span>
                     )}
                   </div>
-                  {status === "uploading" && (
+                  {(status === "uploading" || progress !== undefined) && (
                     <div className="gy-fileupload-progress-bar">
                       <div
                         className="gy-fileupload-progress-fill"
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `${progress ?? 0}%` }}
                       />
                     </div>
                   )}

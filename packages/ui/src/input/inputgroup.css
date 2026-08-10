@@ -34,6 +34,17 @@
   border-bottom-right-radius: var(--gy-radius-md, 0.5rem);
 }
 
+/* Seamless Dropdown inside Addon */
+.gy-input-group__addon .gy-dropdown,
+.gy-input-group__addon .gy-dropdown-trigger {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+  height: 100% !important;
+}
+
 .gy-input-group__control {
   flex: 1;
   min-width: 0;
@@ -52,7 +63,22 @@
   border-bottom-right-radius: 0 !important;
 }
 
+.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input,
+.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-container {
+  border-radius: 0 !important;
+}
+
 /* Sizes */
 .gy-input-group--sm .gy-input-group__addon { padding: 0 0.625rem; font-size: 0.75rem; }
 .gy-input-group--md .gy-input-group__addon { padding: 0 0.875rem; font-size: 0.875rem; }
 .gy-input-group--lg .gy-input-group__addon { padding: 0 1.125rem; font-size: 1rem; }
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-input-group__addon,
+[data-color-mode="dark"] .gy-input-group__addon,
+.dark .gy-input-group__addon {
+  background: var(--gy-background-muted, rgba(255, 255, 255, 0.05));
+  border-color: var(--gy-border, #334155);
+  color: var(--gy-text-muted, #94a3b8);
+}
+

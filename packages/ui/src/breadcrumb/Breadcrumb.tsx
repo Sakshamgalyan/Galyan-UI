@@ -59,7 +59,7 @@ const BackArrow = () => (
 
 export function Breadcrumb({
   items,
-  separator = <DefaultChevron />,
+  separator = "/",
   onItemClick,
   showBackButton = false,
   onBackClick,
@@ -114,9 +114,6 @@ export function Breadcrumb({
             >
               <BackArrow />
             </button>
-            <span className="gy-breadcrumb-separator" aria-hidden="true">
-              {separator}
-            </span>
           </li>
         )}
 

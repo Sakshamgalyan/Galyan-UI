@@ -363,3 +363,64 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ── Dark Mode Overrides ── */
+.gy-dark .gy-table-wrapper,
+[data-color-mode="dark"] .gy-table-wrapper,
+.dark .gy-table-wrapper {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-table-header,
+[data-color-mode="dark"] .gy-table-header,
+.dark .gy-table-header {
+  background: var(--gy-background-subtle, #0f172a);
+}
+
+.gy-dark .gy-table-th,
+[data-color-mode="dark"] .gy-table-th,
+.dark .gy-table-th {
+  color: var(--gy-text-muted, #94a3b8);
+  border-bottom-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-table-td,
+[data-color-mode="dark"] .gy-table-td,
+.dark .gy-table-td {
+  color: var(--gy-text, #f8fafc);
+  border-bottom-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-table-tr,
+[data-color-mode="dark"] .gy-table-tr,
+.dark .gy-table-tr {
+  background: var(--gy-surface, #1e293b);
+}
+
+.gy-dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton),
+[data-color-mode="dark"] .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton),
+.dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton) {
+  background: var(--gy-background-muted, rgba(255, 255, 255, 0.04));
+}
+
+.gy-dark .gy-table-tr--selected,
+[data-color-mode="dark"] .gy-table-tr--selected,
+.dark .gy-table-tr--selected {
+  background: rgba(244, 63, 94, 0.22) !important;
+}
+
+.gy-dark .gy-table-tr--selected .gy-table-td,
+[data-color-mode="dark"] .gy-table-tr--selected .gy-table-td,
+.dark .gy-table-tr--selected .gy-table-td {
+  color: #ffffff !important;
+  border-bottom-color: rgba(244, 63, 94, 0.35);
+}
+
+.gy-dark .gy-table-pagination,
+[data-color-mode="dark"] .gy-table-pagination,
+.dark .gy-table-pagination {
+  background: var(--gy-background-subtle, #0f172a);
+  border-top-color: var(--gy-border, #334155);
+}
+

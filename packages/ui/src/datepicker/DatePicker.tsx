@@ -8,10 +8,11 @@ import { Button } from "../button/Button";
 import "./datepicker.css";
 
 export interface DatePickerProps {
+  mode?: "single" | "range";
   placeholder?: string;
   variant?: "default" | "filled" | "focused" | "error" | "success" | "disabled";
-  value?: Date | null;
-  onChange?: (date: Date | null) => void;
+  value?: Date | [Date | null, Date | null] | null;
+  onChange?: (date: any) => void;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   minDate?: Date;
@@ -19,7 +20,7 @@ export interface DatePickerProps {
   onOpen?: () => void;
   onClose?: () => void;
   onCancel?: () => void;
-  onApply?: (date: Date | null) => void;
+  onApply?: (date: any) => void;
   dateFormat?: string;
   firstDayOfWeek?: 0 | 1;
   placement?: "top" | "bottom";
@@ -33,6 +34,7 @@ export interface DatePickerProps {
   label?: string;
   helperText?: string;
   hasError?: boolean;
+  showActions?: boolean;
   className?: string;
 }
 
@@ -55,7 +57,8 @@ const CalendarIcon = () => (
 );
 
 export function DatePicker({
-  placeholder = "Select date",
+  mode = "single",
+  placeholder,
   variant = "default",
   value,
   onChange,
@@ -80,15 +83,18 @@ export function DatePicker({
   label,
   helperText,
   hasError = false,
+  showActions = true,
   className = "",
 }: DatePickerProps) {
   const uid = useId();
   const [open, setOpen] = useState(false);
-  const [tempDate, setTempDate] = useState<Date | null>(value ?? null);
+  const [tempValue, setTempValue] = useState<Date | [Date, Date] | null>(
+    (value as any) ?? null,
+  );
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTempDate(value ?? null);
+    setTempValue((value as any) ?? null);
   }, [value]);
 
   useEffect(() => {
@@ -106,8 +112,8 @@ export function DatePicker({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const formatDateStr = (d: Date | null) => {
-    if (!d) return "";
+  const formatDateStr = (d: Date | null | undefined) => {
+    if (!d || !(d instanceof Date)) return "";
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
@@ -116,27 +122,53 @@ export function DatePicker({
     return `${y}-${m}-${day}`;
   };
 
-  const handleSelectDate = (date: Date) => {
-    setTempDate(date);
-    if (!onApply) {
-      onChange?.(date);
+  const getInputValue = () => {
+    if (!value) return "";
+    if (mode === "range" && Array.isArray(value)) {
+      const [start, end] = value;
+      if (!start) return "";
+      if (!end) return formatDateStr(start);
+      return `${formatDateStr(start)} - ${formatDateStr(end)}`;
+    }
+    if (value instanceof Date) {
+      return formatDateStr(value);
+    }
+    return "";
+  };
+
+  const handleSelectDate = (val: Date | [Date, Date]) => {
+    setTempValue(val);
+    if (!showActions && !onApply) {
+      onChange?.(val);
       setOpen(false);
     }
   };
 
   const handleApplyClick = () => {
-    onChange?.(tempDate);
-    onApply?.(tempDate);
+    onChange?.(tempValue);
+    onApply?.(tempValue);
     setOpen(false);
   };
 
   const handleCancelClick = () => {
-    setTempDate(value ?? null);
+    setTempValue((value as any) ?? null);
     onCancel?.();
     setOpen(false);
   };
 
+  const handlePresentClick = () => {
+    const today = new Date();
+    const presentVal = mode === "range" ? [today, today] : today;
+    setTempValue(presentVal as any);
+    if (!showActions && !onApply) {
+      onChange?.(presentVal);
+      setOpen(false);
+    }
+  };
+
   const resolvedMaxDate = disableFutureDates ? new Date() : maxDate;
+  const defaultPlaceholder =
+    placeholder ?? (mode === "range" ? "Select date range" : "Select date");
 
   const popoverContent = (
     <div
@@ -144,17 +176,24 @@ export function DatePicker({
       style={{ zIndex }}
     >
       <Calendar
-        value={tempDate ?? undefined}
-        onChange={(d) => {
-          if (d instanceof Date) handleSelectDate(d);
-          else if (Array.isArray(d) && d[0]) handleSelectDate(d[0]);
-        }}
+        mode={mode}
+        value={(tempValue as any) ?? undefined}
+        onChange={(val) => handleSelectDate(val)}
         minDate={minDate}
         maxDate={resolvedMaxDate}
         firstDayOfWeek={firstDayOfWeek}
       />
-      {(onApply || onCancel) && (
+      {showActions && (
         <div className="gy-datepicker-actions">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="gy-datepicker-present-btn"
+            onClick={handlePresentClick}
+          >
+            Present
+          </Button>
+          <div style={{ flex: 1 }} />
           <Button size="sm" variant="secondary" onClick={handleCancelClick}>
             Cancel
           </Button>
@@ -172,8 +211,8 @@ export function DatePicker({
         <Input
           id={`gy-datepicker-${uid}`}
           label={label}
-          placeholder={placeholder}
-          value={formatDateStr(value ?? null)}
+          placeholder={defaultPlaceholder}
+          value={getInputValue()}
           readOnly
           disabled={disabled}
           required={required}
