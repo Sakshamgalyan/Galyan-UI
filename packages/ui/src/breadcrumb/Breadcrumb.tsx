@@ -19,6 +19,7 @@ export interface BreadcrumbProps {
   separator?: React.ReactNode;
   onItemClick?: (item: BreadcrumbItemDef, index: number) => void;
   showBackButton?: boolean;
+  backButtonLabel?: string;
   onBackClick?: () => void;
   size?: BreadcrumbSize;
   variant?: BreadcrumbVariant;
@@ -26,42 +27,34 @@ export interface BreadcrumbProps {
   className?: string;
 }
 
-const DefaultChevron = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="4,2 8,6 4,10" />
-  </svg>
-);
-
 const BackArrow = () => (
   <svg
     width="14"
     height="14"
-    viewBox="0 0 14 14"
+    viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2"
+    strokeWidth="2.25"
     strokeLinecap="round"
     strokeLinejoin="round"
+    className="gy-breadcrumb-back-icon"
   >
-    <polyline points="9,3 4,7 9,11" />
-    <line x1="4" y1="7" x2="13" y2="7" />
+    <polyline points="15 18 9 12 15 6" />
   </svg>
+);
+
+const DefaultSlash = () => (
+  <span className="gy-breadcrumb-separator-char" aria-hidden="true">
+    /
+  </span>
 );
 
 export function Breadcrumb({
   items,
-  separator = "/",
+  separator = <DefaultSlash />,
   onItemClick,
   showBackButton = false,
+  backButtonLabel,
   onBackClick,
   size = "md",
   variant = "default",
@@ -110,10 +103,16 @@ export function Breadcrumb({
               type="button"
               className="gy-breadcrumb-back-btn"
               onClick={onBackClick}
-              aria-label="Go back"
+              aria-label={backButtonLabel || "Go back"}
             >
               <BackArrow />
+              {backButtonLabel && (
+                <span className="gy-breadcrumb-back-label">
+                  {backButtonLabel}
+                </span>
+              )}
             </button>
+            <span className="gy-breadcrumb-divider" aria-hidden="true" />
           </li>
         )}
 

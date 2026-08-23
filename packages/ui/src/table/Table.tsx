@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Skeleton } from "../skeleton/Skeleton";
+import { Tooltip } from "../tooltip/Tooltip";
 import "./table.css";
 
 export type SortDirection = "asc" | "desc";
@@ -13,6 +14,7 @@ export interface Column<T> {
   accessor: (row: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
+  maxWidth?: string;
   align?: "left" | "center" | "right";
   headerAlign?: "left" | "center" | "right";
 }
@@ -59,6 +61,9 @@ export interface TableProps<T> {
   paginationDisabled?: boolean;
   headerAlign?: "left" | "center" | "right";
   // Extra features for customizability
+  ellipsis?: boolean;
+  showTooltip?: boolean;
+  paginationVariant?: "numbers" | "compact";
   pageSize?: number;
   stickyHeader?: boolean;
   className?: string;
@@ -121,6 +126,9 @@ export function Table<T>({
   showPaginationSkeleton = true,
   paginationDisabled = false,
   headerAlign = "left",
+  ellipsis = true,
+  showTooltip = true,
+  paginationVariant = "compact",
   pageSize = 10,
   stickyHeader = false,
   className = "",
@@ -369,7 +377,7 @@ export function Table<T>({
             const isRightFixed = fixedRightmost && cIdx === columns.length - 1;
             const leftOffset = isLeftFixed
               ? enableSelection
-                ? 40
+                ? 48
                 : 0
               : undefined;
 
@@ -386,10 +394,13 @@ export function Table<T>({
                 key={col.key}
                 className={classes}
                 style={{
+                  width: col.width,
+                  maxWidth: col.maxWidth || col.width,
                   textAlign: col.align || "left",
                   left:
                     leftOffset !== undefined ? `${leftOffset}px` : undefined,
                   right: isRightFixed ? 0 : undefined,
+                  zIndex: isLeftFixed || isRightFixed ? 2 : undefined,
                 }}
               >
                 {skeletonContent ? (
@@ -412,6 +423,61 @@ export function Table<T>({
   // Pagination page buttons generator
   const paginationControls = useMemo(() => {
     if (!isPaginationEnabled) return null;
+
+    if (paginationVariant === "compact") {
+      return (
+        <div className="gy-table-pagination-controls gy-table-pagination-controls--compact">
+          <button
+            type="button"
+            className="gy-table-pagination-btn"
+            onClick={() => handlePageClick(1)}
+            disabled={currentPage === 1 || paginationDisabled || isLoading}
+            aria-label="First page"
+            title="First page"
+          >
+            «
+          </button>
+          <button
+            type="button"
+            className="gy-table-pagination-btn"
+            onClick={() => handlePageClick(currentPage - 1)}
+            disabled={currentPage === 1 || paginationDisabled || isLoading}
+            aria-label="Previous page"
+            title="Previous page"
+          >
+            ‹
+          </button>
+          <span className="gy-table-pagination-indicator">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            type="button"
+            className="gy-table-pagination-btn"
+            onClick={() => handlePageClick(currentPage + 1)}
+            disabled={
+              currentPage === totalPages || paginationDisabled || isLoading
+            }
+            aria-label="Next page"
+            title="Next page"
+          >
+            ›
+          </button>
+          <button
+            type="button"
+            className="gy-table-pagination-btn"
+            onClick={() => handlePageClick(totalPages)}
+            disabled={
+              currentPage === totalPages || paginationDisabled || isLoading
+            }
+            aria-label="Last page"
+            title="Last page"
+          >
+            »
+          </button>
+        </div>
+      );
+    }
+
     const pageNums = Array.from({ length: totalPages }, (_, i) => i + 1);
     const visiblePages = pageNums.filter(
       (p) => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1,
@@ -420,6 +486,7 @@ export function Table<T>({
     return (
       <div className="gy-table-pagination-controls">
         <button
+          type="button"
           className="gy-table-pagination-btn"
           onClick={() => handlePageClick(currentPage - 1)}
           disabled={currentPage === 1 || paginationDisabled || isLoading}
@@ -433,6 +500,7 @@ export function Table<T>({
               <span className="gy-table-pagination-ellipsis">…</span>
             )}
             <button
+              type="button"
               className={`gy-table-pagination-btn ${
                 currentPage === p ? "gy-table-pagination-btn--active" : ""
               }`}
@@ -446,6 +514,7 @@ export function Table<T>({
           </React.Fragment>
         ))}
         <button
+          type="button"
           className="gy-table-pagination-btn"
           onClick={() => handlePageClick(currentPage + 1)}
           disabled={
@@ -463,6 +532,7 @@ export function Table<T>({
     isPaginationEnabled,
     paginationDisabled,
     isLoading,
+    paginationVariant,
   ]);
 
   const activeSortKey =
@@ -501,7 +571,10 @@ export function Table<T>({
                     className={`gy-table-th gy-table-th--checkbox ${
                       fixedLeftmost ? "gy-table-th--fixed-left" : ""
                     }`}
-                    style={{ left: fixedLeftmost ? 0 : undefined }}
+                    style={{
+                      left: fixedLeftmost ? 0 : undefined,
+                      zIndex: fixedLeftmost ? 13 : stickyHeader ? 10 : undefined,
+                    }}
                   >
                     {!isLoading && (
                       <Checkbox
@@ -520,7 +593,7 @@ export function Table<T>({
                     fixedRightmost && cIdx === columns.length - 1;
                   const leftOffset = isLeftFixed
                     ? enableSelection
-                      ? 40
+                      ? 48
                       : 0
                     : undefined;
                   const align = col.align || headerAlign;
@@ -542,12 +615,14 @@ export function Table<T>({
                       className={classes}
                       style={{
                         width: col.width,
+                        maxWidth: col.maxWidth || col.width,
                         textAlign: align,
                         left:
                           leftOffset !== undefined
                             ? `${leftOffset}px`
                             : undefined,
                         right: isRightFixed ? 0 : undefined,
+                        zIndex: isLeftFixed || isRightFixed ? 12 : stickyHeader ? 10 : undefined,
                       }}
                       onClick={
                         isColSortable ? () => handleSort(col.key) : undefined
@@ -627,7 +702,10 @@ export function Table<T>({
                           className={`gy-table-td gy-table-td--checkbox ${
                             fixedLeftmost ? "gy-table-td--fixed-left" : ""
                           }`}
-                          style={{ left: fixedLeftmost ? 0 : undefined }}
+                          style={{
+                            left: fixedLeftmost ? 0 : undefined,
+                            zIndex: fixedLeftmost ? 3 : undefined,
+                          }}
                           onClick={(e) => e.stopPropagation()} // Stop triggering row clicks
                         >
                           <Checkbox
@@ -643,31 +721,66 @@ export function Table<T>({
                           fixedRightmost && cIdx === columns.length - 1;
                         const leftOffset = isLeftFixed
                           ? enableSelection
-                            ? 40
+                            ? 48
                             : 0
                           : undefined;
 
+                        const cellValue = col.accessor(row);
+                        const isText =
+                          typeof cellValue === "string" ||
+                          typeof cellValue === "number";
+                        const rawText = isText ? String(cellValue) : undefined;
+
                         const classes = [
                           "gy-table-td",
+                          isText ? "gy-table-td--ellipsis" : "",
                           isLeftFixed ? "gy-table-td--fixed-left" : "",
                           isRightFixed ? "gy-table-td--fixed-right" : "",
                         ]
                           .filter(Boolean)
                           .join(" ");
 
-                        const cellValue = col.accessor(row);
+                        const cellNode = isText ? (
+                          <div
+                            className="gy-table-cell-ellipsis"
+                            style={{
+                              maxWidth: col.maxWidth || col.width || undefined,
+                            }}
+                          >
+                            {rawText ? (
+                              <Tooltip
+                                content={rawText}
+                                position="top"
+                                maxWidth={280}
+                              >
+                                <span className="gy-table-cell-ellipsis-text">
+                                  {cellValue}
+                                </span>
+                              </Tooltip>
+                            ) : (
+                              <span className="gy-table-cell-ellipsis-text">
+                                {cellValue}
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          cellValue
+                        );
 
                         return (
                           <td
                             key={col.key}
                             className={classes}
                             style={{
+                              width: col.width,
+                              maxWidth: col.maxWidth || col.width,
                               textAlign: col.align || "left",
                               left:
                                 leftOffset !== undefined
                                   ? `${leftOffset}px`
                                   : undefined,
                               right: isRightFixed ? 0 : undefined,
+                              zIndex: isLeftFixed || isRightFixed ? 2 : undefined,
                             }}
                           >
                             {cIdx === 0 ? (
@@ -706,11 +819,11 @@ export function Table<T>({
                                   <span className="gy-table-expand-spacer" />
                                 )}
                                 <span className="gy-table-cell-content">
-                                  {cellValue}
+                                  {cellNode}
                                 </span>
                               </div>
                             ) : (
-                              cellValue
+                              cellNode
                             )}
                           </td>
                         );
@@ -755,19 +868,27 @@ export function Table<T>({
               <span className="gy-table-pagination-info">
                 {isPaginationControlled ? (
                   <>
-                    Page {currentPage} of {totalPages}
-                    {pagination.totalItems !== undefined &&
-                      ` (${pagination.totalItems} items)`}
+                    Showing{" "}
+                    {pagination.totalItems === 0
+                      ? 0
+                      : (currentPage - 1) *
+                          (pagination.itemsPerPage || pageSize) +
+                        1}{" "}
+                    to{" "}
+                    {Math.min(
+                      currentPage * (pagination.itemsPerPage || pageSize),
+                      pagination.totalItems || 0,
+                    )}{" "}
+                    of {pagination.totalItems ?? 0} entries
                   </>
                 ) : (
                   <>
                     Showing{" "}
-                    {Math.min(
-                      (currentPage - 1) * pageSize + 1,
-                      sortedData.length,
-                    )}
-                    –{Math.min(currentPage * pageSize, sortedData.length)} of{" "}
-                    {sortedData.length}
+                    {sortedData.length === 0
+                      ? 0
+                      : (currentPage - 1) * pageSize + 1}{" "}
+                    to {Math.min(currentPage * pageSize, sortedData.length)} of{" "}
+                    {sortedData.length} entries
                   </>
                 )}
               </span>

@@ -35,6 +35,24 @@ export default meta;
 function ToasterDemoInner() {
   const { toast, dismissAll } = useToast();
 
+  const handleAsyncAction = () => {
+    const fakeAsyncJob = new Promise<{ id: string }>((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.random() > 0.3) {
+          resolve({ id: "DOC-9821" });
+        } else {
+          reject(new Error("Network connection dropped"));
+        }
+      }, 2000);
+    });
+
+    toast.promise(fakeAsyncJob, {
+      loading: "Uploading and compiling assets...",
+      success: (data) => `Compiled successfully! Build ID: ${data.id}`,
+      error: (err) => `Upload failed: ${err.message}`,
+    });
+  };
+
   return (
     <div
       style={{
@@ -51,16 +69,17 @@ function ToasterDemoInner() {
       <p
         style={{
           margin: 0,
-          color: "#64748b",
+          color: "var(--gy-text-muted)",
           fontSize: "0.875rem",
-          maxWidth: 420,
+          maxWidth: 460,
           textAlign: "center",
         }}
       >
-        Trigger notifications. All toasts have uniform width and clear all
-        button when multiple exist. Default position is bottom-right.
+        Trigger modern notifications with promise chaining, convenient helper methods,
+        action buttons, and uniform responsive widths.
       </p>
 
+      {/* Direct Methods */}
       <div
         style={{
           display: "flex",
@@ -72,56 +91,49 @@ function ToasterDemoInner() {
         <Button
           variant="success"
           onClick={() =>
-            toast({
-              title: "Changes saved",
+            toast.success("Changes saved", {
               description: "Your profile has been updated successfully.",
-              variant: "success",
             })
           }
         >
-          Success Toast
+          toast.success()
         </Button>
 
         <Button
           variant="danger"
           onClick={() =>
-            toast({
-              title: "Connection error",
+            toast.error("Connection error", {
               description: "Could not reach server. Please try again.",
-              variant: "error",
             })
           }
         >
-          Error Toast
+          toast.error()
         </Button>
 
         <Button
           variant="warning"
           onClick={() =>
-            toast({
-              title: "Storage warning",
-              description: "You are using 92% of your available storage space.",
-              variant: "warning",
+            toast.warning("Storage warning", {
+              description: "You are using 92% of your available cloud quota.",
             })
           }
         >
-          Warning Toast
+          toast.warning()
         </Button>
 
         <Button
           variant="primary"
           onClick={() =>
-            toast({
-              title: "System update available",
+            toast.info("System update available", {
               description: "Version 2.4.0 is ready to install.",
-              variant: "info",
             })
           }
         >
-          Info Toast
+          toast.info()
         </Button>
       </div>
 
+      {/* Async Promise and Actions */}
       <div
         style={{
           display: "flex",
@@ -130,30 +142,32 @@ function ToasterDemoInner() {
           justifyContent: "center",
         }}
       >
+        <Button variant="primary" onClick={handleAsyncAction}>
+          toast.promise() (Simulated Async)
+        </Button>
+
         <Button
           variant="secondary"
           onClick={() =>
-            toast({
-              title: "Item deleted",
-              description: "The report was moved to trash.",
-              variant: "info",
+            toast.info("Item moved to trash", {
+              description: "The quarterly report was archived.",
               actions: (
                 <Button
                   size="xs"
                   variant="secondary"
-                  onClick={() => alert("Undo clicked")}
+                  onClick={() => alert("Undo archive clicked")}
                 >
-                  Undo
+                  Undo Action
                 </Button>
               ),
             })
           }
         >
-          Toast with Action
+          Toast with Action Button
         </Button>
 
         <Button variant="danger-soft" onClick={() => dismissAll()}>
-          Clear All
+          Clear All Toasts
         </Button>
       </div>
     </div>
@@ -175,12 +189,22 @@ export const Default: Story = {
   render: (args) => <ToasterDemo position={args.position} />,
 };
 
+export const TopRight: Story = {
+  args: { position: "top-right" },
+  render: (args) => <ToasterDemo position={args.position} />,
+};
+
+export const TopCenter: Story = {
+  args: { position: "top-center" },
+  render: (args) => <ToasterDemo position={args.position} />,
+};
+
 export const BottomLeft: Story = {
   args: { position: "bottom-left" },
   render: (args) => <ToasterDemo position={args.position} />,
 };
 
-export const TopRight: Story = {
-  args: { position: "top-right" },
+export const BottomCenter: Story = {
+  args: { position: "bottom-center" },
   render: (args) => <ToasterDemo position={args.position} />,
 };

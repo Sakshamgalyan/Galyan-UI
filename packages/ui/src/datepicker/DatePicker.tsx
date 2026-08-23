@@ -1,17 +1,37 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useId } from "react";
-import { createPortal } from "react-dom";
+import React, { useEffect, useState, useId } from "react";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  useDismiss,
+  useRole,
+  useInteractions,
+  FloatingPortal,
+  Placement as FloatingPlacement,
+} from "@floating-ui/react";
 import { Calendar } from "../calendar/Calendar";
 import { Input, InputVariant } from "../input/Input";
 import { Button } from "../button/Button";
 import "./datepicker.css";
 
+export type DatePickerSingleValue = Date | null;
+export type DatePickerRangeValue = [Date | null, Date | "present" | null] | null;
+export type DatePickerValue = DatePickerSingleValue | DatePickerRangeValue;
+
+export interface DatePickerPreset {
+  label: string;
+  getValue: () => DatePickerValue;
+}
+
 export interface DatePickerProps {
   mode?: "single" | "range";
   placeholder?: string;
   variant?: "default" | "filled" | "focused" | "error" | "success" | "disabled";
-  value?: Date | [Date | null, Date | null] | null;
+  value?: DatePickerValue;
   onChange?: (date: any) => void;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -21,6 +41,7 @@ export interface DatePickerProps {
   onClose?: () => void;
   onCancel?: () => void;
   onApply?: (date: any) => void;
+  onClear?: () => void;
   dateFormat?: string;
   firstDayOfWeek?: 0 | 1;
   placement?: "top" | "bottom";
@@ -35,6 +56,9 @@ export interface DatePickerProps {
   helperText?: string;
   hasError?: boolean;
   showActions?: boolean;
+  showPresent?: boolean;
+  showClear?: boolean;
+  presets?: DatePickerPreset[];
   className?: string;
 }
 
@@ -70,31 +94,56 @@ export function DatePicker({
   onClose,
   onCancel,
   onApply,
+  onClear,
   dateFormat = "YYYY-MM-DD",
   firstDayOfWeek = 0,
   placement = "bottom",
   align = "left",
   zIndex = 1000,
-  usePortal = false,
+  usePortal = true,
   disableFutureDates = false,
-  valueFormat,
   required = false,
   disabled = false,
   label,
   helperText,
   hasError = false,
   showActions = true,
+  showPresent = true,
+  showClear = true,
+  presets,
   className = "",
 }: DatePickerProps) {
   const uid = useId();
   const [open, setOpen] = useState(false);
-  const [tempValue, setTempValue] = useState<Date | [Date, Date] | null>(
-    (value as any) ?? null,
-  );
-  const rootRef = useRef<HTMLDivElement>(null);
+  const [tempValue, setTempValue] = useState<DatePickerValue>(value ?? null);
+
+  const desiredPlacement: FloatingPlacement = `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
+
+  const { refs, floatingStyles, context } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    placement: desiredPlacement,
+    whileElementsMounted: autoUpdate,
+    strategy: "fixed",
+    middleware: [
+      offset(6),
+      flip({
+        fallbackAxisSideDirection: "start",
+        padding: 8,
+      }),
+      shift({ padding: 8 }),
+    ],
+  });
+
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: "dialog" });
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    dismiss,
+    role,
+  ]);
 
   useEffect(() => {
-    setTempValue((value as any) ?? null);
+    setTempValue(value ?? null);
   }, [value]);
 
   useEffect(() => {
@@ -102,18 +151,10 @@ export function DatePicker({
     else onClose?.();
   }, [open, onOpen, onClose]);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!rootRef.current?.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  const formatDateStr = (d: Date | null | undefined) => {
-    if (!d || !(d instanceof Date)) return "";
+  const formatDateStr = (d: Date | "present" | null | undefined) => {
+    if (!d) return "";
+    if (d === "present") return "Present";
+    if (!(d instanceof Date)) return "";
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
@@ -127,6 +168,7 @@ export function DatePicker({
     if (mode === "range" && Array.isArray(value)) {
       const [start, end] = value;
       if (!start) return "";
+      if (end === "present") return `${formatDateStr(start)} - Present`;
       if (!end) return formatDateStr(start);
       return `${formatDateStr(start)} - ${formatDateStr(end)}`;
     }
@@ -151,20 +193,67 @@ export function DatePicker({
   };
 
   const handleCancelClick = () => {
-    setTempValue((value as any) ?? null);
+    setTempValue(value ?? null);
     onCancel?.();
     setOpen(false);
   };
 
-  const handlePresentClick = () => {
-    const today = new Date();
-    const presentVal = mode === "range" ? [today, today] : today;
-    setTempValue(presentVal as any);
+  const handleClearClick = () => {
+    setTempValue(null);
+    onClear?.();
     if (!showActions && !onApply) {
-      onChange?.(presentVal);
+      onChange?.(null);
       setOpen(false);
     }
   };
+
+  const handlePresentClick = () => {
+    const today = new Date();
+    if (mode === "range") {
+      if (Array.isArray(tempValue) && tempValue[0] instanceof Date) {
+        const nextVal: DatePickerRangeValue = [tempValue[0], "present"];
+        setTempValue(nextVal);
+        if (!showActions && !onApply) {
+          onChange?.(nextVal);
+          setOpen(false);
+        }
+      } else {
+        const nextVal: DatePickerRangeValue = [today, "present"];
+        setTempValue(nextVal);
+        if (!showActions && !onApply) {
+          onChange?.(nextVal);
+          setOpen(false);
+        }
+      }
+    } else {
+      setTempValue(today);
+      if (!showActions && !onApply) {
+        onChange?.(today);
+        setOpen(false);
+      }
+    }
+  };
+
+  const isPresentActive =
+    (mode === "range" &&
+      Array.isArray(tempValue) &&
+      tempValue[1] === "present") ||
+    (mode === "single" &&
+      tempValue instanceof Date &&
+      tempValue.toDateString() === new Date().toDateString());
+
+  // Resolve Calendar internal value for visual selection
+  const calendarValue = (() => {
+    if (!tempValue) return undefined;
+    if (mode === "range" && Array.isArray(tempValue)) {
+      const [start, end] = tempValue;
+      if (!start) return undefined;
+      const endResolved = end === "present" ? new Date() : (end ?? undefined);
+      return [start, endResolved] as [Date, Date];
+    }
+    if (tempValue instanceof Date) return tempValue;
+    return undefined;
+  })();
 
   const resolvedMaxDate = disableFutureDates ? new Date() : maxDate;
   const defaultPlaceholder =
@@ -172,27 +261,67 @@ export function DatePicker({
 
   const popoverContent = (
     <div
-      className={`gy-datepicker-popover gy-datepicker-popover--${placement} gy-datepicker-popover--${align}`}
-      style={{ zIndex }}
+      ref={refs.setFloating}
+      className="gy-datepicker-popover"
+      style={{
+        ...floatingStyles,
+        zIndex,
+      }}
+      {...getFloatingProps()}
     >
+      {presets && presets.length > 0 && (
+        <div className="gy-datepicker-presets">
+          {presets.map((p, idx) => (
+            <button
+              type="button"
+              key={idx}
+              className="gy-datepicker-preset-btn"
+              onClick={() => {
+                const val = p.getValue();
+                setTempValue(val);
+                if (!showActions && !onApply) {
+                  onChange?.(val);
+                  setOpen(false);
+                }
+              }}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <Calendar
         mode={mode}
-        value={(tempValue as any) ?? undefined}
+        value={calendarValue}
         onChange={(val) => handleSelectDate(val)}
         minDate={minDate}
         maxDate={resolvedMaxDate}
         firstDayOfWeek={firstDayOfWeek}
       />
+
       {showActions && (
         <div className="gy-datepicker-actions">
-          <Button
-            size="sm"
-            variant="ghost"
-            className="gy-datepicker-present-btn"
-            onClick={handlePresentClick}
-          >
-            Present
-          </Button>
+          {showPresent && (
+            <Button
+              size="sm"
+              variant={isPresentActive ? "primary" : "ghost"}
+              className="gy-datepicker-present-btn"
+              onClick={handlePresentClick}
+            >
+              Present
+            </Button>
+          )}
+          {showClear && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="gy-datepicker-clear-btn"
+              onClick={handleClearClick}
+            >
+              Clear
+            </Button>
+          )}
           <div style={{ flex: 1 }} />
           <Button size="sm" variant="secondary" onClick={handleCancelClick}>
             Cancel
@@ -206,8 +335,13 @@ export function DatePicker({
   );
 
   return (
-    <div ref={rootRef} className={`gy-datepicker ${className}`}>
-      <div onClick={() => !disabled && setOpen((o) => !o)}>
+    <div className={`gy-datepicker ${className}`}>
+      <div
+        ref={refs.setReference}
+        {...getReferenceProps({
+          onClick: () => !disabled && setOpen((o) => !o),
+        })}
+      >
         <Input
           id={`gy-datepicker-${uid}`}
           label={label}
@@ -225,11 +359,11 @@ export function DatePicker({
         />
       </div>
 
-      {open &&
-        !disabled &&
-        (usePortal
-          ? createPortal(popoverContent, document.body)
-          : popoverContent)}
+      {open && !disabled && (
+        <FloatingPortal>
+          {popoverContent}
+        </FloatingPortal>
+      )}
     </div>
   );
 }

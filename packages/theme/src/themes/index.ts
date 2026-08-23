@@ -1,6 +1,11 @@
-export { customerTheme } from "./customer.js";
-export { professionalTheme } from "./professional.js";
-export { agentTheme } from "./agent.js";
-export { adminTheme } from "./admin.js";
-export { metalixiaTheme } from "./metalixia.js";
+// ── Brands ─────────────────────────────────────────────────────────────
+export * from "./brands/index.js";
+
+// ── Roles ──────────────────────────────────────────────────────────────
+export * from "./roles/index.js";
+
+// ── Theme Resolution ───────────────────────────────────────────────────
+export { resolveTheme } from "./resolveTheme.js";
+
+// ── Shared Base Tokens ─────────────────────────────────────────────────
 export { baseTheme } from "./base.js";

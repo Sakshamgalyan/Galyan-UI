@@ -48,6 +48,21 @@ const SettingsIcon = () => (
   </svg>
 );
 
+const FolderIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
 const meta: Meta<typeof Menu> = {
   title: "Galyan UI/Menu",
   component: Menu,
@@ -55,7 +70,7 @@ const meta: Meta<typeof Menu> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <div style={{ width: 300 }}>
+      <div style={{ width: "100%", maxWidth: 680, minHeight: 180 }}>
         <Story />
       </div>
     ),
@@ -100,12 +115,14 @@ export const Default: Story = {
   render: (args) => {
     const [active, setActive] = useState("all-users");
     return (
-      <Menu
-        {...args}
-        items={menuItems}
-        activeItemId={active}
-        onItemClick={setActive}
-      />
+      <div style={{ width: 300 }}>
+        <Menu
+          {...args}
+          items={menuItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
     );
   },
 };
@@ -114,12 +131,14 @@ export const Minimal: Story = {
   render: () => {
     const [active, setActive] = useState("dashboard");
     return (
-      <Menu
-        variant="minimal"
-        items={menuItems}
-        activeItemId={active}
-        onItemClick={setActive}
-      />
+      <div style={{ width: 300 }}>
+        <Menu
+          variant="minimal"
+          items={menuItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
     );
   },
 };
@@ -144,12 +163,14 @@ export const WithBadgesAndDividers: Story = {
       },
     ];
     return (
-      <Menu
-        variant="bordered"
-        items={badgeItems}
-        activeItemId={active}
-        onItemClick={setActive}
-      />
+      <div style={{ width: 300 }}>
+        <Menu
+          variant="bordered"
+          items={badgeItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
     );
   },
 };
@@ -158,56 +179,67 @@ export const WithCustomHeader: Story = {
   render: () => {
     const [active, setActive] = useState("all-users");
     return (
-      <Menu
-        variant="bordered"
-        items={menuItems}
-        activeItemId={active}
-        onItemClick={setActive}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              background: "#22c55e",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "bold",
-            }}
-          >
-            SG
-          </div>
-          <div>
-            <div style={{ fontWeight: 600, fontSize: "0.875rem" }}>
-              Saksham Galyan
+      <div style={{ width: 300 }}>
+        <Menu
+          variant="bordered"
+          items={menuItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                background: "var(--gy-primary)",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "bold",
+              }}
+            >
+              SG
             </div>
-            <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
-              Admin Workspace
+            <div>
+              <div style={{ fontWeight: 600, fontSize: "0.875rem" }}>
+                Saksham Galyan
+              </div>
+              <div style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)" }}>
+                Admin Workspace
+              </div>
             </div>
           </div>
-        </div>
-      </Menu>
+        </Menu>
+      </div>
     );
   },
 };
 
 export const HorizontalMenu: Story = {
-  decorators: [
-    (Story) => (
-      <div style={{ width: "100%", maxWidth: 700 }}>
-        <Story />
-      </div>
-    ),
-  ],
   render: () => {
     const [active, setActive] = useState("dashboard");
     const horizontalItems = [
       { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
-      { id: "users", label: "Users", icon: <UsersIcon /> },
-      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+      {
+        id: "users",
+        label: "Users",
+        icon: <UsersIcon />,
+        children: [
+          { id: "all-users", label: "All Users" },
+          { id: "roles", label: "Roles & Permissions" },
+        ],
+      },
+      {
+        id: "settings",
+        label: "Settings",
+        icon: <SettingsIcon />,
+        children: [
+          { id: "general", label: "General" },
+          { id: "security", label: "Security" },
+        ],
+      },
     ];
     return (
       <Menu
@@ -221,107 +253,73 @@ export const HorizontalMenu: Story = {
   },
 };
 
-export const Sizes: Story = {
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          width: 320,
-          display: "flex",
-          flexDirection: "column",
-          gap: "2rem",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
+export const HorizontalMinimalNavbar: Story = {
   render: () => {
-    const [active, setActive] = useState("users");
+    const [active, setActive] = useState("overview");
+    const navItems = [
+      { id: "overview", label: "Overview", icon: <DashboardIcon /> },
+      { id: "projects", label: "Projects", icon: <FolderIcon />, badge: "4" },
+      { id: "team", label: "Team Members", icon: <UsersIcon /> },
+      { id: "settings", label: "Workspace Settings", icon: <SettingsIcon /> },
+    ];
     return (
-      <>
-        <div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#64748b",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Small Size (sm)
-          </div>
-          <Menu
-            size="sm"
-            variant="bordered"
-            items={menuItems}
-            activeItemId={active}
-            onItemClick={setActive}
-          />
-        </div>
-        <div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#64748b",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Medium Size (md)
-          </div>
-          <Menu
-            size="md"
-            variant="bordered"
-            items={menuItems}
-            activeItemId={active}
-            onItemClick={setActive}
-          />
-        </div>
-        <div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#64748b",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Large Size (lg)
-          </div>
-          <Menu
-            size="lg"
-            variant="bordered"
-            items={menuItems}
-            activeItemId={active}
-            onItemClick={setActive}
-          />
-        </div>
-      </>
+      <Menu
+        orientation="horizontal"
+        variant="minimal"
+        items={navItems}
+        activeItemId={active}
+        onItemClick={setActive}
+      />
     );
   },
 };
 
-export const DisabledItems: Story = {
+export const Sizes: Story = {
   render: () => {
-    const [active, setActive] = useState("dashboard");
-    const itemsWithDisabled = [
-      { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
-      {
-        id: "analytics",
-        label: "Analytics (Disabled)",
-        icon: <UsersIcon />,
-        disabled: true,
-      },
-      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
-    ];
+    const [active, setActive] = useState("users");
     return (
-      <Menu
-        variant="bordered"
-        items={itemsWithDisabled}
-        activeItemId={active}
-        onItemClick={setActive}
-      />
+      <div
+        style={{
+          width: 300,
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+        }}
+      >
+        <div>
+          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+            Small (sm)
+          </span>
+          <Menu
+            size="sm"
+            items={menuItems.slice(0, 2)}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+        </div>
+        <div>
+          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+            Medium (md)
+          </span>
+          <Menu
+            size="md"
+            items={menuItems.slice(0, 2)}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+        </div>
+        <div>
+          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+            Large (lg)
+          </span>
+          <Menu
+            size="lg"
+            items={menuItems.slice(0, 2)}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+        </div>
+      </div>
     );
   },
 };

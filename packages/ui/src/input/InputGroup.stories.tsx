@@ -15,7 +15,7 @@ const meta: Meta<typeof InputGroup> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <div style={{ width: 480 }}>
+      <div style={{ width: 480, padding: "1rem" }}>
         <Story />
       </div>
     ),
@@ -47,6 +47,112 @@ export const Default: Story = {
   ),
 };
 
+export const PhoneCodeDropdownGroup: Story = {
+  render: () => {
+    const [countryCode, setCountryCode] = useState("+1");
+    const [phone, setPhone] = useState("");
+
+    return (
+      <DropdownGroup
+        label="Phone Number"
+        dropdownPosition="left"
+        dropdown={
+          <Dropdown
+            options={[
+              { value: "+1", label: "🇺🇸 +1" },
+              { value: "+44", label: "🇬🇧 +44" },
+              { value: "+91", label: "🇮🇳 +91" },
+              { value: "+49", label: "🇩🇪 +49" },
+            ]}
+            value={countryCode}
+            onChange={setCountryCode}
+          />
+        }
+        helperText="Select your country calling code"
+      >
+        <Input
+          placeholder="(555) 000-0000"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </DropdownGroup>
+    );
+  },
+};
+
+export const CurrencyAmountDropdownGroup: Story = {
+  render: () => {
+    const [currency, setCurrency] = useState("USD");
+    const [amount, setAmount] = useState("1500");
+
+    return (
+      <DropdownGroup
+        label="Payment Amount"
+        dropdownPosition="right"
+        leftAddon="$"
+        dropdown={
+          <Dropdown
+            options={[
+              { value: "USD", label: "USD" },
+              { value: "EUR", label: "EUR" },
+              { value: "GBP", label: "GBP" },
+              { value: "JPY", label: "JPY" },
+              { value: "INR", label: "INR" },
+            ]}
+            value={currency}
+            onChange={setCurrency}
+          />
+        }
+        helperText="Enter transaction total and billing currency"
+      >
+        <Input
+          placeholder="0.00"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+      </DropdownGroup>
+    );
+  },
+};
+
+export const SearchCategoryDropdownGroup: Story = {
+  render: () => {
+    const [category, setCategory] = useState("all");
+    const [query, setQuery] = useState("");
+
+    return (
+      <DropdownGroup
+        label="Search Knowledgebase"
+        dropdownPosition="left"
+        rightAddon={
+          <Button size="md" variant="primary" onClick={() => alert(`Searching: ${query}`)}>
+            Search
+          </Button>
+        }
+        dropdown={
+          <Dropdown
+            options={[
+              { value: "all", label: "All Items" },
+              { value: "docs", label: "Documentation" },
+              { value: "components", label: "Components" },
+              { value: "articles", label: "Articles" },
+            ]}
+            value={category}
+            onChange={setCategory}
+          />
+        }
+      >
+        <Input
+          placeholder="Search docs, APIs, tokens..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </DropdownGroup>
+    );
+  },
+};
+
 export const WithButtonAddon: Story = {
   args: {
     label: "Newsletter Subscription",
@@ -73,57 +179,6 @@ export const WithButtonAddon: Story = {
           onChange={(e) => setEmail(e.target.value)}
         />
       </InputGroup>
-    );
-  },
-};
-
-export const DropdownGroupLeft: Story = {
-  render: () => {
-    const [proto, setProto] = useState("https://");
-    return (
-      <DropdownGroup
-        label="Server Address"
-        dropdownPosition="left"
-        dropdown={
-          <Dropdown
-            options={[
-              { value: "https://", label: "https://" },
-              { value: "http://", label: "http://" },
-              { value: "ftp://", label: "ftp://" },
-            ]}
-            value={proto}
-            onChange={setProto}
-          />
-        }
-      >
-        <Input placeholder="api.example.com/v1" />
-      </DropdownGroup>
-    );
-  },
-};
-
-export const DropdownGroupRight: Story = {
-  render: () => {
-    const [currency, setCurrency] = useState("USD");
-    return (
-      <DropdownGroup
-        label="Pricing Plan"
-        dropdownPosition="right"
-        leftAddon="$"
-        dropdown={
-          <Dropdown
-            options={[
-              { value: "USD", label: "USD" },
-              { value: "EUR", label: "EUR" },
-              { value: "GBP", label: "GBP" },
-            ]}
-            value={currency}
-            onChange={setCurrency}
-          />
-        }
-      >
-        <Input placeholder="99.00" type="number" />
-      </DropdownGroup>
     );
   },
 };

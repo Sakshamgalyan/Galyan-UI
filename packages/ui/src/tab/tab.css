@@ -1,5 +1,11 @@
 /* ── Tabs Component ──────────────────────────────────────────────────────── */
-.gy-tabs { display: flex; flex-direction: column; gap: 0; width: 100%; }
+.gy-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
 .gy-tabs--vertical { flex-direction: row; }
 
 .gy-tabs-list {
@@ -7,7 +13,7 @@
   gap: 0.5rem;
   flex-shrink: 0;
   align-items: center;
-  padding: 0.25rem 0.125rem; /* Prevents border/shadow clipping at top and bottom */
+  padding: 0.25rem 0.125rem;
   box-sizing: border-box;
 }
 .gy-tabs--vertical .gy-tabs-list {
@@ -34,6 +40,7 @@
   position: relative;
   box-sizing: border-box;
   line-height: 1.4;
+  outline: none;
 }
 .gy-tabs-trigger:disabled {
   opacity: 0.4;
@@ -46,7 +53,7 @@
 .gy-tabs--md .gy-tabs-trigger { padding: 0.5rem 1.125rem; font-size: 0.875rem; }
 .gy-tabs--lg .gy-tabs-trigger { padding: 0.625rem 1.375rem; font-size: 1rem; }
 
-/* ── Classic Variant (Underline Highlight - Images 1 & 2) ── */
+/* ── Classic Variant (Underline Highlight) ── */
 .gy-tabs--classic .gy-tabs-list {
   border-bottom: 1.5px solid var(--gy-border, #e2e8f0);
   gap: 1.25rem;
@@ -64,9 +71,9 @@
   color: var(--gy-text, #0f172a);
 }
 .gy-tabs--classic .gy-tabs-trigger--active {
-  color: var(--gy-primary, #10b981);
-  border-bottom: 2.5px solid var(--gy-primary, #10b981);
-  font-weight: 500;
+  color: var(--gy-primary);
+  border-bottom: 2.5px solid var(--gy-primary);
+  font-weight: 600;
 }
 
 /* Classic Vertical */
@@ -85,10 +92,11 @@
   padding: 0.5rem 1rem;
 }
 .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active {
-  border-right-color: var(--gy-primary, #10b981);
+  border-right-color: var(--gy-primary);
+  color: var(--gy-primary);
 }
 
-/* ── Card Variant (Image 5) ── */
+/* ── Card Variant ── */
 .gy-tabs--card .gy-tabs-list {
   background: var(--gy-background-muted, #f1f5f9);
   border-radius: var(--gy-radius-lg, 0.5rem);
@@ -106,12 +114,12 @@
 }
 .gy-tabs--card .gy-tabs-trigger--active {
   background: var(--gy-surface, #ffffff);
-  color: var(--gy-primary, #10b981);
+  color: var(--gy-primary);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* ── Button Variant (Pill Toggle - Image 4) ── */
+/* ── Button Variant (Pill Toggle) ── */
 .gy-tabs--button .gy-tabs-list {
   gap: 0.625rem;
   border-bottom: none;
@@ -124,14 +132,14 @@
   color: var(--gy-text, #334155);
 }
 .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled) {
-  border-color: var(--gy-primary, #10b981);
-  color: var(--gy-primary, #10b981);
+  border-color: var(--gy-primary);
+  color: var(--gy-primary);
 }
 .gy-tabs--button .gy-tabs-trigger--active {
-  background: var(--gy-primary, #10b981) !important;
-  border-color: var(--gy-primary, #10b981) !important;
+  background: var(--gy-primary) !important;
+  border-color: var(--gy-primary) !important;
   color: #ffffff !important;
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--gy-primary) 30%, transparent);
 }
 .gy-tabs--button .gy-tabs-trigger--active * {
   color: #ffffff !important;
@@ -141,7 +149,7 @@
 .gy-tabs-trigger-badge {
   font-size: 0.7rem;
   font-weight: 600;
-  background: #ef4444;
+  background: var(--gy-danger, #ef4444);
   color: #ffffff;
   border-radius: 9999px;
   padding: 0.1rem 0.45rem;
@@ -156,7 +164,7 @@
 
 .gy-tabs--button .gy-tabs-trigger--active .gy-tabs-trigger-badge {
   background: #ffffff;
-  color: #ef4444 !important;
+  color: var(--gy-danger, #ef4444) !important;
 }
 
 /* ── Panel ── */
@@ -202,8 +210,8 @@
 .gy-dark .gy-tabs--classic .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger--active,
 .dark .gy-tabs--classic .gy-tabs-trigger--active {
-  color: var(--gy-primary-light, #4ade80);
-  border-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary);
+  border-color: var(--gy-primary);
 }
 
 .gy-dark .gy-tabs--card .gy-tabs-list,
@@ -216,7 +224,7 @@
 [data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger--active,
 .dark .gy-tabs--card .gy-tabs-trigger--active {
   background: var(--gy-surface, #1e293b);
-  color: var(--gy-primary-light, #4ade80);
+  color: var(--gy-primary);
 }
 
 .gy-dark .gy-tabs--button .gy-tabs-trigger,
@@ -227,3 +235,11 @@
   color: var(--gy-text, #cbd5e1);
 }
 
+.gy-dark .gy-tabs--button .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger--active,
+.dark .gy-tabs--button .gy-tabs-trigger--active {
+  background: var(--gy-primary) !important;
+  border-color: var(--gy-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--gy-primary) 35%, transparent);
+}
