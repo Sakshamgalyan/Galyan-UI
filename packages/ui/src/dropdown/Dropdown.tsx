@@ -1,9 +1,21 @@
 "use client";
 
-import React, { useEffect, useId, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { Spinner } from "../spinner/Spinner";
+import React, { useEffect, useRef, useState, useId } from "react";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  size as floatingSize,
+  useDismiss,
+  useRole,
+  useInteractions,
+  FloatingPortal,
+  Placement as FloatingPlacement,
+} from "@floating-ui/react";
 import { Checkbox } from "../checkbox/Checkbox";
+import { Spinner } from "../spinner/Spinner";
 import "./dropdown.css";
 
 export interface DropdownOption {
@@ -15,27 +27,25 @@ export interface DropdownOption {
   [key: string]: any;
 }
 
-export type DropdownSize = "sm" | "md" | "lg";
-
 export interface DropdownProps {
-  options: DropdownOption[];
-  placeholder?: string;
-  onChange?: (value: any) => void;
-  onOpen?: () => void;
-  onClose?: () => void;
-  size?: DropdownSize;
   id?: string;
+  options: DropdownOption[];
   value?: string | string[];
-  label?: React.ReactNode;
-  required?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  disabled?: boolean;
+  onChange?: (val: any) => void;
+  placeholder?: string;
+  label?: string;
+  size?: "sm" | "md" | "lg";
   multiple?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
   clearable?: boolean;
+  disabled?: boolean;
   loading?: boolean;
+  required?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  onOpen?: () => void;
+  onClose?: () => void;
   error?: string;
   errorMessage?: string;
   hasError?: boolean;
@@ -50,7 +60,7 @@ export interface DropdownProps {
   maxTagCount?: number;
   placement?: "top" | "bottom";
   align?: "left" | "right";
-  dropdownWidth?: string;
+  dropdownWidth?: string | number;
   showSelectAll?: boolean;
   groupBy?: string;
   zIndex?: number;
@@ -59,24 +69,24 @@ export interface DropdownProps {
 }
 
 export function Dropdown({
-  options = [],
-  placeholder = "Select an option",
-  onChange,
-  onOpen,
-  onClose,
-  size = "md",
   id,
+  options,
   value,
+  onChange,
+  placeholder = "Select option",
   label,
-  required = false,
-  leftIcon,
-  rightIcon,
-  disabled = false,
+  size = "md",
   multiple = false,
   searchable = false,
   searchPlaceholder = "Search...",
   clearable = false,
+  disabled = false,
   loading = false,
+  required = false,
+  leftIcon,
+  rightIcon,
+  onOpen,
+  onClose,
   error,
   errorMessage,
   hasError = false,
@@ -96,14 +106,52 @@ export function Dropdown({
   groupBy,
   zIndex = 1000,
   expandedMenu = false,
-  usePortal = false,
+  usePortal = true,
 }: DropdownProps) {
   const uid = useId();
   const inputId = id ?? uid;
   const [open, setOpen] = useState(expandedMenu);
   const [searchQuery, setSearchQuery] = useState("");
-  const rootRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const isMenuOpen = open || expandedMenu;
+  const desiredPlacement: FloatingPlacement = `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
+
+  const { refs, floatingStyles, context } = useFloating({
+    open: isMenuOpen,
+    onOpenChange: (val) => {
+      if (!expandedMenu) setOpen(val);
+    },
+    placement: desiredPlacement,
+    whileElementsMounted: autoUpdate,
+    strategy: "fixed",
+    middleware: [
+      offset(4),
+      flip({
+        fallbackAxisSideDirection: "start",
+        padding: 8,
+      }),
+      shift({ padding: 8 }),
+      floatingSize({
+        apply({ rects, elements }) {
+          if (!dropdownWidth) {
+            Object.assign(elements.floating.style, {
+              minWidth: `${rects.reference.width}px`,
+            });
+          }
+        },
+      }),
+    ],
+  });
+
+  const dismiss = useDismiss(context, {
+    enabled: !expandedMenu,
+  });
+  const role = useRole(context, { role: "listbox" });
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    dismiss,
+    role,
+  ]);
 
   useEffect(() => {
     if (open) {
@@ -116,16 +164,6 @@ export function Dropdown({
       setSearchQuery("");
     }
   }, [open, onOpen, onClose, searchable]);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!expandedMenu && !rootRef.current?.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [expandedMenu]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value;
@@ -157,13 +195,14 @@ export function Dropdown({
   };
 
   const handleOptionSelect = (opt: DropdownOption) => {
-    if (opt.disabled) return;
+    if (opt.disabled || loading) return;
+
     if (multiple) {
-      const currentValues = Array.isArray(value) ? value : value ? [value] : [];
-      const nextValues = currentValues.includes(opt.value)
-        ? currentValues.filter((v) => v !== opt.value)
-        : [...currentValues, opt.value];
-      onChange?.(nextValues);
+      const current = Array.isArray(value) ? [...value] : [];
+      const idx = current.indexOf(opt.value);
+      if (idx > -1) current.splice(idx, 1);
+      else current.push(opt.value);
+      onChange?.(current);
     } else {
       onChange?.(opt.value);
       if (!expandedMenu) setOpen(false);
@@ -171,24 +210,29 @@ export function Dropdown({
   };
 
   const handleSelectAll = () => {
-    const allSelectable = filteredOptions
+    if (loading) return;
+    const selectable = filteredOptions
       .filter((o) => !o.disabled)
       .map((o) => o.value);
-    const currentValues = Array.isArray(value) ? value : [];
-    if (currentValues.length === allSelectable.length) {
-      onChange?.([]);
+    const current = Array.isArray(value) ? value : [];
+    const isAll = selectable.every((val) => current.includes(val));
+
+    if (isAll) {
+      onChange?.(current.filter((val) => !selectable.includes(val)));
     } else {
-      onChange?.(allSelectable);
+      const combined = Array.from(new Set([...current, ...selectable]));
+      onChange?.(combined);
     }
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (loading || disabled) return;
     onChange?.(multiple ? [] : "");
   };
 
   const renderTriggerContent = () => {
-    if (renderValue) return renderValue(value ?? (multiple ? [] : ""));
+    if (renderValue && value) return renderValue(value);
 
     if (multiple && Array.isArray(value) && value.length > 0) {
       const selectedOpts = options.filter((o) => value.includes(o.value));
@@ -197,23 +241,26 @@ export function Dropdown({
 
       return (
         <div className="gy-dropdown-tags">
-          {visibleTags.map((opt) => (
-            <span key={opt.value} className="gy-dropdown-tag">
-              <span>{opt.label}</span>
-              <span
-                className="gy-dropdown-tag-remove"
-                role="button"
-                tabIndex={0}
-                aria-label={`Remove ${opt.label}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleOptionSelect(opt);
-                }}
-              >
-                ×
+          {visibleTags.map((opt) => {
+            const tagTitle = typeof opt.label === "string" ? opt.label : undefined;
+            return (
+              <span key={opt.value} className="gy-dropdown-tag" title={tagTitle}>
+                <span>{opt.label}</span>
+                <span
+                  className="gy-dropdown-tag-remove"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Remove ${opt.label}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOptionSelect(opt);
+                  }}
+                >
+                  ×
+                </span>
               </span>
-            </span>
-          ))}
+            );
+          })}
           {remaining > 0 && (
             <span className="gy-dropdown-tag-more">+{remaining}</span>
           )}
@@ -224,12 +271,13 @@ export function Dropdown({
     if (!multiple && value) {
       const selOpt = options.find((o) => o.value === value);
       if (selOpt) {
+        const valTitle = typeof selOpt.label === "string" ? selOpt.label : undefined;
         return (
-          <span className="gy-dropdown-value">
+          <span className="gy-dropdown-value" title={valTitle}>
             {selOpt.icon && (
               <span className="gy-dropdown-value-icon">{selOpt.icon}</span>
             )}
-            {selOpt.label}
+            <span className="gy-dropdown-value-text">{selOpt.label}</span>
           </span>
         );
       }
@@ -246,6 +294,7 @@ export function Dropdown({
     `gy-dropdown-trigger--${size}`,
     open ? "gy-dropdown-trigger--open" : "",
     disabled ? "gy-dropdown-trigger--disabled" : "",
+    loading ? "gy-dropdown-trigger--loading" : "",
     isErrorState ? "gy-dropdown-trigger--error" : "",
     hasSuccess ? "gy-dropdown-trigger--success" : "",
   ]
@@ -254,11 +303,17 @@ export function Dropdown({
 
   const menuNode = (
     <div
-      className={`gy-dropdown-menu gy-dropdown-menu--${placement} gy-dropdown-menu--${align}`}
-      style={{ zIndex, ...(dropdownWidth ? { width: dropdownWidth } : {}) }}
+      ref={refs.setFloating}
+      className={`gy-dropdown-menu gy-dropdown-menu--${size}`}
+      style={{
+        ...floatingStyles,
+        zIndex,
+        ...(dropdownWidth ? { width: dropdownWidth } : {}),
+      }}
       role="listbox"
+      {...getFloatingProps()}
     >
-      {searchable && (
+      {searchable && !loading && (
         <div className="gy-dropdown-search">
           <input
             ref={searchInputRef}
@@ -271,7 +326,7 @@ export function Dropdown({
         </div>
       )}
 
-      {multiple && showSelectAll && options.length > 0 && (() => {
+      {multiple && showSelectAll && options.length > 0 && !loading && (() => {
         const selectableOpts = filteredOptions.filter((o) => !o.disabled);
         const currentVals = Array.isArray(value) ? value : [];
         const selectedCount = selectableOpts.filter((o) => currentVals.includes(o.value)).length;
@@ -298,7 +353,7 @@ export function Dropdown({
           {loading ? (
             <div className="gy-dropdown-loading">
               <Spinner size="sm" />
-              <span>Loading...</span>
+              <span>Loading options...</span>
             </div>
           ) : filteredOptions.length === 0 ? (
             <div className="gy-dropdown-empty">No options available</div>
@@ -310,6 +365,8 @@ export function Dropdown({
                 )}
                 {opts.map((opt) => {
                   const selected = isSelected(opt.value);
+                  const optTitle = typeof opt.label === "string" ? opt.label : undefined;
+
                   return (
                     <div
                       key={opt.value}
@@ -322,6 +379,7 @@ export function Dropdown({
                         .join(" ")}
                       role="option"
                       aria-selected={selected}
+                      title={optTitle}
                       onClick={() => handleOptionSelect(opt)}
                     >
                       {multiple ? (
@@ -330,7 +388,11 @@ export function Dropdown({
                           checked={selected}
                           isDisabled={opt.disabled}
                           onChange={() => {}}
-                          label={renderOption ? renderOption(opt) : opt.label}
+                          label={
+                            <span title={optTitle}>
+                              {renderOption ? renderOption(opt) : opt.label}
+                            </span>
+                          }
                         />
                       ) : (
                         <>
@@ -339,7 +401,7 @@ export function Dropdown({
                               {opt.icon}
                             </span>
                           )}
-                          <span className="gy-dropdown-option-label">
+                          <span className="gy-dropdown-option-label" title={optTitle}>
                             {renderOption ? renderOption(opt) : opt.label}
                           </span>
                           {selected && (
@@ -372,7 +434,6 @@ export function Dropdown({
 
   return (
     <div
-      ref={rootRef}
       className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}
     >
       {label && (
@@ -385,13 +446,17 @@ export function Dropdown({
       )}
 
       <button
+        ref={refs.setReference}
         id={inputId}
         type="button"
         className={triggerClasses}
-        onClick={() => !disabled && !expandedMenu && setOpen((o) => !o)}
         disabled={disabled}
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-busy={loading}
+        {...getReferenceProps({
+          onClick: () => !disabled && !loading && !expandedMenu && setOpen((o) => !o),
+        })}
       >
         {leftIcon && (
           <span className="gy-dropdown-icon gy-dropdown-icon--left">
@@ -399,9 +464,14 @@ export function Dropdown({
           </span>
         )}
         <div className="gy-dropdown-trigger-body">{renderTriggerContent()}</div>
-        {loading && <Spinner size="xs" />}
+        {loading && (
+          <span className="gy-dropdown-spinner">
+            <Spinner size="xs" />
+          </span>
+        )}
         {clearable &&
           value &&
+          !loading &&
           (Array.isArray(value) ? value.length > 0 : true) && (
             <span className="gy-dropdown-clear" onClick={handleClear}>
               ×
@@ -431,8 +501,11 @@ export function Dropdown({
         )}
       </button>
 
-      {(open || expandedMenu) &&
-        (usePortal ? createPortal(menuNode, document.body) : menuNode)}
+      {isMenuOpen && (
+        <FloatingPortal>
+          {menuNode}
+        </FloatingPortal>
+      )}
 
       {(displayErrorMsg || helperText) && (
         <div

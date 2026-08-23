@@ -93,9 +93,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       [onClick],
     );
 
-    const isDisabled = disabled || isLoading;
-
-    const iconOnly = !children && (leftIcon || rightIcon) && !isLoading;
+    const isDisabled = Boolean(disabled) && !isLoading;
+    const iconOnly = !children && !loadingText && (leftIcon || rightIcon) && !isLoading;
 
     const classes = [
       "gy-btn",
@@ -121,17 +120,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={classes}
         disabled={isDisabled}
-        onClick={handleClick}
         aria-busy={isLoading}
+        aria-disabled={isLoading || isDisabled}
+        onClick={isLoading ? (e: React.MouseEvent<HTMLButtonElement>) => e.preventDefault() : handleClick}
         {...dataProps}
         {...rest}
       >
         {isLoading ? (
           <>
             <span className="gy-btn__spinner" aria-hidden="true" />
-            {loadingText && (
+            {loadingText ? (
               <span className="gy-btn__loading-text">{loadingText}</span>
-            )}
+            ) : children ? (
+              <span className="gy-btn__loading-text">{children}</span>
+            ) : null}
           </>
         ) : (
           <>

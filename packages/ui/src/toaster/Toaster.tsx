@@ -37,11 +37,45 @@ export interface Toast {
   containerProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
+export interface ToastMethods {
+  (toast: Omit<Toast, "id">): string;
+  success: (
+    title: React.ReactNode,
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => string;
+  error: (
+    title: React.ReactNode,
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => string;
+  warning: (
+    title: React.ReactNode,
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => string;
+  info: (
+    title: React.ReactNode,
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => string;
+  loading: (
+    title: React.ReactNode,
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => string;
+  promise: <T>(
+    promise: Promise<T>,
+    msgs: {
+      loading: React.ReactNode;
+      success: React.ReactNode | ((data: T) => React.ReactNode);
+      error: React.ReactNode | ((err: any) => React.ReactNode);
+    },
+    options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+  ) => Promise<T>;
+}
+
 interface ToastContextValue {
   toasts: Toast[];
-  toast: (toast: Omit<Toast, "id">) => string;
+  toast: ToastMethods;
   dismiss: (id: string) => void;
   dismissAll: () => void;
+  update: (id: string, data: Partial<Omit<Toast, "id">>) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -51,57 +85,63 @@ const defaultIcons: Record<ToastVariant, React.ReactNode> = {
     <svg
       width="18"
       height="18"
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
       fill="none"
-      stroke="#10b981"
-      strokeWidth="2"
+      stroke="currentColor"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="8" cy="8" r="7" />
-      <polyline points="5,8 7,10 11,6" />
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="9 12 11.5 14.5 15.5 9.5" />
     </svg>
   ),
   error: (
     <svg
       width="18"
       height="18"
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
       fill="none"
-      stroke="#ef4444"
-      strokeWidth="2"
+      stroke="currentColor"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="8" cy="8" r="7" />
-      <line x1="8" y1="5" x2="8" y2="9" />
-      <circle cx="8" cy="11.5" r="0.5" fill="#ef4444" />
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
     </svg>
   ),
   warning: (
-    <svg width="18" height="18" viewBox="0 0 16 16" fill="#f59e0b">
-      <path
-        d="M8 2L1 14h14L8 2zm0 4v4m0 2v.01"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   ),
   info: (
     <svg
       width="18"
       height="18"
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
       fill="none"
-      stroke="#0ea5e9"
-      strokeWidth="2"
+      stroke="currentColor"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="8" cy="8" r="7" />
-      <line x1="8" y1="8" x2="8" y2="12" />
-      <circle cx="8" cy="5" r="0.5" fill="#0ea5e9" />
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
     </svg>
   ),
   loading: <Spinner size="xs" />,
@@ -136,7 +176,32 @@ export function ToasterProvider({
     setToasts([]);
   }, [toasts]);
 
-  const toast = useCallback(
+  const update = useCallback(
+    (id: string, data: Partial<Omit<Toast, "id">>) => {
+      setToasts((prev) =>
+        prev.map((t) => {
+          if (t.id !== id) return t;
+          const duration =
+            data.autoHideDuration ??
+            data.duration ??
+            t.duration ??
+            (data.variant === "loading" ? 0 : 4000);
+          return { ...t, ...data, duration };
+        }),
+      );
+
+      const targetDuration =
+        data.autoHideDuration ??
+        data.duration ??
+        (data.variant === "loading" ? 0 : 4000);
+      if (targetDuration > 0) {
+        setTimeout(() => dismiss(id), targetDuration);
+      }
+    },
+    [dismiss],
+  );
+
+  const baseToast = useCallback(
     (data: Omit<Toast, "id">) => {
       const id = Math.random().toString(36).slice(2);
       const duration =
@@ -155,6 +220,67 @@ export function ToasterProvider({
     },
     [dismiss],
   );
+
+  const toastMethods = React.useMemo(() => {
+    const fn = ((data: Omit<Toast, "id">) => baseToast(data)) as ToastMethods;
+
+    fn.success = (title, options) =>
+      baseToast({ ...options, title, variant: "success" });
+
+    fn.error = (title, options) =>
+      baseToast({ ...options, title, variant: "error" });
+
+    fn.warning = (title, options) =>
+      baseToast({ ...options, title, variant: "warning" });
+
+    fn.info = (title, options) =>
+      baseToast({ ...options, title, variant: "info" });
+
+    fn.loading = (title, options) =>
+      baseToast({ ...options, title, variant: "loading", duration: 0 });
+
+    fn.promise = async <T,>(
+      promise: Promise<T>,
+      msgs: {
+        loading: React.ReactNode;
+        success: React.ReactNode | ((data: T) => React.ReactNode);
+        error: React.ReactNode | ((err: any) => React.ReactNode);
+      },
+      options?: Partial<Omit<Toast, "id" | "title" | "variant">>,
+    ) => {
+      const id = baseToast({
+        ...options,
+        title: msgs.loading,
+        variant: "loading",
+        duration: 0,
+      });
+
+      try {
+        const result = await promise;
+        const successTitle =
+          typeof msgs.success === "function"
+            ? msgs.success(result)
+            : msgs.success;
+        update(id, {
+          title: successTitle,
+          variant: "success",
+          duration: options?.duration ?? 4000,
+        });
+        return result;
+      } catch (err) {
+        const errorTitle =
+          typeof msgs.error === "function" ? msgs.error(err) : msgs.error;
+        update(id, {
+          title: errorTitle,
+          variant: "error",
+          duration: options?.duration ?? 4000,
+        });
+        throw err;
+      }
+    };
+
+    return fn;
+  }, [baseToast, update]);
 
   const isLeft = position.includes("left");
 
@@ -230,7 +356,15 @@ export function ToasterProvider({
   );
 
   return (
-    <ToastContext.Provider value={{ toasts, toast, dismiss, dismissAll }}>
+    <ToastContext.Provider
+      value={{
+        toasts,
+        toast: toastMethods,
+        dismiss,
+        dismissAll,
+        update,
+      }}
+    >
       {children}
       {mounted && createPortal(toasterNode, document.body)}
     </ToastContext.Provider>

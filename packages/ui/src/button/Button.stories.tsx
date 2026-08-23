@@ -487,3 +487,80 @@ export const IconOnly: Story = {
     </div>
   ),
 };
+
+export const LoadingStatesShowcase: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div>
+        <h4 style={{ margin: "0 0 0.75rem", fontSize: "0.9rem", color: "#64748b" }}>
+          Loading with Custom Text (Hover to inspect wait cursor)
+        </h4>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+          <Button variant="primary" isLoading loadingText="Saving changes...">
+            Save Changes
+          </Button>
+          <Button variant="secondary" isLoading loadingText="Processing...">
+            Process
+          </Button>
+          <Button variant="danger" isLoading loadingText="Deleting record...">
+            Delete
+          </Button>
+          <Button variant="primary" outline isLoading loadingText="Exporting...">
+            Export
+          </Button>
+          <Button variant="ghost" isLoading loadingText="Refreshing...">
+            Refresh
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ margin: "0 0 0.75rem", fontSize: "0.9rem", color: "#64748b" }}>
+          Loading Spinner with Original Label
+        </h4>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+          <Button variant="primary" isLoading size="sm">
+            Small Button
+          </Button>
+          <Button variant="primary" isLoading size="md">
+            Medium Button
+          </Button>
+          <Button variant="primary" isLoading size="lg">
+            Large Button
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const DisabledStatesShowcase: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#64748b" }}>
+        Disabled State (Hover to inspect not-allowed cursor)
+      </h4>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+        <Button variant="primary" disabled>
+          Primary Disabled
+        </Button>
+        <Button variant="secondary" disabled>
+          Secondary Disabled
+        </Button>
+        <Button variant="tertiary" disabled>
+          Tertiary Disabled
+        </Button>
+        <Button variant="danger" disabled>
+          Danger Disabled
+        </Button>
+        <Button variant="ghost" disabled>
+          Ghost Disabled
+        </Button>
+        <Button variant="link" disabled>
+          Link Disabled
+        </Button>
+      </div>
+    </div>
+  ),
+};
+

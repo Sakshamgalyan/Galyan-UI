@@ -15,6 +15,7 @@ export interface ModalProps {
   size?: ModalSize;
   position?: ModalPosition;
   variant?: ModalVariant;
+  icon?: React.ReactNode;
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
   footer?: React.ReactNode;
@@ -43,6 +44,7 @@ export function Modal({
   size = "md",
   position = "center",
   variant = "default",
+  icon,
   title,
   subtitle,
   footer,
@@ -189,11 +191,14 @@ export function Modal({
       >
         {customHeader ? (
           <div className="gy-modal__header">{customHeader}</div>
-        ) : title || subtitle ? (
+        ) : title || subtitle || icon ? (
           <div className="gy-modal__header">
-            <div>
-              {title && <h2 className="gy-modal__title">{title}</h2>}
-              {subtitle && <p className="gy-modal__subtitle">{subtitle}</p>}
+            <div className="gy-modal__header-content">
+              {icon && <div className="gy-modal__icon">{icon}</div>}
+              <div className="gy-modal__titles">
+                {title && <h2 className="gy-modal__title">{title}</h2>}
+                {subtitle && <p className="gy-modal__subtitle">{subtitle}</p>}
+              </div>
             </div>
             {showCloseButton && closable && (
               <button

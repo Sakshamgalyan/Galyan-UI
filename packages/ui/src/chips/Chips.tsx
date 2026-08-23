@@ -12,11 +12,13 @@ export type ChipVariant =
   | "danger"
   | "neutral";
 export type ChipSize = "sm" | "md" | "lg";
+export type ChipRadius = "none" | "sm" | "md" | "lg" | "full";
 
 export interface ChipProps {
   children: React.ReactNode;
   variant?: ChipVariant;
   size?: ChipSize;
+  radius?: ChipRadius;
   removable?: boolean;
   onRemove?: () => void;
   clickable?: boolean;
@@ -30,6 +32,7 @@ export function Chip({
   children,
   variant = "soft",
   size = "md",
+  radius = "full",
   removable = false,
   onRemove,
   clickable = false,
@@ -44,6 +47,7 @@ export function Chip({
         "gy-chip",
         `gy-chip--${variant}`,
         `gy-chip--${size}`,
+        `gy-chip--radius-${radius}`,
         clickable ? "gy-chip--clickable" : "",
         selected ? "gy-chip--selected" : "",
         className,
@@ -61,8 +65,8 @@ export function Chip({
           : undefined
       }
     >
-      {icon && <span aria-hidden="true">{icon}</span>}
-      {children}
+      {icon && <span className="gy-chip__icon" aria-hidden="true">{icon}</span>}
+      <span className="gy-chip__label">{children}</span>
       {removable && (
         <button
           type="button"
@@ -74,15 +78,17 @@ export function Chip({
           aria-label="Remove"
         >
           <svg
-            width="8"
-            height="8"
-            viewBox="0 0 8 8"
+            width="10"
+            height="10"
+            viewBox="0 0 24 24"
+            fill="none"
             stroke="currentColor"
-            strokeWidth="1.8"
+            strokeWidth="2.5"
             strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <line x1="1" y1="1" x2="7" y2="7" />
-            <line x1="7" y1="1" x2="1" y2="7" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       )}
@@ -98,6 +104,7 @@ export interface ChipsInputProps {
   disabled?: boolean;
   maxItems?: number;
   chipVariant?: ChipVariant;
+  chipRadius?: ChipRadius;
   className?: string;
 }
 
@@ -108,6 +115,7 @@ export function ChipsInput({
   disabled = false,
   maxItems,
   chipVariant = "soft",
+  chipRadius = "full",
   className = "",
 }: ChipsInputProps) {
   const [input, setInput] = useState("");
@@ -145,6 +153,7 @@ export function ChipsInput({
           key={i}
           variant={chipVariant}
           size="sm"
+          radius={chipRadius}
           removable={!disabled}
           onRemove={() => removeChip(i)}
         >

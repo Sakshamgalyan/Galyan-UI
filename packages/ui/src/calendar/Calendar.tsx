@@ -28,11 +28,6 @@ const isSameDay = (d1?: Date, d2?: Date) => {
   );
 };
 
-const isBetween = (d: Date, start?: Date, end?: Date) => {
-  if (!start || !end) return false;
-  return d > start && d < end;
-};
-
 export function Calendar({
   mode = "single",
   value,
@@ -92,32 +87,6 @@ export function Calendar({
     }
   };
 
-  const renderDays = () => {
-    const days = [];
-    const today = new Date();
-
-    // Prev month days
-    for (let i = firstDay - 1; i >= 0; i--) {
-      const d = new Date(y, m - 1, daysInPrev - i);
-      days.push(<Day key={`prev-${i}`} date={d} outside />);
-    }
-    // Current month days
-    for (let i = 1; i <= daysInMonth; i++) {
-      const d = new Date(y, m, i);
-      days.push(
-        <Day key={`curr-${i}`} date={d} isToday={isSameDay(d, today)} />,
-      );
-    }
-    // Next month days
-    const total = days.length;
-    for (let i = 1; i <= 42 - total; i++) {
-      const d = new Date(y, m + 1, i);
-      days.push(<Day key={`next-${i}`} date={d} outside />);
-    }
-
-    return days;
-  };
-
   const normalizeDay = (d: Date) =>
     new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
 
@@ -125,10 +94,14 @@ export function Calendar({
     date,
     outside,
     isToday,
+    isRowStart,
+    isRowEnd,
   }: {
     date: Date;
     outside?: boolean;
     isToday?: boolean;
+    isRowStart?: boolean;
+    isRowEnd?: boolean;
   }) => {
     const disabled = (minDate && date < minDate) || (maxDate && date > maxDate);
     const activeEnd = isPicking ? (hoverDate ?? undefined) : selEnd;
@@ -137,20 +110,32 @@ export function Calendar({
     const sTime = selStart ? normalizeDay(selStart) : null;
     const eTime = activeEnd ? normalizeDay(activeEnd) : null;
 
-    const selected =
-      isSameDay(date, selStart) || (isSameDay(date, selEnd) && !isPicking);
-    const inRange = mode === "range" && isBetween(date, selStart, activeEnd);
+    const minTime = sTime !== null && eTime !== null ? Math.min(sTime, eTime) : sTime;
+    const maxTime = sTime !== null && eTime !== null ? Math.max(sTime, eTime) : sTime;
+    const isSingle = minTime !== null && minTime === maxTime;
+
     const isStart =
       mode === "range" &&
-      sTime !== null &&
-      eTime !== null &&
-      dateTime === Math.min(sTime, eTime);
+      minTime !== null &&
+      dateTime === minTime &&
+      !isSingle;
+
     const isEnd =
       mode === "range" &&
-      sTime !== null &&
-      eTime !== null &&
-      dateTime === Math.max(sTime, eTime) &&
-      sTime !== eTime;
+      maxTime !== null &&
+      dateTime === maxTime &&
+      !isSingle;
+
+    const inRange =
+      mode === "range" &&
+      minTime !== null &&
+      maxTime !== null &&
+      dateTime > minTime &&
+      dateTime < maxTime;
+
+    const selected =
+      (mode === "single" && value instanceof Date && isSameDay(date, value)) ||
+      (mode === "range" && (isStart || isEnd || (isSingle && dateTime === minTime)));
 
     const cls = [
       "gy-calendar-day",
@@ -160,6 +145,8 @@ export function Calendar({
       inRange ? "gy-calendar-day--range-in" : "",
       isStart ? "gy-calendar-day--range-start" : "",
       isEnd ? "gy-calendar-day--range-end" : "",
+      isRowStart ? "gy-calendar-day--row-start" : "",
+      isRowEnd ? "gy-calendar-day--row-end" : "",
       disabled ? "gy-calendar-day--disabled" : "",
     ]
       .filter(Boolean)
@@ -175,9 +162,61 @@ export function Calendar({
           mode === "range" && isPicking ? setHoverDate(date) : null
         }
       >
-        {date.getDate()}
+        <span className="gy-calendar-day__inner">{date.getDate()}</span>
       </button>
     );
+  };
+
+  const renderDays = () => {
+    const days = [];
+    const today = new Date();
+    let index = 0;
+
+    // Prev month days
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const d = new Date(y, m - 1, daysInPrev - i);
+      days.push(
+        <Day
+          key={`prev-${i}`}
+          date={d}
+          outside
+          isRowStart={index % 7 === 0}
+          isRowEnd={index % 7 === 6}
+        />,
+      );
+      index++;
+    }
+    // Current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      const d = new Date(y, m, i);
+      days.push(
+        <Day
+          key={`curr-${i}`}
+          date={d}
+          isToday={isSameDay(d, today)}
+          isRowStart={index % 7 === 0}
+          isRowEnd={index % 7 === 6}
+        />,
+      );
+      index++;
+    }
+    // Next month days
+    const total = days.length;
+    for (let i = 1; i <= 42 - total; i++) {
+      const d = new Date(y, m + 1, i);
+      days.push(
+        <Day
+          key={`next-${i}`}
+          date={d}
+          outside
+          isRowStart={index % 7 === 0}
+          isRowEnd={index % 7 === 6}
+        />,
+      );
+      index++;
+    }
+
+    return days;
   };
 
   const months = [
@@ -202,93 +241,94 @@ export function Calendar({
 
   return (
     <div className={`gy-calendar ${className}`} style={style}>
+      <div className="gy-calendar-header">
+        <button
+          type="button"
+          className="gy-calendar-nav"
+          onClick={() => {
+            if (view === "days") prevMonth();
+            if (view === "months") prevYear();
+            if (view === "years") prevDecade();
+          }}
+          aria-label="Previous"
+        >
+          ‹
+        </button>
+        <div
+          className="gy-calendar-title"
+          onClick={() => {
+            if (view === "days") setView("months");
+            else if (view === "months") setView("years");
+            else setView("days");
+          }}
+        >
+          {view === "days" && `${monthName} ${y}`}
+          {view === "months" && `${y}`}
+          {view === "years" && `${Math.floor(y / 10) * 10} - ${Math.floor(y / 10) * 10 + 9}`}
+        </div>
+        <button
+          type="button"
+          className="gy-calendar-nav"
+          onClick={() => {
+            if (view === "days") nextMonth();
+            if (view === "months") nextYear();
+            if (view === "years") nextDecade();
+          }}
+          aria-label="Next"
+        >
+          ›
+        </button>
+      </div>
+
       {view === "days" && (
-        <>
-          <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevMonth}>
-              ‹
-            </button>
-            <div
-              className="gy-calendar-title"
-              onClick={() => setView("months")}
-            >
-              {monthName} {y}
+        <div className="gy-calendar-grid">
+          {weekHeadings.map((h, i) => (
+            <div key={i} className="gy-calendar-weekday">
+              {h}
             </div>
-            <button className="gy-calendar-nav" onClick={nextMonth}>
-              ›
-            </button>
-          </div>
-          <div className="gy-calendar-grid">
-            {weekHeadings.map((d) => (
-              <div key={d} className="gy-calendar-weekday">
-                {d}
-              </div>
-            ))}
-            {renderDays()}
-          </div>
-        </>
+          ))}
+          {renderDays()}
+        </div>
       )}
 
       {view === "months" && (
-        <>
-          <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevYear}>
-              ‹
+        <div className="gy-calendar-picker-grid">
+          {months.map((name, idx) => (
+            <button
+              type="button"
+              key={name}
+              className={`gy-calendar-picker-item ${idx === m ? "gy-calendar-picker-item--selected" : ""}`}
+              onClick={() => {
+                setCurrent(new Date(y, idx, 1));
+                setView("days");
+              }}
+            >
+              {name}
             </button>
-            <div className="gy-calendar-title" onClick={() => setView("years")}>
-              {y}
-            </div>
-            <button className="gy-calendar-nav" onClick={nextYear}>
-              ›
-            </button>
-          </div>
-          <div className="gy-calendar-picker-grid">
-            {months.map((mon, i) => (
-              <button
-                key={mon}
-                className={`gy-calendar-picker-item ${m === i ? "gy-calendar-picker-item--selected" : ""}`}
-                onClick={() => {
-                  setCurrent(new Date(y, i, 1));
-                  setView("days");
-                }}
-              >
-                {mon}
-              </button>
-            ))}
-          </div>
-        </>
+          ))}
+        </div>
       )}
 
       {view === "years" && (
-        <>
-          <div className="gy-calendar-header">
-            <button className="gy-calendar-nav" onClick={prevDecade}>
-              ‹
-            </button>
-            <div className="gy-calendar-title">
-              {y - (y % 10)} - {y - (y % 10) + 9}
-            </div>
-            <button className="gy-calendar-nav" onClick={nextDecade}>
-              ›
-            </button>
-          </div>
-          <div className="gy-calendar-picker-grid">
-            {Array.from({ length: 12 }, (_, i) => y - (y % 10) - 1 + i).map(
-              (year) => (
-                <button
-                  key={year}
-                  className={`gy-calendar-picker-item ${y === year ? "gy-calendar-picker-item--selected" : ""}`}
-                  onClick={() => {
-                    setCurrent(new Date(year, m, 1));
-                    setView("months");
-                  }}
-                >
-                  {year}
-                </button>
-              ),
-            )}
-          </div>
-        </>
+        <div className="gy-calendar-picker-grid">
+          {Array.from({ length: 12 }, (_, i) => {
+            const startDecade = Math.floor(y / 10) * 10;
+            const yearNum = startDecade - 1 + i;
+            return (
+              <button
+                type="button"
+                key={yearNum}
+                className={`gy-calendar-picker-item ${yearNum === y ? "gy-calendar-picker-item--selected" : ""}`}
+                onClick={() => {
+                  setCurrent(new Date(yearNum, m, 1));
+                  setView("months");
+                }}
+              >
+                {yearNum}
+              </button>
+            );
+          })}
+        </div>
       )}
     </div>
   );

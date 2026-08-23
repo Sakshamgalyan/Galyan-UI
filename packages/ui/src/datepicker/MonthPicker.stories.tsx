@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MonthPicker } from "./MonthPicker";
+import { MonthPicker, MonthPickerValue } from "./MonthPicker";
 
 /**
- * Dedicated selector for month and year combinations.
+ * Dedicated selector for month and year combinations with support for min/max month/year constraints, custom formats, and action buttons.
  */
 const meta: Meta<typeof MonthPicker> = {
   title: "Galyan UI/MonthPicker",
@@ -12,7 +12,7 @@ const meta: Meta<typeof MonthPicker> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <div style={{ width: 340, minHeight: 320 }}>
+      <div style={{ width: 360, minHeight: 380, padding: "1rem" }}>
         <Story />
       </div>
     ),
@@ -45,11 +45,81 @@ export const Default: Story = {
     hasError: false,
   },
   render: (args) => {
-    const [month, setMonth] = useState<{ year: number; month: number } | null>({
+    const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
       month: 6,
     });
     return <MonthPicker {...args} value={month} onChange={setMonth} />;
+  },
+};
+
+export const MinAndMaxMonthConstraints: Story = {
+  render: () => {
+    // Only allow April 2026 (index 3) to August 2026 (index 7)
+    const [month, setMonth] = useState<MonthPickerValue | null>({
+      year: 2026,
+      month: 4,
+    });
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <MonthPicker
+          label="Fiscal Quarter (Apr 2026 - Aug 2026 Only)"
+          placeholder="Choose allowed month"
+          value={month}
+          onChange={setMonth}
+          minMonth={{ year: 2026, month: 3 }}
+          maxMonth={{ year: 2026, month: 7 }}
+          helperText="Months before April and after August are disabled and greyed out"
+        />
+        <div style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>
+          Selected Month: <code>{JSON.stringify(month)}</code>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const FutureMonthsOnly: Story = {
+  render: () => {
+    const now = new Date();
+    const [month, setMonth] = useState<MonthPickerValue | null>({
+      year: now.getFullYear(),
+      month: now.getMonth(),
+    });
+
+    return (
+      <MonthPicker
+        label="Subscription Renewal (Future Months)"
+        placeholder="Select renewal month"
+        value={month}
+        onChange={setMonth}
+        minDate={now}
+        maxYear={now.getFullYear() + 3}
+        helperText="Past months are disabled and greyed out"
+      />
+    );
+  },
+};
+
+export const HistoricalArchiveOnly: Story = {
+  render: () => {
+    const [month, setMonth] = useState<MonthPickerValue | null>({
+      year: 2024,
+      month: 5,
+    });
+
+    return (
+      <MonthPicker
+        label="Archived Tax Filings (2020 - 2025)"
+        placeholder="Select filing period"
+        value={month}
+        onChange={setMonth}
+        minYear={2020}
+        maxYear={2025}
+        helperText="Years outside 2020-2025 are disabled in both month and decade view"
+      />
+    );
   },
 };
 
@@ -59,7 +129,7 @@ export const WithApplyCancelActions: Story = {
     placeholder: "Choose period",
   },
   render: (args) => {
-    const [month, setMonth] = useState<{ year: number; month: number } | null>({
+    const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
       month: 0,
     });
@@ -76,22 +146,6 @@ export const WithApplyCancelActions: Story = {
         onCancel={() => alert("Cancelled")}
       />
     );
-  },
-};
-
-export const MinAndMaxYears: Story = {
-  args: {
-    label: "Recent Year (2020 - 2030)",
-    placeholder: "Select bounded month",
-    minYear: 2020,
-    maxYear: 2030,
-  },
-  render: (args) => {
-    const [month, setMonth] = useState<{ year: number; month: number } | null>({
-      year: 2025,
-      month: 3,
-    });
-    return <MonthPicker {...args} value={month} onChange={setMonth} />;
   },
 };
 

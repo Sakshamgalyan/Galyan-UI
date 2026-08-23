@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Dropdown } from "./Dropdown";
+import { Button } from "../button/Button";
 
 /**
- * Feature-rich select dropdown supporting search, multi-selection, select-all, grouping, custom option rendering, and portal popovers.
+ * Feature-rich select dropdown supporting search, multi-selection, select-all, grouping, async loading states, custom option rendering, and portal popovers.
  */
 const meta: Meta<typeof Dropdown> = {
   title: "Galyan UI/Dropdown",
@@ -12,7 +13,7 @@ const meta: Meta<typeof Dropdown> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <div style={{ width: 380, minHeight: 320 }}>
+      <div style={{ width: 380, minHeight: 340, padding: "1rem" }}>
         <Story />
       </div>
     ),
@@ -70,6 +71,40 @@ export const Default: Story = {
   },
 };
 
+export const AsyncLoadingShowcase: Story = {
+  render: () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [val, setVal] = useState("");
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => setIsLoading((prev) => !prev)}
+          >
+            Toggle Loading State ({isLoading ? "Loading ON" : "Loading OFF"})
+          </Button>
+        </div>
+        <Dropdown
+          label="Server Repositories (Async)"
+          loading={isLoading}
+          placeholder={isLoading ? "Fetching data from API..." : "Choose repository"}
+          options={isLoading ? [] : demoOptions}
+          value={val}
+          onChange={setVal}
+          helperText={
+            isLoading
+              ? "Loading spinner active with wait cursor"
+              : "Data resolved successfully"
+          }
+        />
+      </div>
+    );
+  },
+};
+
 export const MultiSelectWithSelectAll: Story = {
   args: {
     label: "Select Frameworks",
@@ -91,7 +126,7 @@ export const MultiSelectWithTagRemoval: Story = {
     options: demoOptions,
     multiple: true,
     clearable: true,
-    maxTagCount: 4,
+    maxTagCount: 3,
   },
   render: (args) => {
     const [val, setVal] = useState<string[]>([
@@ -101,6 +136,33 @@ export const MultiSelectWithTagRemoval: Story = {
       "python",
     ]);
     return <Dropdown {...args} value={val} onChange={setVal} />;
+  },
+};
+
+export const CountryLanguagePicker: Story = {
+  render: () => {
+    const [country, setCountry] = useState("us");
+    const countries = [
+      { value: "us", label: "🇺🇸 United States (USD)", group: "Americas" },
+      { value: "ca", label: "🇨🇦 Canada (CAD)", group: "Americas" },
+      { value: "uk", label: "🇬🇧 United Kingdom (GBP)", group: "Europe" },
+      { value: "de", label: "🇩🇪 Germany (EUR)", group: "Europe" },
+      { value: "jp", label: "🇯🇵 Japan (JPY)", group: "Asia" },
+      { value: "in", label: "🇮🇳 India (INR)", group: "Asia" },
+    ];
+
+    return (
+      <Dropdown
+        label="Billing Region"
+        searchable
+        searchPlaceholder="Search country or currency..."
+        groupBy="group"
+        options={countries}
+        value={country}
+        onChange={setCountry}
+        helperText="Tax and currency rates adjust automatically"
+      />
+    );
   },
 };
 
@@ -119,17 +181,52 @@ export const SearchableAndGrouped: Story = {
   },
 };
 
-export const LoadingAndErrorStates: Story = {
+export const SizesShowcase: Story = {
+  render: () => {
+    const [v1, setV1] = useState("react");
+    const [v2, setV2] = useState("node");
+    const [v3, setV3] = useState("python");
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <Dropdown
+          size="sm"
+          label="Small Dropdown (32px)"
+          options={demoOptions}
+          value={v1}
+          onChange={setV1}
+        />
+        <Dropdown
+          size="md"
+          label="Medium Dropdown (40px Default)"
+          options={demoOptions}
+          value={v2}
+          onChange={setV2}
+        />
+        <Dropdown
+          size="lg"
+          label="Large Dropdown (48px)"
+          options={demoOptions}
+          value={v3}
+          onChange={setV3}
+        />
+      </div>
+    );
+  },
+};
+
+export const DisabledAndErrorStates: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <Dropdown
-        label="Loading Options..."
-        loading
-        placeholder="Fetching data from API..."
-        options={[]}
+        label="Disabled Dropdown"
+        placeholder="Cannot interact"
+        disabled
+        options={demoOptions}
+        value="react"
       />
       <Dropdown
-        label="Invalid Field"
+        label="Required Field with Validation Error"
         options={demoOptions}
         hasError
         error="Please choose a valid framework option"

@@ -15,6 +15,8 @@ export interface CheckboxProps extends Omit<
   variant?: "solid" | "outline" | "soft";
   /** Text label displayed next to the checkbox */
   label?: React.ReactNode;
+  /** Optional secondary description text displayed below the label */
+  description?: React.ReactNode;
   /** If true, renders the checkbox in an indeterminate state */
   indeterminate?: boolean;
   /** If true, the checkbox will be disabled */
@@ -28,7 +30,7 @@ const CheckIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="3"
+    strokeWidth="3.25"
     strokeLinecap="round"
     strokeLinejoin="round"
     className="gy-checkbox__icon"
@@ -42,7 +44,7 @@ const MinusIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="3"
+    strokeWidth="3.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     className="gy-checkbox__icon"
@@ -58,6 +60,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       color = "primary",
       variant = "solid",
       label,
+      description,
       checked,
       indeterminate = false,
       isDisabled = false,
@@ -67,7 +70,6 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref,
   ) => {
-    // We use a local ref to set the indeterminate property on the underlying input if needed
     const innerRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(ref, () => innerRef.current as HTMLInputElement);
@@ -109,7 +111,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             {indeterminate ? <MinusIcon /> : <CheckIcon />}
           </div>
         </div>
-        {label && <span className="gy-checkbox__label">{label}</span>}
+        {(label || description) && (
+          <div className="gy-checkbox__label-group">
+            {label && <span className="gy-checkbox__label">{label}</span>}
+            {description && (
+              <span className="gy-checkbox__description">{description}</span>
+            )}
+          </div>
+        )}
       </label>
     );
   },

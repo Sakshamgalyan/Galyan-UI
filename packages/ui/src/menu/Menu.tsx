@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./menu.css";
 
 // Re-export Tooltip for backwards compat
@@ -53,10 +53,11 @@ export function Menu({
   readOnly = false,
   className = "",
 }: MenuProps) {
+  const rootRef = useRef<HTMLElement>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
     const expanded = new Set<string>();
-    if (!defaultCollapsed) {
-      // Expand parents of active item or first level collapsible by default
+    if (!defaultCollapsed && orientation === "vertical") {
+      // Expand parents of active item or first level collapsible by default in vertical
       items.forEach((item) => {
         if (item.children) expanded.add(item.id);
       });
@@ -64,12 +65,31 @@ export function Menu({
     return expanded;
   });
 
+  // In horizontal menu, close submenus on outside click
+  useEffect(() => {
+    if (orientation !== "horizontal") return;
+
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setExpandedIds(new Set());
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [orientation]);
+
   const toggleExpand = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
-      else next.add(id);
+      else {
+        if (orientation === "horizontal") {
+          // Open one dropdown at a time in horizontal mode
+          return new Set([id]);
+        }
+        next.add(id);
+      }
       return next;
     });
   };
@@ -89,6 +109,8 @@ export function Menu({
     rootStyle.maxHeight = maxHeight;
     rootStyle.overflowY = "auto";
   }
+
+  const isHorizontal = orientation === "horizontal";
 
   const renderItem = (item: MenuItem, depth: number = 0) => {
     if (item.divider) {
@@ -115,7 +137,10 @@ export function Menu({
         setExpandedIds((prev) => {
           const next = new Set(prev);
           if (next.has(item.id)) next.delete(item.id);
-          else next.add(item.id);
+          else {
+            if (isHorizontal) return new Set([item.id]);
+            next.add(item.id);
+          }
           return next;
         });
       }
@@ -133,7 +158,7 @@ export function Menu({
           type="button"
           className={itemClasses}
           style={{
-            paddingLeft: isChild ? `${1 + depth * 1.25}rem` : "0.875rem",
+            paddingLeft: !isHorizontal && isChild ? `${1 + depth * 1.25}rem` : undefined,
             ...customActiveStyle,
           }}
           onClick={handleClick}
@@ -141,8 +166,8 @@ export function Menu({
           aria-current={isActive ? "page" : undefined}
           aria-expanded={hasChildren ? isExpanded : undefined}
         >
-          {/* Active left vertical accent line */}
-          {isActive && !isChild && (
+          {/* Active left vertical accent line for vertical menu only */}
+          {isActive && !isChild && !isHorizontal && (
             <span className="gy-nav-menu__accent-line" />
           )}
 
@@ -182,7 +207,7 @@ export function Menu({
   };
 
   return (
-    <nav className={rootClasses} style={rootStyle}>
+    <nav ref={rootRef} className={rootClasses} style={rootStyle}>
       {children && <div className="gy-nav-menu__header">{children}</div>}
       <div className="gy-nav-menu__list" role="menu">
         {items.map((item) => renderItem(item))}
