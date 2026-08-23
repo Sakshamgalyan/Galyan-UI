@@ -1,5 +1,28 @@
 # @galyan/ui
 
+## 1.0.4
+
+### Patch Changes
+
+- Auto version bump (patch) based on Conventional Commits:
+  - 28f822d chore: ignore storybook-static and untrack generated assets
+  - e6e660f fix(storybook): align storybook dependency version to match lockfile
+  - 63adcb2 merge final
+  - fdea7fc fix bugs, in compt
+  - f29d0f0 chore(release): auto-bump package versions [skip ci]
+  - 5bb4886 merge test version and resolve conflicts
+  - 4c854a3 Merge branch 'test-version' into main
+  - de7c67f fix dark mode
+  - 1020eaa chore(release): auto-bump package versions [skip ci]
+  - 7981d68 fix: pnpm lock file and package json
+  - 669c7e2 fix: complete all compt
+  - 8a7f4a3 Merge branch 'main' of https://github.com/Sakshamgalyan/Galyan-UI
+  - c802b41 fix: banner comment
+  - de567c7 chore(release): auto-bump package versions [skip ci]
+  - 549f589 fix: automate
+- Updated dependencies
+  - @galyan/theme@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes
