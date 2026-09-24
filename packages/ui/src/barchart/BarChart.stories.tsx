@@ -15,6 +15,7 @@ const meta: Meta<typeof BarChart> = {
     showValues: { control: "boolean" },
     loading: { control: "boolean" },
     maxBars: { control: "number" },
+    responsive: { control: "boolean" },
   },
 } satisfies Meta<typeof BarChart>;
 
@@ -82,6 +83,37 @@ export const Cylindrical: Story = {
     barSpacing: 20,
     showValues: true,
   },
+};
+
+export const ResponsiveMobile: Story = {
+  render: () => (
+    <div
+      style={{
+        width: 270,
+        border: "1px dashed #cbd5e1",
+        padding: "0.75rem",
+        borderRadius: "1rem",
+        background: "#f8fafc",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.75rem",
+          color: "#64748b",
+          marginBottom: "0.5rem",
+          fontWeight: 600,
+        }}
+      >
+        Mobile Container Preview (270px)
+      </div>
+      <BarChart
+        variant="cylindrical"
+        data={sampleData}
+        height={280}
+        showValues
+      />
+    </div>
+  ),
 };
 
 export const Filled: Story = {

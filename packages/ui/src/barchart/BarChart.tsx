@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
+import { Tooltip } from "../tooltip/Tooltip";
 import "./bar-chart.css";
 
 export type BarChartVariant = "cylindrical" | "filled" | "horizontal";
@@ -37,17 +38,8 @@ export interface BarChartProps {
   skeletonContent?: React.ReactNode;
   truncateCharacterAfter?: number;
   tooltipConfig?: BarChartTooltipConfig;
+  responsive?: boolean;
 }
-
-const DEFAULT_COLORS = [
-  "var(--gy-primary)",
-  "var(--gy-success)",
-  "var(--gy-warning)",
-  "var(--gy-danger)",
-  "var(--gy-info)",
-  "#8b5cf6",
-  "#ec4899",
-];
 
 export function BarChart({
   variant,
@@ -67,10 +59,45 @@ export function BarChart({
   skeletonContent,
   truncateCharacterAfter,
   tooltipConfig = { show: true },
+  responsive = true,
 }: BarChartProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [isCompact, setIsCompact] = useState(false);
+
+  // Responsive observation for scaling bar widths & spacing on mobile
+  useEffect(() => {
+    if (!responsive) return;
+    const el = wrapperRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const w = entry.contentRect.width;
+        setIsCompact(w > 0 && w < 480);
+      }
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [responsive]);
+
+  const effectiveBarWidth = useMemo(() => {
+    if (!barWidth) return isCompact ? 28 : 36;
+    if (typeof barWidth === "number") {
+      return isCompact ? Math.min(barWidth, 30) : barWidth;
+    }
+    return barWidth;
+  }, [barWidth, isCompact]);
+
+  const effectiveBarSpacing = useMemo(() => {
+    if (barSpacing === undefined) return isCompact ? 8 : 16;
+    if (typeof barSpacing === "number") {
+      return isCompact ? Math.min(barSpacing, 12) : barSpacing;
+    }
+    return barSpacing;
+  }, [barSpacing, isCompact]);
 
   // Filter & limit data
   const processedData = useMemo(() => {
@@ -169,16 +196,18 @@ export function BarChart({
       <div
         className="gy-barchart-skeleton-container"
         style={{
+          display: "flex",
           flexDirection: "row",
           alignItems: "flex-end",
           justifyContent: "space-around",
           height: "100%",
+          width: "100%",
         }}
       >
         {Array.from({ length: count }).map((_, i) => {
           const heights = ["40%", "75%", "50%", "90%", "60%"];
           const barH = heights[i % heights.length];
-          const calculatedWidth = barWidth || 32;
+          const calculatedWidth = effectiveBarWidth || 36;
 
           return (
             <div
@@ -187,8 +216,11 @@ export function BarChart({
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                flex: "1 1 0",
                 height: "100%",
                 justifyContent: "flex-end",
+                paddingBottom: "36px",
+                position: "relative",
               }}
             >
               <Skeleton
@@ -203,9 +235,9 @@ export function BarChart({
               />
               <Skeleton
                 variant="text"
-                width="40px"
+                width="60px"
                 height="10px"
-                style={{ marginTop: "8px" }}
+                style={{ position: "absolute", bottom: "8px" }}
               />
             </div>
           );
@@ -222,20 +254,24 @@ export function BarChart({
     ...tokens,
   };
 
+  const rootClasses = [
+    "gy-barchart-wrapper",
+    isCompact ? "gy-barchart--compact" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
-      ref={wrapperRef}
-      className={`gy-barchart-wrapper ${className}`}
-      style={wrapperStyle}
-    >
+    <div ref={wrapperRef} className={rootClasses} style={wrapperStyle}>
       <div
         className={`gy-barchart-container gy-barchart--${variant}`}
         style={{
           gap:
-            barSpacing !== undefined
-              ? typeof barSpacing === "number"
-                ? `${barSpacing}px`
-                : barSpacing
+            effectiveBarSpacing !== undefined
+              ? typeof effectiveBarSpacing === "number"
+                ? `${effectiveBarSpacing}px`
+                : effectiveBarSpacing
               : undefined,
         }}
       >
@@ -261,13 +297,12 @@ export function BarChart({
             const rawColor = item.color || barColor || "var(--gy-primary)";
 
             if (variant === "cylindrical") {
-              const currentBarWidth = barWidth || 36;
               const barStyle: React.CSSProperties = {
                 height: `${percentage}%`,
                 width:
-                  typeof currentBarWidth === "number"
-                    ? `${currentBarWidth}px`
-                    : currentBarWidth,
+                  typeof effectiveBarWidth === "number"
+                    ? `${effectiveBarWidth}px`
+                    : effectiveBarWidth,
                 backgroundColor: rawColor,
               };
 
@@ -280,7 +315,7 @@ export function BarChart({
                     onMouseLeave={handleMouseLeave}
                     onMouseMove={handleMouseMove}
                   >
-                    {showValues && percentage > 15 && (
+                    {showValues && percentage > 18 && (
                       <span className="gy-barchart-bar-percentage--cylindrical">
                         {percentage}%
                       </span>
@@ -291,18 +326,19 @@ export function BarChart({
                       </span>
                     )}
                   </div>
-                  <span
-                    className="gy-barchart-label--cylindrical"
-                    style={{ color: textColor }}
-                  >
-                    {truncateLabel(item.label)}
-                  </span>
+                  <Tooltip content={item.label} position="bottom" delay={60}>
+                    <span
+                      className="gy-barchart-label--cylindrical"
+                      style={{ color: textColor }}
+                    >
+                      {truncateLabel(item.label)}
+                    </span>
+                  </Tooltip>
                 </div>
               );
             }
 
             if (variant === "filled") {
-              const currentBarWidth = barWidth || 20;
               const fillStyle: React.CSSProperties = {
                 height: `${percentage}%`,
                 backgroundColor: rawColor,
@@ -311,9 +347,9 @@ export function BarChart({
               const trackStyle: React.CSSProperties = {
                 height: "70%",
                 width:
-                  typeof currentBarWidth === "number"
-                    ? `${currentBarWidth}px`
-                    : currentBarWidth,
+                  typeof effectiveBarWidth === "number"
+                    ? `${effectiveBarWidth}px`
+                    : effectiveBarWidth,
               };
 
               return (
@@ -340,12 +376,14 @@ export function BarChart({
                       {item.icon}
                     </span>
                   )}
-                  <span
-                    className="gy-barchart-label--filled"
-                    style={{ color: textColor }}
-                  >
-                    {truncateLabel(item.label)}
-                  </span>
+                  <Tooltip content={item.label} position="bottom" delay={60}>
+                    <span
+                      className="gy-barchart-label--filled"
+                      style={{ color: textColor }}
+                    >
+                      {truncateLabel(item.label)}
+                    </span>
+                  </Tooltip>
                 </div>
               );
             }
@@ -356,7 +394,9 @@ export function BarChart({
               backgroundColor: rawColor,
             };
 
-            const customBarHeight = barWidth ? { height: barWidth } : {};
+            const customBarHeight = effectiveBarWidth
+              ? { height: effectiveBarWidth }
+              : {};
 
             return (
               <div key={index} className="gy-barchart-row--horizontal">
@@ -366,12 +406,14 @@ export function BarChart({
                   </div>
                 )}
                 <div className="gy-barchart-content--horizontal">
-                  <span
-                    className="gy-barchart-label--horizontal"
-                    style={{ color: textColor }}
-                  >
-                    {truncateLabel(item.label)}
-                  </span>
+                  <Tooltip content={item.label} position="top" delay={60}>
+                    <span
+                      className="gy-barchart-label--horizontal"
+                      style={{ color: textColor }}
+                    >
+                      {truncateLabel(item.label)}
+                    </span>
+                  </Tooltip>
                   <div
                     className="gy-barchart-track--horizontal"
                     style={customBarHeight}

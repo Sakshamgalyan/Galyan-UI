@@ -1,0 +1,50 @@
+/* ── Animated Number Component ─────────────────────────────────────────────── */
+.gy-animated-number {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  letter-spacing: -0.01em;
+  user-select: none;
+}
+
+.gy-animated-number--roller {
+  overflow: hidden;
+  height: 1.15em;
+  line-height: 1.15em;
+  vertical-align: -0.05em;
+}
+
+.gy-animated-number__prefix,
+.gy-animated-number__suffix,
+.gy-animated-number__symbol {
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: inherit;
+}
+
+.gy-animated-number__digit-column {
+  position: relative;
+  display: inline-block;
+  height: 1.15em;
+  line-height: 1.15em;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+.gy-animated-number__digit-track {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.gy-animated-number__digit {
+  height: 1.15em;
+  line-height: 1.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}

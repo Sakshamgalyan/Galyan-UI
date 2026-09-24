@@ -3,11 +3,15 @@
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  font-family: var(--gy-font-sans);
-  border-radius: var(--gy-radius-xl);
-  padding: var(--gy-spacing-4);
-  background: var(--gy-background-subtle);
-  transition: background-color var(--gy-duration-normal);
+  font-family: var(--gy-font-sans, system-ui, sans-serif);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  padding: 1.25rem 1.25rem 0.875rem 1.25rem;
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  container-type: inline-size;
+  container-name: gy-barchart;
+  overflow: hidden;
 }
 
 .gy-barchart-container {
@@ -20,50 +24,77 @@
 
 /* ── Variant: Cylindrical ───────────────────────────────────────────────── */
 .gy-barchart--cylindrical {
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: var(--gy-spacing-4);
-  border-bottom: 2px solid var(--gy-border);
-  padding-bottom: var(--gy-spacing-2);
+  align-items: stretch;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.gy-barchart--cylindrical::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 34px;
+  height: 2px;
+  background: var(--gy-border, #e2e8f0);
+  border-radius: 1px;
 }
 
 .gy-barchart-col--cylindrical {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   justify-content: flex-end;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
   position: relative;
+  padding-bottom: 38px;
+  box-sizing: border-box;
+}
+
+.gy-barchart-col--cylindrical .gy-tooltip-trigger {
+  position: absolute;
+  bottom: 6px;
+  left: 2px;
+  right: 2px;
+  width: calc(100% - 4px);
+  max-width: calc(100% - 4px);
+  display: flex;
+  justify-content: center;
 }
 
 .gy-barchart-bar--cylindrical {
-  width: 100%;
   border-radius: 9999px 9999px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: var(--gy-spacing-2) 0;
+  padding: 0.625rem 0 0.5rem 0;
   box-sizing: border-box;
   position: relative;
-  transition: transform var(--gy-duration-normal) var(--gy-ease-spring), filter var(--gy-duration-fast);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease, width 0.2s ease;
   cursor: pointer;
-  box-shadow: var(--gy-shadow-sm);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .gy-barchart-bar--cylindrical:hover {
-  transform: scaleY(1.03);
-  filter: brightness(1.05);
+  transform: scaleY(1.02);
+  filter: brightness(1.06);
 }
 
 .gy-barchart-bar-percentage--cylindrical {
   color: #ffffff;
-  font-size: var(--gy-font-size-2xs);
-  font-weight: var(--gy-font-weight-bold);
+  font-size: 0.6875rem;
+  font-weight: 700;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   user-select: none;
-  margin: var(--gy-spacing-2) 0;
+  letter-spacing: 0.02em;
+  margin-top: 0.25rem;
 }
 
 .gy-barchart-bar-icon--cylindrical {
@@ -71,87 +102,152 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
 }
 
 .gy-barchart-label--cylindrical {
-  position: absolute;
-  bottom: calc(-1 * var(--gy-spacing-6));
-  font-size: var(--gy-font-size-2xs);
-  font-weight: var(--gy-font-weight-medium);
-  color: var(--gy-text-muted);
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gy-text-muted, #64748b);
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1.25;
+  cursor: pointer;
+  display: block;
+}
+
+.gy-barchart-label--cylindrical:hover {
+  color: var(--gy-text, #0f172a);
+}
+
+/* ── Compact adjustments ── */
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar--cylindrical {
+  padding: 0.375rem 0 0.25rem 0;
+}
+
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-percentage--cylindrical {
+  font-size: 0.625rem;
+}
+
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-icon--cylindrical {
+  font-size: 0.75rem;
+  margin-bottom: 0.15rem;
+}
+
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label--cylindrical {
+  font-size: 0.6875rem;
 }
 
 /* ── Variant: Filled ────────────────────────────────────────────────────── */
 .gy-barchart--filled {
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: var(--gy-spacing-5);
-  padding-bottom: var(--gy-spacing-8);
+  align-items: stretch;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.gy-barchart--filled::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 26px;
+  height: 1px;
+  background: var(--gy-border, #e2e8f0);
 }
 
 .gy-barchart-col--filled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   justify-content: flex-end;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+  padding-bottom: 32px;
+  box-sizing: border-box;
+}
+
+.gy-barchart-col--filled .gy-tooltip-trigger {
+  position: absolute;
+  bottom: 6px;
+  left: 2px;
+  right: 2px;
+  width: calc(100% - 4px);
+  max-width: calc(100% - 4px);
+  display: flex;
+  justify-content: center;
 }
 
 .gy-barchart-bar-value--filled {
-  font-size: var(--gy-font-size-xs);
-  font-weight: var(--gy-font-weight-bold);
-  color: var(--gy-text);
-  margin-bottom: var(--gy-spacing-1-5);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  margin-bottom: 0.375rem;
   user-select: none;
 }
 
 .gy-barchart-track--filled {
-  width: 100%;
-  border-radius: var(--gy-radius-full);
-  background: var(--gy-border-muted);
+  border-radius: var(--gy-radius-full, 9999px);
+  background: var(--gy-background-muted, #f1f5f9);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-  box-shadow: var(--gy-shadow-inner);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .gy-barchart-bar--filled {
   width: 100%;
-  border-radius: var(--gy-radius-full);
-  transition: height var(--gy-duration-slow) var(--gy-ease-spring), filter var(--gy-duration-fast);
+  border-radius: var(--gy-radius-full, 9999px);
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
   cursor: pointer;
-  box-shadow: var(--gy-shadow-sm);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .gy-barchart-bar--filled:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
 }
 
 .gy-barchart-bar-icon--filled {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: var(--gy-spacing-2);
-  color: var(--gy-text-muted);
+  margin-top: 0.375rem;
+  color: var(--gy-text-muted, #64748b);
   height: 20px;
 }
 
 .gy-barchart-label--filled {
-  margin-top: var(--gy-spacing-1);
-  font-size: var(--gy-font-size-2xs);
-  font-weight: var(--gy-font-weight-medium);
-  color: var(--gy-text-subtle);
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gy-text-muted, #64748b);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
+  display: block;
+}
+
+.gy-barchart-label--filled:hover {
+  color: var(--gy-text, #0f172a);
 }
 
 /* ── Variant: Horizontal ────────────────────────────────────────────────── */
 .gy-barchart--horizontal {
   flex-direction: column;
-  gap: var(--gy-spacing-2.5);
+  gap: 0.75rem;
   justify-content: center;
 }
 
@@ -159,7 +255,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: var(--gy-spacing-3);
+  gap: 0.75rem;
   box-sizing: border-box;
 }
 
@@ -170,53 +266,59 @@
   width: 36px;
   height: 36px;
   min-width: 36px;
-  border-radius: var(--gy-radius-lg);
-  background: var(--gy-surface-disabled);
-  color: var(--gy-text-muted);
-  box-shadow: var(--gy-shadow-xs);
-  border: 1px solid var(--gy-border);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  background: var(--gy-surface-disabled, #f8fafc);
+  color: var(--gy-text-muted, #64748b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--gy-border, #e2e8f0);
 }
 
 .gy-barchart-content--horizontal {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: var(--gy-spacing-1);
+  min-width: 0;
+  gap: 0.25rem;
 }
 
 .gy-barchart-label--horizontal {
-  font-size: var(--gy-font-size-xs);
-  font-weight: var(--gy-font-weight-semibold);
-  color: var(--gy-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-width: 100%;
 }
 
 .gy-barchart-track--horizontal {
   height: 12px;
   width: 100%;
-  border-radius: var(--gy-radius-full);
-  background: var(--gy-border-muted);
+  border-radius: var(--gy-radius-full, 9999px);
+  background: var(--gy-border-muted, #f1f5f9);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--gy-shadow-inner);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .gy-barchart-bar--horizontal {
   height: 100%;
-  border-radius: var(--gy-radius-full);
-  transition: width var(--gy-duration-slow) var(--gy-ease-spring), filter var(--gy-duration-fast);
+  border-radius: var(--gy-radius-full, 9999px);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
   cursor: pointer;
-  box-shadow: var(--gy-shadow-sm);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .gy-barchart-bar--horizontal:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
 }
 
 .gy-barchart-value--horizontal {
-  font-size: var(--gy-font-size-xs);
-  font-weight: var(--gy-font-weight-bold);
-  color: var(--gy-text);
-  min-width: 48px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  min-width: 44px;
   text-align: right;
   user-select: none;
 }
@@ -224,40 +326,27 @@
 /* ── Interactive Tooltip ────────────────────────────────────────────────── */
 .gy-barchart-tooltip {
   position: absolute;
-  z-index: var(--gy-z-tooltip);
-  background: var(--gy-surface);
-  border: 1px solid var(--gy-border);
-  border-radius: var(--gy-radius-lg);
-  box-shadow: var(--gy-shadow-lg);
-  padding: var(--gy-spacing-2) var(--gy-spacing-3);
+  z-index: 50;
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-md, 0.375rem);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  padding: 0.375rem 0.625rem;
   pointer-events: none;
-  font-size: var(--gy-font-size-xs);
-  color: var(--gy-text);
+  font-size: 0.75rem;
+  color: var(--gy-text, #0f172a);
   transform: translate(-50%, -100%);
   margin-top: -8px;
   white-space: nowrap;
-  transition: opacity var(--gy-duration-fast), transform var(--gy-duration-fast);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .gy-barchart-tooltip-label {
-  font-weight: var(--gy-font-weight-semibold);
+  font-weight: 600;
   margin-bottom: 2px;
 }
 
 .gy-barchart-tooltip-value {
-  color: var(--gy-primary);
-  font-weight: var(--gy-font-weight-bold);
-}
-
-/* ── Skeleton Loading ───────────────────────────────────────────────────── */
-.gy-barchart-skeleton-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
-.gy-barchart-skeleton-bar {
-  background: var(--gy-border-muted);
-  border-radius: var(--gy-radius-full);
-  animation: gy-pulse 1.5s infinite ease-in-out;
+  color: var(--gy-primary, #3b82f6);
+  font-weight: 700;
 }
