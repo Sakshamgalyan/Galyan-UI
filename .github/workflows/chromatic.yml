@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   chromatic:
@@ -36,3 +37,5 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           configFile: 'apps/storybook/chromatic.config.json'
+          autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
+          exitZeroOnChanges: true

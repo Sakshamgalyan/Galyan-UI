@@ -11,9 +11,12 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "changeset": "changeset",
-    "auto-changeset": "node scripts/auto-changeset.mjs",
-    "version-packages": "pnpm auto-changeset && changeset version",
-    "release": "turbo run build && changeset publish"
+    "publish": "node scripts/publish.mjs",
+    "publish:patch": "node scripts/publish.mjs patch",
+    "publish:minor": "node scripts/publish.mjs minor",
+    "publish:major": "node scripts/publish.mjs major",
+    "publish:test": "node scripts/publish.mjs test",
+    "release": "node scripts/publish.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
