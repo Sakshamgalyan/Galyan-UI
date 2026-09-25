@@ -83,7 +83,10 @@ export function InputGroup({
   );
 }
 
-export interface DropdownGroupProps extends Omit<InputGroupProps, "leftAddon" | "rightAddon"> {
+export interface DropdownGroupProps extends Omit<
+  InputGroupProps,
+  "leftAddon" | "rightAddon"
+> {
   dropdown: React.ReactNode;
   dropdownPosition?: "left" | "right";
   leftAddon?: React.ReactNode;

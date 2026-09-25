@@ -1,22 +1,211 @@
+/* ── Gauge Chart Container ─────────────────────────────────────────────────── */
 .gy-gaugechart-wrapper {
   position: relative;
   box-sizing: border-box;
-  font-family: var(--gy-font-sans);
-  background: var(--gy-background-subtle);
-  border-radius: var(--gy-radius-xl);
-  padding: var(--gy-spacing-4);
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  padding: 1rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.gy-gauge-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gy-gauge-svg-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .gy-gauge-svg {
+  display: block;
   overflow: visible;
+  user-select: none;
 }
 
+/* ── Segment Hover & Elevation ───────────────────────────────────────────── */
+.gy-gauge-segment-path {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gy-gauge-segment-path--hovered {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
+}
+
+.gy-gauge-needle-line {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Value & Status Text ─────────────────────────────────────────────────── */
 .gy-gauge-value-text {
-  font-size: var(--gy-font-size-lg);
-  font-weight: var(--gy-font-weight-bold);
-  fill: var(--gy-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  fill: var(--gy-text, #0f172a);
   user-select: none;
+  font-variant-numeric: tabular-nums;
+  font-family: inherit;
+}
+
+.gy-gauge-value-subtext {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  user-select: none;
+  font-family: inherit;
+}
+
+/* ── Hitbox Overlay ──────────────────────────────────────────────────────── */
+.gy-gauge-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gy-gauge-hotspot-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gy-gauge-hotspot {
+  cursor: pointer;
+}
+
+/* ── Tooltip Content Styling ──────────────────────────────────────────────── */
+.gy-gauge-tooltip {
+  min-width: 135px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.gy-gauge-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--gy-text, #0f172a);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+}
+
+.gy-gauge-tooltip-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-gauge-tooltip-title {
+  font-weight: 600;
+}
+
+.gy-gauge-tooltip-range,
+.gy-gauge-tooltip-current {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--gy-text-muted, #64748b);
+}
+
+.gy-gauge-tooltip-current {
+  color: var(--gy-primary, #3b82f6);
+  background: var(--gy-background-muted, #f1f5f9);
+  padding: 2px 4px;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  font-weight: 600;
+}
+
+/* ── Legend ──────────────────────────────────────────────────────────────── */
+.gy-gauge-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.gy-gauge-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--gy-background-subtle, #f8fafc);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 3px 8px;
+  font-size: 0.6875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--gy-text, #0f172a);
+  outline: none;
+  font-family: inherit;
+}
+
+.gy-gauge-legend-item:hover,
+.gy-gauge-legend-item--active {
+  background: var(--gy-surface, #ffffff);
+  border-color: var(--gy-border-strong, #cbd5e1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.gy-gauge-legend-item--dimmed {
+  opacity: 0.45;
+}
+
+.gy-gauge-legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-gauge-legend-label {
+  font-weight: 500;
+}
+
+.gy-gauge-legend-range {
+  color: var(--gy-text-muted, #64748b);
+}
+
+/* ── Compact Adjustments ─────────────────────────────────────────────────── */
+.gy-gaugechart-wrapper.gy-gaugechart--compact {
+  padding: 0.75rem;
+}
+
+.gy-gaugechart-wrapper.gy-gaugechart--compact .gy-gauge-value-text {
+  font-size: 1.125rem;
+}
+
+.gy-gaugechart-wrapper.gy-gaugechart--compact .gy-gauge-legend-item {
+  padding: 2px 6px;
+  font-size: 0.625rem;
 }

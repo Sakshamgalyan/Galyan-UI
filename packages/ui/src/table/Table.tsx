@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
 import "./table.css";
 
 export type SortDirection = "asc" | "desc";
+export type TableResponsiveMode = "scroll" | "stack" | "cards" | boolean;
 
 export interface Column<T> {
   key: string;
@@ -17,6 +18,8 @@ export interface Column<T> {
   maxWidth?: string;
   align?: "left" | "center" | "right";
   headerAlign?: "left" | "center" | "right";
+  ellipsis?: boolean;
+  showTooltip?: boolean;
 }
 
 export interface TablePaginationConfig {
@@ -66,6 +69,16 @@ export interface TableProps<T> {
   paginationVariant?: "numbers" | "compact";
   pageSize?: number;
   stickyHeader?: boolean;
+  /**
+   * Responsive layout strategy:
+   * - "scroll" | true (default): Fluid touch-friendly horizontal scroll with edge fade hints
+   * - "stack" | "cards": Transforms table rows into mobile cards on screens <= 640px
+   * - false: Unconstrained desktop table
+   * @default "scroll"
+   */
+  responsive?: TableResponsiveMode;
+  /** Accessible label for table / scrollable region */
+  ariaLabel?: string;
   className?: string;
 }
 
@@ -89,6 +102,70 @@ function SortIcon({ dir }: { dir?: SortDirection }) {
         </>
       )}
     </svg>
+  );
+}
+
+interface TableCellEllipsisProps {
+  content: React.ReactNode;
+  rawText?: string;
+  maxWidth?: string | number;
+  showTooltip?: boolean;
+}
+
+function TableCellEllipsis({
+  content,
+  rawText,
+  maxWidth,
+  showTooltip = true,
+}: TableCellEllipsisProps) {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  const checkOverflow = useCallback(() => {
+    const el = textRef.current;
+    if (!el) return;
+    // Text overflows when content width exceeds the rendered client width
+    const hasOverflow = el.scrollWidth > el.clientWidth + 1;
+    setIsOverflowing(hasOverflow);
+  }, []);
+
+  useEffect(() => {
+    checkOverflow();
+    const el = textRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      checkOverflow();
+    });
+    resizeObserver.observe(el);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [checkOverflow, content]);
+
+  const handleMouseEnter = () => {
+    checkOverflow();
+  };
+
+  return (
+    <div
+      className="gy-table-cell-ellipsis"
+      style={{
+        maxWidth: maxWidth || undefined,
+      }}
+      onMouseEnter={handleMouseEnter}
+    >
+      <Tooltip
+        content={rawText}
+        position="top"
+        disabled={!showTooltip || !isOverflowing || !rawText}
+      >
+        <span ref={textRef} className="gy-table-cell-ellipsis-text">
+          {content}
+        </span>
+      </Tooltip>
+    </div>
   );
 }
 
@@ -131,6 +208,8 @@ export function Table<T>({
   paginationVariant = "compact",
   pageSize = 10,
   stickyHeader = false,
+  responsive = "scroll",
+  ariaLabel,
   className = "",
 }: TableProps<T>) {
   // Local states for uncontrolled modes
@@ -138,6 +217,31 @@ export function Table<T>({
   const [localSortDir, setLocalSortDir] = useState<SortDirection>("asc");
   const [localPage, setLocalPage] = useState(1);
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
+
+  // Container scroll hints for responsive mobile/tablet horizontal scroll
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollIndicators = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 2);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    updateScrollIndicators();
+    el.addEventListener("scroll", updateScrollIndicators, { passive: true });
+    window.addEventListener("resize", updateScrollIndicators, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", updateScrollIndicators);
+      window.removeEventListener("resize", updateScrollIndicators);
+    };
+  }, [updateScrollIndicators, data, columns]);
 
   // Unified selections support
   const enableSelection = isRowSelection || selectable;
@@ -540,8 +644,17 @@ export function Table<T>({
   const activeSortDir =
     sortConfig !== undefined ? sortConfig?.direction : localSortDir;
 
+  const isResponsive = responsive !== false;
+  const isStackedMode = responsive === "stack" || responsive === "cards";
+
   const wrapperClasses = [
     "gy-table-wrapper",
+    isResponsive ? "gy-table-wrapper--responsive" : "",
+    isStackedMode
+      ? "gy-table-wrapper--responsive-stack"
+      : "gy-table-wrapper--responsive-scroll",
+    canScrollLeft ? "gy-table-wrapper--scroll-left" : "",
+    canScrollRight ? "gy-table-wrapper--scroll-right" : "",
     noBorder ? "gy-table-wrapper--no-border" : "",
     className,
   ]
@@ -559,8 +672,14 @@ export function Table<T>({
 
   return (
     <div className={wrapperClasses}>
-      <div className="gy-table-container">
-        <table className={tableClasses} aria-label="Data table">
+      <div
+        ref={containerRef}
+        className="gy-table-container"
+        tabIndex={canScrollLeft || canScrollRight ? 0 : undefined}
+        role="region"
+        aria-label={ariaLabel || "Data table"}
+      >
+        <table className={tableClasses} aria-label={ariaLabel || "Data table"}>
           {showHeader && (
             <thead
               className={`gy-table-header ${stickyHeader ? "gy-table-header--sticky" : ""}`}
@@ -573,7 +692,11 @@ export function Table<T>({
                     }`}
                     style={{
                       left: fixedLeftmost ? 0 : undefined,
-                      zIndex: fixedLeftmost ? 13 : stickyHeader ? 10 : undefined,
+                      zIndex: fixedLeftmost
+                        ? 13
+                        : stickyHeader
+                          ? 10
+                          : undefined,
                     }}
                   >
                     {!isLoading && (
@@ -583,6 +706,7 @@ export function Table<T>({
                         onChange={toggleAllSelection}
                         size="sm"
                         disabled={isLoading}
+                        aria-label="Select all rows"
                       />
                     )}
                   </th>
@@ -622,10 +746,32 @@ export function Table<T>({
                             ? `${leftOffset}px`
                             : undefined,
                         right: isRightFixed ? 0 : undefined,
-                        zIndex: isLeftFixed || isRightFixed ? 12 : stickyHeader ? 10 : undefined,
+                        zIndex:
+                          isLeftFixed || isRightFixed
+                            ? 12
+                            : stickyHeader
+                              ? 10
+                              : undefined,
                       }}
                       onClick={
                         isColSortable ? () => handleSort(col.key) : undefined
+                      }
+                      onKeyDown={
+                        isColSortable
+                          ? (e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                handleSort(col.key);
+                              }
+                            }
+                          : undefined
+                      }
+                      tabIndex={isColSortable ? 0 : undefined}
+                      role={isColSortable ? "button" : undefined}
+                      aria-label={
+                        isColSortable
+                          ? `Sort by ${typeof col.header === "string" ? col.header : col.key}`
+                          : undefined
                       }
                       aria-sort={
                         activeSortKey === col.key
@@ -694,6 +840,18 @@ export function Table<T>({
                       key={key}
                       className={trClasses}
                       onClick={(e) => onRowClick?.(row, e)}
+                      onKeyDown={
+                        onRowClick
+                          ? (e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                onRowClick(row, e as any);
+                              }
+                            }
+                          : undefined
+                      }
+                      tabIndex={onRowClick ? 0 : undefined}
+                      role={onRowClick ? "button" : undefined}
                       style={{ cursor: onRowClick ? "pointer" : undefined }}
                       aria-selected={enableSelection ? isSelected : undefined}
                     >
@@ -708,10 +866,12 @@ export function Table<T>({
                           }}
                           onClick={(e) => e.stopPropagation()} // Stop triggering row clicks
                         >
+                          <span className="gy-table-cell-mobile-label">Select</span>
                           <Checkbox
                             checked={isSelected}
                             onChange={() => toggleRowSelection(key)}
                             size="sm"
+                            aria-label={`Select row ${key}`}
                           />
                         </td>
                       )}
@@ -730,47 +890,35 @@ export function Table<T>({
                           typeof cellValue === "string" ||
                           typeof cellValue === "number";
                         const rawText = isText ? String(cellValue) : undefined;
+                        const shouldEllipsis = isText && (col.ellipsis ?? ellipsis);
+
+                        const cellNode = shouldEllipsis ? (
+                          <TableCellEllipsis
+                            content={cellValue}
+                            rawText={rawText}
+                            maxWidth={col.maxWidth || col.width || undefined}
+                            showTooltip={col.showTooltip ?? showTooltip}
+                          />
+                        ) : (
+                          cellValue
+                        );
 
                         const classes = [
                           "gy-table-td",
-                          isText ? "gy-table-td--ellipsis" : "",
+                          shouldEllipsis ? "gy-table-td--ellipsis" : "",
                           isLeftFixed ? "gy-table-td--fixed-left" : "",
                           isRightFixed ? "gy-table-td--fixed-right" : "",
                         ]
                           .filter(Boolean)
                           .join(" ");
 
-                        const cellNode = isText ? (
-                          <div
-                            className="gy-table-cell-ellipsis"
-                            style={{
-                              maxWidth: col.maxWidth || col.width || undefined,
-                            }}
-                          >
-                            {rawText ? (
-                              <Tooltip
-                                content={rawText}
-                                position="top"
-                                maxWidth={280}
-                              >
-                                <span className="gy-table-cell-ellipsis-text">
-                                  {cellValue}
-                                </span>
-                              </Tooltip>
-                            ) : (
-                              <span className="gy-table-cell-ellipsis-text">
-                                {cellValue}
-                              </span>
-                            )}
-                          </div>
-                        ) : (
-                          cellValue
-                        );
-
                         return (
                           <td
                             key={col.key}
                             className={classes}
+                            data-label={
+                              typeof col.header === "string" ? col.header : undefined
+                            }
                             style={{
                               width: col.width,
                               maxWidth: col.maxWidth || col.width,
@@ -780,9 +928,13 @@ export function Table<T>({
                                   ? `${leftOffset}px`
                                   : undefined,
                               right: isRightFixed ? 0 : undefined,
-                              zIndex: isLeftFixed || isRightFixed ? 2 : undefined,
+                              zIndex:
+                                isLeftFixed || isRightFixed ? 2 : undefined,
                             }}
                           >
+                            <span className="gy-table-cell-mobile-label">
+                              {col.header}
+                            </span>
                             {cIdx === 0 ? (
                               <div
                                 className="gy-table-cell-first"
@@ -797,6 +949,7 @@ export function Table<T>({
                                         : ""
                                     }`}
                                     onClick={(e) => toggleRowExpansion(key, e)}
+                                    aria-expanded={isExpanded}
                                     aria-label={
                                       isExpanded ? "Collapse row" : "Expand row"
                                     }

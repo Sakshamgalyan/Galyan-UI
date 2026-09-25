@@ -22,6 +22,8 @@ export interface InputProps extends Omit<
   placeholder?: string;
   /** Helper text displayed below the input */
   helperText?: string;
+  /** Custom icon displayed next to the helper text */
+  helperIcon?: React.ReactNode;
   /** Size of the input */
   size?: InputSize;
   /** Whether the input should take the full width of its container */
@@ -62,11 +64,65 @@ export interface InputProps extends Omit<
   error?: string;
 }
 
+const InfoIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="16" x2="12" y2="12" />
+    <line x1="12" y1="8" x2="12.01" y2="8" />
+  </svg>
+);
+
+const AlertCircleIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
+
+const CheckCircleIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+);
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     label,
     placeholder,
     helperText,
+    helperIcon,
     size = "md",
     fullWidth = true,
     variant = "default",
@@ -141,6 +197,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     error || (resolvedError && helperText ? helperText : undefined);
   const showHelper = !resolvedError && helperText;
 
+  const renderHelperIcon = (type: "error" | "success" | "helper") => {
+    if (helperIcon !== undefined) {
+      return helperIcon;
+    }
+    if (type === "error" || (type === "helper" && required)) {
+      return <AlertCircleIcon />;
+    }
+    if (type === "success") {
+      return <CheckCircleIcon />;
+    }
+    return <InfoIcon />;
+  };
+
   const wrapperStyle: React.CSSProperties = {};
   if (borderRadius) {
     wrapperStyle.borderRadius = borderRadius;
@@ -213,7 +282,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
               strokeWidth="2"
             >
               <line x1="1" y1="1" x2="13" y2="13" />
-              <line x1="13" y1="1" x2="1" y2="13" />
+              <line x1="13" y1="2" x2="1" y2="13" />
             </svg>
           </button>
         )}
@@ -237,7 +306,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           className="gy-input-helper gy-input-helper--error"
           role="alert"
         >
-          {errorMessage}
+          {renderHelperIcon("error") && (
+            <span className="gy-input-helper__icon" aria-hidden="true">
+              {renderHelperIcon("error")}
+            </span>
+          )}
+          <span>{errorMessage}</span>
         </span>
       )}
       {resolvedSuccess && !resolvedError && helperText && (
@@ -245,12 +319,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           id={`${inputId}-helper`}
           className="gy-input-helper gy-input-helper--success"
         >
-          {helperText}
+          {renderHelperIcon("success") && (
+            <span className="gy-input-helper__icon" aria-hidden="true">
+              {renderHelperIcon("success")}
+            </span>
+          )}
+          <span>{helperText}</span>
         </span>
       )}
       {showHelper && !resolvedSuccess && (
-        <span id={`${inputId}-helper`} className="gy-input-helper">
-          {helperText}
+        <span
+          id={`${inputId}-helper`}
+          className={`gy-input-helper ${required ? "gy-input-helper--required" : ""}`}
+        >
+          {renderHelperIcon("helper") && (
+            <span className="gy-input-helper__icon" aria-hidden="true">
+              {renderHelperIcon("helper")}
+            </span>
+          )}
+          <span>{helperText}</span>
         </span>
       )}
     </div>

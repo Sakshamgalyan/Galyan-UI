@@ -31,7 +31,7 @@ const meta: Meta<typeof Banner> = {
     bordered: { control: "boolean" },
     dismissible: { control: "boolean" },
   },
-} satisfies Meta<typeof Banner>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -129,14 +129,22 @@ export const WithActionButtons: Story = {
         variant="info"
         title="Try our new AI Assistant"
         description="Accelerate your workflow with contextual code completions."
-        button={<Button size="sm" variant="primary">Try Now</Button>}
+        button={
+          <Button size="sm" variant="primary">
+            Try Now
+          </Button>
+        }
         dismissible
       />
       <Banner
         variant="warning"
         title="Verify your recovery email"
         description="Please confirm your secondary address to prevent lockout."
-        button={<Button size="sm" variant="secondary">Verify</Button>}
+        button={
+          <Button size="sm" variant="secondary">
+            Verify
+          </Button>
+        }
         dismissible
       />
     </div>
@@ -145,11 +153,7 @@ export const WithActionButtons: Story = {
 
 export const RichContentAndBullets: Story = {
   render: () => (
-    <Banner
-      variant="info"
-      title="What's new in Galyan v2.0"
-      dismissible
-    >
+    <Banner variant="info" title="What's new in Galyan v2.0" dismissible>
       <div style={{ marginTop: "0.25rem" }}>
         <ul style={{ margin: "0", paddingLeft: "1.25rem" }}>
           <li>Two-axis theme architecture (Brand × Role)</li>
@@ -164,9 +168,24 @@ export const RichContentAndBullets: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <Banner size="sm" variant="info" title="Small Banner" description="Compact notification message." />
-      <Banner size="md" variant="info" title="Medium Banner (Default)" description="Standard size notification message." />
-      <Banner size="lg" variant="info" title="Large Banner" description="Prominent large callout with extensive details." />
+      <Banner
+        size="sm"
+        variant="info"
+        title="Small Banner"
+        description="Compact notification message."
+      />
+      <Banner
+        size="md"
+        variant="info"
+        title="Medium Banner (Default)"
+        description="Standard size notification message."
+      />
+      <Banner
+        size="lg"
+        variant="info"
+        title="Large Banner"
+        description="Prominent large callout with extensive details."
+      />
     </div>
   ),
 };

@@ -65,7 +65,11 @@ export function Chip({
           : undefined
       }
     >
-      {icon && <span className="gy-chip__icon" aria-hidden="true">{icon}</span>}
+      {icon && (
+        <span className="gy-chip__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <span className="gy-chip__label">{children}</span>
       {removable && (
         <button

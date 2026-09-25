@@ -4,25 +4,44 @@
   flex-direction: column;
   gap: 0;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 }
-.gy-tabs--vertical { flex-direction: row; }
+.gy-tabs--vertical {
+  flex-direction: row;
+}
 
 .gy-tabs-list {
   display: flex;
   gap: 0.5rem;
   flex-shrink: 0;
   align-items: center;
-  padding: 0.25rem 0.125rem;
   box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  scroll-padding: 0 0.5rem;
 }
+.gy-tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
 .gy-tabs--vertical .gy-tabs-list {
   flex-direction: column;
   align-items: stretch;
-  padding: 0.125rem 0.25rem;
+  overflow-x: visible;
+  overflow-y: auto;
 }
-.gy-tabs--full-width .gy-tabs-list { width: 100%; }
-.gy-tabs--full-width .gy-tabs-trigger { flex: 1; }
+.gy-tabs--full-width .gy-tabs-list {
+  width: 100%;
+}
+.gy-tabs--full-width .gy-tabs-trigger {
+  flex: 1 1 0px;
+  min-width: 0;
+}
 
 /* ── Trigger (shared) ── */
 .gy-tabs-trigger {
@@ -41,108 +60,282 @@
   box-sizing: border-box;
   line-height: 1.4;
   outline: none;
+  text-decoration: none;
+  user-select: none;
+  flex-shrink: 0;
+  touch-action: manipulation;
+  min-height: 2.25rem;
 }
 .gy-tabs-trigger:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-.gy-tabs-trigger__icon { display: flex; align-items: center; }
+.gy-tabs-trigger__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
 /* ── Sizes ── */
-.gy-tabs--sm .gy-tabs-trigger { padding: 0.375rem 0.875rem; font-size: 0.75rem; }
-.gy-tabs--md .gy-tabs-trigger { padding: 0.5rem 1.125rem; font-size: 0.875rem; }
-.gy-tabs--lg .gy-tabs-trigger { padding: 0.625rem 1.375rem; font-size: 1rem; }
+.gy-tabs--sm .gy-tabs-trigger {
+  padding: 0.25rem 0.625rem;
+  font-size: var(--gy-font-size-xs, 0.8125rem);
+  min-height: 1.875rem;
+}
+.gy-tabs--md .gy-tabs-trigger {
+  padding: 0.5rem 1rem;
+  font-size: var(--gy-font-size-sm, 0.875rem);
+  min-height: 2.25rem;
+}
+.gy-tabs--lg .gy-tabs-trigger {
+  padding: 0.625rem 1.25rem;
+  font-size: var(--gy-font-size-md, 1rem);
+  min-height: 2.75rem;
+}
 
-/* ── Classic Variant (Underline Highlight) ── */
+/* ── 1. Classic Variant (Underline Highlight) ── */
 .gy-tabs--classic .gy-tabs-list {
-  border-bottom: 1.5px solid var(--gy-border, #e2e8f0);
-  gap: 1.25rem;
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  gap: 1.5rem;
   padding: 0;
+  width: 100%;
 }
 .gy-tabs--classic .gy-tabs-trigger {
-  border-bottom: 2.5px solid transparent;
-  margin-bottom: -1.5px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   border-radius: 0;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  padding: 0.625rem 0.25rem;
   color: var(--gy-text-muted, #64748b);
 }
 .gy-tabs--classic .gy-tabs-trigger:hover:not(:disabled) {
   color: var(--gy-text, #0f172a);
 }
 .gy-tabs--classic .gy-tabs-trigger--active {
-  color: var(--gy-primary);
-  border-bottom: 2.5px solid var(--gy-primary);
+  color: var(--gy-primary, #22c55e);
+  border-bottom: 2px solid var(--gy-primary, #22c55e);
   font-weight: 600;
 }
 
 /* Classic Vertical */
 .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list {
   border-bottom: none;
-  border-right: 1.5px solid var(--gy-border, #e2e8f0);
+  border-right: 1px solid var(--gy-border, #e2e8f0);
   gap: 0.5rem;
   padding: 0;
 }
 .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger {
   border-bottom: none;
-  border-right: 2.5px solid transparent;
+  border-right: 2px solid transparent;
   margin-bottom: 0;
-  margin-right: -1.5px;
+  margin-right: -1px;
   justify-content: flex-start;
   padding: 0.5rem 1rem;
 }
 .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active {
-  border-right-color: var(--gy-primary);
-  color: var(--gy-primary);
+  border-right-color: var(--gy-primary, #22c55e);
+  color: var(--gy-primary, #22c55e);
 }
 
-/* ── Card Variant ── */
-.gy-tabs--card .gy-tabs-list {
+/* ── 2. Button Variant (Pill / Segmented) ── */
+.gy-tabs--button .gy-tabs-list {
+  display: inline-flex;
   background: var(--gy-background-muted, #f1f5f9);
-  border-radius: var(--gy-radius-lg, 0.5rem);
+  border-radius: 9999px;
   padding: 0.25rem;
   gap: 0.25rem;
-  border-bottom: none;
+  border: 1px solid var(--gy-border-muted, rgba(0, 0, 0, 0.04));
+  align-self: flex-start;
+}
+.gy-tabs--full-width.gy-tabs--button .gy-tabs-list {
+  display: flex;
+  width: 100%;
+}
+.gy-tabs--button .gy-tabs-trigger {
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--gy-text-muted, #64748b);
+  border: none;
+  padding: 0.375rem 1rem;
+}
+.gy-tabs--button .gy-tabs-trigger:hover:not(:disabled) {
+  color: var(--gy-text, #0f172a);
+}
+.gy-tabs--button .gy-tabs-trigger--active {
+  background: var(--gy-surface, #ffffff) !important;
+  color: var(--gy-primary, #22c55e) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+}
+.gy-tabs--button.gy-tabs--vertical .gy-tabs-list {
+  border-radius: var(--gy-radius-xl, 0.75rem);
+}
+
+/* ── 3. Card Variant (Folder Tab) ── */
+.gy-tabs--card .gy-tabs-list {
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  gap: 0.25rem;
+  padding: 0;
+  display: flex;
+  width: 100%;
 }
 .gy-tabs--card .gy-tabs-trigger {
-  border-radius: var(--gy-radius-md, 0.375rem);
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  border-top-left-radius: var(--gy-radius-md, 0.375rem);
+  border-top-right-radius: var(--gy-radius-md, 0.375rem);
   color: var(--gy-text-muted, #475569);
   background: transparent;
+  margin-bottom: -1px;
+  padding: 0.5rem 1rem;
 }
 .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled) {
   color: var(--gy-text, #0f172a);
 }
 .gy-tabs--card .gy-tabs-trigger--active {
   background: var(--gy-surface, #ffffff);
-  color: var(--gy-primary);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border-color: var(--gy-border, #e2e8f0);
+  border-top: 2px solid var(--gy-primary, #22c55e);
+  border-bottom-color: var(--gy-surface, #ffffff);
+  color: var(--gy-primary, #22c55e);
+  font-weight: 600;
+  z-index: 1;
+}
+.gy-tabs--card.gy-tabs--vertical .gy-tabs-list {
+  border-bottom: none;
+  border-right: 1px solid var(--gy-border, #e2e8f0);
+  gap: 0.25rem;
+  padding: 0;
+}
+.gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger {
+  border: 1px solid transparent;
+  border-right: 1px solid var(--gy-border, #e2e8f0);
+  border-top-left-radius: var(--gy-radius-md, 0.375rem);
+  border-bottom-left-radius: var(--gy-radius-md, 0.375rem);
+  border-top-right-radius: 0;
+  margin-bottom: 0;
+  margin-right: -1px;
+  justify-content: flex-start;
+}
+.gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active {
+  background: var(--gy-surface, #ffffff);
+  border-color: var(--gy-border, #e2e8f0);
+  border-left: 2px solid var(--gy-primary, #22c55e);
+  border-right-color: var(--gy-surface, #ffffff);
+  color: var(--gy-primary, #22c55e);
+}
+
+/* ── 4. Outline Variant (Outlined Buttons) ── */
+.gy-tabs--outline .gy-tabs-list {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0;
+  border: none;
+  align-self: flex-start;
+}
+.gy-tabs--full-width.gy-tabs--outline .gy-tabs-list {
+  display: flex;
+  width: 100%;
+}
+.gy-tabs--outline .gy-tabs-trigger {
+  border: 1px solid var(--gy-border, #cbd5e1);
+  border-radius: var(--gy-radius-md, 0.375rem);
+  background: var(--gy-surface, #ffffff);
+  color: var(--gy-text-muted, #64748b);
+  padding: 0.5rem 1rem;
+}
+.gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled) {
+  border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
+  color: var(--gy-text, #0f172a);
+}
+.gy-tabs--outline .gy-tabs-trigger--active {
+  border: 1.5px solid var(--gy-primary, #22c55e);
+  background: var(--gy-primary-subtle, #f0fdf4);
+  color: var(--gy-primary, #22c55e);
   font-weight: 600;
 }
 
-/* ── Button Variant (Pill Toggle) ── */
-.gy-tabs--button .gy-tabs-list {
-  gap: 0.625rem;
-  border-bottom: none;
-  padding: 0.375rem 0.25rem;
+/* ── 5. Ghost Variant (Minimal Flat Highlight) ── */
+.gy-tabs--ghost .gy-tabs-list {
+  display: inline-flex;
+  gap: 0.375rem;
+  padding: 0;
+  border: none;
+  align-self: flex-start;
 }
-.gy-tabs--button .gy-tabs-trigger {
-  border-radius: 9999px;
-  border: 1px solid var(--gy-border, #cbd5e1);
+.gy-tabs--full-width.gy-tabs--ghost .gy-tabs-list {
+  display: flex;
+  width: 100%;
+}
+.gy-tabs--ghost .gy-tabs-trigger {
+  border: none;
+  border-radius: var(--gy-radius-md, 0.375rem);
+  background: transparent;
+  color: var(--gy-text-muted, #64748b);
+  padding: 0.5rem 1rem;
+}
+.gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled) {
+  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-text, #0f172a);
+}
+.gy-tabs--ghost .gy-tabs-trigger--active {
+  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-primary, #22c55e);
+  font-weight: 600;
+}
+
+/* ── 6. Merged Variant (Enclosed Unified Border) ── */
+.gy-tabs--merged .gy-tabs-list {
+  display: inline-flex;
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  padding: 0;
+  gap: 0;
   background: var(--gy-surface, #ffffff);
-  color: var(--gy-text, #334155);
+  align-self: flex-start;
+  position: relative;
 }
-.gy-tabs--button .gy-tabs-trigger:hover:not(:disabled) {
-  border-color: var(--gy-primary);
-  color: var(--gy-primary);
+.gy-tabs--full-width.gy-tabs--merged .gy-tabs-list {
+  display: flex;
+  width: 100%;
 }
-.gy-tabs--button .gy-tabs-trigger--active {
-  background: var(--gy-primary) !important;
-  border-color: var(--gy-primary) !important;
-  color: #ffffff !important;
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--gy-primary) 30%, transparent);
+.gy-tabs--merged .gy-tabs-trigger {
+  border-radius: 0;
+  background: transparent;
+  border: 1.5px solid transparent;
+  color: var(--gy-text-muted, #64748b);
+  padding: 0.5rem 1rem;
+  margin: -1px;
 }
-.gy-tabs--button .gy-tabs-trigger--active * {
-  color: #ffffff !important;
+.gy-tabs--merged .gy-tabs-trigger:first-child {
+  border-top-left-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem);
+}
+.gy-tabs--merged .gy-tabs-trigger:last-child {
+  border-top-right-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem);
+}
+.gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled) {
+  color: var(--gy-text, #0f172a);
+}
+.gy-tabs--merged .gy-tabs-trigger--active {
+  border-color: var(--gy-primary, #22c55e) !important;
+  background: var(--gy-primary-subtle, #f0fdf4) !important;
+  color: var(--gy-primary, #22c55e) !important;
+  font-weight: 600;
+  z-index: 1;
+}
+.gy-tabs--merged.gy-tabs--vertical .gy-tabs-list {
+  flex-direction: column;
+}
+.gy-tabs--merged.gy-tabs--vertical .gy-tabs-trigger:first-child {
+  border-top-left-radius: var(--gy-radius-lg, 0.5rem);
+  border-top-right-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-left-radius: 0;
+}
+.gy-tabs--merged.gy-tabs--vertical .gy-tabs-trigger:last-child {
+  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem);
+  border-top-right-radius: 0;
 }
 
 /* ── Badge ── */
@@ -160,86 +353,332 @@
   justify-content: center;
   line-height: 1;
   margin-left: 0.25rem;
+  flex-shrink: 0;
 }
 
 .gy-tabs--button .gy-tabs-trigger--active .gy-tabs-trigger-badge {
-  background: #ffffff;
-  color: var(--gy-danger, #ef4444) !important;
+  background: var(--gy-danger, #ef4444);
+  color: #ffffff;
 }
 
 /* ── Panel ── */
 .gy-tabs-panel {
   padding: 1rem 0;
   animation: gy-tab-fade-in 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 .gy-tabs--vertical .gy-tabs-panel {
-  padding: 0 1rem;
+  padding: 0 1.25rem;
   flex: 1;
 }
 
 @keyframes gy-tab-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ── Dark Mode Overrides ── */
+/* ── Responsive Behavior (Mobile & Small Screens) ── */
+@media (max-width: 640px) {
+  .gy-tabs--vertical {
+    flex-direction: column;
+  }
+  .gy-tabs--vertical .gy-tabs-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: none;
+    border-bottom: 1px solid var(--gy-border, #e2e8f0);
+    padding-bottom: 0.25rem;
+  }
+  .gy-tabs--vertical .gy-tabs-panel {
+    padding: 1rem 0;
+  }
+  .gy-tabs--classic .gy-tabs-list {
+    gap: 1rem;
+  }
+  .gy-tabs-trigger {
+    padding: 0.375rem 0.75rem;
+    font-size: var(--gy-font-size-xs, 0.8125rem);
+    min-height: 2.125rem;
+  }
+  .gy-tabs--lg .gy-tabs-trigger {
+    padding: 0.5rem 0.875rem;
+    font-size: var(--gy-font-size-sm, 0.875rem);
+    min-height: 2.375rem;
+  }
+  .gy-tabs--sm .gy-tabs-trigger {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    min-height: 1.75rem;
+  }
+  .gy-tabs--classic .gy-tabs-trigger {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE & ROLE-BASED COLOR ACCENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── General Dark Mode Triggers ── */
+.gy-dark .gy-tabs-trigger,
+[data-color-mode="dark"] .gy-tabs-trigger,
+.dark .gy-tabs-trigger,
+[data-theme="samantrix"] .gy-tabs-trigger,
+[data-theme="dark"] .gy-tabs-trigger {
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs-trigger:hover:not(:disabled) {
+  color: #f8fafc;
+}
+
+/* ── 1. Classic Variant Dark (Role Primary Underline) ── */
 .gy-dark .gy-tabs--classic .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-list,
-.dark .gy-tabs--classic .gy-tabs-list {
-  border-bottom-color: var(--gy-border, #334155);
+.dark .gy-tabs--classic .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--classic .gy-tabs-list {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
 }
 
 .gy-dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
-.dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list {
-  border-right-color: var(--gy-border, #334155);
-}
-
-.gy-dark .gy-tabs-trigger,
-[data-color-mode="dark"] .gy-tabs-trigger,
-.dark .gy-tabs-trigger {
-  color: var(--gy-text-muted, #94a3b8);
-}
-
-.gy-dark .gy-tabs--classic .gy-tabs-trigger:hover:not(:disabled),
-[data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger:hover:not(:disabled),
-.dark .gy-tabs--classic .gy-tabs-trigger:hover:not(:disabled) {
-  color: var(--gy-text, #f8fafc);
+.dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list {
+  border-right-color: rgba(255, 255, 255, 0.12);
 }
 
 .gy-dark .gy-tabs--classic .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger--active,
-.dark .gy-tabs--classic .gy-tabs-trigger--active {
-  color: var(--gy-primary);
-  border-color: var(--gy-primary);
+.dark .gy-tabs--classic .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--classic .gy-tabs-trigger--active {
+  color: var(--gy-primary, #22c55e);
+  border-bottom-color: var(--gy-primary, #22c55e);
 }
 
-.gy-dark .gy-tabs--card .gy-tabs-list,
-[data-color-mode="dark"] .gy-tabs--card .gy-tabs-list,
-.dark .gy-tabs--card .gy-tabs-list {
-  background: var(--gy-background-muted, #0f172a);
-}
-
-.gy-dark .gy-tabs--card .gy-tabs-trigger--active,
-[data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger--active,
-.dark .gy-tabs--card .gy-tabs-trigger--active {
-  background: var(--gy-surface, #1e293b);
-  color: var(--gy-primary);
+/* ── 2. Button Variant Dark (Segmented Pill with Role Accent) ── */
+.gy-dark .gy-tabs--button .gy-tabs-list,
+[data-color-mode="dark"] .gy-tabs--button .gy-tabs-list,
+.dark .gy-tabs--button .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--button .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--button .gy-tabs-list {
+  background: rgba(30, 41, 59, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
 }
 
 .gy-dark .gy-tabs--button .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger,
-.dark .gy-tabs--button .gy-tabs-trigger {
-  background: var(--gy-surface, #1e293b);
-  border-color: var(--gy-border, #334155);
-  color: var(--gy-text, #cbd5e1);
+.dark .gy-tabs--button .gy-tabs-trigger,
+[data-theme="samantrix"] .gy-tabs--button .gy-tabs-trigger,
+[data-theme="dark"] .gy-tabs--button .gy-tabs-trigger {
+  color: #94a3b8;
+  background: transparent;
+}
+
+.gy-dark .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs--button .gy-tabs-trigger:hover:not(:disabled) {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .gy-dark .gy-tabs--button .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger--active,
-.dark .gy-tabs--button .gy-tabs-trigger--active {
-  background: var(--gy-primary) !important;
-  border-color: var(--gy-primary) !important;
+.dark .gy-tabs--button .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--button .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--button .gy-tabs-trigger--active {
+  background: #1e293b !important;
+  color: var(--gy-primary, #22c55e) !important;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 10px color-mix(in srgb, var(--gy-primary, #22c55e) 22%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid color-mix(in srgb, var(--gy-primary, #22c55e) 35%, rgba(255, 255, 255, 0.12)) !important;
+  font-weight: 600;
+}
+
+/* ── 3. Card Variant Dark (Folder Tab with Role Top Accent) ── */
+.gy-dark .gy-tabs--card .gy-tabs-list,
+[data-color-mode="dark"] .gy-tabs--card .gy-tabs-list,
+.dark .gy-tabs--card .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--card .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--card .gy-tabs-list {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.gy-dark .gy-tabs--card .gy-tabs-trigger,
+[data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger,
+.dark .gy-tabs--card .gy-tabs-trigger,
+[data-theme="samantrix"] .gy-tabs--card .gy-tabs-trigger,
+[data-theme="dark"] .gy-tabs--card .gy-tabs-trigger {
+  color: #94a3b8;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-top-left-radius: var(--gy-radius-md, 0.375rem);
+  border-top-right-radius: var(--gy-radius-md, 0.375rem);
+}
+
+.gy-dark .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs--card .gy-tabs-trigger:hover:not(:disabled) {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.gy-dark .gy-tabs--card .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger--active,
+.dark .gy-tabs--card .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--card .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--card .gy-tabs-trigger--active {
+  background: #1e293b !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-top: 2px solid var(--gy-primary, #22c55e) !important;
+  border-bottom: 1px solid #1e293b !important;
+  color: var(--gy-primary, #22c55e) !important;
+  font-weight: 600;
+  box-shadow:
+    0 -4px 12px color-mix(in srgb, var(--gy-primary, #22c55e) 18%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.gy-dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
+[data-color-mode="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
+.dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list {
+  border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-bottom: none !important;
+}
+
+.gy-dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active,
+.dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active {
+  background: #1e293b !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-left: 2px solid var(--gy-primary, #22c55e) !important;
+  border-right: 1px solid #1e293b !important;
+  color: var(--gy-primary, #22c55e) !important;
+}
+
+/* ── 4. Outline Variant Dark (Role Accent Border & Soft Glow) ── */
+.gy-dark .gy-tabs--outline .gy-tabs-trigger,
+[data-color-mode="dark"] .gy-tabs--outline .gy-tabs-trigger,
+.dark .gy-tabs--outline .gy-tabs-trigger,
+[data-theme="samantrix"] .gy-tabs--outline .gy-tabs-trigger,
+[data-theme="dark"] .gy-tabs--outline .gy-tabs-trigger {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.gy-dark .gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs--outline .gy-tabs-trigger:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+}
+
+.gy-dark .gy-tabs--outline .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--outline .gy-tabs-trigger--active,
+.dark .gy-tabs--outline .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--outline .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--outline .gy-tabs-trigger--active {
+  background: color-mix(in srgb, var(--gy-primary, #22c55e) 22%, #1e293b) !important;
+  border-color: var(--gy-primary, #22c55e) !important;
   color: #ffffff !important;
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--gy-primary) 35%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--gy-primary, #22c55e) 30%, transparent) !important;
+}
+
+/* ── 5. Ghost Variant Dark (Role Accent Text) ── */
+.gy-dark .gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs--ghost .gy-tabs-trigger:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.gy-dark .gy-tabs--ghost .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--ghost .gy-tabs-trigger--active,
+.dark .gy-tabs--ghost .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--ghost .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--ghost .gy-tabs-trigger--active {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gy-primary, #22c55e);
+}
+
+/* ── 6. Merged Variant Dark (Role Accent Background & Border) ── */
+.gy-dark .gy-tabs--merged .gy-tabs-list,
+[data-color-mode="dark"] .gy-tabs--merged .gy-tabs-list,
+.dark .gy-tabs--merged .gy-tabs-list,
+[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-list,
+[data-theme="dark"] .gy-tabs--merged .gy-tabs-list {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.gy-dark .gy-tabs--merged .gy-tabs-trigger,
+[data-color-mode="dark"] .gy-tabs--merged .gy-tabs-trigger,
+.dark .gy-tabs--merged .gy-tabs-trigger,
+[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-trigger,
+[data-theme="dark"] .gy-tabs--merged .gy-tabs-trigger {
+  color: #94a3b8;
+}
+
+.gy-dark .gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled),
+[data-color-mode="dark"] .gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled),
+.dark .gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="dark"] .gy-tabs--merged .gy-tabs-trigger:hover:not(:disabled) {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.gy-dark .gy-tabs--merged .gy-tabs-trigger--active,
+[data-color-mode="dark"] .gy-tabs--merged .gy-tabs-trigger--active,
+.dark .gy-tabs--merged .gy-tabs-trigger--active,
+[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-trigger--active,
+[data-theme="dark"] .gy-tabs--merged .gy-tabs-trigger--active {
+  background: color-mix(in srgb, var(--gy-primary, #22c55e) 25%, #1e293b) !important;
+  border-color: var(--gy-primary, #22c55e) !important;
+  color: var(--gy-primary, #22c55e) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--gy-primary, #22c55e) 30%, transparent) !important;
+}
+
+@media (max-width: 640px) {
+  .gy-dark .gy-tabs--vertical .gy-tabs-list,
+  [data-color-mode="dark"] .gy-tabs--vertical .gy-tabs-list,
+  .dark .gy-tabs--vertical .gy-tabs-list,
+  [data-theme="samantrix"] .gy-tabs--vertical .gy-tabs-list,
+  [data-theme="dark"] .gy-tabs--vertical .gy-tabs-list {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
 }

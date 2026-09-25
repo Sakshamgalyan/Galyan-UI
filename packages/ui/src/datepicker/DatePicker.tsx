@@ -13,13 +13,15 @@ import {
   FloatingPortal,
   Placement as FloatingPlacement,
 } from "@floating-ui/react";
-import { Calendar } from "../calendar/Calendar";
+import { Calendar, CalendarValue } from "../calendar/Calendar";
 import { Input, InputVariant } from "../input/Input";
 import { Button } from "../button/Button";
 import "./datepicker.css";
 
 export type DatePickerSingleValue = Date | null;
-export type DatePickerRangeValue = [Date | null, Date | "present" | null] | null;
+export type DatePickerRangeValue =
+  | [Date | null, Date | "present" | null]
+  | null;
 export type DatePickerValue = DatePickerSingleValue | DatePickerRangeValue;
 
 export interface DatePickerPreset {
@@ -117,7 +119,8 @@ export function DatePicker({
   const [open, setOpen] = useState(false);
   const [tempValue, setTempValue] = useState<DatePickerValue>(value ?? null);
 
-  const desiredPlacement: FloatingPlacement = `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
+  const desiredPlacement: FloatingPlacement =
+    `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
 
   const { refs, floatingStyles, context } = useFloating({
     open,
@@ -178,11 +181,19 @@ export function DatePicker({
     return "";
   };
 
-  const handleSelectDate = (val: Date | [Date, Date]) => {
-    setTempValue(val);
-    if (!showActions && !onApply) {
-      onChange?.(val);
-      setOpen(false);
+  const handleSelectDate = (val: CalendarValue) => {
+    if (Array.isArray(val)) {
+      setTempValue([val[0] ?? null, val[1] ?? null]);
+      if (!showActions && !onApply && val[0] && val[1]) {
+        onChange?.([val[0], val[1]]);
+        setOpen(false);
+      }
+    } else {
+      setTempValue(val ?? null);
+      if (!showActions && !onApply && val) {
+        onChange?.(val);
+        setOpen(false);
+      }
     }
   };
 
@@ -243,13 +254,13 @@ export function DatePicker({
       tempValue.toDateString() === new Date().toDateString());
 
   // Resolve Calendar internal value for visual selection
-  const calendarValue = (() => {
+  const calendarValue: CalendarValue | undefined = (() => {
     if (!tempValue) return undefined;
     if (mode === "range" && Array.isArray(tempValue)) {
       const [start, end] = tempValue;
       if (!start) return undefined;
       const endResolved = end === "present" ? new Date() : (end ?? undefined);
-      return [start, endResolved] as [Date, Date];
+      return [start, endResolved];
     }
     if (tempValue instanceof Date) return tempValue;
     return undefined;
@@ -359,11 +370,7 @@ export function DatePicker({
         />
       </div>
 
-      {open && !disabled && (
-        <FloatingPortal>
-          {popoverContent}
-        </FloatingPortal>
-      )}
+      {open && !disabled && <FloatingPortal>{popoverContent}</FloatingPortal>}
     </div>
   );
 }

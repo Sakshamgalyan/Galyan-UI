@@ -32,11 +32,18 @@ const meta: Meta<typeof AnimatedNumber> = {
     separator: { control: "text" },
     easing: {
       control: "select",
-      options: ["easeOutExpo", "easeOutQuart", "easeOut", "easeInOut", "spring", "linear"],
+      options: [
+        "easeOutExpo",
+        "easeOutQuart",
+        "easeOut",
+        "easeInOut",
+        "spring",
+        "linear",
+      ],
     },
     animateOnMount: { control: "boolean" },
   },
-} satisfies Meta<typeof AnimatedNumber>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -204,7 +211,13 @@ export const StatsDashboardCards: Story = {
             minWidth: 180,
           }}
         >
-          <div style={{ color: "#64748b", fontSize: "0.875rem", marginBottom: "0.5rem" }}>
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: "0.875rem",
+              marginBottom: "0.5rem",
+            }}
+          >
             Total Revenue
           </div>
           <AnimatedNumber
@@ -225,7 +238,13 @@ export const StatsDashboardCards: Story = {
             minWidth: 180,
           }}
         >
-          <div style={{ color: "#64748b", fontSize: "0.875rem", marginBottom: "0.5rem" }}>
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: "0.875rem",
+              marginBottom: "0.5rem",
+            }}
+          >
             Active Subscribers
           </div>
           <AnimatedNumber
@@ -245,7 +264,13 @@ export const StatsDashboardCards: Story = {
             minWidth: 180,
           }}
         >
-          <div style={{ color: "#64748b", fontSize: "0.875rem", marginBottom: "0.5rem" }}>
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: "0.875rem",
+              marginBottom: "0.5rem",
+            }}
+          >
             Conversion Rate
           </div>
           <AnimatedNumber

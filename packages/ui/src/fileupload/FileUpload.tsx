@@ -199,9 +199,7 @@ export function FileUpload({
             const isFile = item instanceof File;
             const fileName = isFile ? item.name : item.name;
             const fileSize = isFile ? item.size : item.size;
-            const status = isFile
-              ? "completed"
-              : (item.status ?? "completed");
+            const status = isFile ? "completed" : (item.status ?? "completed");
             const progress = !isFile ? (item.progress ?? 0) : 100;
 
             return (

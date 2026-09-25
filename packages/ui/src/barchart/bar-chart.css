@@ -56,15 +56,35 @@
   box-sizing: border-box;
 }
 
-.gy-barchart-col--cylindrical .gy-tooltip-trigger {
+.gy-barchart-col--cylindrical .gy-barchart-bar-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.gy-barchart-col--cylindrical .gy-barchart-bar-wrapper > .gy-tooltip-trigger {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.gy-barchart-col--cylindrical .gy-barchart-label-wrapper {
   position: absolute;
   bottom: 6px;
   left: 2px;
   right: 2px;
-  width: calc(100% - 4px);
-  max-width: calc(100% - 4px);
   display: flex;
   justify-content: center;
+}
+
+.gy-barchart-col--cylindrical .gy-barchart-label-wrapper > .gy-tooltip-trigger {
+  width: 100%;
+  max-width: 100%;
+  display: block;
 }
 
 .gy-barchart-bar--cylindrical {
@@ -72,8 +92,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.625rem 0 0.5rem 0;
+  justify-content: flex-start;
+  padding: 0.5rem 0;
   box-sizing: border-box;
   position: relative;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease, width 0.2s ease;
@@ -86,24 +106,12 @@
   filter: brightness(1.06);
 }
 
-.gy-barchart-bar-percentage--cylindrical {
-  color: #ffffff;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  user-select: none;
-  letter-spacing: 0.02em;
-  margin-top: 0.25rem;
-}
-
 .gy-barchart-bar-icon--cylindrical {
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
   font-size: 0.875rem;
-  margin-bottom: 0.25rem;
 }
 
 .gy-barchart-label--cylindrical {
@@ -127,16 +135,11 @@
 
 /* ── Compact adjustments ── */
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar--cylindrical {
-  padding: 0.375rem 0 0.25rem 0;
-}
-
-.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-percentage--cylindrical {
-  font-size: 0.625rem;
+  padding: 0.375rem 0;
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-icon--cylindrical {
   font-size: 0.75rem;
-  margin-bottom: 0.15rem;
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label--cylindrical {
@@ -176,15 +179,37 @@
   box-sizing: border-box;
 }
 
-.gy-barchart-col--filled .gy-tooltip-trigger {
+.gy-barchart-col--filled .gy-barchart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+}
+
+.gy-barchart-col--filled .gy-barchart-bar-wrapper > .gy-tooltip-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+}
+
+.gy-barchart-col--filled .gy-barchart-label-wrapper {
   position: absolute;
   bottom: 6px;
   left: 2px;
   right: 2px;
-  width: calc(100% - 4px);
-  max-width: calc(100% - 4px);
   display: flex;
   justify-content: center;
+}
+
+.gy-barchart-col--filled .gy-barchart-label-wrapper > .gy-tooltip-trigger {
+  width: 100%;
+  max-width: 100%;
+  display: block;
 }
 
 .gy-barchart-bar-value--filled {
@@ -281,6 +306,15 @@
   gap: 0.25rem;
 }
 
+.gy-barchart-content--horizontal .gy-barchart-bar-wrapper {
+  width: 100%;
+}
+
+.gy-barchart-content--horizontal .gy-barchart-bar-wrapper > .gy-tooltip-trigger {
+  width: 100%;
+  display: block;
+}
+
 .gy-barchart-label--horizontal {
   font-size: 0.8125rem;
   font-weight: 600;
@@ -321,32 +355,4 @@
   min-width: 44px;
   text-align: right;
   user-select: none;
-}
-
-/* ── Interactive Tooltip ────────────────────────────────────────────────── */
-.gy-barchart-tooltip {
-  position: absolute;
-  z-index: 50;
-  background: var(--gy-surface, #ffffff);
-  border: 1px solid var(--gy-border, #e2e8f0);
-  border-radius: var(--gy-radius-md, 0.375rem);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  padding: 0.375rem 0.625rem;
-  pointer-events: none;
-  font-size: 0.75rem;
-  color: var(--gy-text, #0f172a);
-  transform: translate(-50%, -100%);
-  margin-top: -8px;
-  white-space: nowrap;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-.gy-barchart-tooltip-label {
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.gy-barchart-tooltip-value {
-  color: var(--gy-primary, #3b82f6);
-  font-weight: 700;
 }

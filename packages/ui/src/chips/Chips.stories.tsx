@@ -78,30 +78,92 @@ export const RadiusVariants: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-        <span style={{ width: 60, fontSize: "0.8rem", color: "var(--gy-text-muted)" }}>none:</span>
-        <Chip radius="none" variant="soft">Square Tag</Chip>
-        <Chip radius="none" variant="solid">Featured</Chip>
-        <Chip radius="none" variant="outline" removable>Delete me</Chip>
+        <span
+          style={{
+            width: 60,
+            fontSize: "0.8rem",
+            color: "var(--gy-text-muted)",
+          }}
+        >
+          none:
+        </span>
+        <Chip radius="none" variant="soft">
+          Square Tag
+        </Chip>
+        <Chip radius="none" variant="solid">
+          Featured
+        </Chip>
+        <Chip radius="none" variant="outline" removable>
+          Delete me
+        </Chip>
       </div>
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-        <span style={{ width: 60, fontSize: "0.8rem", color: "var(--gy-text-muted)" }}>sm:</span>
-        <Chip radius="sm" variant="soft">Slightly Rounded</Chip>
-        <Chip radius="sm" variant="success">Active</Chip>
+        <span
+          style={{
+            width: 60,
+            fontSize: "0.8rem",
+            color: "var(--gy-text-muted)",
+          }}
+        >
+          sm:
+        </span>
+        <Chip radius="sm" variant="soft">
+          Slightly Rounded
+        </Chip>
+        <Chip radius="sm" variant="success">
+          Active
+        </Chip>
       </div>
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-        <span style={{ width: 60, fontSize: "0.8rem", color: "var(--gy-text-muted)" }}>md:</span>
-        <Chip radius="md" variant="soft">Medium Rounded</Chip>
-        <Chip radius="md" variant="warning">In Review</Chip>
+        <span
+          style={{
+            width: 60,
+            fontSize: "0.8rem",
+            color: "var(--gy-text-muted)",
+          }}
+        >
+          md:
+        </span>
+        <Chip radius="md" variant="soft">
+          Medium Rounded
+        </Chip>
+        <Chip radius="md" variant="warning">
+          In Review
+        </Chip>
       </div>
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-        <span style={{ width: 60, fontSize: "0.8rem", color: "var(--gy-text-muted)" }}>lg:</span>
-        <Chip radius="lg" variant="soft">Large Rounded</Chip>
-        <Chip radius="lg" variant="danger">Blocked</Chip>
+        <span
+          style={{
+            width: 60,
+            fontSize: "0.8rem",
+            color: "var(--gy-text-muted)",
+          }}
+        >
+          lg:
+        </span>
+        <Chip radius="lg" variant="soft">
+          Large Rounded
+        </Chip>
+        <Chip radius="lg" variant="danger">
+          Blocked
+        </Chip>
       </div>
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-        <span style={{ width: 60, fontSize: "0.8rem", color: "var(--gy-text-muted)" }}>full:</span>
-        <Chip radius="full" variant="soft">Pill (Default)</Chip>
-        <Chip radius="full" variant="solid" removable>Badge</Chip>
+        <span
+          style={{
+            width: 60,
+            fontSize: "0.8rem",
+            color: "var(--gy-text-muted)",
+          }}
+        >
+          full:
+        </span>
+        <Chip radius="full" variant="soft">
+          Pill (Default)
+        </Chip>
+        <Chip radius="full" variant="solid" removable>
+          Badge
+        </Chip>
       </div>
     </div>
   ),
@@ -123,14 +185,26 @@ export const Variants: Story = {
 
 export const WithIconsAndAvatars: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "0.75rem",
+        flexWrap: "wrap",
+        alignItems: "center",
+      }}
+    >
       <Chip variant="solid" icon={<StarIcon />}>
         Starred
       </Chip>
       <Chip variant="soft" icon={<UserAvatar />}>
         Alex Morgan
       </Chip>
-      <Chip variant="outline" icon={<StarIcon />} removable onRemove={() => alert("Removed")}>
+      <Chip
+        variant="outline"
+        icon={<StarIcon />}
+        removable
+        onRemove={() => alert("Removed")}
+      >
         Favorite
       </Chip>
     </div>
@@ -139,7 +213,10 @@ export const WithIconsAndAvatars: Story = {
 
 export const SelectableFilterGroup: Story = {
   render: () => {
-    const [selectedFilters, setSelectedFilters] = useState<string[]>(["design", "react"]);
+    const [selectedFilters, setSelectedFilters] = useState<string[]>([
+      "design",
+      "react",
+    ]);
 
     const toggle = (tag: string) => {
       setSelectedFilters((prev) =>
@@ -187,10 +264,18 @@ export const Removable: Story = {
       <Chip variant="soft" removable onRemove={() => alert("Removed React")}>
         React
       </Chip>
-      <Chip variant="solid" removable onRemove={() => alert("Removed TypeScript")}>
+      <Chip
+        variant="solid"
+        removable
+        onRemove={() => alert("Removed TypeScript")}
+      >
         TypeScript
       </Chip>
-      <Chip variant="outline" removable onRemove={() => alert("Removed Design")}>
+      <Chip
+        variant="outline"
+        removable
+        onRemove={() => alert("Removed Design")}
+      >
         Design
       </Chip>
     </div>

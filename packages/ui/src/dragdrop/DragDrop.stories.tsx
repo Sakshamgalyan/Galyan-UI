@@ -111,9 +111,21 @@ export const ReorderableTaskList: Story = {
 
     const getPriorityBadge = (p: TaskItem["priority"]) => {
       const colors = {
-        high: { bg: "rgba(239, 68, 68, 0.12)", text: "#ef4444", border: "rgba(239, 68, 68, 0.25)" },
-        medium: { bg: "rgba(245, 158, 11, 0.12)", text: "#f59e0b", border: "rgba(245, 158, 11, 0.25)" },
-        low: { bg: "rgba(16, 185, 129, 0.12)", text: "#10b981", border: "rgba(16, 185, 129, 0.25)" },
+        high: {
+          bg: "rgba(239, 68, 68, 0.12)",
+          text: "#ef4444",
+          border: "rgba(239, 68, 68, 0.25)",
+        },
+        medium: {
+          bg: "rgba(245, 158, 11, 0.12)",
+          text: "#f59e0b",
+          border: "rgba(245, 158, 11, 0.25)",
+        },
+        low: {
+          bg: "rgba(16, 185, 129, 0.12)",
+          text: "#10b981",
+          border: "rgba(16, 185, 129, 0.25)",
+        },
       }[p];
 
       return (
@@ -136,13 +148,35 @@ export const ReorderableTaskList: Story = {
     };
 
     return (
-      <div style={{ maxWidth: 640, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <div
+        style={{
+          maxWidth: 640,
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
         <div>
-          <h3 style={{ margin: "0 0 4px", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+          <h3
+            style={{
+              margin: "0 0 4px",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--gy-text)",
+            }}
+          >
             Sprint Priority Reorder List
           </h3>
-          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-            Drag and drop items using the grab handle to reorder sprint priorities:
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
+            Drag and drop items using the grab handle to reorder sprint
+            priorities:
           </p>
         </div>
 
@@ -160,7 +194,14 @@ export const ReorderableTaskList: Story = {
                 width: "100%",
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column", gap: "3px", minWidth: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  minWidth: 0,
+                }}
+              >
                 <span
                   style={{
                     fontSize: "0.875rem",
@@ -170,10 +211,24 @@ export const ReorderableTaskList: Story = {
                 >
                   {task.title}
                 </span>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    fontSize: "0.75rem",
+                    color: "var(--gy-text-muted)",
+                  }}
+                >
                   <span>{task.category}</span>
                   <span>•</span>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "3px",
+                    }}
+                  >
                     <ClockIcon /> {task.estTime}
                   </span>
                 </div>
@@ -295,10 +350,23 @@ export const KanbanSprintBoard: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div>
-          <h3 style={{ margin: "0 0 4px", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+          <h3
+            style={{
+              margin: "0 0 4px",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--gy-text)",
+            }}
+          >
             Product Engineering Kanban Board
           </h3>
-          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
             Drag cards between columns or reorder them within a column:
           </p>
         </div>
@@ -308,21 +376,36 @@ export const KanbanSprintBoard: Story = {
           onMove={handleMove}
           keyExtractor={(it) => it.id}
           renderCard={(task, isDragging) => (
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.625rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <span
                   style={{
                     fontSize: "0.6875rem",
                     fontWeight: 600,
                     padding: "2px 8px",
                     borderRadius: "6px",
-                    background: "color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface))",
+                    background:
+                      "color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface))",
                     color: "var(--gy-primary)",
                   }}
                 >
                   {task.tag}
                 </span>
-                <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
+                <span
+                  style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}
+                >
                   💬 {task.commentsCount}
                 </span>
               </div>
@@ -338,7 +421,13 @@ export const KanbanSprintBoard: Story = {
                 {task.title}
               </span>
 
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
                 <UserAvatar name={task.assignee.name} bg={task.assignee.bg} />
               </div>
             </div>

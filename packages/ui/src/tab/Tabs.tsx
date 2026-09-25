@@ -3,7 +3,13 @@
 import React, { useState } from "react";
 import "./tab.css";
 
-export type TabVariant = "classic" | "card" | "button";
+export type TabVariant =
+  | "classic"
+  | "button"
+  | "card"
+  | "outline"
+  | "ghost"
+  | "merged";
 export type TabSize = "sm" | "md" | "lg";
 
 export interface TabItem {

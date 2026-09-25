@@ -117,20 +117,132 @@ const columns: Column<User>[] = [
 ];
 
 const sampleData: User[] = [
-  { id: "1", name: "Sophia Martinez", role: "Software Engineer", status: "active", revenue: 125000, email: "sophia@example.com", department: "Engineering" },
-  { id: "2", name: "Jackson Miller", role: "Product Manager", status: "active", revenue: 142000, email: "jackson@example.com", department: "Product" },
-  { id: "3", name: "Olivia Garcia", role: "UI/UX Designer", status: "inactive", revenue: 98000, email: "olivia@example.com", department: "Design" },
-  { id: "4", name: "Liam Johnson", role: "DevOps Specialist", status: "active", revenue: 135000, email: "liam@example.com", department: "Infrastructure" },
-  { id: "5", name: "Emma Davis", role: "Marketing Director", status: "active", revenue: 112000, email: "emma@example.com", department: "Marketing" },
-  { id: "6", name: "Noah Wilson", role: "Security Analyst", status: "inactive", revenue: 118000, email: "noah@example.com", department: "Security" },
-  { id: "7", name: "Mia Thomas", role: "Customer Success Manager", status: "active", revenue: 85000, email: "mia@example.com", department: "Support" },
-  { id: "8", name: "Lucas Anderson", role: "Frontend Lead", status: "active", revenue: 148000, email: "lucas@example.com", department: "Engineering" },
-  { id: "9", name: "Amelia White", role: "Data Scientist", status: "pending", revenue: 132000, email: "amelia@example.com", department: "AI Lab" },
-  { id: "10", name: "Benjamin Taylor", role: "Backend Developer", status: "active", revenue: 119000, email: "ben@example.com", department: "Engineering" },
-  { id: "11", name: "Harper Clark", role: "QA Engineer", status: "active", revenue: 92000, email: "harper@example.com", department: "QA" },
-  { id: "12", name: "James Walker", role: "Cloud Architect", status: "active", revenue: 165000, email: "james@example.com", department: "Infrastructure" },
-  { id: "13", name: "Evelyn Hall", role: "Growth Marketer", status: "pending", revenue: 104000, email: "evelyn@example.com", department: "Marketing" },
-  { id: "14", name: "Alexander Young", role: "Mobile Engineer", status: "active", revenue: 128000, email: "alex@example.com", department: "Mobile" },
+  {
+    id: "1",
+    name: "Sophia Martinez",
+    role: "Software Engineer",
+    status: "active",
+    revenue: 125000,
+    email: "sophia@example.com",
+    department: "Engineering",
+  },
+  {
+    id: "2",
+    name: "Jackson Miller",
+    role: "Product Manager",
+    status: "active",
+    revenue: 142000,
+    email: "jackson@example.com",
+    department: "Product",
+  },
+  {
+    id: "3",
+    name: "Olivia Garcia",
+    role: "UI/UX Designer",
+    status: "inactive",
+    revenue: 98000,
+    email: "olivia@example.com",
+    department: "Design",
+  },
+  {
+    id: "4",
+    name: "Liam Johnson",
+    role: "DevOps Specialist",
+    status: "active",
+    revenue: 135000,
+    email: "liam@example.com",
+    department: "Infrastructure",
+  },
+  {
+    id: "5",
+    name: "Emma Davis",
+    role: "Marketing Director",
+    status: "active",
+    revenue: 112000,
+    email: "emma@example.com",
+    department: "Marketing",
+  },
+  {
+    id: "6",
+    name: "Noah Wilson",
+    role: "Security Analyst",
+    status: "inactive",
+    revenue: 118000,
+    email: "noah@example.com",
+    department: "Security",
+  },
+  {
+    id: "7",
+    name: "Mia Thomas",
+    role: "Customer Success Manager",
+    status: "active",
+    revenue: 85000,
+    email: "mia@example.com",
+    department: "Support",
+  },
+  {
+    id: "8",
+    name: "Lucas Anderson",
+    role: "Frontend Lead",
+    status: "active",
+    revenue: 148000,
+    email: "lucas@example.com",
+    department: "Engineering",
+  },
+  {
+    id: "9",
+    name: "Amelia White",
+    role: "Data Scientist",
+    status: "pending",
+    revenue: 132000,
+    email: "amelia@example.com",
+    department: "AI Lab",
+  },
+  {
+    id: "10",
+    name: "Benjamin Taylor",
+    role: "Backend Developer",
+    status: "active",
+    revenue: 119000,
+    email: "ben@example.com",
+    department: "Engineering",
+  },
+  {
+    id: "11",
+    name: "Harper Clark",
+    role: "QA Engineer",
+    status: "active",
+    revenue: 92000,
+    email: "harper@example.com",
+    department: "QA",
+  },
+  {
+    id: "12",
+    name: "James Walker",
+    role: "Cloud Architect",
+    status: "active",
+    revenue: 165000,
+    email: "james@example.com",
+    department: "Infrastructure",
+  },
+  {
+    id: "13",
+    name: "Evelyn Hall",
+    role: "Growth Marketer",
+    status: "pending",
+    revenue: 104000,
+    email: "evelyn@example.com",
+    department: "Marketing",
+  },
+  {
+    id: "14",
+    name: "Alexander Young",
+    role: "Mobile Engineer",
+    status: "active",
+    revenue: 128000,
+    email: "alex@example.com",
+    department: "Mobile",
+  },
 ];
 
 export const Default: Story = {
@@ -150,7 +262,8 @@ export const PaginationInternal: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-        Client-side automatic pagination with 5 items per page across 14 records:
+        Client-side automatic pagination with 5 items per page across 14
+        records:
       </div>
       <Table
         columns={columns}
@@ -171,12 +284,27 @@ export const ControlledServerPagination: Story = {
     const pageSize = 4;
     const totalItems = sampleData.length;
     const totalPages = Math.ceil(totalItems / pageSize);
-    const currentRows = sampleData.slice((page - 1) * pageSize, page * pageSize);
+    const currentRows = sampleData.slice(
+      (page - 1) * pageSize,
+      page * pageSize,
+    );
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--gy-text)",
+            }}
+          >
             Server-side Controlled Pagination (Page {page} of {totalPages})
           </span>
           <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
@@ -219,8 +347,18 @@ export const RowSelectionWithBulkActions: Story = {
             border: "1px solid var(--gy-border)",
           }}
         >
-          <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
-            Selected: <span style={{ color: "var(--gy-primary)" }}>{selected.length}</span> / {sampleData.slice(0, 6).length} items
+          <div
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--gy-text)",
+            }}
+          >
+            Selected:{" "}
+            <span style={{ color: "var(--gy-primary)" }}>
+              {selected.length}
+            </span>{" "}
+            / {sampleData.slice(0, 6).length} items
           </div>
           <div style={{ display: "flex", gap: "0.5rem" }}>
             <Button
@@ -277,12 +415,45 @@ export const StickyHeaderAndFixedColumns: Story = {
   render: () => {
     const wideColumns: Column<User>[] = [
       { key: "id", header: "ID", accessor: (r) => `#${r.id}`, width: "70px" },
-      { key: "name", header: "Full Name", accessor: (r) => r.name, width: "180px", sortable: true },
-      { key: "email", header: "Email Address", accessor: (r) => r.email ?? "-", width: "200px" },
-      { key: "department", header: "Department", accessor: (r) => r.department ?? "-", width: "150px" },
-      { key: "role", header: "Role Title", accessor: (r) => r.role, width: "180px" },
-      { key: "status", header: "Status", accessor: (r) => r.status, width: "110px", align: "center" },
-      { key: "revenue", header: "Annual Revenue", accessor: (r) => `$${r.revenue.toLocaleString()}`, width: "140px", align: "right" },
+      {
+        key: "name",
+        header: "Full Name",
+        accessor: (r) => r.name,
+        width: "180px",
+        sortable: true,
+      },
+      {
+        key: "email",
+        header: "Email Address",
+        accessor: (r) => r.email ?? "-",
+        width: "200px",
+      },
+      {
+        key: "department",
+        header: "Department",
+        accessor: (r) => r.department ?? "-",
+        width: "150px",
+      },
+      {
+        key: "role",
+        header: "Role Title",
+        accessor: (r) => r.role,
+        width: "180px",
+      },
+      {
+        key: "status",
+        header: "Status",
+        accessor: (r) => r.status,
+        width: "110px",
+        align: "center",
+      },
+      {
+        key: "revenue",
+        header: "Annual Revenue",
+        accessor: (r) => `$${r.revenue.toLocaleString()}`,
+        width: "140px",
+        align: "right",
+      },
       {
         key: "actions",
         header: "ACTIONS",
@@ -298,7 +469,8 @@ export const StickyHeaderAndFixedColumns: Story = {
               width: "32px",
               height: "32px",
               borderRadius: "8px",
-              border: "1.5px solid color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border))",
+              border:
+                "1.5px solid color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border))",
               background: "var(--gy-surface)",
               color: "var(--gy-primary)",
               cursor: "pointer",
@@ -319,7 +491,9 @@ export const StickyHeaderAndFixedColumns: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          Horizontal scrolling table with <strong>fixed left checkbox & ID</strong> and <strong>fixed right ACTIONS column</strong>:
+          Horizontal scrolling table with{" "}
+          <strong>fixed left checkbox & ID</strong> and{" "}
+          <strong>fixed right ACTIONS column</strong>:
         </div>
         <div style={{ maxWidth: 640, overflowX: "auto" }}>
           <Table
@@ -411,28 +585,55 @@ export const EnterpriseCompanyDirectory: Story = {
         header: "COMPANY NAME",
         width: "310px",
         accessor: (r) => (
-          <div style={{ display: "flex", alignItems: "center", gap: "0.875rem" }}>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.875rem" }}
+          >
             <div
               style={{
                 width: 36,
                 height: 36,
                 borderRadius: "8px",
-                background: "color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface))",
+                background:
+                  "color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface))",
                 color: "var(--gy-primary)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0,
-                border: "1px solid color-mix(in srgb, var(--gy-primary) 20%, transparent)",
+                border:
+                  "1px solid color-mix(in srgb, var(--gy-primary) 20%, transparent)",
               }}
             >
               <BuildingIcon />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
-              <span style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--gy-text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+                minWidth: 0,
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  color: "var(--gy-text)",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
                 {r.name}
               </span>
-              <span style={{ fontSize: "0.7rem", color: "var(--gy-text-muted)", fontFamily: "monospace", letterSpacing: "0.03em" }}>
+              <span
+                style={{
+                  fontSize: "0.7rem",
+                  color: "var(--gy-text-muted)",
+                  fontFamily: "monospace",
+                  letterSpacing: "0.03em",
+                }}
+              >
                 GST: {r.gst}
               </span>
             </div>
@@ -490,7 +691,8 @@ export const EnterpriseCompanyDirectory: Story = {
               width: "32px",
               height: "32px",
               borderRadius: "8px",
-              border: "1.5px solid color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border))",
+              border:
+                "1.5px solid color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border))",
               background: "var(--gy-surface)",
               color: "var(--gy-primary)",
               cursor: "pointer",
@@ -529,21 +731,39 @@ export const TableSizesShowcase: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       <div>
-        <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)", fontSize: "0.875rem" }}>
+        <h4
+          style={{
+            margin: "0 0 0.5rem",
+            color: "var(--gy-text)",
+            fontSize: "0.875rem",
+          }}
+        >
           Small (sm) - Compact Data Density
         </h4>
         <Table columns={columns} data={sampleData.slice(0, 3)} size="sm" />
       </div>
 
       <div>
-        <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)", fontSize: "0.875rem" }}>
+        <h4
+          style={{
+            margin: "0 0 0.5rem",
+            color: "var(--gy-text)",
+            fontSize: "0.875rem",
+          }}
+        >
           Medium (md) - Standard Default
         </h4>
         <Table columns={columns} data={sampleData.slice(0, 3)} size="md" />
       </div>
 
       <div>
-        <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)", fontSize: "0.875rem" }}>
+        <h4
+          style={{
+            margin: "0 0 0.5rem",
+            color: "var(--gy-text)",
+            fontSize: "0.875rem",
+          }}
+        >
           Large (lg) - Spacious Presentation
         </h4>
         <Table columns={columns} data={sampleData.slice(0, 3)} size="lg" />
@@ -653,13 +873,14 @@ export const LoadingSkeletonState: Story = {
 
 export const EllipsisWithTooltipOnOverflow: Story = {
   render: () => {
-    const longTextData = [
+    const mixedLengthData = [
       {
         id: "1",
-        name: "Sophia Martinez-Harding-Montgomery (Lead Staff Architect)",
-        role: "Principal Infrastructure & Distributed Cloud Systems Engineer",
+        name: "Sophia",
+        role: "Engineer",
         status: "active" as const,
-        revenue: 185000,
+        revenue: 125000,
+        behavior: "Short text — No tooltip on hover",
       },
       {
         id: "2",
@@ -667,41 +888,50 @@ export const EllipsisWithTooltipOnOverflow: Story = {
         role: "Senior Enterprise Product Strategy & Global Compliance Manager",
         status: "active" as const,
         revenue: 195000,
+        behavior: "Overflowing text — Tooltip appears on hover",
       },
       {
         id: "3",
+        name: "Mia",
+        role: "Design",
+        status: "inactive" as const,
+        revenue: 95000,
+        behavior: "Short text — No tooltip on hover",
+      },
+      {
+        id: "4",
         name: "Olivia-Genevieve Garcia-Vanderbilt",
         role: "Lead Creative Interaction & High-Fidelity UI/UX Design Specialist",
-        status: "inactive" as const,
+        status: "active" as const,
         revenue: 145000,
+        behavior: "Overflowing text — Tooltip appears on hover",
       },
     ];
 
-    const ellipsisColumns: Column<User>[] = [
+    const ellipsisColumns: Column<any>[] = [
       {
         key: "name",
-        header: "Name (Width 160px)",
+        header: "Name (Width 150px)",
         accessor: (r) => r.name,
-        width: "160px",
+        width: "150px",
       },
       {
         key: "role",
-        header: "Role (Width 200px)",
+        header: "Role (Width 180px)",
         accessor: (r) => r.role,
-        width: "200px",
+        width: "180px",
       },
       {
-        key: "status",
-        header: "Status",
-        accessor: (r) => r.status,
-        width: "100px",
-        align: "center",
+        key: "behavior",
+        header: "Behavior Note",
+        accessor: (r) => r.behavior,
+        width: "260px",
       },
       {
         key: "revenue",
         header: "Revenue",
         accessor: (r) => `$${r.revenue.toLocaleString()}`,
-        width: "120px",
+        width: "100px",
         align: "right",
       },
     ];
@@ -709,11 +939,11 @@ export const EllipsisWithTooltipOnOverflow: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          Columns with constrained widths automatically truncate with <strong>… (ellipsis)</strong> and display the full text in a <strong>soft connected Tooltip</strong> on hover:
+          Tooltips are <strong>smart and overflow-aware</strong>: Hovering over short text (e.g. <em>Sophia</em>, <em>Mia</em>) will <strong>not</strong> trigger a tooltip because it fits comfortably. Hovering over truncated text with ellipsis (e.g. <em>Alexander Bartholomew Wellington III</em>) will automatically pop up the <strong>Tooltip</strong> showing the full text.
         </div>
         <Table
           columns={ellipsisColumns}
-          data={longTextData}
+          data={mixedLengthData}
           rowKey={(r) => r.id}
           hoverable
         />
@@ -742,5 +972,147 @@ export const CustomEmptyState: Story = {
         <path d="M21 21l-4.35-4.35" />
       </svg>
     ),
+  },
+};
+
+export const ResponsiveMobileStackedCards: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+          With <code>responsive="stack"</code>, table rows automatically transform into clean mobile-friendly cards with field badges on small screens (<strong>&le; 640px</strong>):
+        </div>
+
+        {/* Simulated Mobile Viewport Container */}
+        <div>
+          <div
+            style={{
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              color: "var(--gy-primary)",
+              marginBottom: "0.5rem",
+            }}
+          >
+            Mobile Container Preview (Width: 380px)
+          </div>
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 380,
+              border: "2px dashed var(--gy-border)",
+              borderRadius: "1rem",
+              padding: "0.75rem",
+              background: "var(--gy-background-subtle)",
+            }}
+          >
+            <Table
+              columns={columns}
+              data={sampleData.slice(0, 4)}
+              rowKey={(r) => r.id}
+              responsive="stack"
+              isRowSelection
+              pagination={true}
+              pageSize={3}
+              hoverable
+            />
+          </div>
+        </div>
+
+        {/* Fluid Container */}
+        <div>
+          <div
+            style={{
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              color: "var(--gy-text-muted)",
+              marginBottom: "0.5rem",
+            }}
+          >
+            Full-Width Responsive Table (Resize browser to &le; 640px to see card transformation)
+          </div>
+          <Table
+            columns={columns}
+            data={sampleData.slice(0, 5)}
+            rowKey={(r) => r.id}
+            responsive="stack"
+            isRowSelection
+            hoverable
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const ResponsiveHorizontalScrollWithHints: Story = {
+  render: () => {
+    const detailedColumns: Column<User>[] = [
+      { key: "id", header: "User ID", accessor: (r) => `#${r.id}`, width: "90px" },
+      { key: "name", header: "Full Name", accessor: (r) => r.name, width: "180px", sortable: true },
+      { key: "email", header: "Email Address", accessor: (r) => r.email ?? "-", width: "200px" },
+      { key: "department", header: "Department", accessor: (r) => r.department ?? "-", width: "150px" },
+      { key: "role", header: "Role Title", accessor: (r) => r.role, width: "180px" },
+      { key: "status", header: "Status", accessor: (r) => r.status, width: "110px", align: "center" },
+      { key: "revenue", header: "Annual Revenue", accessor: (r) => `$${r.revenue.toLocaleString()}`, width: "140px", align: "right", sortable: true },
+    ];
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+          With <code>responsive="scroll"</code> (default), tables provide fluid touch scrolling on mobile & tablets, with <strong>automatic left & right scroll edge shadow cues</strong> when content overflows:
+        </div>
+        <div style={{ maxWidth: 520, border: "2px dashed var(--gy-border)", borderRadius: "1rem", padding: "0.75rem" }}>
+          <Table
+            columns={detailedColumns}
+            data={sampleData.slice(0, 6)}
+            rowKey={(r) => r.id}
+            responsive="scroll"
+            isRowSelection
+            stickyHeader
+            hoverable
+            pagination={true}
+            pageSize={4}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const KeyboardTabAccessibilityShowcase: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div
+          style={{
+            padding: "0.75rem 1rem",
+            background: "color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface))",
+            border: "1px solid color-mix(in srgb, var(--gy-primary) 25%, transparent)",
+            borderRadius: "0.5rem",
+            fontSize: "0.85rem",
+            color: "var(--gy-text)",
+          }}
+        >
+          <strong>Keyboard Accessibility (Tab-Friendly):</strong>
+          <ul style={{ margin: "0.35rem 0 0 1.25rem", padding: 0, fontSize: "0.8125rem", lineHeight: 1.6 }}>
+            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Tab</kbd> to focus through sortable headers, checkboxes, and pagination buttons.</li>
+            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Enter</kbd> or <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Space</kbd> on a focused header to toggle sorting direction.</li>
+            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Left/Right Arrow</kbd> when focused on the scrollable table region to scroll smoothly.</li>
+          </ul>
+        </div>
+        <Table
+          columns={columns}
+          data={sampleData.slice(0, 6)}
+          rowKey={(r) => r.id}
+          sortable
+          isRowSelection
+          pagination={true}
+          pageSize={4}
+          hoverable
+        />
+      </div>
+    );
   },
 };

@@ -24,7 +24,7 @@ const meta: Meta<ToasterStoryArgs> = {
         "top-right",
         "top-left",
         "top-center",
-      ] as ToastPosition[],
+      ],
       description: "Position of the toast container on the screen",
     },
   },
@@ -75,8 +75,8 @@ function ToasterDemoInner() {
           textAlign: "center",
         }}
       >
-        Trigger modern notifications with promise chaining, convenient helper methods,
-        action buttons, and uniform responsive widths.
+        Trigger modern notifications with promise chaining, convenient helper
+        methods, action buttons, and uniform responsive widths.
       </p>
 
       {/* Direct Methods */}

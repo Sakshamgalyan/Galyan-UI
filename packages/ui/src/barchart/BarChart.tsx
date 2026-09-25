@@ -62,8 +62,6 @@ export function BarChart({
   responsive = true,
 }: BarChartProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [isCompact, setIsCompact] = useState(false);
 
   // Responsive observation for scaling bar widths & spacing on mobile
@@ -121,25 +119,19 @@ export function BarChart({
     return text.substring(0, truncateCharacterAfter) + "...";
   };
 
-  const handleMouseEnter = (index: number) => {
-    setHoveredIndex(index);
-  };
+  const getBarTooltip = (item: BarChartItem, percentage: number) => {
+    const formattedValue = tooltipConfig?.formatter
+      ? tooltipConfig.formatter(item.value)
+      : item.value.toLocaleString();
 
-  const handleMouseLeave = () => {
-    setHoveredIndex(null);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const barElement = e.currentTarget as HTMLElement;
-    const rect = barElement.getBoundingClientRect();
-    const wrapper = wrapperRef.current;
-    if (wrapper) {
-      const wrapperRect = wrapper.getBoundingClientRect();
-      setTooltipPos({
-        x: rect.left - wrapperRect.left + rect.width / 2,
-        y: rect.top - wrapperRect.top,
-      });
-    }
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px", textAlign: "center" }}>
+        <span style={{ fontWeight: 600, fontSize: "0.8125rem" }}>{item.label}</span>
+        <span style={{ fontSize: "0.75rem", opacity: 0.9 }}>
+          {formattedValue} ({percentage}%)
+        </span>
+      </div>
+    );
   };
 
   // Rendering skeletons helper
@@ -308,32 +300,34 @@ export function BarChart({
 
               return (
                 <div key={index} className="gy-barchart-col--cylindrical">
-                  <div
-                    className="gy-barchart-bar--cylindrical"
-                    style={barStyle}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >
-                    {showValues && percentage > 18 && (
-                      <span className="gy-barchart-bar-percentage--cylindrical">
-                        {percentage}%
-                      </span>
-                    )}
-                    {item.icon && (
-                      <span className="gy-barchart-bar-icon--cylindrical">
-                        {item.icon}
-                      </span>
-                    )}
-                  </div>
-                  <Tooltip content={item.label} position="bottom" delay={60}>
-                    <span
-                      className="gy-barchart-label--cylindrical"
-                      style={{ color: textColor }}
+                  <div className="gy-barchart-bar-wrapper">
+                    <Tooltip
+                      content={getBarTooltip(item, percentage)}
+                      position="top"
+                      disabled={tooltipConfig?.show === false}
                     >
-                      {truncateLabel(item.label)}
-                    </span>
-                  </Tooltip>
+                      <div
+                        className="gy-barchart-bar--cylindrical"
+                        style={barStyle}
+                      >
+                        {item.icon && (
+                          <span className="gy-barchart-bar-icon--cylindrical">
+                            {item.icon}
+                          </span>
+                        )}
+                      </div>
+                    </Tooltip>
+                  </div>
+                  <div className="gy-barchart-label-wrapper">
+                    <Tooltip content={item.label} position="bottom" delay={60}>
+                      <span
+                        className="gy-barchart-label--cylindrical"
+                        style={{ color: textColor }}
+                      >
+                        {truncateLabel(item.label)}
+                      </span>
+                    </Tooltip>
+                  </div>
                 </div>
               );
             }
@@ -362,28 +356,35 @@ export function BarChart({
                       {percentage}%
                     </span>
                   )}
-                  <div className="gy-barchart-track--filled" style={trackStyle}>
-                    <div
-                      className="gy-barchart-bar--filled"
-                      style={fillStyle}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                      onMouseMove={handleMouseMove}
-                    />
+                  <div className="gy-barchart-bar-wrapper">
+                    <Tooltip
+                      content={getBarTooltip(item, percentage)}
+                      position="top"
+                      disabled={tooltipConfig?.show === false}
+                    >
+                      <div className="gy-barchart-track--filled" style={trackStyle}>
+                        <div
+                          className="gy-barchart-bar--filled"
+                          style={fillStyle}
+                        />
+                      </div>
+                    </Tooltip>
                   </div>
                   {item.icon && (
                     <span className="gy-barchart-bar-icon--filled">
                       {item.icon}
                     </span>
                   )}
-                  <Tooltip content={item.label} position="bottom" delay={60}>
-                    <span
-                      className="gy-barchart-label--filled"
-                      style={{ color: textColor }}
-                    >
-                      {truncateLabel(item.label)}
-                    </span>
-                  </Tooltip>
+                  <div className="gy-barchart-label-wrapper">
+                    <Tooltip content={item.label} position="bottom" delay={60}>
+                      <span
+                        className="gy-barchart-label--filled"
+                        style={{ color: textColor }}
+                      >
+                        {truncateLabel(item.label)}
+                      </span>
+                    </Tooltip>
+                  </div>
                 </div>
               );
             }
@@ -414,17 +415,22 @@ export function BarChart({
                       {truncateLabel(item.label)}
                     </span>
                   </Tooltip>
-                  <div
-                    className="gy-barchart-track--horizontal"
-                    style={customBarHeight}
-                  >
-                    <div
-                      className="gy-barchart-bar--horizontal"
-                      style={progressStyle}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                      onMouseMove={handleMouseMove}
-                    />
+                  <div className="gy-barchart-bar-wrapper">
+                    <Tooltip
+                      content={getBarTooltip(item, percentage)}
+                      position="top"
+                      disabled={tooltipConfig?.show === false}
+                    >
+                      <div
+                        className="gy-barchart-track--horizontal"
+                        style={customBarHeight}
+                      >
+                        <div
+                          className="gy-barchart-bar--horizontal"
+                          style={progressStyle}
+                        />
+                      </div>
+                    </Tooltip>
                   </div>
                 </div>
                 {showValues && (
@@ -440,30 +446,6 @@ export function BarChart({
           })
         )}
       </div>
-
-      {/* Floating Interactive Tooltip */}
-      {!loading &&
-        tooltipConfig?.show &&
-        hoveredIndex !== null &&
-        processedData[hoveredIndex] && (
-          <div
-            className="gy-barchart-tooltip"
-            style={{
-              left: `${tooltipPos.x}px`,
-              top: `${tooltipPos.y}px`,
-              opacity: hoveredIndex !== null ? 1 : 0,
-            }}
-          >
-            <div className="gy-barchart-tooltip-label">
-              {processedData[hoveredIndex].label}
-            </div>
-            <div className="gy-barchart-tooltip-value">
-              {tooltipConfig.formatter
-                ? tooltipConfig.formatter(processedData[hoveredIndex].value)
-                : processedData[hoveredIndex].value.toLocaleString()}
-            </div>
-          </div>
-        )}
     </div>
   );
 }

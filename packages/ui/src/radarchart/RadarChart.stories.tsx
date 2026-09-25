@@ -9,12 +9,18 @@ const meta: Meta<typeof RadarChart> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["standard", "filled"],
+      options: ["standard", "filled", "dots"],
+    },
+    gridType: {
+      control: "select",
+      options: ["polygon", "circle"],
     },
     height: { control: "number" },
+    width: { control: "text" },
     showGrid: { control: "boolean" },
     showLegend: { control: "boolean" },
     loading: { control: "boolean" },
+    responsive: { control: "boolean" },
   },
 } satisfies Meta<typeof RadarChart>;
 
@@ -31,8 +37,8 @@ const radarData = [
 ];
 
 const seriesConfig = [
-  { key: "playerA", name: "Player A", color: "var(--gy-primary)" },
-  { key: "playerB", name: "Player B", color: "var(--gy-success)" },
+  { key: "playerA", name: "Player A", color: "var(--gy-primary, #3b82f6)" },
+  { key: "playerB", name: "Player B", color: "var(--gy-success, #10b981)" },
 ];
 
 export const Filled: Story = {
@@ -42,6 +48,7 @@ export const Filled: Story = {
     angleKey: "subject",
     series: seriesConfig,
     height: 350,
+    width: "100%",
   },
 };
 
@@ -52,10 +59,72 @@ export const Standard: Story = {
   },
 };
 
+export const ResponsiveMobile: Story = {
+  render: () => (
+    <div
+      style={{
+        width: 320,
+        border: "1px dashed #cbd5e1",
+        padding: "0.75rem",
+        borderRadius: "1rem",
+        background: "#f8fafc",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.75rem",
+          color: "#64748b",
+          marginBottom: "0.5rem",
+          fontWeight: 600,
+        }}
+      >
+        Mobile Container Preview (320px)
+      </div>
+      <RadarChart
+        variant="filled"
+        data={radarData}
+        angleKey="subject"
+        series={seriesConfig}
+        height={320}
+        width="100%"
+        showLegend
+      />
+    </div>
+  ),
+};
+
+export const CircleGridWithDots: Story = {
+  args: {
+    variant: "dots",
+    gridType: "circle",
+    data: radarData,
+    angleKey: "subject",
+    series: seriesConfig,
+    height: 350,
+    width: "100%",
+  },
+};
+
+export const CustomFormatter: Story = {
+  args: {
+    ...Filled.args,
+    tooltipConfig: {
+      formatter: (val: number, name?: string) => `${val} pts (${name})`,
+    },
+  },
+};
+
 export const LoadingState: Story = {
   args: {
     ...Filled.args,
     loading: true,
+    data: [],
+  },
+};
+
+export const EmptyState: Story = {
+  args: {
+    ...Filled.args,
     data: [],
   },
 };

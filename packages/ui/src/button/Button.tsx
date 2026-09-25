@@ -93,8 +93,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       [onClick],
     );
 
-    const isDisabled = Boolean(disabled) && !isLoading;
-    const iconOnly = !children && !loadingText && (leftIcon || rightIcon) && !isLoading;
+    const isButtonDisabled = Boolean(disabled) || isLoading;
+    const iconOnly =
+      !children && !loadingText && (leftIcon || rightIcon) && !isLoading;
 
     const classes = [
       "gy-btn",
@@ -104,7 +105,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth ? "gy-btn--full" : "",
       isLoading ? "gy-btn--loading" : "",
       iconOnly ? "gy-btn--icon-only" : "",
-      isDisabled ? "gy-btn--disabled" : "",
+      disabled ? "gy-btn--disabled" : "",
       className,
     ]
       .filter(Boolean)
@@ -119,10 +120,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Component
         ref={ref}
         className={classes}
-        disabled={isDisabled}
+        disabled={isButtonDisabled}
         aria-busy={isLoading}
-        aria-disabled={isLoading || isDisabled}
-        onClick={isLoading ? (e: React.MouseEvent<HTMLButtonElement>) => e.preventDefault() : handleClick}
+        aria-disabled={isButtonDisabled}
+        onClick={
+          isButtonDisabled
+            ? (e: React.MouseEvent<HTMLButtonElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            : handleClick
+        }
         {...dataProps}
         {...rest}
       >

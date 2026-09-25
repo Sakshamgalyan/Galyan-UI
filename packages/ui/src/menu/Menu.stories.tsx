@@ -63,6 +63,54 @@ const FolderIcon = () => (
   </svg>
 );
 
+const HomeIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+    <polyline points="9 22 9 12 15 12 15 22" />
+  </svg>
+);
+
+const ProfileIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+const DocumentIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+  </svg>
+);
+
 const meta: Meta<typeof Menu> = {
   title: "Galyan UI/Menu",
   component: Menu,
@@ -83,6 +131,33 @@ const meta: Meta<typeof Menu> = {
 } satisfies Meta<typeof Menu>;
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const NavigationMenuDemo: Story = {
+  render: () => {
+    const [active, setActive] = useState("home");
+    const demoItems = [
+      { id: "home", label: "Home", icon: <HomeIcon /> },
+      { id: "profile", label: "Profile", icon: <ProfileIcon />, badge: "2" },
+      { id: "div1", label: "", divider: true },
+      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+      {
+        id: "documents",
+        label: "Documents",
+        icon: <DocumentIcon />,
+        disabled: true,
+      },
+    ];
+    return (
+      <div style={{ width: 260 }}>
+        <Menu
+          items={demoItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
+    );
+  },
+};
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
@@ -186,7 +261,9 @@ export const WithCustomHeader: Story = {
           activeItemId={active}
           onItemClick={setActive}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
             <div
               style={{
                 width: 36,
@@ -206,7 +283,9 @@ export const WithCustomHeader: Story = {
               <div style={{ fontWeight: 600, fontSize: "0.875rem" }}>
                 Saksham Galyan
               </div>
-              <div style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)" }}>
+              <div
+                style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)" }}
+              >
                 Admin Workspace
               </div>
             </div>
@@ -287,7 +366,9 @@ export const Sizes: Story = {
         }}
       >
         <div>
-          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+          <span
+            style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}
+          >
             Small (sm)
           </span>
           <Menu
@@ -298,7 +379,9 @@ export const Sizes: Story = {
           />
         </div>
         <div>
-          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+          <span
+            style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}
+          >
             Medium (md)
           </span>
           <Menu
@@ -309,7 +392,9 @@ export const Sizes: Story = {
           />
         </div>
         <div>
-          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}>
+          <span
+            style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b" }}
+          >
             Large (lg)
           </span>
           <Menu

@@ -84,7 +84,14 @@ export const Default: Story = {
 
 export const WithDescription: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: 420 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.25rem",
+        maxWidth: 420,
+      }}
+    >
       <InteractiveCheckbox
         label="Two-factor authentication"
         description="Receive a secure SMS confirmation code whenever you sign in."
@@ -106,8 +113,16 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <InteractiveCheckbox size="sm" label="Small checkbox (16px)" />
-      <InteractiveCheckbox size="md" label="Medium checkbox (20px)" defaultChecked />
-      <InteractiveCheckbox size="lg" label="Large checkbox (24px)" defaultChecked />
+      <InteractiveCheckbox
+        size="md"
+        label="Medium checkbox (20px)"
+        defaultChecked
+      />
+      <InteractiveCheckbox
+        size="lg"
+        label="Large checkbox (24px)"
+        defaultChecked
+      />
     </div>
   ),
 };
@@ -116,7 +131,9 @@ export const ColorsAndVariants: Story = {
   render: () => (
     <div style={{ display: "flex", gap: "3rem" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <strong style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>Primary Brand</strong>
+        <strong style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>
+          Primary Brand
+        </strong>
         <InteractiveCheckbox
           color="primary"
           variant="solid"
@@ -137,7 +154,9 @@ export const ColorsAndVariants: Story = {
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <strong style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>Error / Danger</strong>
+        <strong style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>
+          Error / Danger
+        </strong>
         <InteractiveCheckbox
           color="error"
           variant="solid"
@@ -178,18 +197,34 @@ export const SelectAllGroup: Story = {
     };
 
     const toggle = (id: string) => {
-      setItems(items.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i)));
+      setItems(
+        items.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i)),
+      );
     };
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", width: 280 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+          width: 280,
+        }}
+      >
         <Checkbox
           label="Select all workspaces"
           checked={allChecked}
           indeterminate={isIndeterminate}
           onChange={handleSelectAll}
         />
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", paddingLeft: "1.75rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            paddingLeft: "1.75rem",
+          }}
+        >
           {items.map((item) => (
             <Checkbox
               key={item.id}

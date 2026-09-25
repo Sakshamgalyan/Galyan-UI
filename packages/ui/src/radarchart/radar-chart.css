@@ -1,5 +1,199 @@
+/* ── Radar Chart Container ─────────────────────────────────────────────────── */
 .gy-radarchart {
   position: relative;
   box-sizing: border-box;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gy-radarchart-body {
+  position: relative;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gy-radarchart-chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Custom Tooltip ──────────────────────────────────────────────────────── */
+.gy-radarchart-tooltip {
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+  min-width: 135px;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  animation: gy-radarchart-tooltip-in 0.15s ease-out;
+}
+
+@keyframes gy-radarchart-tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.gy-radarchart-tooltip-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+}
+
+.gy-radarchart-tooltip-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-radarchart-tooltip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gy-radarchart-tooltip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.75rem;
+  padding: 1px 0;
+}
+
+.gy-radarchart-tooltip-series {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gy-radarchart-tooltip-badge {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-radarchart-tooltip-name {
+  color: var(--gy-text-muted, #64748b);
+}
+
+.gy-radarchart-tooltip-val {
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.gy-radarchart-tooltip-row--highlight {
+  background: var(--gy-background-muted, #f1f5f9);
+  padding: 2px 4px;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  margin: 0 -4px;
+}
+
+/* ── Interactive Legend ──────────────────────────────────────────────────── */
+.gy-radarchart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.gy-radarchart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gy-background-subtle, #f8fafc);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--gy-text, #0f172a);
+  font-family: inherit;
+  outline: none;
+}
+
+.gy-radarchart-legend-item:hover,
+.gy-radarchart-legend-item--active {
+  background: var(--gy-surface, #ffffff);
+  border-color: var(--gy-border-strong, #cbd5e1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.gy-radarchart-legend-item--dimmed {
+  opacity: 0.45;
+  filter: grayscale(0.2);
+}
+
+.gy-radarchart-legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-radarchart-legend-label {
+  font-weight: 500;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────── */
+.gy-radarchart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--gy-text-muted, #64748b);
+  font-size: var(--gy-font-size-sm, 0.875rem);
+}
+
+/* ── Compact / Mobile Styles ─────────────────────────────────────────────── */
+.gy-radarchart.gy-radarchart--compact {
+  padding: 0.875rem;
+}
+
+.gy-radarchart.gy-radarchart--compact .gy-radarchart-legend {
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.gy-radarchart.gy-radarchart--compact .gy-radarchart-legend-item {
+  padding: 3px 8px;
+  font-size: 0.6875rem;
 }

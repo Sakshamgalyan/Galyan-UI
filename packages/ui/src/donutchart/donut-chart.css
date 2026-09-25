@@ -1,5 +1,244 @@
+/* ── Donut Chart Container ─────────────────────────────────────────────────── */
 .gy-donutchart {
   position: relative;
   box-sizing: border-box;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gy-donutchart-body {
+  position: relative;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gy-donutchart-chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Active Hover Slice Elevation ────────────────────────────────────────── */
+.gy-donutchart-active-slice {
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Center Summary Metric ────────────────────────────────────────────────── */
+.gy-donutchart-center-metric {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  z-index: 10;
+}
+
+.gy-donutchart-center-metric--semi {
+  top: 74%;
+}
+
+.gy-donutchart-center-value {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gy-donutchart-center-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gy-text-muted, #64748b);
+  margin-top: 3px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Custom Tooltip ──────────────────────────────────────────────────────── */
+.gy-donutchart-tooltip {
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+  min-width: 130px;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  animation: gy-donutchart-tooltip-in 0.15s ease-out;
+}
+
+@keyframes gy-donutchart-tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.gy-donutchart-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gy-donutchart-tooltip-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-donutchart-tooltip-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-donutchart-tooltip-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-left: 14px;
+}
+
+.gy-donutchart-tooltip-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.gy-donutchart-tooltip-percentage {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gy-text-muted, #64748b);
+}
+
+/* ── Interactive Legend ──────────────────────────────────────────────────── */
+.gy-donutchart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.gy-donutchart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gy-background-subtle, #f8fafc);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--gy-text, #0f172a);
+  font-family: inherit;
+  outline: none;
+}
+
+.gy-donutchart-legend-item:hover,
+.gy-donutchart-legend-item--active {
+  background: var(--gy-surface, #ffffff);
+  border-color: var(--gy-border-strong, #cbd5e1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.gy-donutchart-legend-item--dimmed {
+  opacity: 0.45;
+  filter: grayscale(0.2);
+}
+
+.gy-donutchart-legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gy-donutchart-legend-label {
+  font-weight: 500;
+}
+
+.gy-donutchart-legend-percentage {
+  font-weight: 600;
+  color: var(--gy-text-muted, #64748b);
+  margin-left: 2px;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────── */
+.gy-donutchart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--gy-text-muted, #64748b);
+  font-size: var(--gy-font-size-sm, 0.875rem);
+}
+
+/* ── Compact / Mobile Styles ─────────────────────────────────────────────── */
+.gy-donutchart.gy-donutchart--compact {
+  padding: 0.875rem;
+}
+
+.gy-donutchart.gy-donutchart--compact .gy-donutchart-center-value {
+  font-size: 1.125rem;
+}
+
+.gy-donutchart.gy-donutchart--compact .gy-donutchart-center-label {
+  font-size: 0.6875rem;
+}
+
+.gy-donutchart.gy-donutchart--compact .gy-donutchart-legend {
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.gy-donutchart.gy-donutchart--compact .gy-donutchart-legend-item {
+  padding: 3px 8px;
+  font-size: 0.6875rem;
 }

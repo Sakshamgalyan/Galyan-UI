@@ -1,64 +1,199 @@
+/* ── Box & Whisker Chart Container ───────────────────────────────────────── */
 .gy-boxwhisker-wrapper {
   position: relative;
   box-sizing: border-box;
-  font-family: var(--gy-font-sans);
-  background: var(--gy-background-subtle);
-  border-radius: var(--gy-radius-xl);
-  padding: var(--gy-spacing-4);
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-xl, 0.75rem);
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .gy-boxwhisker-svg {
+  display: block;
   overflow: visible;
-}
-
-.gy-boxwhisker-axis-text {
-  font-size: var(--gy-font-size-2xs);
-  fill: var(--gy-text-subtle);
   user-select: none;
 }
 
+/* ── Gridlines & Axis ─────────────────────────────────────────────────────── */
+.gy-boxwhisker-grid-line {
+  stroke: var(--gy-border, #e2e8f0);
+  stroke-width: 1px;
+  stroke-dasharray: 4 4;
+  transition: stroke 0.2s ease;
+}
+
+.gy-boxwhisker-axis-text {
+  font-size: var(--gy-font-size-xs, 0.75rem);
+  font-weight: 500;
+  fill: var(--gy-text-muted, #64748b);
+  user-select: none;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.gy-boxwhisker-label-text {
+  cursor: pointer;
+  transition: fill 0.2s ease, font-weight 0.2s ease;
+}
+
+.gy-boxwhisker-label-text--hover {
+  fill: var(--gy-text, #0f172a);
+  font-weight: 600;
+}
+
+/* ── Chart Elements & Animations ─────────────────────────────────────────── */
 .gy-boxwhisker-rect {
   cursor: pointer;
-  transition: fill-opacity var(--gy-duration-fast), filter var(--gy-duration-fast);
+  transition: fill-opacity 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
 }
 
-.gy-boxwhisker-rect:hover {
-  fill-opacity: 0.85;
-  filter: brightness(1.05);
+.gy-boxwhisker-rect--hovered {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
 }
 
-/* Tooltip styling */
-.gy-boxwhisker-tooltip {
+.gy-boxwhisker-whisker-line,
+.gy-boxwhisker-cap,
+.gy-boxwhisker-median-line {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+/* ── Overlay and Hitboxes ─────────────────────────────────────────────────── */
+.gy-boxwhisker-overlay {
   position: absolute;
-  z-index: var(--gy-z-tooltip);
-  background: var(--gy-surface);
-  border: 1px solid var(--gy-border);
-  border-radius: var(--gy-radius-lg);
-  box-shadow: var(--gy-shadow-lg);
-  padding: var(--gy-spacing-2) var(--gy-spacing-3);
+  inset: 0;
   pointer-events: none;
-  font-size: var(--gy-font-size-xs);
-  color: var(--gy-text);
-  transform: translate(-50%, -100%);
-  margin-top: -8px;
-  white-space: nowrap;
-  transition: opacity var(--gy-duration-fast), transform var(--gy-duration-fast);
+  z-index: 2;
+}
+
+.gy-boxwhisker-trigger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.gy-boxwhisker-trigger-zone .gy-tooltip-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.gy-boxwhisker-hotspot {
+  cursor: pointer;
+  border-radius: var(--gy-radius-md, 0.375rem);
+}
+
+.gy-boxwhisker-label-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.gy-boxwhisker-label-trigger .gy-tooltip-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.gy-boxwhisker-label-hotspot {
+  cursor: pointer;
+}
+
+/* ── Tooltip Content Styling ──────────────────────────────────────────────── */
+.gy-boxwhisker-tooltip-content {
+  min-width: 175px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 0;
+  font-family: var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.gy-boxwhisker-tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--gy-border, #e2e8f0);
 }
 
 .gy-boxwhisker-tooltip-title {
-  font-weight: var(--gy-font-weight-semibold);
-  margin-bottom: var(--gy-spacing-1);
-  border-bottom: 1px solid var(--gy-border-muted);
-  padding-bottom: 2px;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-boxwhisker-tooltip-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .gy-boxwhisker-tooltip-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
-  font-size: var(--gy-font-size-2xs);
-  margin-bottom: 2px;
+  font-size: 0.75rem;
+}
+
+.gy-boxwhisker-tooltip-stat-label {
+  color: var(--gy-text-muted, #64748b);
+  font-weight: 450;
+}
+
+.gy-boxwhisker-tooltip-stat-val {
+  font-weight: 600;
+  color: var(--gy-text, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.gy-boxwhisker-tooltip-row--highlight {
+  background: var(--gy-background-muted, #f1f5f9);
+  padding: 3px 6px;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  margin: 1px -6px;
+}
+
+.gy-boxwhisker-tooltip-row--highlight .gy-boxwhisker-tooltip-stat-label {
+  color: var(--gy-primary, #3b82f6);
+  font-weight: 600;
+}
+
+.gy-boxwhisker-tooltip-row--highlight .gy-boxwhisker-tooltip-stat-val {
+  color: var(--gy-primary, #3b82f6);
+  font-weight: 700;
+}
+
+.gy-boxwhisker-tooltip-row--subtle {
+  border-top: 1px dashed var(--gy-border, #e2e8f0);
+  padding-top: 4px;
+  margin-top: 2px;
+  opacity: 0.85;
+  font-size: 0.6875rem;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────── */
+.gy-boxwhisker-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--gy-text-muted, #64748b);
+  font-size: var(--gy-font-size-sm, 0.875rem);
+}
+
+/* ── Compact adjustments ─────────────────────────────────────────────────── */
+.gy-boxwhisker-wrapper.gy-boxwhisker--compact .gy-boxwhisker-axis-text {
+  font-size: 0.6875rem;
 }

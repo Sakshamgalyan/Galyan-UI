@@ -19,31 +19,104 @@ export type TextareaVariant =
   | "success"
   | "disabled";
 
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Label text displayed above the textarea */
   label?: string;
+  /** Helper text displayed below the textarea */
   helperText?: string;
+  /** Custom icon displayed next to the helper text */
+  helperIcon?: React.ReactNode;
+  /** Size scale of the textarea */
   size?: TextareaSize;
+  /** Whether the textarea takes full width of container */
   fullWidth?: boolean;
+  /** Visual variant of the textarea */
   variant?: TextareaVariant;
+  /** Whether the textarea shows an error state */
   hasError?: boolean;
+  /** Whether the textarea shows a success state */
   hasSuccess?: boolean;
+  /** Whether the textarea is disabled */
   isDisabled?: boolean;
+  /** Whether the textarea is visually focused */
   isFocused?: boolean;
+  /** Whether the field is required */
   required?: boolean;
+  /** Maximum character count allowed */
   maxCharCount?: number;
+  /** Automatically resize height based on content */
   autoResize?: boolean;
+  /** CSS resize property */
   resize?: "none" | "vertical" | "horizontal" | "both";
+  /** Disables border focus effects (ring + color change) */
   disableBorderEffects?: boolean;
+  /** Custom border radius */
   borderRadius?: string;
   /** Legacy error string */
   error?: string;
 }
 
+const InfoIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="16" x2="12" y2="12" />
+    <line x1="12" y1="8" x2="12.01" y2="8" />
+  </svg>
+);
+
+const AlertCircleIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
+
+const CheckCircleIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+);
+
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {
       label,
+      placeholder,
       helperText,
+      helperIcon,
       size = "md",
       fullWidth = true,
       variant = "default",
@@ -75,7 +148,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef =
       (ref as React.RefObject<HTMLTextAreaElement>) ?? innerRef;
 
+    // Merge legacy disabled prop with isDisabled
     const resolvedDisabled = isDisabled || disabled || variant === "disabled";
+    // Merge legacy error string prop with hasError
     const resolvedError = hasError || !!error || variant === "error";
     const resolvedSuccess = hasSuccess || variant === "success";
     const resolvedFocused = isFocused || variant === "focused";
@@ -84,7 +159,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const showFocused = resolvedFocused || internalFocused;
 
     const charCount = typeof value === "string" ? value.length : 0;
-    const isOver = maxCharCount ? charCount > maxCharCount : false;
+    const isOver =
+      maxCharCount !== undefined ? charCount > maxCharCount : false;
 
     const adjustHeight = useCallback(() => {
       const el = textareaRef.current;
@@ -112,7 +188,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       onBlur?.(e);
     };
 
-    const wrapperClasses = [
+    const textareaClasses = [
       "gy-textarea",
       `gy-textarea--${size}`,
       variant === "filled" ? "gy-textarea--filled" : "",
@@ -132,7 +208,20 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const errorMessage =
       error || (resolvedError && helperText ? helperText : undefined);
-    const showHelper = !resolvedError && helperText;
+    const showHelper = !resolvedError && Boolean(helperText);
+
+    const renderHelperIcon = (type: "error" | "success" | "helper") => {
+      if (helperIcon !== undefined) {
+        return helperIcon;
+      }
+      if (type === "error" || (type === "helper" && required)) {
+        return <AlertCircleIcon />;
+      }
+      if (type === "success") {
+        return <CheckCircleIcon />;
+      }
+      return <InfoIcon />;
+    };
 
     return (
       <div
@@ -150,11 +239,19 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           ref={textareaRef}
           id={inputId}
-          className={wrapperClasses}
+          className={textareaClasses}
           style={textareaStyle}
+          placeholder={placeholder}
           disabled={resolvedDisabled}
           required={required}
           aria-invalid={resolvedError || undefined}
+          aria-describedby={
+            resolvedError
+              ? `${inputId}-error`
+              : helperText
+                ? `${inputId}-helper`
+                : undefined
+          }
           value={value}
           onChange={handleChange}
           onFocus={handleFocus}
@@ -162,32 +259,60 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...rest}
         />
 
-        <div className="gy-textarea-footer">
-          {resolvedError && errorMessage ? (
-            <span
-              className="gy-textarea-helper gy-textarea-helper--error"
-              role="alert"
-            >
-              {errorMessage}
-            </span>
-          ) : resolvedSuccess && helperText ? (
-            <span className="gy-textarea-helper gy-textarea-helper--success">
-              {helperText}
-            </span>
-          ) : showHelper ? (
-            <span className="gy-textarea-helper">{helperText}</span>
-          ) : (
-            <span />
-          )}
+        {(resolvedError && errorMessage) ||
+        showHelper ||
+        maxCharCount !== undefined ? (
+          <div className="gy-textarea-footer">
+            {resolvedError && errorMessage ? (
+              <span
+                id={`${inputId}-error`}
+                className="gy-textarea-helper gy-textarea-helper--error"
+                role="alert"
+              >
+                {renderHelperIcon("error") && (
+                  <span className="gy-textarea-helper__icon" aria-hidden="true">
+                    {renderHelperIcon("error")}
+                  </span>
+                )}
+                <span>{errorMessage}</span>
+              </span>
+            ) : resolvedSuccess && helperText ? (
+              <span
+                id={`${inputId}-helper`}
+                className="gy-textarea-helper gy-textarea-helper--success"
+              >
+                {renderHelperIcon("success") && (
+                  <span className="gy-textarea-helper__icon" aria-hidden="true">
+                    {renderHelperIcon("success")}
+                  </span>
+                )}
+                <span>{helperText}</span>
+              </span>
+            ) : showHelper ? (
+              <span
+                id={`${inputId}-helper`}
+                className={`gy-textarea-helper ${required ? "gy-textarea-helper--required" : ""}`}
+              >
+                {renderHelperIcon("helper") && (
+                  <span className="gy-textarea-helper__icon" aria-hidden="true">
+                    {renderHelperIcon("helper")}
+                  </span>
+                )}
+                <span>{helperText}</span>
+              </span>
+            ) : (
+              <span />
+            )}
 
-          {maxCharCount !== undefined && (
-            <span
-              className={`gy-textarea-count ${isOver ? "gy-textarea-count--over" : ""}`}
-            >
-              {charCount}/{maxCharCount}
-            </span>
-          )}
-        </div>
+            {maxCharCount !== undefined && (
+              <span
+                className={`gy-textarea-count ${isOver ? "gy-textarea-count--over" : ""}`}
+              >
+                {charCount}/{maxCharCount}
+              </span>
+            )}
+          </div>
+        ) : null}
       </div>
     );
   },
