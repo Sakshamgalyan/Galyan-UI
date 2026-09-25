@@ -20,6 +20,12 @@ export interface BarChartTooltipConfig {
   formatter?: (value: number) => string;
 }
 
+export type BarValueFormat =
+  | "percentage"
+  | "value"
+  | "both"
+  | ((value: number, percentage: number, item: BarChartItem) => string);
+
 export interface BarChartProps {
   variant: BarChartVariant;
   data: BarChartItem[];
@@ -32,6 +38,9 @@ export interface BarChartProps {
   barWidth?: number | string;
   barSpacing?: number | string;
   showValues?: boolean;
+  valueFormat?: BarValueFormat;
+  borderless?: boolean;
+  horizontalAlignment?: "stacked" | "inline";
   tokens?: Record<string, string>;
   className?: string;
   loading?: boolean;
@@ -53,6 +62,9 @@ export function BarChart({
   barWidth,
   barSpacing,
   showValues = true,
+  valueFormat = "percentage",
+  borderless = false,
+  horizontalAlignment = "stacked",
   tokens,
   className = "",
   loading = false,
@@ -63,6 +75,12 @@ export function BarChart({
 }: BarChartProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isCompact, setIsCompact] = useState(false);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const handleResetHover = () => {
+    setHoveredIndex(null);
+  };
 
   // Responsive observation for scaling bar widths & spacing on mobile
   useEffect(() => {
@@ -72,8 +90,9 @@ export function BarChart({
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        const w = entry.contentRect.width;
+        const { width: w, height: h } = entry.contentRect;
         setIsCompact(w > 0 && w < 480);
+        setContainerHeight(h);
       }
     });
 
@@ -95,13 +114,13 @@ export function BarChart({
     if (barWidth !== undefined) {
       return typeof barWidth === "number" ? `${barWidth}px` : barWidth;
     }
-    return isCompact ? 10 : 12;
+    return isCompact ? 8 : 10;
   }, [variant, barWidth, isCompact]);
 
   const effectiveBarSpacing = useMemo(() => {
     if (barSpacing === undefined) {
       return variant === "horizontal"
-        ? (isCompact ? 8 : 12)
+        ? (isCompact ? 6 : 10)
         : (isCompact ? 8 : 16);
     }
     if (typeof barSpacing === "number") {
@@ -131,6 +150,32 @@ export function BarChart({
     if (!truncateCharacterAfter || truncateCharacterAfter <= 0) return text;
     if (text.length <= truncateCharacterAfter) return text;
     return text.substring(0, truncateCharacterAfter).trimEnd() + "...";
+  };
+
+  const getDisplayLabel = (item: BarChartItem, index: number) => {
+    const rawLabel = item.label ?? item.name ?? "";
+    if (rawLabel.trim() !== "") {
+      return truncateLabel(rawLabel);
+    }
+    return `Item ${index + 1}`;
+  };
+
+  const renderFormattedValue = (item: BarChartItem, percentage: number) => {
+    if (typeof valueFormat === "function") {
+      return valueFormat(item.value, percentage, item);
+    }
+    if (valueFormat === "value") {
+      return tooltipConfig?.formatter
+        ? tooltipConfig.formatter(item.value)
+        : item.value.toLocaleString();
+    }
+    if (valueFormat === "both") {
+      const valStr = tooltipConfig?.formatter
+        ? tooltipConfig.formatter(item.value)
+        : item.value.toLocaleString();
+      return `${percentage}% (${valStr})`;
+    }
+    return `${percentage}%`;
   };
 
   const getBarTooltip = (item: BarChartItem, percentage: number) => {
@@ -260,18 +305,29 @@ export function BarChart({
     ...tokens,
   };
 
+  const isShort = containerHeight > 0 && containerHeight <= 280;
+
   const rootClasses = [
     "gy-barchart-wrapper",
     isCompact ? "gy-barchart--compact" : "",
+    isShort ? "gy-barchart--short" : "",
+    borderless ? "gy-barchart--borderless" : "",
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <div ref={wrapperRef} className={rootClasses} style={wrapperStyle}>
+    <div
+      ref={wrapperRef}
+      className={rootClasses}
+      style={wrapperStyle}
+      onMouseLeave={handleResetHover}
+      onPointerLeave={handleResetHover}
+    >
       <div
         className={`gy-barchart-container gy-barchart--${variant}`}
+        onMouseLeave={handleResetHover}
         style={{
           gap:
             effectiveBarSpacing !== undefined
@@ -301,6 +357,8 @@ export function BarChart({
           processedData.map((item, index) => {
             const percentage = Math.round((item.value / maxValue) * 100);
             const rawColor = item.color || barColor || "var(--gy-primary)";
+            const isHovered = hoveredIndex === index;
+            const isDimmed = hoveredIndex !== null && !isHovered;
 
             if (variant === "cylindrical") {
               const barStyle: React.CSSProperties = {
@@ -313,11 +371,19 @@ export function BarChart({
               };
 
               return (
-                <div key={index} className="gy-barchart-col--cylindrical">
+                <div
+                  key={index}
+                  className={`gy-barchart-col--cylindrical ${
+                    isHovered ? "gy-barchart-col--active" : ""
+                  } ${isDimmed ? "gy-barchart-col--dimmed" : ""}`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={handleResetHover}
+                >
                   <div className="gy-barchart-bar-wrapper">
                     <Tooltip
                       content={getBarTooltip(item, percentage)}
                       position="top"
+                      delay={40}
                       disabled={tooltipConfig?.show === false}
                     >
                       <div
@@ -338,14 +404,24 @@ export function BarChart({
                     </Tooltip>
                   </div>
                   <div className="gy-barchart-label-wrapper">
-                    <Tooltip content={item.label} position="bottom" delay={60}>
+                    {item.label &&
+                    item.label.length > (truncateCharacterAfter || 10) ? (
+                      <Tooltip content={item.label} position="bottom" delay={60}>
+                        <span
+                          className="gy-barchart-label--cylindrical"
+                          style={{ color: textColor }}
+                        >
+                          {truncateLabel(item.label)}
+                        </span>
+                      </Tooltip>
+                    ) : (
                       <span
                         className="gy-barchart-label--cylindrical"
                         style={{ color: textColor }}
                       >
-                        {truncateLabel(item.label)}
+                        {item.label}
                       </span>
-                    </Tooltip>
+                    )}
                   </div>
                 </div>
               );
@@ -366,7 +442,14 @@ export function BarChart({
               };
 
               return (
-                <div key={index} className="gy-barchart-col--filled">
+                <div
+                  key={index}
+                  className={`gy-barchart-col--filled ${
+                    isHovered ? "gy-barchart-col--active" : ""
+                  } ${isDimmed ? "gy-barchart-col--dimmed" : ""}`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={handleResetHover}
+                >
                   {showValues && (
                     <span
                       className="gy-barchart-bar-value--filled"
@@ -379,6 +462,7 @@ export function BarChart({
                     <Tooltip
                       content={getBarTooltip(item, percentage)}
                       position="top"
+                      delay={40}
                       disabled={tooltipConfig?.show === false}
                     >
                       <div className="gy-barchart-track--filled" style={trackStyle}>
@@ -395,20 +479,35 @@ export function BarChart({
                     </span>
                   )}
                   <div className="gy-barchart-label-wrapper">
-                    <Tooltip content={item.label} position="bottom" delay={60}>
+                    {item.label &&
+                    item.label.length > (truncateCharacterAfter || 10) ? (
+                      <Tooltip content={item.label} position="bottom" delay={60}>
+                        <span
+                          className="gy-barchart-label--filled"
+                          style={{ color: textColor }}
+                        >
+                          {truncateLabel(item.label)}
+                        </span>
+                      </Tooltip>
+                    ) : (
                       <span
                         className="gy-barchart-label--filled"
                         style={{ color: textColor }}
                       >
-                        {truncateLabel(item.label)}
+                        {item.label}
                       </span>
-                    </Tooltip>
+                    )}
                   </div>
                 </div>
               );
             }
 
             // Horizontal layout
+            const displayLabel = getDisplayLabel(item, index);
+            const fullLabel = item.label ?? item.name ?? displayLabel;
+            const isTruncated = displayLabel !== fullLabel;
+            const formattedValue = renderFormattedValue(item, percentage);
+
             const progressStyle: React.CSSProperties = {
               width: `${percentage}%`,
               backgroundColor: rawColor,
@@ -418,27 +517,120 @@ export function BarChart({
               ? { height: effectiveHorizontalBarHeight }
               : {};
 
+            if (horizontalAlignment === "inline") {
+              return (
+                <div
+                  key={index}
+                  className={`gy-barchart-row--horizontal gy-barchart-row--inline ${
+                    isHovered ? "gy-barchart-row--active" : ""
+                  } ${isDimmed ? "gy-barchart-row--dimmed" : ""}`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={handleResetHover}
+                >
+                  {item.icon && (
+                    <div className="gy-barchart-icon-square--horizontal">
+                      {item.icon}
+                    </div>
+                  )}
+                  <div className="gy-barchart-content--horizontal">
+                    {isTruncated ? (
+                      <Tooltip content={fullLabel} position="top" delay={60}>
+                        <span
+                          className="gy-barchart-label--horizontal"
+                          style={{ color: textColor }}
+                          title={fullLabel}
+                        >
+                          {displayLabel}
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      <span
+                        className="gy-barchart-label--horizontal"
+                        style={{ color: textColor }}
+                      >
+                        {displayLabel}
+                      </span>
+                    )}
+                    <div className="gy-barchart-bar-wrapper">
+                      <Tooltip
+                        content={getBarTooltip(item, percentage)}
+                        position="top"
+                        delay={40}
+                        disabled={tooltipConfig?.show === false}
+                      >
+                        <div
+                          className="gy-barchart-track--horizontal"
+                          style={customBarHeight}
+                        >
+                          <div
+                            className="gy-barchart-bar--horizontal"
+                            style={progressStyle}
+                          />
+                        </div>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  {showValues && (
+                    <span
+                      className="gy-barchart-value--horizontal"
+                      style={{ color: textColor }}
+                    >
+                      {formattedValue}
+                    </span>
+                  )}
+                </div>
+              );
+            }
+
+            // Default modern stacked layout (matches Card 1 & premium design systems)
             return (
-              <div key={index} className="gy-barchart-row--horizontal">
+              <div
+                key={index}
+                className={`gy-barchart-row--horizontal gy-barchart-row--stacked ${
+                  isHovered ? "gy-barchart-row--active" : ""
+                } ${isDimmed ? "gy-barchart-row--dimmed" : ""}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={handleResetHover}
+              >
                 {item.icon && (
                   <div className="gy-barchart-icon-square--horizontal">
                     {item.icon}
                   </div>
                 )}
                 <div className="gy-barchart-content--horizontal">
-                  <Tooltip content={item.label} position="top" delay={60}>
-                    <span
-                      className="gy-barchart-label--horizontal"
-                      style={{ color: textColor }}
-                      title={item.label}
-                    >
-                      {truncateLabel(item.label)}
-                    </span>
-                  </Tooltip>
+                  <div className="gy-barchart-row-header--horizontal">
+                    {isTruncated ? (
+                      <Tooltip content={fullLabel} position="top" delay={60}>
+                        <span
+                          className="gy-barchart-label--horizontal"
+                          style={{ color: textColor }}
+                          title={fullLabel}
+                        >
+                          {displayLabel}
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      <span
+                        className="gy-barchart-label--horizontal"
+                        style={{ color: textColor }}
+                      >
+                        {displayLabel}
+                      </span>
+                    )}
+                    {showValues && (
+                      <span
+                        className="gy-barchart-value--horizontal"
+                        style={{ color: textColor }}
+                      >
+                        {formattedValue}
+                      </span>
+                    )}
+                  </div>
                   <div className="gy-barchart-bar-wrapper">
                     <Tooltip
                       content={getBarTooltip(item, percentage)}
                       position="top"
+                      delay={40}
                       disabled={tooltipConfig?.show === false}
                     >
                       <div
@@ -453,14 +645,6 @@ export function BarChart({
                     </Tooltip>
                   </div>
                 </div>
-                {showValues && (
-                  <span
-                    className="gy-barchart-value--horizontal"
-                    style={{ color: textColor }}
-                  >
-                    {percentage}%
-                  </span>
-                )}
               </div>
             );
           })

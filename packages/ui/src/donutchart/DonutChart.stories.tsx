@@ -113,3 +113,64 @@ export const EmptyState: Story = {
     data: [],
   },
 };
+
+export const DashboardCardPreview: Story = {
+  render: () => {
+    const channelData = [
+      { name: "Verified Email", value: 86, color: "#10b981" },
+      { name: "WhatsApp / Phone", value: 289, color: "#f59e0b" },
+      { name: "Instagram Presence", value: 81, color: "#ec4899" },
+      { name: "Website Active", value: 8, color: "#6366f1" },
+    ];
+
+    return (
+      <div
+        style={{
+          width: 340,
+          background: "#ffffff",
+          borderRadius: "1.5rem",
+          padding: "1.25rem",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#0f172a" }}>
+              Contact Channel Reachability
+            </div>
+            <div style={{ fontSize: "0.6875rem", color: "#64748b" }}>
+              Coverage across verified channels
+            </div>
+          </div>
+          <span
+            style={{
+              padding: "2px 8px",
+              borderRadius: "9999px",
+              background: "rgba(16, 185, 129, 0.1)",
+              color: "#059669",
+              fontSize: "0.6875rem",
+              fontWeight: 700,
+            }}
+          >
+            Multi-Channel
+          </span>
+        </div>
+
+        <div style={{ width: "100%", height: 250 }}>
+          <DonutChart
+            data={channelData}
+            variant="standard"
+            height={250}
+            borderless
+            showLegend
+            showCenterMetric
+          />
+        </div>
+      </div>
+    );
+  },
+};

@@ -15,6 +15,13 @@
   overflow: hidden;
 }
 
+.gy-piechart.gy-piechart--borderless {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
 .gy-piechart-body {
   position: relative;
   width: 100%;
@@ -38,8 +45,8 @@
 
 /* ── Active Hover Slice Elevation ────────────────────────────────────────── */
 .gy-piechart-active-slice {
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Custom Tooltip ──────────────────────────────────────────────────────── */
@@ -117,6 +124,19 @@
   gap: 8px;
   padding-top: 10px;
   width: 100%;
+  max-height: 72px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gy-border, #cbd5e1) transparent;
+}
+
+.gy-piechart-legend::-webkit-scrollbar {
+  width: 4px;
+}
+
+.gy-piechart-legend::-webkit-scrollbar-thumb {
+  background: var(--gy-border, #cbd5e1);
+  border-radius: 9999px;
 }
 
 .gy-piechart-legend-item {
@@ -133,6 +153,7 @@
   color: var(--gy-text, #0f172a);
   font-family: inherit;
   outline: none;
+  max-width: 100%;
 }
 
 .gy-piechart-legend-item:hover,
@@ -157,12 +178,18 @@
 
 .gy-piechart-legend-label {
   font-weight: 500;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gy-piechart-legend-percentage {
   font-weight: 600;
   color: var(--gy-text-muted, #64748b);
   margin-left: 2px;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 
 /* ── Empty State ─────────────────────────────────────────────────────────── */

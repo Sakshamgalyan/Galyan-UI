@@ -345,3 +345,73 @@ export const EmptyState: Story = {
     height: 250,
   },
 };
+
+export const HorizontalBothFormat: Story = {
+  args: {
+    variant: "horizontal",
+    data: filledSampleData,
+    height: 320,
+    showValues: true,
+    valueFormat: "both",
+  },
+};
+
+export const DashboardCardPreview: Story = {
+  render: () => {
+    const geoData: BarChartItem[] = [
+      { label: "Jaipur", value: 84, color: "#ec4899" },
+      { label: "Udaipur", value: 35, color: "#10b981" },
+      { label: "Bhilwara", value: 35, color: "#f59e0b" },
+      { label: "Jodhpur", value: 35, color: "#3b82f6" },
+    ];
+
+    return (
+      <div
+        style={{
+          width: 340,
+          background: "#ffffff",
+          borderRadius: "1.5rem",
+          padding: "1.25rem",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "0.875rem", color: "#0f172a" }}>
+              Geographic Spread
+            </div>
+            <div style={{ fontSize: "0.6875rem", color: "#64748b" }}>
+              Top target market distribution
+            </div>
+          </div>
+          <span
+            style={{
+              padding: "2px 8px",
+              borderRadius: "9999px",
+              background: "rgba(236, 72, 153, 0.1)",
+              color: "#db2777",
+              fontSize: "0.6875rem",
+              fontWeight: 700,
+            }}
+          >
+            Rajasthan & NCR
+          </span>
+        </div>
+
+        <div style={{ width: "100%", height: 250 }}>
+          <BarChart
+            variant="horizontal"
+            data={geoData}
+            height={250}
+            borderless
+            showValues
+          />
+        </div>
+      </div>
+    );
+  },
+};

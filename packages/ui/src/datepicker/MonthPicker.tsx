@@ -40,10 +40,17 @@ export interface MonthPickerProps {
   usePortal?: boolean;
   required?: boolean;
   disabled?: boolean;
+  borderless?: boolean;
+  inline?: boolean;
+  variant?: "default" | "bordered" | "glassmorphic" | "glass" | "borderless";
   label?: string;
   helperText?: string;
   hasError?: boolean;
   className?: string;
+  /** Size of the input trigger */
+  size?: "sm" | "md" | "lg";
+  /** Sizing of the expanded month menu (defaults to sleek compact) */
+  menuSize?: "sm" | "md" | "lg";
 }
 
 const MONTH_NAMES = [
@@ -81,10 +88,15 @@ export function MonthPicker({
   usePortal = true,
   required = false,
   disabled = false,
+  borderless = false,
+  inline = false,
+  variant = "default",
   label,
   helperText,
   hasError = false,
   className = "",
+  size,
+  menuSize,
 }: MonthPickerProps) {
   const uid = useId();
   const [open, setOpen] = useState(false);
@@ -151,10 +163,44 @@ export function MonthPicker({
 
   const displayVal = value ? `${MONTH_NAMES[value.month]} ${value.year}` : "";
 
+  const isBorderless = borderless || variant === "borderless";
+  const effectiveMenuSize = menuSize ?? (size === "sm" ? "sm" : undefined);
+
+  if (inline) {
+    return (
+      <div
+        className={`gy-monthpicker gy-monthpicker--inline ${
+          isBorderless ? "gy-monthpicker--borderless" : ""
+        } ${className}`}
+      >
+        <MonthCalendar
+          value={value}
+          onChange={(val) => {
+            setTempValue(val);
+            onChange?.(val);
+            onApply?.(val);
+          }}
+          minYear={minYear}
+          maxYear={maxYear}
+          minMonth={minMonth}
+          maxMonth={maxMonth}
+          minDate={minDate}
+          maxDate={maxDate}
+          borderless={isBorderless}
+          size={effectiveMenuSize}
+        />
+      </div>
+    );
+  }
+
   const popoverContent = (
     <div
       ref={refs.setFloating}
-      className="gy-monthpicker-popover"
+      className={`gy-monthpicker-popover ${
+        effectiveMenuSize ? `gy-monthpicker-popover--${effectiveMenuSize}` : ""
+      } ${
+        isBorderless ? "gy-monthpicker-popover--borderless" : ""
+      }`}
       style={{
         ...floatingStyles,
         zIndex,
@@ -170,6 +216,8 @@ export function MonthPicker({
         maxMonth={maxMonth}
         minDate={minDate}
         maxDate={maxDate}
+        borderless
+        size={effectiveMenuSize}
       />
 
       {(onApply || onCancel) && (
@@ -198,6 +246,7 @@ export function MonthPicker({
           label={label}
           placeholder={placeholder}
           value={displayVal}
+          size={size}
           readOnly
           disabled={disabled}
           required={required}

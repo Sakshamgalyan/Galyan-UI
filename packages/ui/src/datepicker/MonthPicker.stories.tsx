@@ -168,3 +168,32 @@ export const DisabledAndErrorStates: Story = {
     </div>
   ),
 };
+
+export const InlineBorderless: Story = {
+  render: () => {
+    const [month, setMonth] = useState<MonthPickerValue | null>({
+      year: 2026,
+      month: 6,
+    });
+    return (
+      <div
+        style={{
+          width: 320,
+          padding: "1rem",
+          backgroundColor: "#ffffff",
+          borderRadius: "1rem",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+          border: "1px solid #e2e8f0",
+        }}
+      >
+        <MonthPicker
+          inline
+          borderless
+          value={month}
+          onChange={setMonth}
+          maxMonth={{ year: 2026, month: 8 }}
+        />
+      </div>
+    );
+  },
+};

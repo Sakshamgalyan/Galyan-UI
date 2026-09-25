@@ -19,6 +19,67 @@
   box-sizing: border-box;
 }
 
+.gy-calendar.gy-month-calendar {
+  width: 330px;
+  max-width: 100%;
+  padding: 0.5rem 1.25rem 0.375rem;
+  border-radius: var(--gy-radius-2xl, 1.25rem);
+}
+
+.gy-calendar.gy-month-calendar .gy-calendar-header {
+  margin-bottom: 0.25rem;
+}
+
+.gy-calendar--borderless,
+.gy-month-calendar--borderless {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Nav button in Month Calendar (compact soft rounded square button) */
+.gy-month-calendar .gy-calendar-nav {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--gy-radius-md, 0.375rem);
+  background: var(--gy-background-muted, #f8fafc);
+  border: 1px solid transparent;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
+  background: var(--gy-border, #e2e8f0);
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-month-calendar .gy-calendar-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--gy-text, #0f172a);
+  letter-spacing: -0.01em;
+  padding: 0.125rem 0.25rem;
+}
+
+/* Sizing variations for MonthCalendar (height only) */
+.gy-month-calendar--sm .gy-calendar-picker-item {
+  min-height: 26px;
+  height: 26px;
+  font-size: 0.75rem;
+}
+.gy-month-calendar--sm .gy-calendar-picker-grid {
+  row-gap: 0.25rem;
+}
+
+.gy-month-calendar--lg .gy-calendar-picker-item {
+  min-height: 36px;
+  height: 36px;
+  font-size: 0.875rem;
+}
+.gy-month-calendar--lg .gy-calendar-picker-grid {
+  row-gap: 0.625rem;
+}
+
 /* ── Header ─────────────────────────────────────────────────────────────── */
 .gy-calendar-header {
   display: flex;
@@ -231,55 +292,70 @@
   cursor: not-allowed;
 }
 
-/* ── Month / Year Picker ─────────────────────────────────────────────────── */
+/* ── Month / Year Picker Grid ─────────────────────────────────────────────── */
 .gy-calendar-picker-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  padding: 0.5rem 0;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  padding: 0.125rem 0 0;
 }
 
+/* Clean compact month / year item without borders and without backgrounds by default */
 .gy-calendar-picker-item {
-  padding: 0.75rem 0.25rem;
-  font-size: 0.875rem;
+  padding: 0.125rem 0.25rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--gy-text, #0f172a);
-  background: var(--gy-background-muted, #f8fafc);
-  border: 1px solid var(--gy-border, #e2e8f0);
-  border-radius: var(--gy-radius-lg, 0.5rem);
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: var(--gy-radius-md, 0.375rem);
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  height: 38px;
+  box-sizing: border-box;
 }
 
-.gy-calendar-picker-item:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 12%, transparent);
-  border-color: var(--gy-primary, #6366f1);
-  color: var(--gy-primary, #6366f1);
+.gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected) {
+  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-text, #0f172a);
+  border-color: transparent;
 }
 
+/* Selected month: solid primary background with rounded corners (matches 'Jul' in screenshot) */
 .gy-calendar-picker-item--selected {
   background: var(--gy-primary, #6366f1) !important;
   color: #ffffff !important;
-  border-color: var(--gy-primary, #6366f1) !important;
+  border-color: transparent !important;
   font-weight: 600;
-  box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 45%, transparent);
+  box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
 }
 
+/* Current month: thin primary outline with transparent background (matches 'Sep' in screenshot) */
 .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
-  border-color: var(--gy-primary, #6366f1);
-  color: var(--gy-primary, #6366f1);
+  background: transparent !important;
+  border-color: var(--gy-primary, #6366f1) !important;
+  color: var(--gy-text, #0f172a) !important;
   font-weight: 600;
-  position: relative;
 }
 
+.gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover {
+  background: color-mix(in srgb, var(--gy-primary, #6366f1) 8%, transparent) !important;
+}
+
+/* Disabled month: light text without background or borders (matches 'Oct, Nov, Dec' in screenshot) */
 .gy-calendar-picker-item--disabled {
-  opacity: 0.35;
+  opacity: 0.25 !important;
   cursor: not-allowed !important;
   pointer-events: none;
-  background: var(--gy-background-muted, #f1f5f9) !important;
-  color: var(--gy-text-subtle, #94a3b8) !important;
-  border-color: var(--gy-border, #e2e8f0) !important;
+  background: transparent !important;
+  color: var(--gy-text-subtle, #cbd5e1) !important;
+  border-color: transparent !important;
 }
 
 /* ── Footer / Today Button ──────────────────────────────────────────────── */

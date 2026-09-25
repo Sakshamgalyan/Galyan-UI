@@ -4,4 +4,5 @@ export type {
   BarChartItem,
   BarChartVariant,
   BarChartTooltipConfig,
+  BarValueFormat,
 } from "./BarChart";

@@ -10,7 +10,11 @@ export interface MonthCalendarValue {
 
 export interface MonthCalendarProps {
   /** Visual style variant */
-  variant?: "default" | "bordered" | "glassmorphic" | "glass";
+  variant?: "default" | "bordered" | "glassmorphic" | "glass" | "borderless";
+  /** Sizing variation for the month calendar */
+  size?: "sm" | "md" | "lg";
+  /** Whether the calendar container has no border and transparent background */
+  borderless?: boolean;
   /** Currently selected value: { year, month } or Date */
   value?: MonthCalendarValue | Date | null;
   /** Change callback when a month is selected */
@@ -54,12 +58,12 @@ const MONTH_NAMES = [
 
 const ChevronLeft = () => (
   <svg
-    width="16"
-    height="16"
+    width="12"
+    height="12"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.25"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
@@ -70,12 +74,12 @@ const ChevronLeft = () => (
 
 const ChevronRight = () => (
   <svg
-    width="16"
-    height="16"
+    width="12"
+    height="12"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.25"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
@@ -86,6 +90,8 @@ const ChevronRight = () => (
 
 export function MonthCalendar({
   variant = "default",
+  borderless = false,
+  size,
   value,
   onChange,
   minYear = 1970,
@@ -186,11 +192,14 @@ export function MonthCalendar({
   const decadeStart = currentYear - (currentYear % 10);
   const decadeYears = Array.from({ length: 12 }, (_, i) => decadeStart - 1 + i);
 
-  const variantClass = variant && variant !== "default" ? `gy-calendar--${variant} gy-month-calendar--${variant}` : "";
+  const isBorderless = borderless || variant === "borderless";
+  const sizeClass = size ? `gy-month-calendar--${size}` : "";
+  const variantClass = variant && variant !== "default" && variant !== "borderless" ? `gy-calendar--${variant} gy-month-calendar--${variant}` : "";
+  const borderlessClass = isBorderless ? "gy-calendar--borderless gy-month-calendar--borderless" : "";
 
   return (
     <div
-      className={["gy-calendar", "gy-month-calendar", variantClass, className].filter(Boolean).join(" ")}
+      className={["gy-calendar", "gy-month-calendar", sizeClass, variantClass, borderlessClass, className].filter(Boolean).join(" ")}
       style={style}
     >
       <div className="gy-calendar-header">

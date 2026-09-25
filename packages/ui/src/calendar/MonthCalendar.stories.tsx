@@ -148,3 +148,32 @@ export const DarkMode: Story = {
     );
   },
 };
+
+export const Borderless: Story = {
+  render: () => {
+    const [month, setMonth] = useState<MonthCalendarValue>({
+      year: 2026,
+      month: 6, // July (Jul in screenshot)
+    });
+    return (
+      <div
+        style={{
+          width: 320,
+          padding: "1rem",
+          backgroundColor: "#ffffff",
+          borderRadius: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <MonthCalendar
+          value={month}
+          onChange={setMonth}
+          borderless
+          maxMonth={{ year: 2026, month: 8 }}
+        />
+      </div>
+    );
+  },
+};
