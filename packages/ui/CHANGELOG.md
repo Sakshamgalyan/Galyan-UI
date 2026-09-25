@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.5
+
+### Patch Changes
+
+- Release update (patch):
+  - 98f659d Merge branch 'saksham'
+  - d5f6bc1 fix: few changes in component improve
+  - 08b0b30 fix: cide
+  - 6707b8a fix
+  - 398daec chore(release): auto-bump package versions [skip ci]
+- Updated dependencies
+  - @galyan/theme@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes
