@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.6
+
+### Patch Changes
+
+- Release update (patch):
+  - af55ccd fix: calender
+  - 99e239b fix(storybook): correct storybook devDependency version to match lockfile
+  - c49b4f2 ci(chromatic): enable auto-publish on main and remove skip-ci from releases
+  - b54c70f chore(release): v1.0.5 [skip ci]
+  - 98f659d Merge branch 'saksham'
+
 ## 1.0.5
 
 ### Patch Changes
