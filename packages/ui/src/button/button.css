@@ -7,7 +7,7 @@
   font-family: var(--gy-font-sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
   font-weight: 500;
   letter-spacing: 0.01em;
-  border-radius: 0.625rem;
+  border-radius: var(--gy-radius-md, 0.375rem);
   border: 1px solid transparent;
   box-shadow: var(--gy-shadow-sm, 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1));
   cursor: pointer;
@@ -22,6 +22,8 @@
   text-decoration: none;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  max-width: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -39,31 +41,35 @@
   height: 1.75rem;
   padding: 0 0.625rem;
   font-size: var(--gy-font-size-xs, 0.75rem);
-  border-radius: var(--gy-radius-lg, 0.5rem);
+  border-radius: var(--gy-radius-sm, 0.25rem);
 }
 
 .gy-btn--sm {
   height: 2rem;
   padding: 0 0.75rem;
   font-size: var(--gy-font-size-sm, 0.875rem);
+  border-radius: var(--gy-radius-sm, 0.25rem);
 }
 
 .gy-btn--md {
   height: 2.5rem;
   padding: 0 1rem;
   font-size: var(--gy-font-size-sm, 0.875rem);
+  border-radius: var(--gy-radius-md, 0.375rem);
 }
 
 .gy-btn--lg {
   height: 2.75rem;
   padding: 0 1.25rem;
   font-size: var(--gy-font-size-md, 1rem);
+  border-radius: var(--gy-radius-md, 0.375rem);
 }
 
 .gy-btn--xl {
   height: 3.25rem;
   padding: 0 1.5rem;
   font-size: var(--gy-font-size-lg, 1.125rem);
+  border-radius: var(--gy-radius-lg, 0.5rem);
 }
 
 /* ── Enterprise Variants ──────────────────────────────────────────────────── */
@@ -408,7 +414,8 @@
 
 /* ── Disabled ────────────────────────────────────────────────────────────── */
 .gy-btn:disabled:not(.gy-btn--loading),
-.gy-btn--disabled:not(.gy-btn--loading) {
+.gy-btn--disabled:not(.gy-btn--loading),
+.gy-btn[aria-disabled="true"]:not(.gy-btn--loading) {
   cursor: not-allowed !important;
   opacity: 0.55;
   background-color: var(--gy-disabled-bg, #f1f5f9) !important;
@@ -419,12 +426,32 @@
   pointer-events: auto !important;
 }
 
+.gy-btn:disabled:not(.gy-btn--loading) *,
+.gy-btn--disabled:not(.gy-btn--loading) *,
+.gy-btn[aria-disabled="true"]:not(.gy-btn--loading) * {
+  cursor: not-allowed !important;
+}
+
 /* ── Loading ─────────────────────────────────────────────────────────────── */
-.gy-btn--loading {
+.gy-btn--loading,
+.gy-btn:disabled.gy-btn--loading,
+.gy-btn[aria-disabled="true"].gy-btn--loading,
+.gy-btn--loading:hover,
+.gy-btn--loading:active,
+.gy-btn--loading:focus {
   cursor: wait !important;
   pointer-events: auto !important;
   user-select: none;
-  opacity: 0.92;
+  opacity: 0.85;
+  transform: none !important;
+  box-shadow: var(--gy-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05)) !important;
+}
+
+.gy-btn--loading *,
+.gy-btn:disabled.gy-btn--loading *,
+.gy-btn[aria-disabled="true"].gy-btn--loading * {
+  cursor: wait !important;
+  pointer-events: auto !important;
 }
 
 .gy-btn__spinner {
@@ -446,6 +473,64 @@
   letter-spacing: inherit;
 }
 
+/* ── Glassmorphic Variant ───────────────────────────────────────────────── */
+.gy-btn--glassmorphic,
+.gy-btn--glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.4) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 4px 14px rgba(31, 38, 135, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  color: var(--gy-text, #0f172a) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-btn--glassmorphic:hover:not(:disabled),
+.gy-btn--glass:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    0 6px 20px rgba(31, 38, 135, 0.12),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+}
+
+.gy-btn--glassmorphic:active:not(:disabled),
+.gy-btn--glass:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.1);
+}
+
+.gy-dark .gy-btn--glassmorphic,
+.gy-dark .gy-btn--glass,
+[data-color-mode="dark"] .gy-btn--glassmorphic,
+[data-color-mode="dark"] .gy-btn--glass,
+.dark .gy-btn--glassmorphic,
+.dark .gy-btn--glass,
+[data-theme="samantrix"] .gy-btn--glassmorphic,
+[data-theme="dark"] .gy-btn--glassmorphic {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(100%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(100%);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
+}
+
+.gy-dark .gy-btn--glassmorphic:hover:not(:disabled),
+.gy-dark .gy-btn--glass:hover:not(:disabled),
+[data-color-mode="dark"] .gy-btn--glassmorphic:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
 /* ── Icon-only ──────────────────────────────────────────────────────────── */
 .gy-btn--icon-only.gy-btn--xs  { width: 1.75rem; padding: 0; }
 .gy-btn--icon-only.gy-btn--sm  { width: 2rem;    padding: 0; }
@@ -461,4 +546,27 @@
   transform: scale(0);
   animation: gy-ripple 0.5s linear;
   pointer-events: none;
+}
+
+/* ── Responsive Styling ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .gy-btn {
+    max-width: 100%;
+  }
+
+  .gy-btn--full {
+    width: 100%;
+    display: flex;
+  }
+
+  .gy-btn--xl {
+    height: 3rem;
+    padding: 0 1.25rem;
+    font-size: 1rem;
+  }
+
+  .gy-btn--lg {
+    height: 2.5rem;
+    padding: 0 1.125rem;
+  }
 }

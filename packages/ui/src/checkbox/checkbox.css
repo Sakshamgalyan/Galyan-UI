@@ -1,12 +1,16 @@
 /* ── Checkbox Component ─────────────────────────────────────────────────── */
 .gy-checkbox-wrapper {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.625rem;
   cursor: pointer;
   vertical-align: middle;
   font-family: var(--gy-font-sans, system-ui, sans-serif);
   user-select: none;
+}
+
+.gy-checkbox-wrapper--with-description {
+  align-items: flex-start;
 }
 
 .gy-checkbox--disabled {
@@ -20,6 +24,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 0;
+}
+
+.gy-checkbox-wrapper--with-description .gy-checkbox__control {
   margin-top: 0.125rem;
 }
 
@@ -72,13 +80,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  justify-content: center;
 }
 
 .gy-checkbox__label {
   font-size: var(--gy-font-size-sm, 0.875rem);
   font-weight: 500;
   color: var(--gy-text, #0f172a);
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
 .gy-checkbox__description {
@@ -89,8 +98,13 @@
 
 /* ── Sizes ── */
 .gy-checkbox--sm .gy-checkbox__box { width: 1rem; height: 1rem; }
+.gy-checkbox--sm .gy-checkbox__label { font-size: var(--gy-font-size-xs, 0.75rem); }
+
 .gy-checkbox--md .gy-checkbox__box { width: 1.25rem; height: 1.25rem; }
+.gy-checkbox--md .gy-checkbox__label { font-size: var(--gy-font-size-sm, 0.875rem); }
+
 .gy-checkbox--lg .gy-checkbox__box { width: 1.5rem; height: 1.5rem; }
+.gy-checkbox--lg .gy-checkbox__label { font-size: var(--gy-font-size-base, 1rem); }
 
 /* ── Variants & Colors ── */
 

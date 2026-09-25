@@ -151,3 +151,140 @@
   color: var(--gy-text-subtle, #94a3b8) !important;
   transform: none !important;
 }
+
+/* ── Glassmorphic DatePicker ──────────────────────────────────────────────── */
+.gy-datepicker--glassmorphic .gy-input-wrapper,
+.gy-datepicker--glass .gy-input-wrapper {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.85) !important;
+}
+
+.gy-datepicker--glassmorphic .gy-input-wrapper:hover,
+.gy-datepicker--glass .gy-input-wrapper:hover {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    0 6px 20px -3px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+}
+
+.gy-datepicker-popover--glassmorphic,
+.gy-datepicker-popover--glass {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) contrast(95%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.12),
+    0 8px 16px -4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9) !important;
+}
+
+.gy-datepicker-popover--glassmorphic .gy-calendar,
+.gy-datepicker-popover--glass .gy-calendar {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0.5rem;
+}
+
+.gy-datepicker-popover--glassmorphic .gy-datepicker-presets,
+.gy-datepicker-popover--glass .gy-datepicker-presets,
+.gy-datepicker-popover--glassmorphic .gy-datepicker-actions,
+.gy-datepicker-popover--glass .gy-datepicker-actions {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.gy-datepicker-popover--glassmorphic .gy-datepicker-preset-btn,
+.gy-datepicker-popover--glass .gy-datepicker-preset-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: var(--gy-text);
+}
+
+/* Glassmorphic Dark Mode */
+.gy-dark .gy-datepicker--glassmorphic .gy-input-wrapper,
+.gy-dark .gy-datepicker--glass .gy-input-wrapper,
+[data-color-mode="dark"] .gy-datepicker--glassmorphic .gy-input-wrapper,
+[data-color-mode="dark"] .gy-datepicker--glass .gy-input-wrapper,
+[data-theme="dark"] .gy-datepicker--glassmorphic .gy-input-wrapper,
+[data-theme="dark"] .gy-datepicker--glass .gy-input-wrapper,
+.dark .gy-datepicker--glassmorphic .gy-input-wrapper,
+.dark .gy-datepicker--glass .gy-input-wrapper {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.gy-dark .gy-datepicker--glassmorphic .gy-input-wrapper:hover,
+.gy-dark .gy-datepicker--glass .gy-input-wrapper:hover,
+[data-color-mode="dark"] .gy-datepicker--glassmorphic .gy-input-wrapper:hover,
+[data-color-mode="dark"] .gy-datepicker--glass .gy-input-wrapper:hover,
+[data-theme="dark"] .gy-datepicker--glassmorphic .gy-input-wrapper:hover,
+[data-theme="dark"] .gy-datepicker--glass .gy-input-wrapper:hover,
+.dark .gy-datepicker--glassmorphic .gy-input-wrapper:hover,
+.dark .gy-datepicker--glass .gy-input-wrapper:hover {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 6px 20px -3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.gy-dark .gy-datepicker-popover--glassmorphic,
+.gy-dark .gy-datepicker-popover--glass,
+[data-color-mode="dark"] .gy-datepicker-popover--glassmorphic,
+[data-color-mode="dark"] .gy-datepicker-popover--glass,
+[data-theme="dark"] .gy-datepicker-popover--glassmorphic,
+[data-theme="dark"] .gy-datepicker-popover--glass,
+.dark .gy-datepicker-popover--glassmorphic,
+.dark .gy-datepicker-popover--glass {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.7),
+    0 8px 16px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+.gy-dark .gy-datepicker-popover--glassmorphic .gy-datepicker-presets,
+.gy-dark .gy-datepicker-popover--glass .gy-datepicker-presets,
+.gy-dark .gy-datepicker-popover--glassmorphic .gy-datepicker-actions,
+.gy-dark .gy-datepicker-popover--glass .gy-datepicker-actions,
+[data-color-mode="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-presets,
+[data-color-mode="dark"] .gy-datepicker-popover--glass .gy-datepicker-presets,
+[data-color-mode="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-actions,
+[data-color-mode="dark"] .gy-datepicker-popover--glass .gy-datepicker-actions,
+[data-theme="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-presets,
+[data-theme="dark"] .gy-datepicker-popover--glass .gy-datepicker-presets,
+[data-theme="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-actions,
+[data-theme="dark"] .gy-datepicker-popover--glass .gy-datepicker-actions,
+.dark .gy-datepicker-popover--glassmorphic .gy-datepicker-presets,
+.dark .gy-datepicker-popover--glass .gy-datepicker-presets,
+.dark .gy-datepicker-popover--glassmorphic .gy-datepicker-actions,
+.dark .gy-datepicker-popover--glass .gy-datepicker-actions {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.gy-dark .gy-datepicker-popover--glassmorphic .gy-datepicker-preset-btn,
+.gy-dark .gy-datepicker-popover--glass .gy-datepicker-preset-btn,
+[data-color-mode="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-preset-btn,
+[data-color-mode="dark"] .gy-datepicker-popover--glass .gy-datepicker-preset-btn,
+[data-theme="dark"] .gy-datepicker-popover--glassmorphic .gy-datepicker-preset-btn,
+[data-theme="dark"] .gy-datepicker-popover--glass .gy-datepicker-preset-btn,
+.dark .gy-datepicker-popover--glassmorphic .gy-datepicker-preset-btn,
+.dark .gy-datepicker-popover--glass .gy-datepicker-preset-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--gy-text, #f8fafc);
+}
+

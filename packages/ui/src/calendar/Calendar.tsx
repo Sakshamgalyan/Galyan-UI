@@ -3,14 +3,29 @@
 import React, { useState } from "react";
 import "./calendar.css";
 
+export type CalendarValue = Date | [Date, Date | undefined];
+export type CalendarVariant = "default" | "bordered" | "glassmorphic" | "glass";
+
 export interface CalendarProps {
+  /** Visual style variant */
+  variant?: CalendarVariant;
+  /** Selection mode: single date or date range */
   mode?: "single" | "range";
-  value?: Date | [Date, Date];
-  onChange?: (date: Date | [Date, Date]) => void;
+  /** Currently selected value: Date or [startDate, endDate] */
+  value?: CalendarValue;
+  /** Change callback */
+  onChange?: (date: CalendarValue) => void;
+  /** Earliest selectable date */
   minDate?: Date;
+  /** Latest selectable date */
   maxDate?: Date;
+  /** 0 for Sunday, 1 for Monday */
   firstDayOfWeek?: 0 | 1;
+  /** Whether to show a quick "Today" navigation button */
+  showTodayButton?: boolean;
+  /** Additional CSS class names */
   className?: string;
+  /** Inline styles */
   style?: React.CSSProperties;
 }
 
@@ -28,13 +43,47 @@ const isSameDay = (d1?: Date, d2?: Date) => {
   );
 };
 
+const ChevronLeft = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+const ChevronRight = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
 export function Calendar({
+  variant = "default",
   mode = "single",
   value,
   onChange,
   minDate,
   maxDate,
   firstDayOfWeek = 0,
+  showTodayButton = false,
   className = "",
   style,
 }: CalendarProps) {
@@ -44,7 +93,6 @@ export function Calendar({
     return value ?? new Date();
   });
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
-
   const [isPicking, setIsPicking] = useState(false);
 
   const [selStart, selEnd] = Array.isArray(value) ? value : [value, undefined];
@@ -76,7 +124,7 @@ export function Calendar({
       if (!isPicking || !selStart) {
         setIsPicking(true);
         setHoverDate(null);
-        onChange?.([date, undefined as any]);
+        onChange?.([date, undefined]);
       } else {
         const start = date < selStart ? date : selStart;
         const end = date < selStart ? selStart : date;
@@ -84,6 +132,15 @@ export function Calendar({
         setHoverDate(null);
         onChange?.([start, end]);
       }
+    }
+  };
+
+  const handleGoToday = () => {
+    const today = new Date();
+    setCurrent(today);
+    setView("days");
+    if (mode === "single") {
+      onChange?.(today);
     }
   };
 
@@ -110,21 +167,17 @@ export function Calendar({
     const sTime = selStart ? normalizeDay(selStart) : null;
     const eTime = activeEnd ? normalizeDay(activeEnd) : null;
 
-    const minTime = sTime !== null && eTime !== null ? Math.min(sTime, eTime) : sTime;
-    const maxTime = sTime !== null && eTime !== null ? Math.max(sTime, eTime) : sTime;
+    const minTime =
+      sTime !== null && eTime !== null ? Math.min(sTime, eTime) : sTime;
+    const maxTime =
+      sTime !== null && eTime !== null ? Math.max(sTime, eTime) : sTime;
     const isSingle = minTime !== null && minTime === maxTime;
 
     const isStart =
-      mode === "range" &&
-      minTime !== null &&
-      dateTime === minTime &&
-      !isSingle;
+      mode === "range" && minTime !== null && dateTime === minTime && !isSingle;
 
     const isEnd =
-      mode === "range" &&
-      maxTime !== null &&
-      dateTime === maxTime &&
-      !isSingle;
+      mode === "range" && maxTime !== null && dateTime === maxTime && !isSingle;
 
     const inRange =
       mode === "range" &&
@@ -135,7 +188,8 @@ export function Calendar({
 
     const selected =
       (mode === "single" && value instanceof Date && isSameDay(date, value)) ||
-      (mode === "range" && (isStart || isEnd || (isSingle && dateTime === minTime)));
+      (mode === "range" &&
+        (isStart || isEnd || (isSingle && dateTime === minTime)));
 
     const cls = [
       "gy-calendar-day",
@@ -239,8 +293,39 @@ export function Calendar({
       ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
       : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+  const isMonthDisabled = (year: number, month: number) => {
+    if (minDate) {
+      const minY = minDate.getFullYear();
+      const minM = minDate.getMonth();
+      if (year < minY) return true;
+      if (year === minY && month < minM) return true;
+    }
+    if (maxDate) {
+      const maxY = maxDate.getFullYear();
+      const maxM = maxDate.getMonth();
+      if (year > maxY) return true;
+      if (year === maxY && month > maxM) return true;
+    }
+    return false;
+  };
+
+  const isYearDisabled = (year: number) => {
+    if (minDate && year < minDate.getFullYear()) return true;
+    if (maxDate && year > maxDate.getFullYear()) return true;
+    return false;
+  };
+
+  const today = new Date();
+  const currentYearNow = today.getFullYear();
+  const currentMonthNow = today.getMonth();
+
+  const variantClass = variant && variant !== "default" ? `gy-calendar--${variant}` : "";
+
   return (
-    <div className={`gy-calendar ${className}`} style={style}>
+    <div
+      className={["gy-calendar", variantClass, className].filter(Boolean).join(" ")}
+      style={style}
+    >
       <div className="gy-calendar-header">
         <button
           type="button"
@@ -251,10 +336,12 @@ export function Calendar({
             if (view === "years") prevDecade();
           }}
           aria-label="Previous"
+          title="Previous"
         >
-          ‹
+          <ChevronLeft />
         </button>
-        <div
+        <button
+          type="button"
           className="gy-calendar-title"
           onClick={() => {
             if (view === "days") setView("months");
@@ -264,8 +351,9 @@ export function Calendar({
         >
           {view === "days" && `${monthName} ${y}`}
           {view === "months" && `${y}`}
-          {view === "years" && `${Math.floor(y / 10) * 10} - ${Math.floor(y / 10) * 10 + 9}`}
-        </div>
+          {view === "years" &&
+            `${Math.floor(y / 10) * 10} - ${Math.floor(y / 10) * 10 + 9}`}
+        </button>
         <button
           type="button"
           className="gy-calendar-nav"
@@ -275,8 +363,9 @@ export function Calendar({
             if (view === "years") nextDecade();
           }}
           aria-label="Next"
+          title="Next"
         >
-          ›
+          <ChevronRight />
         </button>
       </div>
 
@@ -293,19 +382,35 @@ export function Calendar({
 
       {view === "months" && (
         <div className="gy-calendar-picker-grid">
-          {months.map((name, idx) => (
-            <button
-              type="button"
-              key={name}
-              className={`gy-calendar-picker-item ${idx === m ? "gy-calendar-picker-item--selected" : ""}`}
-              onClick={() => {
-                setCurrent(new Date(y, idx, 1));
-                setView("days");
-              }}
-            >
-              {name}
-            </button>
-          ))}
+          {months.map((name, idx) => {
+            const isSelected = idx === m;
+            const isCurrentMonth = y === currentYearNow && idx === currentMonthNow;
+            const isDisabled = isMonthDisabled(y, idx);
+
+            return (
+              <button
+                type="button"
+                key={name}
+                disabled={isDisabled}
+                className={[
+                  "gy-calendar-picker-item",
+                  isSelected ? "gy-calendar-picker-item--selected" : "",
+                  isCurrentMonth && !isSelected ? "gy-calendar-picker-item--current" : "",
+                  isDisabled ? "gy-calendar-picker-item--disabled" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                onClick={() => {
+                  if (!isDisabled) {
+                    setCurrent(new Date(y, idx, 1));
+                    setView("days");
+                  }
+                }}
+              >
+                {name}
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -314,20 +419,46 @@ export function Calendar({
           {Array.from({ length: 12 }, (_, i) => {
             const startDecade = Math.floor(y / 10) * 10;
             const yearNum = startDecade - 1 + i;
+            const isSelected = yearNum === y;
+            const isCurrentYear = yearNum === currentYearNow;
+            const isDisabled = isYearDisabled(yearNum);
+
             return (
               <button
                 type="button"
                 key={yearNum}
-                className={`gy-calendar-picker-item ${yearNum === y ? "gy-calendar-picker-item--selected" : ""}`}
+                disabled={isDisabled}
+                className={[
+                  "gy-calendar-picker-item",
+                  isSelected ? "gy-calendar-picker-item--selected" : "",
+                  isCurrentYear && !isSelected ? "gy-calendar-picker-item--current" : "",
+                  isDisabled ? "gy-calendar-picker-item--disabled" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 onClick={() => {
-                  setCurrent(new Date(yearNum, m, 1));
-                  setView("months");
+                  if (!isDisabled) {
+                    setCurrent(new Date(yearNum, m, 1));
+                    setView("months");
+                  }
                 }}
               >
                 {yearNum}
               </button>
             );
           })}
+        </div>
+      )}
+
+      {showTodayButton && (
+        <div className="gy-calendar-footer">
+          <button
+            type="button"
+            className="gy-calendar-today-btn"
+            onClick={handleGoToday}
+          >
+            Today
+          </button>
         </div>
       )}
     </div>

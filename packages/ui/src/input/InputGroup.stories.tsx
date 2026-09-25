@@ -26,7 +26,7 @@ const meta: Meta<typeof InputGroup> = {
     leftAddon: { control: "text" },
     rightAddon: { control: "text" },
   },
-} satisfies Meta<typeof InputGroup>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -126,7 +126,11 @@ export const SearchCategoryDropdownGroup: Story = {
         label="Search Knowledgebase"
         dropdownPosition="left"
         rightAddon={
-          <Button size="md" variant="primary" onClick={() => alert(`Searching: ${query}`)}>
+          <Button
+            size="md"
+            variant="primary"
+            onClick={() => alert(`Searching: ${query}`)}
+          >
             Search
           </Button>
         }

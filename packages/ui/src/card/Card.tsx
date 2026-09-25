@@ -4,7 +4,13 @@ import React from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import "./card.css";
 
-export type CardVariant = "default" | "elevated" | "outlined" | "filled";
+export type CardVariant =
+  | "default"
+  | "elevated"
+  | "outlined"
+  | "filled"
+  | "glassmorphic"
+  | "glass";
 export type CardPadding = "none" | "sm" | "md" | "lg";
 export type CardShadow = "none" | "sm" | "md" | "lg";
 export type CardHoverEffect = "none" | "lift" | "glow" | "border";

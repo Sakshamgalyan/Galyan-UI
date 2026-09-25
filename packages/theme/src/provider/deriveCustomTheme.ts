@@ -11,7 +11,15 @@
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
-  const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
+  const n = parseInt(
+    h.length === 3
+      ? h
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : h,
+    16,
+  );
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
@@ -173,7 +181,8 @@ export function deriveCustomTheme(
   const secondaryRamp = generateRamp(secondaryHex);
 
   // Foreground: pick white or dark based on contrast
-  const fg = contrastRatio(primaryHex, "#ffffff") >= 4.5 ? "#ffffff" : "#0f172a";
+  const fg =
+    contrastRatio(primaryHex, "#ffffff") >= 4.5 ? "#ffffff" : "#0f172a";
 
   // Focus ring: primary at 40% opacity
   const [pr, pg, pb] = hexToRgb(primaryHex);

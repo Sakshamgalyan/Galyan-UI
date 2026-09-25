@@ -83,11 +83,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const fallbackId = React.useId();
     const checkboxId = id || fallbackId;
 
+    const hasDescription = Boolean(description);
+
     const wrapperClasses = [
       "gy-checkbox-wrapper",
       `gy-checkbox--${size}`,
       `gy-checkbox--${color}`,
       `gy-checkbox--${variant}`,
+      hasDescription ? "gy-checkbox-wrapper--with-description" : "",
       isDisabled ? "gy-checkbox--disabled" : "",
       className,
     ]

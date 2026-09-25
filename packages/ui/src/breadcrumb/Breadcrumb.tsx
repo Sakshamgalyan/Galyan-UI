@@ -29,8 +29,8 @@ export interface BreadcrumbProps {
 
 const BackArrow = () => (
   <svg
-    width="14"
-    height="14"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -38,6 +38,7 @@ const BackArrow = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="gy-breadcrumb-back-icon"
+    aria-hidden="true"
   >
     <polyline points="15 18 9 12 15 6" />
   </svg>
@@ -89,11 +90,6 @@ export function Breadcrumb({
     .filter(Boolean)
     .join(" ");
 
-  let visibleItems = items;
-  if (shouldCollapse) {
-    visibleItems = [items[0]!, items[items.length - 1]!];
-  }
-
   return (
     <nav aria-label="Breadcrumb" className={rootClasses}>
       <ol className="gy-breadcrumb-list">
@@ -104,6 +100,7 @@ export function Breadcrumb({
               className="gy-breadcrumb-back-btn"
               onClick={onBackClick}
               aria-label={backButtonLabel || "Go back"}
+              title={backButtonLabel || "Go back"}
             >
               <BackArrow />
               {backButtonLabel && (
@@ -112,7 +109,6 @@ export function Breadcrumb({
                 </span>
               )}
             </button>
-            <span className="gy-breadcrumb-divider" aria-hidden="true" />
           </li>
         )}
 

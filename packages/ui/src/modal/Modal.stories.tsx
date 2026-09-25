@@ -119,8 +119,8 @@ const ModalDemo = ({
         onConfirm={() => setOpen(false)}
       >
         <p style={{ margin: 0, color: "var(--gy-text-muted)" }}>
-          Are you sure you want to proceed? This will permanently update the security
-          policy across all linked environments.
+          Are you sure you want to proceed? This will permanently update the
+          security policy across all linked environments.
         </p>
       </Modal>
     </>
@@ -156,7 +156,9 @@ export const PromptFormModal: Story = {
             setOpen(false);
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
             <Input
               label="Key Identifier"
               placeholder="e.g. Production Backend Worker"

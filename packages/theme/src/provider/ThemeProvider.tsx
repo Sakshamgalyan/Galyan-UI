@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ThemeContext,
   type ThemeBrand,
@@ -9,14 +15,14 @@ import {
   type CustomThemeConfig,
   type LegacyThemeRole,
 } from "./ThemeContext.js";
-import {
-  deriveCustomTheme,
-  CUSTOM_THEME_VARS,
-} from "./deriveCustomTheme.js";
+import { deriveCustomTheme, CUSTOM_THEME_VARS } from "./deriveCustomTheme.js";
 
 // ── Legacy role → brand+role mapping ────────────────────────────────────
 
-const LEGACY_MAP: Record<LegacyThemeRole, { brand: ThemeBrand; role: ThemeRole }> = {
+const LEGACY_MAP: Record<
+  LegacyThemeRole,
+  { brand: ThemeBrand; role: ThemeRole }
+> = {
   customer: { brand: "easylife", role: "customer" },
   professional: { brand: "easylife", role: "professional" },
   agent: { brand: "easylife", role: "agent" },
@@ -63,12 +69,17 @@ export function ThemeProvider({
   customTheme: customThemeProp,
 }: ThemeProviderProps) {
   // Resolve initial brand+role from props (prefer new API, fall back to legacy)
-  const initialBrand: ThemeBrand = brandProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.brand : "easylife");
-  const initialRole: ThemeRole = roleProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.role : "customer");
+  const initialBrand: ThemeBrand =
+    brandProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.brand : "easylife");
+  const initialRole: ThemeRole =
+    roleProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.role : "customer");
 
   // Legacy deprecation warning
   if (typeof defaultRole !== "undefined" && typeof brandProp === "undefined") {
-    if (typeof console !== "undefined" && process.env.NODE_ENV !== "production") {
+    if (
+      typeof console !== "undefined" &&
+      process.env.NODE_ENV !== "production"
+    ) {
       console.warn(
         `[@galyan/theme] "defaultRole" is deprecated. Use brand="${initialBrand}" role="${initialRole}" instead.`,
       );
@@ -85,12 +96,12 @@ export function ThemeProvider({
   const [fontFamilyMono, setFontFamilyMonoState] = useState<string | undefined>(
     fontFamilyMonoProp ?? customThemeProp?.fontFamilyMono,
   );
-  const [fontFamilyDisplay, setFontFamilyDisplayState] = useState<string | undefined>(
-    fontFamilyDisplayProp ?? customThemeProp?.fontFamilyDisplay,
-  );
-  const [customConfig, setCustomConfig] = useState<CustomThemeConfig | undefined>(
-    customThemeProp,
-  );
+  const [fontFamilyDisplay, setFontFamilyDisplayState] = useState<
+    string | undefined
+  >(fontFamilyDisplayProp ?? customThemeProp?.fontFamilyDisplay);
+  const [customConfig, setCustomConfig] = useState<
+    CustomThemeConfig | undefined
+  >(customThemeProp);
 
   const injectedVarsRef = useRef<string[]>([]);
 
@@ -122,9 +133,12 @@ export function ThemeProvider({
   useEffect(() => {
     if (customThemeProp) {
       setCustomConfig(customThemeProp);
-      if (customThemeProp.fontFamily) setFontFamilyState(customThemeProp.fontFamily);
-      if (customThemeProp.fontFamilyMono) setFontFamilyMonoState(customThemeProp.fontFamilyMono);
-      if (customThemeProp.fontFamilyDisplay) setFontFamilyDisplayState(customThemeProp.fontFamilyDisplay);
+      if (customThemeProp.fontFamily)
+        setFontFamilyState(customThemeProp.fontFamily);
+      if (customThemeProp.fontFamilyMono)
+        setFontFamilyMonoState(customThemeProp.fontFamilyMono);
+      if (customThemeProp.fontFamilyDisplay)
+        setFontFamilyDisplayState(customThemeProp.fontFamilyDisplay);
     }
   }, [customThemeProp]);
 
@@ -156,8 +170,10 @@ export function ThemeProvider({
         if (parsed.role) setRoleState(parsed.role);
         if (parsed.colorMode) setColorModeState(parsed.colorMode);
         if (parsed.fontFamily) setFontFamilyState(parsed.fontFamily);
-        if (parsed.fontFamilyMono) setFontFamilyMonoState(parsed.fontFamilyMono);
-        if (parsed.fontFamilyDisplay) setFontFamilyDisplayState(parsed.fontFamilyDisplay);
+        if (parsed.fontFamilyMono)
+          setFontFamilyMonoState(parsed.fontFamilyMono);
+        if (parsed.fontFamilyDisplay)
+          setFontFamilyDisplayState(parsed.fontFamilyDisplay);
         if (parsed.customTheme) setCustomConfig(parsed.customTheme);
       }
     } catch {
@@ -351,9 +367,12 @@ export function ThemeProvider({
   const setCustomTheme = useCallback(
     (config: CustomThemeConfig) => {
       setCustomConfig(config);
-      if (config.fontFamily !== undefined) setFontFamilyState(config.fontFamily);
-      if (config.fontFamilyMono !== undefined) setFontFamilyMonoState(config.fontFamilyMono);
-      if (config.fontFamilyDisplay !== undefined) setFontFamilyDisplayState(config.fontFamilyDisplay);
+      if (config.fontFamily !== undefined)
+        setFontFamilyState(config.fontFamily);
+      if (config.fontFamilyMono !== undefined)
+        setFontFamilyMonoState(config.fontFamilyMono);
+      if (config.fontFamilyDisplay !== undefined)
+        setFontFamilyDisplayState(config.fontFamilyDisplay);
       setBrandState("custom");
       if (!storageKey) return;
       try {

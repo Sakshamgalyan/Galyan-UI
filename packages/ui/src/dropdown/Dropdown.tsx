@@ -21,6 +21,7 @@ import "./dropdown.css";
 export interface DropdownOption {
   value: string;
   label: React.ReactNode;
+  description?: React.ReactNode;
   disabled?: boolean;
   group?: string;
   icon?: React.ReactNode;
@@ -35,6 +36,7 @@ export interface DropdownProps {
   placeholder?: string;
   label?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "default" | "filled" | "glassmorphic" | "glass";
   multiple?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -76,6 +78,7 @@ export function Dropdown({
   placeholder = "Select option",
   label,
   size = "md",
+  variant = "default",
   multiple = false,
   searchable = false,
   searchPlaceholder = "Search...",
@@ -115,7 +118,8 @@ export function Dropdown({
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const isMenuOpen = open || expandedMenu;
-  const desiredPlacement: FloatingPlacement = `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
+  const desiredPlacement: FloatingPlacement =
+    `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
 
   const { refs, floatingStyles, context } = useFloating({
     open: isMenuOpen,
@@ -242,9 +246,14 @@ export function Dropdown({
       return (
         <div className="gy-dropdown-tags">
           {visibleTags.map((opt) => {
-            const tagTitle = typeof opt.label === "string" ? opt.label : undefined;
+            const tagTitle =
+              typeof opt.label === "string" ? opt.label : undefined;
             return (
-              <span key={opt.value} className="gy-dropdown-tag" title={tagTitle}>
+              <span
+                key={opt.value}
+                className="gy-dropdown-tag"
+                title={tagTitle}
+              >
                 <span>{opt.label}</span>
                 <span
                   className="gy-dropdown-tag-remove"
@@ -271,7 +280,8 @@ export function Dropdown({
     if (!multiple && value) {
       const selOpt = options.find((o) => o.value === value);
       if (selOpt) {
-        const valTitle = typeof selOpt.label === "string" ? selOpt.label : undefined;
+        const valTitle =
+          typeof selOpt.label === "string" ? selOpt.label : undefined;
         return (
           <span className="gy-dropdown-value" title={valTitle}>
             {selOpt.icon && (
@@ -292,6 +302,7 @@ export function Dropdown({
   const triggerClasses = [
     "gy-dropdown-trigger",
     `gy-dropdown-trigger--${size}`,
+    variant !== "default" ? `gy-dropdown-trigger--${variant}` : "",
     open ? "gy-dropdown-trigger--open" : "",
     disabled ? "gy-dropdown-trigger--disabled" : "",
     loading ? "gy-dropdown-trigger--loading" : "",
@@ -301,10 +312,11 @@ export function Dropdown({
     .filter(Boolean)
     .join(" ");
 
+  const isGlassVariant = variant === "glassmorphic" || variant === "glass";
   const menuNode = (
     <div
       ref={refs.setFloating}
-      className={`gy-dropdown-menu gy-dropdown-menu--${size}`}
+      className={`gy-dropdown-menu gy-dropdown-menu--${size} ${isGlassVariant ? `gy-dropdown-menu--${variant}` : ""}`.trim()}
       style={{
         ...floatingStyles,
         zIndex,
@@ -326,25 +338,38 @@ export function Dropdown({
         </div>
       )}
 
-      {multiple && showSelectAll && options.length > 0 && !loading && (() => {
-        const selectableOpts = filteredOptions.filter((o) => !o.disabled);
-        const currentVals = Array.isArray(value) ? value : [];
-        const selectedCount = selectableOpts.filter((o) => currentVals.includes(o.value)).length;
-        const isAllSel = selectableOpts.length > 0 && selectedCount === selectableOpts.length;
-        const isIndet = selectedCount > 0 && selectedCount < selectableOpts.length;
+      {multiple &&
+        showSelectAll &&
+        options.length > 0 &&
+        !loading &&
+        (() => {
+          const selectableOpts = filteredOptions.filter((o) => !o.disabled);
+          const currentVals = Array.isArray(value) ? value : [];
+          const selectedCount = selectableOpts.filter((o) =>
+            currentVals.includes(o.value),
+          ).length;
+          const isAllSel =
+            selectableOpts.length > 0 &&
+            selectedCount === selectableOpts.length;
+          const isIndet =
+            selectedCount > 0 && selectedCount < selectableOpts.length;
 
-        return (
-          <div className="gy-dropdown-select-all" onClick={handleSelectAll}>
-            <Checkbox
-              size="sm"
-              checked={isAllSel}
-              indeterminate={isIndet}
-              onChange={() => {}}
-              label="Select All"
-            />
-          </div>
-        );
-      })()}
+          return (
+            <div className="gy-dropdown-select-all" onClick={handleSelectAll}>
+              <Checkbox
+                size="sm"
+                checked={isAllSel}
+                indeterminate={isIndet}
+                onChange={() => {}}
+                label={
+                  <span className="gy-dropdown-select-all-label">
+                    Select All ({selectedCount}/{selectableOpts.length})
+                  </span>
+                }
+              />
+            </div>
+          );
+        })()}
 
       {renderDropdown ? (
         renderDropdown(filteredOptions)
@@ -365,7 +390,8 @@ export function Dropdown({
                 )}
                 {opts.map((opt) => {
                   const selected = isSelected(opt.value);
-                  const optTitle = typeof opt.label === "string" ? opt.label : undefined;
+                  const optTitle =
+                    typeof opt.label === "string" ? opt.label : undefined;
 
                   return (
                     <div
@@ -383,27 +409,48 @@ export function Dropdown({
                       onClick={() => handleOptionSelect(opt)}
                     >
                       {multiple ? (
-                        <Checkbox
-                          size="sm"
-                          checked={selected}
-                          isDisabled={opt.disabled}
-                          onChange={() => {}}
-                          label={
-                            <span title={optTitle}>
-                              {renderOption ? renderOption(opt) : opt.label}
-                            </span>
-                          }
-                        />
+                        <div className="gy-dropdown-option-checkbox-wrap">
+                          <Checkbox
+                            size="sm"
+                            checked={selected}
+                            isDisabled={opt.disabled}
+                            onChange={() => {}}
+                            label={
+                              <div className="gy-dropdown-option-content">
+                                <span className="gy-dropdown-option-label" title={optTitle}>
+                                  {renderOption ? renderOption(opt) : opt.label}
+                                </span>
+                                {opt.description && (
+                                  <span className="gy-dropdown-option-description">
+                                    {opt.description}
+                                  </span>
+                                )}
+                              </div>
+                            }
+                          />
+                        </div>
                       ) : (
                         <>
-                          {opt.icon && (
-                            <span className="gy-dropdown-option-icon">
-                              {opt.icon}
-                            </span>
-                          )}
-                          <span className="gy-dropdown-option-label" title={optTitle}>
-                            {renderOption ? renderOption(opt) : opt.label}
-                          </span>
+                          <div className="gy-dropdown-option-content">
+                            <div className="gy-dropdown-option-header">
+                              {opt.icon && (
+                                <span className="gy-dropdown-option-icon">
+                                  {opt.icon}
+                                </span>
+                              )}
+                              <span
+                                className="gy-dropdown-option-label"
+                                title={optTitle}
+                              >
+                                {renderOption ? renderOption(opt) : opt.label}
+                              </span>
+                            </div>
+                            {opt.description && (
+                              <span className="gy-dropdown-option-description">
+                                {opt.description}
+                              </span>
+                            )}
+                          </div>
                           {selected && (
                             <span className="gy-dropdown-check">
                               <svg
@@ -433,9 +480,7 @@ export function Dropdown({
   );
 
   return (
-    <div
-      className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}
-    >
+    <div className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}>
       {label && (
         <label
           className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
@@ -455,7 +500,8 @@ export function Dropdown({
         aria-haspopup="listbox"
         aria-busy={loading}
         {...getReferenceProps({
-          onClick: () => !disabled && !loading && !expandedMenu && setOpen((o) => !o),
+          onClick: () =>
+            !disabled && !loading && !expandedMenu && setOpen((o) => !o),
         })}
       >
         {leftIcon && (
@@ -501,11 +547,7 @@ export function Dropdown({
         )}
       </button>
 
-      {isMenuOpen && (
-        <FloatingPortal>
-          {menuNode}
-        </FloatingPortal>
-      )}
+      {isMenuOpen && <FloatingPortal>{menuNode}</FloatingPortal>}
 
       {(displayErrorMsg || helperText) && (
         <div

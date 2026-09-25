@@ -138,17 +138,109 @@ const meta: Meta<typeof Input> = {
       </div>
     ),
   ],
-} satisfies Meta<typeof Input>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/* ── Custom Icons for Helper Text ─────────────────────────────────────────── */
+
+const QuestionIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
+  </svg>
+);
+
+const ShieldIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
+const StarIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#f59e0b"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
 export const Default: Story = {
   args: {
-    label: "Username",
-    placeholder: "Enter your username",
-    helperText: "Must be unique across your organization",
+    label: "Field label",
+    placeholder: "hint placeholder",
+    helperText: "Text field in bottom",
   },
+};
+
+export const WithDifferentHelperIcons: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <Input
+        label="Default Info Icon"
+        placeholder="hint placeholder"
+        helperText="Text field in bottom with default info icon"
+      />
+      <Input
+        label="Help / Question Icon"
+        placeholder="Enter billing postal code"
+        helperIcon={<QuestionIcon />}
+        helperText="Used for tax calculation and verification"
+      />
+      <Input
+        label="Security / Shield Icon"
+        placeholder="Enter 2FA backup key"
+        helperIcon={<ShieldIcon />}
+        helperText="Stored with AES-256 end-to-end encryption"
+      />
+      <Input
+        label="Star / Highlight Icon"
+        placeholder="Referral code"
+        helperIcon={<StarIcon />}
+        helperText="Apply code to get 20% discount on your invoice"
+      />
+      <Input
+        label="Required with Warning Icon"
+        placeholder="admin@domain.com"
+        required
+        helperText="Required field must not be empty"
+      />
+      <Input
+        label="Success with Checkmark Icon"
+        placeholder="username_ready"
+        hasSuccess
+        value="galyan_enterprise"
+        helperText="Username is available"
+      />
+    </div>
+  ),
 };
 
 export const Sizes: Story = {

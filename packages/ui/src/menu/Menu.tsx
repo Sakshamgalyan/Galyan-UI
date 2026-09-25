@@ -8,9 +8,13 @@ import { Tooltip } from "../tooltip/Tooltip";
 export type { TooltipProps, TooltipPosition } from "../tooltip/Tooltip";
 export { Tooltip };
 
-// ── Menu Types ──────────────────────────────────────────────────────────────
 export type MenuSize = "sm" | "md" | "lg";
-export type MenuVariant = "default" | "bordered" | "minimal";
+export type MenuVariant =
+  | "default"
+  | "bordered"
+  | "minimal"
+  | "glassmorphic"
+  | "glass";
 
 export interface MenuItem {
   id: string;
@@ -158,7 +162,8 @@ export function Menu({
           type="button"
           className={itemClasses}
           style={{
-            paddingLeft: !isHorizontal && isChild ? `${1 + depth * 1.25}rem` : undefined,
+            paddingLeft:
+              !isHorizontal && isChild ? `${1 + depth * 1.25}rem` : undefined,
             ...customActiveStyle,
           }}
           onClick={handleClick}
@@ -166,11 +171,6 @@ export function Menu({
           aria-current={isActive ? "page" : undefined}
           aria-expanded={hasChildren ? isExpanded : undefined}
         >
-          {/* Active left vertical accent line for vertical menu only */}
-          {isActive && !isChild && !isHorizontal && (
-            <span className="gy-nav-menu__accent-line" />
-          )}
-
           {item.icon && <span className="gy-nav-menu__icon">{item.icon}</span>}
           <span className="gy-nav-menu__label">{item.label}</span>
           {item.badge && (

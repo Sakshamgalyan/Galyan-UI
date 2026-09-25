@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { DatePicker, DatePickerValue, DatePickerRangeValue } from "./DatePicker";
+import {
+  DatePicker,
+  DatePickerValue,
+  DatePickerRangeValue,
+} from "./DatePicker";
 
 /**
  * Popover date picker input with support for single date, date range, "Present" ongoing feature, formats, presets, constraints, and custom triggers.
@@ -165,7 +169,9 @@ export const MinAndMaxConstraints: Story = {
     const now = new Date();
     const minDate = new Date(now.getFullYear(), now.getMonth(), 5);
     const maxDate = new Date(now.getFullYear(), now.getMonth(), 25);
-    const [date, setDate] = useState<DatePickerValue>(new Date(now.getFullYear(), now.getMonth(), 12));
+    const [date, setDate] = useState<DatePickerValue>(
+      new Date(now.getFullYear(), now.getMonth(), 12),
+    );
 
     return (
       <DatePicker

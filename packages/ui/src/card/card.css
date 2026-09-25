@@ -37,6 +37,22 @@
   background: var(--gy-background-muted, #f8fafc);
   border: 1px solid transparent;
 }
+.gy-card--glassmorphic,
+.gy-card--glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.48) 100%) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 12px 32px 0 rgba(31, 38, 135, 0.08),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.85);
+}
+.gy-card--glassmorphic .gy-card-header,
+.gy-card--glassmorphic .gy-card-footer,
+.gy-card--glass .gy-card-header,
+.gy-card--glass .gy-card-footer {
+  border-color: rgba(255, 255, 255, 0.35);
+}
 
 /* Padding */
 .gy-card--padding-sm { padding: 0.875rem 1rem; }
@@ -134,4 +150,30 @@
   font-size: 0.8125rem;
   color: var(--gy-text-subtle, #94a3b8);
   margin-top: 0.25rem;
+}
+
+/* ── Dark Mode Glassmorphic ── */
+.gy-dark .gy-card--glassmorphic,
+.gy-dark .gy-card--glass,
+[data-color-mode="dark"] .gy-card--glassmorphic,
+[data-color-mode="dark"] .gy-card--glass,
+.dark .gy-card--glassmorphic,
+.dark .gy-card--glass,
+[data-theme="samantrix"] .gy-card--glassmorphic,
+[data-theme="dark"] .gy-card--glassmorphic {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.55) 100%) !important;
+  backdrop-filter: blur(24px) saturate(180%) contrast(100%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(100%);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 16px 40px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.gy-dark .gy-card--glassmorphic .gy-card-header,
+.gy-dark .gy-card--glassmorphic .gy-card-footer,
+[data-color-mode="dark"] .gy-card--glassmorphic .gy-card-header,
+[data-color-mode="dark"] .gy-card--glassmorphic .gy-card-footer {
+  border-color: rgba(255, 255, 255, 0.08);
 }

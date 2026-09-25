@@ -7,7 +7,13 @@ import "./modal.css";
 
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 export type ModalPosition = "center" | "top";
-export type ModalVariant = "default" | "sidebar" | "compact" | "fullscreen";
+export type ModalVariant =
+  | "default"
+  | "sidebar"
+  | "compact"
+  | "fullscreen"
+  | "glassmorphic"
+  | "glass";
 
 export interface ModalProps {
   isOpen: boolean;

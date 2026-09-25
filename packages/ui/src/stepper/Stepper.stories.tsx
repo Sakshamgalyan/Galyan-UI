@@ -124,9 +124,24 @@ export const WithCustomIcons: Story = {
   render: () => {
     const [active, setActive] = useState(1);
     const iconSteps = [
-      { id: "user", label: "Personal Info", description: "Name & email", icon: <UserIcon /> },
-      { id: "billing", label: "Billing Method", description: "Credit card / PayPal", icon: <CreditCardIcon /> },
-      { id: "security", label: "2FA Verification", description: "Secure your account", icon: <ShieldCheckIcon /> },
+      {
+        id: "user",
+        label: "Personal Info",
+        description: "Name & email",
+        icon: <UserIcon />,
+      },
+      {
+        id: "billing",
+        label: "Billing Method",
+        description: "Credit card / PayPal",
+        icon: <CreditCardIcon />,
+      },
+      {
+        id: "security",
+        label: "2FA Verification",
+        description: "Secure your account",
+        icon: <ShieldCheckIcon />,
+      },
     ];
 
     return (
@@ -149,7 +164,9 @@ export const WithCustomIcons: Story = {
             size="sm"
             variant="primary"
             disabled={active === iconSteps.length - 1}
-            onClick={() => setActive(Math.min(iconSteps.length - 1, active + 1))}
+            onClick={() =>
+              setActive(Math.min(iconSteps.length - 1, active + 1))
+            }
           >
             Continue
           </Button>
@@ -163,19 +180,43 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
       <div>
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.75rem" }}>
+        <span
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            color: "var(--gy-text-subtle)",
+            display: "block",
+            marginBottom: "0.75rem",
+          }}
+        >
           Small (sm)
         </span>
         <Stepper steps={steps} activeStep={1} size="sm" />
       </div>
       <div>
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.75rem" }}>
+        <span
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            color: "var(--gy-text-subtle)",
+            display: "block",
+            marginBottom: "0.75rem",
+          }}
+        >
           Medium (md Default)
         </span>
         <Stepper steps={steps} activeStep={1} size="md" />
       </div>
       <div>
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.75rem" }}>
+        <span
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            color: "var(--gy-text-subtle)",
+            display: "block",
+            marginBottom: "0.75rem",
+          }}
+        >
           Large (lg)
         </span>
         <Stepper steps={steps} activeStep={1} size="lg" />
@@ -209,9 +250,26 @@ export const WithStepContent: Story = {
         label: "Account Details",
         description: "Email & Password",
         content: (
-          <div style={{ padding: "1.25rem", background: "var(--gy-surface-raised, rgba(255,255,255,0.05))", borderRadius: "0.5rem", border: "1px solid var(--gy-border)" }}>
-            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>Step 1: Account Credentials</h4>
-            <p style={{ margin: 0, color: "var(--gy-text-muted)", fontSize: "0.875rem" }}>Fill in your personal email and choose a secure password.</p>
+          <div
+            style={{
+              padding: "1.25rem",
+              background: "var(--gy-surface-raised, rgba(255,255,255,0.05))",
+              borderRadius: "0.5rem",
+              border: "1px solid var(--gy-border)",
+            }}
+          >
+            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>
+              Step 1: Account Credentials
+            </h4>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--gy-text-muted)",
+                fontSize: "0.875rem",
+              }}
+            >
+              Fill in your personal email and choose a secure password.
+            </p>
           </div>
         ),
       },
@@ -220,9 +278,26 @@ export const WithStepContent: Story = {
         label: "Profile Information",
         description: "Company & Role",
         content: (
-          <div style={{ padding: "1.25rem", background: "var(--gy-surface-raised, rgba(255,255,255,0.05))", borderRadius: "0.5rem", border: "1px solid var(--gy-border)" }}>
-            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>Step 2: Profile Setup</h4>
-            <p style={{ margin: 0, color: "var(--gy-text-muted)", fontSize: "0.875rem" }}>Set your organization name, profile photo, and job title.</p>
+          <div
+            style={{
+              padding: "1.25rem",
+              background: "var(--gy-surface-raised, rgba(255,255,255,0.05))",
+              borderRadius: "0.5rem",
+              border: "1px solid var(--gy-border)",
+            }}
+          >
+            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>
+              Step 2: Profile Setup
+            </h4>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--gy-text-muted)",
+                fontSize: "0.875rem",
+              }}
+            >
+              Set your organization name, profile photo, and job title.
+            </p>
           </div>
         ),
       },
@@ -231,9 +306,26 @@ export const WithStepContent: Story = {
         label: "Confirm & Launch",
         description: "Final Review",
         content: (
-          <div style={{ padding: "1.25rem", background: "var(--gy-surface-raised, rgba(255,255,255,0.05))", borderRadius: "0.5rem", border: "1px solid var(--gy-border)" }}>
-            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>Step 3: Ready to Launch</h4>
-            <p style={{ margin: 0, color: "var(--gy-text-muted)", fontSize: "0.875rem" }}>Everything looks great! Click Complete to activate your workspace.</p>
+          <div
+            style={{
+              padding: "1.25rem",
+              background: "var(--gy-surface-raised, rgba(255,255,255,0.05))",
+              borderRadius: "0.5rem",
+              border: "1px solid var(--gy-border)",
+            }}
+          >
+            <h4 style={{ margin: "0 0 0.5rem", color: "var(--gy-text)" }}>
+              Step 3: Ready to Launch
+            </h4>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--gy-text-muted)",
+                fontSize: "0.875rem",
+              }}
+            >
+              Everything looks great! Click Complete to activate your workspace.
+            </p>
           </div>
         ),
       },

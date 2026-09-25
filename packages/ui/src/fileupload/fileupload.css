@@ -288,3 +288,103 @@
   border-color: var(--gy-border, #334155);
   color: var(--gy-text-muted, #cbd5e1);
 }
+
+/* ── Glassmorphic FileUpload ──────────────────────────────────────────────── */
+.gy-fileupload--glassmorphic .gy-fileupload-zone,
+.gy-fileupload--glass .gy-fileupload-zone {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  border: 1.5px dashed rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.8) !important;
+}
+
+.gy-fileupload--glassmorphic .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+.gy-fileupload--glass .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled) {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-color: var(--gy-primary, #10b981) !important;
+  box-shadow:
+    0 12px 28px -6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+}
+
+.gy-fileupload--glassmorphic .gy-fileupload-item,
+.gy-fileupload--glass .gy-fileupload-item {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(16px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+}
+
+.gy-fileupload--glassmorphic .gy-fileupload-item:hover,
+.gy-fileupload--glass .gy-fileupload-item:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow:
+    0 8px 20px -4px rgba(0, 0, 0, 0.07),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Glassmorphic FileUpload Dark Mode */
+.gy-dark .gy-fileupload--glassmorphic .gy-fileupload-zone,
+.gy-dark .gy-fileupload--glass .gy-fileupload-zone,
+[data-color-mode="dark"] .gy-fileupload--glassmorphic .gy-fileupload-zone,
+[data-color-mode="dark"] .gy-fileupload--glass .gy-fileupload-zone,
+[data-theme="dark"] .gy-fileupload--glassmorphic .gy-fileupload-zone,
+[data-theme="dark"] .gy-fileupload--glass .gy-fileupload-zone,
+.dark .gy-fileupload--glassmorphic .gy-fileupload-zone,
+.dark .gy-fileupload--glass .gy-fileupload-zone {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.gy-dark .gy-fileupload--glassmorphic .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+.gy-dark .gy-fileupload--glass .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+[data-color-mode="dark"] .gy-fileupload--glassmorphic .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+[data-color-mode="dark"] .gy-fileupload--glass .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+[data-theme="dark"] .gy-fileupload--glassmorphic .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+[data-theme="dark"] .gy-fileupload--glass .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+.dark .gy-fileupload--glassmorphic .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled),
+.dark .gy-fileupload--glass .gy-fileupload-zone:hover:not(.gy-fileupload-zone--disabled) {
+  background: rgba(30, 41, 59, 0.75) !important;
+  border-color: var(--gy-primary, #10b981) !important;
+  box-shadow:
+    0 12px 28px -6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.gy-dark .gy-fileupload--glassmorphic .gy-fileupload-item,
+.gy-dark .gy-fileupload--glass .gy-fileupload-item,
+[data-color-mode="dark"] .gy-fileupload--glassmorphic .gy-fileupload-item,
+[data-color-mode="dark"] .gy-fileupload--glass .gy-fileupload-item,
+[data-theme="dark"] .gy-fileupload--glassmorphic .gy-fileupload-item,
+[data-theme="dark"] .gy-fileupload--glass .gy-fileupload-item,
+.dark .gy-fileupload--glassmorphic .gy-fileupload-item,
+.dark .gy-fileupload--glass .gy-fileupload-item {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.gy-dark .gy-fileupload--glassmorphic .gy-fileupload-item:hover,
+.gy-dark .gy-fileupload--glass .gy-fileupload-item:hover,
+[data-color-mode="dark"] .gy-fileupload--glassmorphic .gy-fileupload-item:hover,
+[data-color-mode="dark"] .gy-fileupload--glass .gy-fileupload-item:hover,
+[data-theme="dark"] .gy-fileupload--glassmorphic .gy-fileupload-item:hover,
+[data-theme="dark"] .gy-fileupload--glass .gy-fileupload-item:hover,
+.dark .gy-fileupload--glassmorphic .gy-fileupload-item:hover,
+.dark .gy-fileupload--glass .gy-fileupload-item:hover {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+

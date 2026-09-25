@@ -13,29 +13,27 @@ import {
   FloatingPortal,
   Placement as FloatingPlacement,
 } from "@floating-ui/react";
+import { MonthCalendar, MonthCalendarValue } from "../calendar/MonthCalendar";
 import { Input } from "../input/Input";
 import { Button } from "../button/Button";
 import "./datepicker.css";
 
-export interface MonthPickerValue {
-  year: number;
-  month: number;
-}
+export type { MonthCalendarValue as MonthPickerValue };
 
 export interface MonthPickerProps {
   placeholder?: string;
-  value?: MonthPickerValue | null;
-  onChange?: (val: MonthPickerValue | null) => void;
+  value?: MonthCalendarValue | null;
+  onChange?: (val: MonthCalendarValue | null) => void;
   minYear?: number;
   maxYear?: number;
-  minMonth?: MonthPickerValue;
-  maxMonth?: MonthPickerValue;
+  minMonth?: MonthCalendarValue;
+  maxMonth?: MonthCalendarValue;
   minDate?: Date;
   maxDate?: Date;
   onOpen?: () => void;
   onClose?: () => void;
   onCancel?: () => void;
-  onApply?: (val: MonthPickerValue | null) => void;
+  onApply?: (val: MonthCalendarValue | null) => void;
   placement?: "top" | "bottom";
   align?: "left" | "right";
   zIndex?: number;
@@ -90,15 +88,21 @@ export function MonthPicker({
 }: MonthPickerProps) {
   const uid = useId();
   const [open, setOpen] = useState(false);
-  const [currentYear, setCurrentYear] = useState<number>(
-    value?.year ?? new Date().getFullYear(),
+  const [tempValue, setTempValue] = useState<MonthCalendarValue | null>(
+    value ?? null,
   );
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(
-    value?.month ?? null,
-  );
-  const [view, setView] = useState<"months" | "years">("months");
 
-  const desiredPlacement: FloatingPlacement = `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
+  useEffect(() => {
+    setTempValue(value ?? null);
+  }, [value]);
+
+  useEffect(() => {
+    if (open) onOpen?.();
+    else onClose?.();
+  }, [open, onOpen, onClose]);
+
+  const desiredPlacement: FloatingPlacement =
+    `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
 
   const { refs, floatingStyles, context } = useFloating({
     open,
@@ -123,59 +127,8 @@ export function MonthPicker({
     role,
   ]);
 
-  // Compute effective min and max bounds
-  const effectiveMinYear = (() => {
-    if (minMonth) return minMonth.year;
-    if (minDate) return minDate.getFullYear();
-    return minYear;
-  })();
-
-  const effectiveMaxYear = (() => {
-    if (maxMonth) return maxMonth.year;
-    if (maxDate) return maxDate.getFullYear();
-    return maxYear;
-  })();
-
-  const isMonthDisabled = (year: number, month: number) => {
-    if (minYear !== undefined && year < minYear) return true;
-    if (maxYear !== undefined && year > maxYear) return true;
-
-    if (minMonth) {
-      if (year < minMonth.year) return true;
-      if (year === minMonth.year && month < minMonth.month) return true;
-    }
-
-    if (maxMonth) {
-      if (year > maxMonth.year) return true;
-      if (year === maxMonth.year && month > maxMonth.month) return true;
-    }
-
-    if (minDate) {
-      const minY = minDate.getFullYear();
-      const minM = minDate.getMonth();
-      if (year < minY) return true;
-      if (year === minY && month < minM) return true;
-    }
-
-    if (maxDate) {
-      const maxY = maxDate.getFullYear();
-      const maxM = maxDate.getMonth();
-      if (year > maxY) return true;
-      if (year === maxY && month > maxM) return true;
-    }
-
-    return false;
-  };
-
-  const isYearDisabled = (year: number) => {
-    if (year < effectiveMinYear || year > effectiveMaxYear) return true;
-    return false;
-  };
-
-  const handleMonthSelect = (mIdx: number) => {
-    if (isMonthDisabled(currentYear, mIdx)) return;
-    const val = { year: currentYear, month: mIdx };
-    setSelectedMonth(mIdx);
+  const handleCalendarChange = (val: MonthCalendarValue) => {
+    setTempValue(val);
     if (!onApply) {
       onChange?.(val);
       setOpen(false);
@@ -183,23 +136,20 @@ export function MonthPicker({
   };
 
   const handleApply = () => {
-    if (selectedMonth !== null && !isMonthDisabled(currentYear, selectedMonth)) {
-      const val = { year: currentYear, month: selectedMonth };
-      onChange?.(val);
-      onApply?.(val);
+    if (tempValue) {
+      onChange?.(tempValue);
+      onApply?.(tempValue);
     }
     setOpen(false);
   };
 
   const handleCancel = () => {
+    setTempValue(value ?? null);
     onCancel?.();
     setOpen(false);
   };
 
   const displayVal = value ? `${MONTH_NAMES[value.month]} ${value.year}` : "";
-
-  const decadeStart = currentYear - (currentYear % 10);
-  const decadeYears = Array.from({ length: 12 }, (_, i) => decadeStart - 1 + i);
 
   const popoverContent = (
     <div
@@ -211,128 +161,16 @@ export function MonthPicker({
       }}
       {...getFloatingProps()}
     >
-      {view === "months" ? (
-        <>
-          <div className="gy-monthpicker-header">
-            <button
-              type="button"
-              className="gy-monthpicker-nav"
-              disabled={currentYear <= effectiveMinYear}
-              onClick={() =>
-                setCurrentYear((y) => Math.max(effectiveMinYear, y - 1))
-              }
-              aria-label="Previous Year"
-            >
-              ‹
-            </button>
-            <span
-              className="gy-monthpicker-year"
-              onClick={() => setView("years")}
-            >
-              {currentYear}
-            </span>
-            <button
-              type="button"
-              className="gy-monthpicker-nav"
-              disabled={currentYear >= effectiveMaxYear}
-              onClick={() =>
-                setCurrentYear((y) => Math.min(effectiveMaxYear, y + 1))
-              }
-              aria-label="Next Year"
-            >
-              ›
-            </button>
-          </div>
-
-          <div className="gy-monthpicker-grid">
-            {MONTH_NAMES.map((name, idx) => {
-              const isSelected =
-                value?.year === currentYear && selectedMonth === idx;
-              const isDisabledMonth = isMonthDisabled(currentYear, idx);
-
-              return (
-                <button
-                  key={name}
-                  type="button"
-                  disabled={isDisabledMonth}
-                  className={[
-                    "gy-monthpicker-cell",
-                    isSelected ? "gy-monthpicker-cell--selected" : "",
-                    isDisabledMonth ? "gy-monthpicker-cell--disabled" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                  onClick={() => handleMonthSelect(idx)}
-                >
-                  {name}
-                </button>
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="gy-monthpicker-header">
-            <button
-              type="button"
-              className="gy-monthpicker-nav"
-              disabled={decadeStart <= effectiveMinYear}
-              onClick={() =>
-                setCurrentYear((y) => Math.max(effectiveMinYear, y - 10))
-              }
-              aria-label="Previous Decade"
-            >
-              ‹
-            </button>
-            <span
-              className="gy-monthpicker-year"
-              onClick={() => setView("months")}
-            >
-              {decadeStart} - {decadeStart + 9}
-            </span>
-            <button
-              type="button"
-              className="gy-monthpicker-nav"
-              disabled={decadeStart + 9 >= effectiveMaxYear}
-              onClick={() =>
-                setCurrentYear((y) => Math.min(effectiveMaxYear, y + 10))
-              }
-              aria-label="Next Decade"
-            >
-              ›
-            </button>
-          </div>
-
-          <div className="gy-monthpicker-grid">
-            {decadeYears.map((yr) => {
-              const isSelected = currentYear === yr;
-              const isOutOfRange = isYearDisabled(yr);
-              return (
-                <button
-                  key={yr}
-                  type="button"
-                  disabled={isOutOfRange}
-                  className={[
-                    "gy-monthpicker-cell",
-                    isSelected ? "gy-monthpicker-cell--selected" : "",
-                    isOutOfRange ? "gy-monthpicker-cell--disabled" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                  onClick={() => {
-                    if (!isOutOfRange) {
-                      setCurrentYear(yr);
-                      setView("months");
-                    }
-                  }}
-                >
-                  {yr}
-                </button>
-              );
-            })}
-          </div>
-        </>
-      )}
+      <MonthCalendar
+        value={tempValue}
+        onChange={handleCalendarChange}
+        minYear={minYear}
+        maxYear={maxYear}
+        minMonth={minMonth}
+        maxMonth={maxMonth}
+        minDate={minDate}
+        maxDate={maxDate}
+      />
 
       {(onApply || onCancel) && (
         <div className="gy-datepicker-actions">
@@ -385,11 +223,7 @@ export function MonthPicker({
         />
       </div>
 
-      {open && !disabled && (
-        <FloatingPortal>
-          {popoverContent}
-        </FloatingPortal>
-      )}
+      {open && !disabled && <FloatingPortal>{popoverContent}</FloatingPortal>}
     </div>
   );
 }

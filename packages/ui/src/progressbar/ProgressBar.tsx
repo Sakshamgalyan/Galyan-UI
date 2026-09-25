@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Typography } from "../typography/Typography";
 import "./progressbar.css";
 
 export type ProgressSize = "sm" | "md" | "lg" | "xl";
@@ -80,7 +81,13 @@ export function ProgressBar({
       >
         {label && (
           <div className="gy-progress__header gy-progress__header--circular">
-            <span className="gy-progress__label">{label}</span>
+            <Typography
+              variant="span"
+              weight="medium"
+              className="gy-progress__label"
+            >
+              {label}
+            </Typography>
           </div>
         )}
         <div
@@ -112,9 +119,13 @@ export function ProgressBar({
           </svg>
           {(showValue || showLabel) && (
             <div className="gy-progress-circular__content">
-              <span className="gy-progress__value">
+              <Typography
+                variant="span"
+                weight="semibold"
+                className="gy-progress__value"
+              >
                 {Math.round(clampedProgress)}%
-              </span>
+              </Typography>
             </div>
           )}
         </div>
@@ -126,11 +137,23 @@ export function ProgressBar({
     <div className={`gy-progress gy-progress--${size} ${className}`}>
       {(label || showLabel || showValue) && (
         <div className="gy-progress__header">
-          {label && <span className="gy-progress__label">{label}</span>}
+          {label && (
+            <Typography
+              variant="span"
+              weight="medium"
+              className="gy-progress__label"
+            >
+              {label}
+            </Typography>
+          )}
           {(showValue || showLabel) && (
-            <span className="gy-progress__value">
+            <Typography
+              variant="span"
+              weight="semibold"
+              className="gy-progress__value"
+            >
               {Math.round(clampedProgress)}%
-            </span>
+            </Typography>
           )}
         </div>
       )}

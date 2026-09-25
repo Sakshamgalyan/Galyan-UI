@@ -22,7 +22,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "elevated", "outlined", "filled"],
+      options: ["default", "elevated", "outlined", "filled", "glassmorphic"],
     },
     padding: { control: "select", options: ["none", "sm", "md", "lg"] },
     shadow: { control: "select", options: ["none", "sm", "md", "lg"] },
@@ -56,20 +56,42 @@ export const Default: Story = {
   render: (args) => (
     <Card {...args}>
       <CardHeader>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <h3 style={{ margin: 0, fontSize: "1.125rem" }}>Project Overview</h3>
-          <Chip size="sm" variant="success">Active</Chip>
+          <Chip size="sm" variant="success">
+            Active
+          </Chip>
         </div>
       </CardHeader>
       <CardBody>
-        <p style={{ margin: "0 0 1rem", color: "var(--gy-text-muted)", fontSize: "0.875rem", lineHeight: 1.6 }}>
-          This card displays essential project details, timeline milestones, and quick team summaries.
+        <p
+          style={{
+            margin: "0 0 1rem",
+            color: "var(--gy-text-muted)",
+            fontSize: "0.875rem",
+            lineHeight: 1.6,
+          }}
+        >
+          This card displays essential project details, timeline milestones, and
+          quick team summaries.
         </p>
       </CardBody>
       <CardFooter>
-        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
-          <Button size="sm" variant="ghost">Dismiss</Button>
-          <Button size="sm" variant="primary">View Details</Button>
+        <div
+          style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}
+        >
+          <Button size="sm" variant="ghost">
+            Dismiss
+          </Button>
+          <Button size="sm" variant="primary">
+            View Details
+          </Button>
         </div>
       </CardFooter>
     </Card>
@@ -90,7 +112,8 @@ export const InteractiveHoverCard: Story = {
             width: 44,
             height: 44,
             borderRadius: "0.75rem",
-            background: "color-mix(in srgb, var(--gy-primary) 15%, transparent)",
+            background:
+              "color-mix(in srgb, var(--gy-primary) 15%, transparent)",
             color: "var(--gy-primary)",
             display: "flex",
             alignItems: "center",
@@ -103,9 +126,18 @@ export const InteractiveHoverCard: Story = {
           ⚡
         </div>
         <div style={{ flex: 1 }}>
-          <h4 style={{ margin: "0 0 0.25rem", fontSize: "1rem" }}>Interactive Workflow</h4>
-          <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>
-            Hover over this card to preview the subtle 3D lift, border highlight, and elevation shadow.
+          <h4 style={{ margin: "0 0 0.25rem", fontSize: "1rem" }}>
+            Interactive Workflow
+          </h4>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.85rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
+            Hover over this card to preview the subtle 3D lift, border
+            highlight, and elevation shadow.
           </p>
         </div>
       </div>
@@ -116,18 +148,51 @@ export const InteractiveHoverCard: Story = {
 export const PricingCard: Story = {
   render: () => (
     <Card variant="elevated" padding="lg" shadow="md" hoverEffect="lift">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "0.5rem",
+        }}
+      >
         <h3 style={{ margin: 0, fontSize: "1.25rem" }}>Professional</h3>
-        <Chip variant="solid" size="sm">POPULAR</Chip>
+        <Chip variant="solid" size="sm">
+          POPULAR
+        </Chip>
       </div>
-      <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", margin: "1rem 0" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          gap: "0.25rem",
+          margin: "1rem 0",
+        }}
+      >
         <span style={{ fontSize: "2.25rem", fontWeight: "800" }}>$29</span>
-        <span style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem" }}>/ user / month</span>
+        <span style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem" }}>
+          / user / month
+        </span>
       </div>
-      <p style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", marginBottom: "1.5rem" }}>
-        Ideal for growing engineering teams needing advanced theming and zero-latency UI components.
+      <p
+        style={{
+          color: "var(--gy-text-muted)",
+          fontSize: "0.875rem",
+          marginBottom: "1.5rem",
+        }}
+      >
+        Ideal for growing engineering teams needing advanced theming and
+        zero-latency UI components.
       </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem", marginBottom: "1.75rem", fontSize: "0.875rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.625rem",
+          marginBottom: "1.75rem",
+          fontSize: "0.875rem",
+        }}
+      >
         <div>✓ Unlimited multi-brand roles</div>
         <div>✓ Dark mode & custom color engine</div>
         <div>✓ Storybook docs & Figma sync</div>
@@ -169,4 +234,37 @@ export const LoadingSkeletonCard: Story = {
     padding: "md",
     skeletonLines: 3,
   },
+};
+
+export const Glassmorphic: Story = {
+  render: () => (
+    <div
+      style={{
+        padding: "2rem",
+        borderRadius: "1.5rem",
+        background: "radial-gradient(circle at 20% 30%, #c7d2fe 0%, #fae8ff 50%, #fed7aa 100%)",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Card variant="glassmorphic" padding="lg" hoverEffect="lift">
+        <CardHeader>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>Glassmorphic Container</h3>
+            <Chip size="sm" variant="soft">Frosted</Chip>
+          </div>
+        </CardHeader>
+        <CardBody>
+          <p style={{ margin: "0.5rem 0 1rem", color: "#334155", lineHeight: 1.6, fontSize: "0.875rem" }}>
+            Ultra-modern frosted glass effect with high-refraction backdrop blur, specular inner bevels, and subtle gradient highlights.
+          </p>
+        </CardBody>
+        <CardFooter>
+          <Button variant="primary" size="sm" fullWidth>
+            Interact
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  ),
 };

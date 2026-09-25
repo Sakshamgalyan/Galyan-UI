@@ -492,7 +492,13 @@ export const LoadingStatesShowcase: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <h4 style={{ margin: "0 0 0.75rem", fontSize: "0.9rem", color: "#64748b" }}>
+        <h4
+          style={{
+            margin: "0 0 0.75rem",
+            fontSize: "0.9rem",
+            color: "#64748b",
+          }}
+        >
           Loading with Custom Text (Hover to inspect wait cursor)
         </h4>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
@@ -505,7 +511,12 @@ export const LoadingStatesShowcase: Story = {
           <Button variant="danger" isLoading loadingText="Deleting record...">
             Delete
           </Button>
-          <Button variant="primary" outline isLoading loadingText="Exporting...">
+          <Button
+            variant="primary"
+            outline
+            isLoading
+            loadingText="Exporting..."
+          >
             Export
           </Button>
           <Button variant="ghost" isLoading loadingText="Refreshing...">
@@ -515,7 +526,13 @@ export const LoadingStatesShowcase: Story = {
       </div>
 
       <div>
-        <h4 style={{ margin: "0 0 0.75rem", fontSize: "0.9rem", color: "#64748b" }}>
+        <h4
+          style={{
+            margin: "0 0 0.75rem",
+            fontSize: "0.9rem",
+            color: "#64748b",
+          }}
+        >
           Loading Spinner with Original Label
         </h4>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
@@ -537,7 +554,9 @@ export const LoadingStatesShowcase: Story = {
 export const DisabledStatesShowcase: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#64748b" }}>
+      <h4
+        style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#64748b" }}
+      >
         Disabled State (Hover to inspect not-allowed cursor)
       </h4>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
@@ -563,4 +582,3 @@ export const DisabledStatesShowcase: Story = {
     </div>
   ),
 };
-
