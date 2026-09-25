@@ -138,7 +138,7 @@ const meta: Meta<typeof Sidebar> = {
     },
     variant: {
       control: "select",
-      options: ["default", "floating", "bordered", "compact", "glass", "dark"],
+      options: ["default", "floating", "bordered", "compact", "glass", "glassmorphic", "dark"],
     },
     activeVariant: {
       control: "select",
@@ -251,8 +251,9 @@ const nestedSidebarItems: SidebarItemData[] = [
 ];
 
 const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
     <div
+      className="gy-sidebar-logo"
       style={{
         width: 32,
         height: 32,
@@ -269,11 +270,11 @@ const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
     >
       G
     </div>
-    <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-      <span style={{ fontWeight: 700, fontSize: "0.95rem", lineHeight: 1.2 }}>
+    <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+      <span style={{ fontWeight: 700, fontSize: "0.95rem", lineHeight: 1.2, whiteSpace: "nowrap" }}>
         Galyan Studio
       </span>
-      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)" }}>
+      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)", whiteSpace: "nowrap" }}>
         Enterprise v2.4
       </span>
     </div>
@@ -283,6 +284,7 @@ const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
 const UserFooter = () => (
   <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
     <div
+      className="gy-sidebar-logo"
       style={{
         width: 32,
         height: 32,
@@ -299,11 +301,11 @@ const UserFooter = () => (
     >
       SG
     </div>
-    <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+    <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
       <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
         Saksham Galyan
       </span>
-      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)" }}>
+      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)", whiteSpace: "nowrap" }}>
         Admin Owner
       </span>
     </div>
@@ -510,6 +512,76 @@ export const Glassmorphism: Story = {
   },
 };
 
+export const GlassmorphicEffect: Story = {
+  args: {
+    variant: "glassmorphic",
+    accentColor: "#8b5cf6",
+    collapsible: true,
+  },
+  render: (args) => {
+    const [active, setActive] = useState("home");
+    return (
+      <div
+        style={{
+          height: "600px",
+          width: "780px",
+          display: "flex",
+          borderRadius: "1.5rem",
+          background: "radial-gradient(circle at 15% 25%, #c7d2fe 0%, transparent 45%), radial-gradient(circle at 85% 75%, #fbcfe8 0%, #e0e7ff 100%)",
+          padding: "1rem",
+          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Sidebar
+          {...args}
+          header={<BrandHeader color="#8b5cf6" />}
+          footer={<UserFooter />}
+          items={standardSidebarItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+        <main style={{ flex: 1, padding: "2.5rem", position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              background: "rgba(255, 255, 255, 0.5)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              borderRadius: "1.25rem",
+              padding: "2rem",
+              border: "1px solid rgba(255, 255, 255, 0.6)",
+              boxShadow: "0 8px 32px rgba(31, 38, 135, 0.05)",
+            }}
+          >
+            <h2 style={{ margin: "0 0 0.5rem", color: "#1e1b4b" }}>Glassmorphic Sidebar</h2>
+            <p style={{ color: "#475569", lineHeight: 1.6 }}>
+              State-of-the-art frosted glass aesthetic featuring high-density backdrop blur,
+              specular inner bevels, liquid pill highlights, and luminous ambient glow.
+            </p>
+            <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "0.35rem 0.85rem",
+                  borderRadius: "9999px",
+                  background: "rgba(139, 92, 246, 0.15)",
+                  color: "#7c3aed",
+                  fontWeight: 600,
+                  fontSize: "0.8125rem",
+                }}
+              >
+                Active Route: {active}
+              </span>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  },
+};
+
 export const CollapsedIconMode: Story = {
   args: {
     defaultCollapsed: true,
@@ -522,7 +594,8 @@ export const CollapsedIconMode: Story = {
     return (
       <div
         style={{
-          height: "560px",
+          height: "580px",
+          width: "740px",
           display: "flex",
           border: "1px solid var(--gy-border, #e2e8f0)",
           borderRadius: "1rem",
@@ -539,9 +612,56 @@ export const CollapsedIconMode: Story = {
           onItemClick={setActive}
         />
         <main style={{ flex: 1, padding: "2rem" }}>
-          <h3 style={{ margin: "0 0 0.5rem" }}>Compact Icon View</h3>
-          <p style={{ color: "var(--gy-text-muted)" }}>
-            Hover over any icon to preview its floating tooltip label.
+          <h3 style={{ margin: "0 0 0.5rem" }}>Slick Collapsed View</h3>
+          <p style={{ color: "var(--gy-text-muted)", lineHeight: 1.6 }}>
+            Notice how the logo and avatar remain perfectly centered without awkward wrapping,
+            notification badge dots glow on the top-right corner of icons with badges,
+            hover provides micro-elevation, and hovering any icon triggers a floating tooltip with badge information.
+          </p>
+        </main>
+      </div>
+    );
+  },
+};
+
+export const ResponsiveMobileDrawer: Story = {
+  args: {
+    responsive: true,
+    breakpoint: 768,
+    showBackdropOnMobile: true,
+    accentColor: "#0284c7",
+    collapsible: true,
+  },
+  render: (args) => {
+    const [active, setActive] = useState("home");
+    return (
+      <div
+        style={{
+          height: "580px",
+          width: "100%",
+          maxWidth: "760px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-background-muted, #f8fafc)",
+          position: "relative",
+        }}
+      >
+        <Sidebar
+          {...args}
+          header={<BrandHeader color="#0284c7" />}
+          footer={<UserFooter />}
+          items={standardSidebarItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+        <main style={{ flex: 1, padding: "2rem" }}>
+          <h3 style={{ margin: "0 0 0.5rem" }}>Responsive Mobile Drawer</h3>
+          <p style={{ color: "var(--gy-text-muted)", lineHeight: 1.6 }}>
+            On viewport widths below 768px, the sidebar automatically collapses.
+            When expanded on mobile devices, it elevates as a full-height overlay drawer
+            with a frosted backdrop click-to-dismiss behavior.
           </p>
         </main>
       </div>

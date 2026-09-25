@@ -89,6 +89,63 @@
   gap: 0.75rem;
 }
 
+/* Glassmorphic Variant */
+.gy-accordion--glassmorphic,
+.gy-accordion--glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.07),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.85);
+}
+
+.gy-accordion--glassmorphic.gy-accordion--expanded,
+.gy-accordion--glass.gy-accordion--expanded {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.6) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow:
+    0 12px 36px 0 rgba(31, 38, 135, 0.1),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+.gy-accordion-group--glassmorphic,
+.gy-accordion-group--glass {
+  gap: 0.75rem;
+}
+
+.gy-accordion--glassmorphic .gy-accordion__trigger:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.gy-dark .gy-accordion--glassmorphic,
+.gy-dark .gy-accordion--glass,
+[data-color-mode="dark"] .gy-accordion--glassmorphic,
+[data-color-mode="dark"] .gy-accordion--glass,
+.dark .gy-accordion--glassmorphic,
+.dark .gy-accordion--glass,
+[data-theme="samantrix"] .gy-accordion--glassmorphic,
+[data-theme="dark"] .gy-accordion--glassmorphic {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.55) 100%) !important;
+  backdrop-filter: blur(24px) saturate(180%) contrast(100%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(100%);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 16px 40px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.gy-dark .gy-accordion--glassmorphic.gy-accordion--expanded,
+[data-color-mode="dark"] .gy-accordion--glassmorphic.gy-accordion--expanded {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.7) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 16px 40px 0 rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+}
+
 .gy-accordion--disabled,
 .gy-accordion--disabled .gy-accordion__trigger,
 .gy-accordion__trigger:disabled,

@@ -9,6 +9,8 @@ export interface MonthCalendarValue {
 }
 
 export interface MonthCalendarProps {
+  /** Visual style variant */
+  variant?: "default" | "bordered" | "glassmorphic" | "glass";
   /** Currently selected value: { year, month } or Date */
   value?: MonthCalendarValue | Date | null;
   /** Change callback when a month is selected */
@@ -83,6 +85,7 @@ const ChevronRight = () => (
 );
 
 export function MonthCalendar({
+  variant = "default",
   value,
   onChange,
   minYear = 1970,
@@ -183,8 +186,13 @@ export function MonthCalendar({
   const decadeStart = currentYear - (currentYear % 10);
   const decadeYears = Array.from({ length: 12 }, (_, i) => decadeStart - 1 + i);
 
+  const variantClass = variant && variant !== "default" ? `gy-calendar--${variant} gy-month-calendar--${variant}` : "";
+
   return (
-    <div className={`gy-calendar gy-month-calendar ${className}`} style={style}>
+    <div
+      className={["gy-calendar", "gy-month-calendar", variantClass, className].filter(Boolean).join(" ")}
+      style={style}
+    >
       <div className="gy-calendar-header">
         <button
           type="button"

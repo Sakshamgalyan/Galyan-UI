@@ -12,6 +12,7 @@ const meta: Meta<typeof Calendar> = {
   parameters: { layout: "centered" },
   tags: ["autodocs"],
   argTypes: {
+    variant: { control: "select", options: ["default", "glassmorphic"] },
     mode: { control: "inline-radio", options: ["single", "range"] },
     firstDayOfWeek: { control: "inline-radio", options: [0, 1] },
     showTodayButton: { control: "boolean" },
@@ -321,3 +322,28 @@ export const MondayFirst: Story = {
     return <Calendar {...args} value={range} onChange={setRange} />;
   },
 };
+
+export const Glassmorphic: Story = {
+  args: {
+    variant: "glassmorphic",
+    mode: "single",
+    showTodayButton: true,
+  },
+  render: function Render(args) {
+    const [date, setDate] = useState<CalendarValue>(new Date(2026, 6, 15));
+    return (
+      <div
+        style={{
+          padding: "2.5rem",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          borderRadius: "1.5rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Calendar {...args} value={date} onChange={setDate} />
+      </div>
+    );
+  },
+};
+

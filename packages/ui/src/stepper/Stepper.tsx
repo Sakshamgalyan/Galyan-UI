@@ -5,6 +5,7 @@ import "./stepper.css";
 
 export type StepStatus = "upcoming" | "active" | "completed" | "error";
 export type StepperSize = "sm" | "md" | "lg";
+export type StepperVariant = "default" | "glassmorphic" | "glass";
 
 export interface Step {
   id: string;
@@ -21,6 +22,7 @@ export interface StepperProps {
   defaultStep?: number;
   orientation?: "horizontal" | "vertical";
   size?: StepperSize;
+  variant?: StepperVariant;
   onStepClick?: (index: number) => void;
   onStepChange?: (index: number) => void;
   onComplete?: () => void;
@@ -48,6 +50,7 @@ export function Stepper({
   defaultStep = 0,
   orientation = "horizontal",
   size = "md",
+  variant = "default",
   onStepClick,
   onStepChange,
   onComplete,
@@ -69,10 +72,13 @@ export function Stepper({
     return "upcoming";
   };
 
+  const variantClass = variant && variant !== "default" ? `gy-stepper--${variant}` : "";
+
   const rootClasses = [
     "gy-stepper",
     `gy-stepper--${orientation}`,
     `gy-stepper--${size}`,
+    variantClass,
     className,
   ]
     .filter(Boolean)

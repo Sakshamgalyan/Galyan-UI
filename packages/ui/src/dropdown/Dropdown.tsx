@@ -36,7 +36,7 @@ export interface DropdownProps {
   placeholder?: string;
   label?: string;
   size?: "sm" | "md" | "lg";
-  variant?: "default" | "filled";
+  variant?: "default" | "filled" | "glassmorphic" | "glass";
   multiple?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -312,10 +312,11 @@ export function Dropdown({
     .filter(Boolean)
     .join(" ");
 
+  const isGlassVariant = variant === "glassmorphic" || variant === "glass";
   const menuNode = (
     <div
       ref={refs.setFloating}
-      className={`gy-dropdown-menu gy-dropdown-menu--${size}`}
+      className={`gy-dropdown-menu gy-dropdown-menu--${size} ${isGlassVariant ? `gy-dropdown-menu--${variant}` : ""}`.trim()}
       style={{
         ...floatingStyles,
         zIndex,

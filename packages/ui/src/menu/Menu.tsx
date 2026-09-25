@@ -8,9 +8,13 @@ import { Tooltip } from "../tooltip/Tooltip";
 export type { TooltipProps, TooltipPosition } from "../tooltip/Tooltip";
 export { Tooltip };
 
-// ── Menu Types ──────────────────────────────────────────────────────────────
 export type MenuSize = "sm" | "md" | "lg";
-export type MenuVariant = "default" | "bordered" | "minimal";
+export type MenuVariant =
+  | "default"
+  | "bordered"
+  | "minimal"
+  | "glassmorphic"
+  | "glass";
 
 export interface MenuItem {
   id: string;

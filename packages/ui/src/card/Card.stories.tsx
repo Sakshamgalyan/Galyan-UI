@@ -22,7 +22,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "elevated", "outlined", "filled"],
+      options: ["default", "elevated", "outlined", "filled", "glassmorphic"],
     },
     padding: { control: "select", options: ["none", "sm", "md", "lg"] },
     shadow: { control: "select", options: ["none", "sm", "md", "lg"] },
@@ -234,4 +234,37 @@ export const LoadingSkeletonCard: Story = {
     padding: "md",
     skeletonLines: 3,
   },
+};
+
+export const Glassmorphic: Story = {
+  render: () => (
+    <div
+      style={{
+        padding: "2rem",
+        borderRadius: "1.5rem",
+        background: "radial-gradient(circle at 20% 30%, #c7d2fe 0%, #fae8ff 50%, #fed7aa 100%)",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Card variant="glassmorphic" padding="lg" hoverEffect="lift">
+        <CardHeader>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>Glassmorphic Container</h3>
+            <Chip size="sm" variant="soft">Frosted</Chip>
+          </div>
+        </CardHeader>
+        <CardBody>
+          <p style={{ margin: "0.5rem 0 1rem", color: "#334155", lineHeight: 1.6, fontSize: "0.875rem" }}>
+            Ultra-modern frosted glass effect with high-refraction backdrop blur, specular inner bevels, and subtle gradient highlights.
+          </p>
+        </CardBody>
+        <CardFooter>
+          <Button variant="primary" size="sm" fullWidth>
+            Interact
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  ),
 };

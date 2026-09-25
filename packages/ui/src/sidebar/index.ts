@@ -1,6 +1,9 @@
 export {
   Sidebar,
   SidebarHeader,
+  SidebarLogo,
+  SidebarText,
+  SidebarDivider,
   SidebarBody,
   SidebarFooter,
   SidebarGroup,

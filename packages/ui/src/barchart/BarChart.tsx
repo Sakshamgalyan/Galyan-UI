@@ -82,20 +82,33 @@ export function BarChart({
   }, [responsive]);
 
   const effectiveBarWidth = useMemo(() => {
+    if (variant === "horizontal") return undefined;
     if (!barWidth) return isCompact ? 28 : 36;
     if (typeof barWidth === "number") {
       return isCompact ? Math.min(barWidth, 30) : barWidth;
     }
     return barWidth;
-  }, [barWidth, isCompact]);
+  }, [variant, barWidth, isCompact]);
+
+  const effectiveHorizontalBarHeight = useMemo(() => {
+    if (variant !== "horizontal") return undefined;
+    if (barWidth !== undefined) {
+      return typeof barWidth === "number" ? `${barWidth}px` : barWidth;
+    }
+    return isCompact ? 10 : 12;
+  }, [variant, barWidth, isCompact]);
 
   const effectiveBarSpacing = useMemo(() => {
-    if (barSpacing === undefined) return isCompact ? 8 : 16;
+    if (barSpacing === undefined) {
+      return variant === "horizontal"
+        ? (isCompact ? 8 : 12)
+        : (isCompact ? 8 : 16);
+    }
     if (typeof barSpacing === "number") {
       return isCompact ? Math.min(barSpacing, 12) : barSpacing;
     }
     return barSpacing;
-  }, [barSpacing, isCompact]);
+  }, [barSpacing, isCompact, variant]);
 
   // Filter & limit data
   const processedData = useMemo(() => {
@@ -112,11 +125,12 @@ export function BarChart({
     return Math.max(...processedData.map((d) => d.value), 1);
   }, [processedData]);
 
-  // Truncate labels helper
+  // Truncate labels helper: cleanly trims trailing whitespace before ellipsis
   const truncateLabel = (text: string) => {
-    if (!truncateCharacterAfter) return text;
+    if (!text) return "";
+    if (!truncateCharacterAfter || truncateCharacterAfter <= 0) return text;
     if (text.length <= truncateCharacterAfter) return text;
-    return text.substring(0, truncateCharacterAfter) + "...";
+    return text.substring(0, truncateCharacterAfter).trimEnd() + "...";
   };
 
   const getBarTooltip = (item: BarChartItem, percentage: number) => {
@@ -315,6 +329,11 @@ export function BarChart({
                             {item.icon}
                           </span>
                         )}
+                        {showValues && percentage >= (item.icon ? 26 : 14) && (
+                          <span className="gy-barchart-bar-percentage--cylindrical">
+                            {percentage}%
+                          </span>
+                        )}
                       </div>
                     </Tooltip>
                   </div>
@@ -395,8 +414,8 @@ export function BarChart({
               backgroundColor: rawColor,
             };
 
-            const customBarHeight = effectiveBarWidth
-              ? { height: effectiveBarWidth }
+            const customBarHeight = effectiveHorizontalBarHeight
+              ? { height: effectiveHorizontalBarHeight }
               : {};
 
             return (
@@ -411,6 +430,7 @@ export function BarChart({
                     <span
                       className="gy-barchart-label--horizontal"
                       style={{ color: textColor }}
+                      title={item.label}
                     >
                       {truncateLabel(item.label)}
                     </span>

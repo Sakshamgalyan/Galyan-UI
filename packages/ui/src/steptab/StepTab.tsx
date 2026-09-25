@@ -20,6 +20,8 @@ export interface StepTabItem {
   status?: "completed" | "active" | "upcoming" | "error";
 }
 
+export type StepTabVariant = "default" | "glassmorphic" | "glass";
+
 export interface StepTabProps {
   items: StepTabItem[];
   activeId?: string;
@@ -27,6 +29,7 @@ export interface StepTabProps {
   onStepChange?: (id: string) => void;
   header?: React.ReactNode;
   size?: StepTabSize;
+  variant?: StepTabVariant;
   className?: string;
 }
 
@@ -37,6 +40,7 @@ export function StepTab({
   onStepChange,
   header,
   size = "md",
+  variant = "default",
   className = "",
 }: StepTabProps) {
   const [internalId, setInternalId] = useState(
@@ -49,9 +53,12 @@ export function StepTab({
     onStepChange?.(id);
   };
 
+  const variantClass = variant && variant !== "default" ? `gy-steptab-timeline--${variant}` : "";
+
   const rootClasses = [
     "gy-steptab-timeline",
     `gy-steptab-timeline--${size}`,
+    variantClass,
     className,
   ]
     .filter(Boolean)

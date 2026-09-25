@@ -479,3 +479,145 @@
   color: var(--gy-text, #f8fafc) !important;
 }
 
+/* ── Glassmorphic Dropdown ─────────────────────────────────────────────────── */
+.gy-dropdown-trigger--glassmorphic,
+.gy-dropdown-trigger--glass {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.85) !important;
+}
+
+.gy-dropdown-trigger--glassmorphic:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+.gy-dropdown-trigger--glass:hover:not(:disabled):not(.gy-dropdown-trigger--loading) {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    0 6px 20px -3px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+}
+
+.gy-dropdown-trigger--glassmorphic.gy-dropdown-trigger--open,
+.gy-dropdown-trigger--glass.gy-dropdown-trigger--open {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: var(--gy-primary, #10b981) !important;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--gy-primary, #10b981) 20%, transparent),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9) !important;
+}
+
+.gy-dropdown-menu--glassmorphic,
+.gy-dropdown-menu--glass {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) contrast(95%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.1),
+    0 8px 16px -4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9) !important;
+}
+
+.gy-dropdown-menu--glassmorphic .gy-dropdown-search,
+.gy-dropdown-menu--glass .gy-dropdown-search {
+  background: rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.gy-dropdown-menu--glassmorphic .gy-dropdown-search-input,
+.gy-dropdown-menu--glass .gy-dropdown-search-input {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.gy-dropdown-menu--glassmorphic .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+.gy-dropdown-menu--glass .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled) {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Glassmorphic Dark Mode */
+.gy-dark .gy-dropdown-trigger--glassmorphic,
+.gy-dark .gy-dropdown-trigger--glass,
+[data-color-mode="dark"] .gy-dropdown-trigger--glassmorphic,
+[data-color-mode="dark"] .gy-dropdown-trigger--glass,
+[data-theme="dark"] .gy-dropdown-trigger--glassmorphic,
+[data-theme="dark"] .gy-dropdown-trigger--glass,
+.dark .gy-dropdown-trigger--glassmorphic,
+.dark .gy-dropdown-trigger--glass {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.gy-dark .gy-dropdown-trigger--glassmorphic:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+.gy-dark .gy-dropdown-trigger--glass:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+[data-color-mode="dark"] .gy-dropdown-trigger--glassmorphic:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+[data-color-mode="dark"] .gy-dropdown-trigger--glass:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+[data-theme="dark"] .gy-dropdown-trigger--glassmorphic:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+[data-theme="dark"] .gy-dropdown-trigger--glass:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+.dark .gy-dropdown-trigger--glassmorphic:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+.dark .gy-dropdown-trigger--glass:hover:not(:disabled):not(.gy-dropdown-trigger--loading) {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 6px 20px -3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.gy-dark .gy-dropdown-menu--glassmorphic,
+.gy-dark .gy-dropdown-menu--glass,
+[data-color-mode="dark"] .gy-dropdown-menu--glassmorphic,
+[data-color-mode="dark"] .gy-dropdown-menu--glass,
+[data-theme="dark"] .gy-dropdown-menu--glassmorphic,
+[data-theme="dark"] .gy-dropdown-menu--glass,
+.dark .gy-dropdown-menu--glassmorphic,
+.dark .gy-dropdown-menu--glass {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.7),
+    0 8px 16px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+.gy-dark .gy-dropdown-menu--glassmorphic .gy-dropdown-search,
+.gy-dark .gy-dropdown-menu--glass .gy-dropdown-search,
+[data-color-mode="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-search,
+[data-color-mode="dark"] .gy-dropdown-menu--glass .gy-dropdown-search,
+[data-theme="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-search,
+[data-theme="dark"] .gy-dropdown-menu--glass .gy-dropdown-search,
+.dark .gy-dropdown-menu--glassmorphic .gy-dropdown-search,
+.dark .gy-dropdown-menu--glass .gy-dropdown-search {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.gy-dark .gy-dropdown-menu--glassmorphic .gy-dropdown-search-input,
+.gy-dark .gy-dropdown-menu--glass .gy-dropdown-search-input,
+[data-color-mode="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-search-input,
+[data-color-mode="dark"] .gy-dropdown-menu--glass .gy-dropdown-search-input,
+[data-theme="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-search-input,
+[data-theme="dark"] .gy-dropdown-menu--glass .gy-dropdown-search-input,
+.dark .gy-dropdown-menu--glassmorphic .gy-dropdown-search-input,
+.dark .gy-dropdown-menu--glass .gy-dropdown-search-input {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gy-dark .gy-dropdown-menu--glassmorphic .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+.gy-dark .gy-dropdown-menu--glass .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+[data-color-mode="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+[data-color-mode="dark"] .gy-dropdown-menu--glass .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+[data-theme="dark"] .gy-dropdown-menu--glassmorphic .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+[data-theme="dark"] .gy-dropdown-menu--glass .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+.dark .gy-dropdown-menu--glassmorphic .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
+.dark .gy-dropdown-menu--glass .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+

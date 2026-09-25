@@ -16,7 +16,9 @@ export type ButtonVariant =
   | "link"
   | "ghost"
   | "solid"
-  | "outline";
+  | "outline"
+  | "glassmorphic"
+  | "glass";
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

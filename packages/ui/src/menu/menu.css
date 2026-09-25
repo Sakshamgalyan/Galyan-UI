@@ -287,3 +287,108 @@
 .dark .gy-nav-menu__divider {
   background: var(--gy-border, #334155);
 }
+
+/* ── Glassmorphic Menu ────────────────────────────────────────────────────── */
+.gy-nav-menu--glassmorphic,
+.gy-nav-menu--glass {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 16px 36px -8px rgba(0, 0, 0, 0.08),
+    0 8px 16px -4px rgba(0, 0, 0, 0.03),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.85) !important;
+}
+
+.gy-nav-menu--glassmorphic .gy-nav-menu__children,
+.gy-nav-menu--glass .gy-nav-menu__children {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 16px 32px -8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+.gy-nav-menu--glassmorphic .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+.gy-nav-menu--glass .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active) {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.gy-nav-menu--glassmorphic .gy-nav-menu__header,
+.gy-nav-menu--glass .gy-nav-menu__header {
+  border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+
+.gy-nav-menu--glassmorphic .gy-nav-menu__divider,
+.gy-nav-menu--glass .gy-nav-menu__divider {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Glassmorphic Menu Dark Mode */
+.gy-dark .gy-nav-menu--glassmorphic,
+.gy-dark .gy-nav-menu--glass,
+[data-color-mode="dark"] .gy-nav-menu--glassmorphic,
+[data-color-mode="dark"] .gy-nav-menu--glass,
+[data-theme="dark"] .gy-nav-menu--glassmorphic,
+[data-theme="dark"] .gy-nav-menu--glass,
+.dark .gy-nav-menu--glassmorphic,
+.dark .gy-nav-menu--glass {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.6),
+    0 8px 16px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+.gy-dark .gy-nav-menu--glassmorphic .gy-nav-menu__children,
+.gy-dark .gy-nav-menu--glass .gy-nav-menu__children,
+[data-color-mode="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__children,
+[data-color-mode="dark"] .gy-nav-menu--glass .gy-nav-menu__children,
+[data-theme="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__children,
+[data-theme="dark"] .gy-nav-menu--glass .gy-nav-menu__children,
+.dark .gy-nav-menu--glassmorphic .gy-nav-menu__children,
+.dark .gy-nav-menu--glass .gy-nav-menu__children {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+.gy-dark .gy-nav-menu--glassmorphic .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+.gy-dark .gy-nav-menu--glass .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+[data-color-mode="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+[data-color-mode="dark"] .gy-nav-menu--glass .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+[data-theme="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+[data-theme="dark"] .gy-nav-menu--glass .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+.dark .gy-nav-menu--glassmorphic .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active),
+.dark .gy-nav-menu--glass .gy-nav-menu__item:hover:not(:disabled):not(.gy-nav-menu__item--active) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gy-dark .gy-nav-menu--glassmorphic .gy-nav-menu__header,
+.gy-dark .gy-nav-menu--glass .gy-nav-menu__header,
+[data-color-mode="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__header,
+[data-color-mode="dark"] .gy-nav-menu--glass .gy-nav-menu__header,
+[data-theme="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__header,
+[data-theme="dark"] .gy-nav-menu--glass .gy-nav-menu__header,
+.dark .gy-nav-menu--glassmorphic .gy-nav-menu__header,
+.dark .gy-nav-menu--glass .gy-nav-menu__header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.gy-dark .gy-nav-menu--glassmorphic .gy-nav-menu__divider,
+.gy-dark .gy-nav-menu--glass .gy-nav-menu__divider,
+[data-color-mode="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__divider,
+[data-color-mode="dark"] .gy-nav-menu--glass .gy-nav-menu__divider,
+[data-theme="dark"] .gy-nav-menu--glassmorphic .gy-nav-menu__divider,
+[data-theme="dark"] .gy-nav-menu--glass .gy-nav-menu__divider,
+.dark .gy-nav-menu--glassmorphic .gy-nav-menu__divider,
+.dark .gy-nav-menu--glass .gy-nav-menu__divider {
+  background: rgba(255, 255, 255, 0.08);
+}
+

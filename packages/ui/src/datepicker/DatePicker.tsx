@@ -32,7 +32,15 @@ export interface DatePickerPreset {
 export interface DatePickerProps {
   mode?: "single" | "range";
   placeholder?: string;
-  variant?: "default" | "filled" | "focused" | "error" | "success" | "disabled";
+  variant?:
+    | "default"
+    | "filled"
+    | "focused"
+    | "error"
+    | "success"
+    | "disabled"
+    | "glassmorphic"
+    | "glass";
   value?: DatePickerValue;
   onChange?: (date: any) => void;
   leftIcon?: React.ReactNode;
@@ -270,10 +278,12 @@ export function DatePicker({
   const defaultPlaceholder =
     placeholder ?? (mode === "range" ? "Select date range" : "Select date");
 
+  const isGlass = variant === "glassmorphic" || variant === "glass";
+
   const popoverContent = (
     <div
       ref={refs.setFloating}
-      className="gy-datepicker-popover"
+      className={`gy-datepicker-popover ${isGlass ? `gy-datepicker-popover--${variant}` : ""}`.trim()}
       style={{
         ...floatingStyles,
         zIndex,
@@ -303,6 +313,7 @@ export function DatePicker({
       )}
 
       <Calendar
+        variant={isGlass ? "glassmorphic" : undefined}
         mode={mode}
         value={calendarValue}
         onChange={(val) => handleSelectDate(val)}
@@ -346,7 +357,9 @@ export function DatePicker({
   );
 
   return (
-    <div className={`gy-datepicker ${className}`}>
+    <div
+      className={`gy-datepicker ${isGlass ? `gy-datepicker--${variant}` : ""} ${className}`.trim()}
+    >
       <div
         ref={refs.setReference}
         {...getReferenceProps({
@@ -363,7 +376,7 @@ export function DatePicker({
           required={required}
           hasError={hasError}
           helperText={helperText}
-          variant={variant as InputVariant}
+          variant={isGlass ? "default" : (variant as InputVariant)}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
           style={{ cursor: disabled ? "not-allowed" : "pointer" }}

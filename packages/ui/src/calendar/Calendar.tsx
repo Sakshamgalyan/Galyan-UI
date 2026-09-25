@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import "./calendar.css";
 
 export type CalendarValue = Date | [Date, Date | undefined];
+export type CalendarVariant = "default" | "bordered" | "glassmorphic" | "glass";
 
 export interface CalendarProps {
+  /** Visual style variant */
+  variant?: CalendarVariant;
   /** Selection mode: single date or date range */
   mode?: "single" | "range";
   /** Currently selected value: Date or [startDate, endDate] */
@@ -73,6 +76,7 @@ const ChevronRight = () => (
 );
 
 export function Calendar({
+  variant = "default",
   mode = "single",
   value,
   onChange,
@@ -315,8 +319,13 @@ export function Calendar({
   const currentYearNow = today.getFullYear();
   const currentMonthNow = today.getMonth();
 
+  const variantClass = variant && variant !== "default" ? `gy-calendar--${variant}` : "";
+
   return (
-    <div className={`gy-calendar ${className}`} style={style}>
+    <div
+      className={["gy-calendar", variantClass, className].filter(Boolean).join(" ")}
+      style={style}
+    >
       <div className="gy-calendar-header">
         <button
           type="button"

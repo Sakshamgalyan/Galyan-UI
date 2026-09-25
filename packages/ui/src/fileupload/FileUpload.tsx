@@ -14,7 +14,11 @@ export interface UploadedFileItem {
   url?: string;
 }
 
+export type FileUploadVariant = "default" | "glassmorphic" | "glass";
+
 export interface FileUploadProps {
+  /** Visual variant */
+  variant?: FileUploadVariant;
   onFilesSelected?: (files: File[]) => void;
   onRemoveFile?: (file: UploadedFileItem | File, index: number) => void;
   onRetryFile?: (file: UploadedFileItem | File, index: number) => void;
@@ -39,6 +43,7 @@ const formatSize = (bytes?: number) => {
 };
 
 export function FileUpload({
+  variant = "default",
   onFilesSelected,
   onRemoveFile,
   onRetryFile,
@@ -144,8 +149,10 @@ export function FileUpload({
     }
   };
 
+  const variantClass = variant && variant !== "default" ? `gy-fileupload--${variant}` : "";
+
   return (
-    <div className={`gy-fileupload ${className}`}>
+    <div className={["gy-fileupload", variantClass, className].filter(Boolean).join(" ")}>
       <div
         className={[
           "gy-fileupload-zone",

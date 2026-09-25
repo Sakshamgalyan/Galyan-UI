@@ -435,3 +435,90 @@
   background: color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
   border-color: color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
 }
+
+/* ── Glassmorphic Variant ─────────────────────────────────────────────────── */
+.gy-calendar--glassmorphic,
+.gy-calendar--glass {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.08),
+    0 8px 16px -4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.85) !important;
+}
+
+.gy-calendar--glassmorphic .gy-calendar-nav:hover,
+.gy-calendar--glass .gy-calendar-nav:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+.gy-calendar--glass .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.gy-calendar--glassmorphic .gy-calendar-picker-item,
+.gy-calendar--glass .gy-calendar-picker-item {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.gy-calendar--glassmorphic .gy-calendar-footer,
+.gy-calendar--glass .gy-calendar-footer {
+  border-top-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Glassmorphic Dark Mode */
+[data-color-mode="dark"] .gy-calendar--glassmorphic,
+[data-color-mode="dark"] .gy-calendar--glass,
+[data-theme="dark"] .gy-calendar--glassmorphic,
+[data-theme="dark"] .gy-calendar--glass,
+.dark .gy-calendar--glassmorphic,
+.dark .gy-calendar--glass {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.5),
+    0 8px 16px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+[data-color-mode="dark"] .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+[data-color-mode="dark"] .gy-calendar--glass .gy-calendar-nav:hover,
+[data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+[data-theme="dark"] .gy-calendar--glass .gy-calendar-nav:hover,
+.dark .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+.dark .gy-calendar--glass .gy-calendar-nav:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-color-mode="dark"] .gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+[data-color-mode="dark"] .gy-calendar--glass .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+[data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+[data-theme="dark"] .gy-calendar--glass .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+.dark .gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
+.dark .gy-calendar--glass .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-color-mode="dark"] .gy-calendar--glassmorphic .gy-calendar-picker-item,
+[data-color-mode="dark"] .gy-calendar--glass .gy-calendar-picker-item,
+[data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-picker-item,
+[data-theme="dark"] .gy-calendar--glass .gy-calendar-picker-item,
+.dark .gy-calendar--glassmorphic .gy-calendar-picker-item,
+.dark .gy-calendar--glass .gy-calendar-picker-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-color-mode="dark"] .gy-calendar--glassmorphic .gy-calendar-footer,
+[data-color-mode="dark"] .gy-calendar--glass .gy-calendar-footer,
+[data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-footer,
+[data-theme="dark"] .gy-calendar--glass .gy-calendar-footer,
+.dark .gy-calendar--glassmorphic .gy-calendar-footer,
+.dark .gy-calendar--glass .gy-calendar-footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+

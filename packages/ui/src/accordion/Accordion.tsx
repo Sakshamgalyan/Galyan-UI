@@ -9,7 +9,9 @@ export type AccordionVariant =
   | "bordered"
   | "flush"
   | "separated"
-  | "filled";
+  | "filled"
+  | "glassmorphic"
+  | "glass";
 export type ExpandIconPosition = "left" | "right" | "start" | "end";
 
 export interface AccordionItemData {

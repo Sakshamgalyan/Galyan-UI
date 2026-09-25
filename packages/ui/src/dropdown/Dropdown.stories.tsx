@@ -20,7 +20,7 @@ const meta: Meta<typeof Dropdown> = {
   ],
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
-    variant: { control: "inline-radio", options: ["default", "filled"] },
+    variant: { control: "inline-radio", options: ["default", "filled", "glassmorphic"] },
     label: { control: "text" },
     placeholder: { control: "text" },
     helperText: { control: "text" },
@@ -630,4 +630,56 @@ export const DarkModeShowcase: Story = {
     );
   },
 };
+
+export const Glassmorphic: Story = {
+  render: function Render() {
+    const [val, setVal] = useState<string>("react");
+    const [tags, setTags] = useState<string[]>(["react", "node"]);
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+          padding: "2rem",
+          background: "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%)",
+          borderRadius: "1.25rem",
+          boxShadow: "0 20px 40px -10px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <h4 style={{ margin: "0 0 0.25rem", color: "#ffffff", fontSize: "1rem", fontWeight: 600 }}>
+            Glassmorphic Dropdown
+          </h4>
+          <span style={{ fontSize: "0.8125rem", color: "rgba(255, 255, 255, 0.85)" }}>
+            Frosted translucent trigger and floating popover menu
+          </span>
+        </div>
+
+        <Dropdown
+          label="Glassmorphic Single Select"
+          variant="glassmorphic"
+          options={demoOptions}
+          value={val}
+          onChange={setVal}
+          searchable
+          clearable
+        />
+
+        <Dropdown
+          label="Glassmorphic Multi-Select"
+          variant="glassmorphic"
+          options={demoOptions}
+          value={tags}
+          onChange={setTags}
+          multiple
+          showSelectAll
+          clearable
+        />
+      </div>
+    );
+  },
+};
+
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, createContext, useContext, useMemo } from "react";
+import React, { useState, useEffect, createContext, useContext, useMemo } from "react";
 import { Tooltip } from "../tooltip/Tooltip";
 import "./sidebar.css";
 
@@ -11,6 +11,7 @@ export type SidebarVariant =
   | "bordered"
   | "compact"
   | "glass"
+  | "glassmorphic"
   | "dark";
 export type SidebarActiveVariant = "pill" | "line" | "subtle" | "glow";
 
@@ -59,6 +60,12 @@ export interface SidebarProps {
   activeItemId?: string;
   /** Callback when a navigation item is clicked */
   onItemClick?: (id: string) => void;
+  /** Enable automatic responsive collapse and mobile drawer overlay (default: true) */
+  responsive?: boolean;
+  /** Breakpoint in pixels for mobile responsive behavior (default: 768) */
+  breakpoint?: number;
+  /** Show dark frosted backdrop on mobile when drawer is expanded (default: true) */
+  showBackdropOnMobile?: boolean;
   /** Custom children when building a custom layout */
   children?: React.ReactNode;
   /** Additional CSS class names */
@@ -147,11 +154,41 @@ export function Sidebar({
   items,
   activeItemId,
   onItemClick,
+  responsive = true,
+  breakpoint = 768,
+  showBackdropOnMobile = true,
   children,
   className = "",
   style,
 }: SidebarProps) {
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Responsive breakpoint listener
+  useEffect(() => {
+    if (!responsive || typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const updateMobile = (e: MediaQueryListEvent | MediaQueryList) => {
+      const matches = e.matches;
+      setIsMobile(matches);
+      if (matches && controlledCollapsed === undefined) {
+        setInternalCollapsed(true);
+      }
+    };
+
+    updateMobile(mediaQuery);
+
+    const listener = (e: MediaQueryListEvent) => updateMobile(e);
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", listener);
+      return () => mediaQuery.removeEventListener("change", listener);
+    } else {
+      mediaQuery.addListener(listener);
+      return () => mediaQuery.removeListener(listener);
+    }
+  }, [responsive, breakpoint, controlledCollapsed]);
+
   const isCollapsed = controlledCollapsed ?? internalCollapsed;
 
   // Track expanded state for nested accordion items
@@ -188,12 +225,18 @@ export function Sidebar({
       ? `${width}px`
       : width;
 
+  const isGlass = variant === "glass" || variant === "glassmorphic";
+
   const sidebarClasses = [
     "gy-sidebar",
     `gy-sidebar--${position}`,
     `gy-sidebar--${variant}`,
+    isGlass ? "gy-sidebar--glassmorphic" : "",
     `gy-sidebar--active-${activeVariant}`,
     isCollapsed ? "gy-sidebar--collapsed" : "gy-sidebar--expanded",
+    responsive ? "gy-sidebar--responsive" : "",
+    isMobile ? "gy-sidebar--mobile" : "",
+    isMobile && !isCollapsed ? "gy-sidebar--mobile-open" : "",
     className,
   ]
     .filter(Boolean)
@@ -266,6 +309,12 @@ export function Sidebar({
         {item.icon && (
           <span className="gy-sidebar-item-icon">{item.icon}</span>
         )}
+        {isCollapsed && item.badge && (
+          <span
+            className={`gy-sidebar-item-badge-dot gy-sidebar-item-badge-dot--${item.badgeColor ?? "danger"}`}
+            aria-label={typeof item.badge === "string" ? item.badge : "Notification"}
+          />
+        )}
         {!isCollapsed && (
           <span className="gy-sidebar-item-label">{item.label}</span>
         )}
@@ -287,10 +336,14 @@ export function Sidebar({
       </button>
     );
 
+    const tooltipContent = item.badge
+      ? `${typeof item.label === "string" ? item.label : ""} (${item.badge})`
+      : item.label;
+
     const wrappedButton = isCollapsed ? (
       <Tooltip
         key={item.id}
-        content={item.label}
+        content={tooltipContent}
         placement={position === "left" ? "right" : "left"}
         delay={40}
       >
@@ -316,6 +369,13 @@ export function Sidebar({
 
   return (
     <SidebarContext.Provider value={contextValue}>
+      {isMobile && !isCollapsed && showBackdropOnMobile && (
+        <div
+          className="gy-sidebar-backdrop"
+          onClick={toggleCollapse}
+          aria-label="Close sidebar overlay"
+        />
+      )}
       <aside
         className={sidebarClasses}
         style={customAccentStyle}
@@ -349,10 +409,14 @@ export function Sidebar({
           {children}
 
           {groupedItems &&
-            Object.entries(groupedItems).map(([group, groupItems]) => (
+            Object.entries(groupedItems).map(([group, groupItems], idx) => (
               <div key={group} className="gy-sidebar-group">
-                {group !== "__default__" && !isCollapsed && (
-                  <div className="gy-sidebar-group-title">{group}</div>
+                {group !== "__default__" && (
+                  isCollapsed ? (
+                    idx > 0 && <div className="gy-sidebar-group-divider" />
+                  ) : (
+                    <div className="gy-sidebar-group-title">{group}</div>
+                  )
                 )}
                 {groupItems.map((item) => renderItem(item, 0))}
               </div>
@@ -377,6 +441,30 @@ export function SidebarHeader({
   return (
     <div className={`gy-sidebar-header ${className}`}>{children}</div>
   );
+}
+
+export function SidebarLogo({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={`gy-sidebar-logo ${className}`}>{children}</div>;
+}
+
+export function SidebarText({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={`gy-sidebar-text ${className}`}>{children}</div>;
+}
+
+export function SidebarDivider({ className = "" }: { className?: string }) {
+  return <div className={`gy-sidebar-divider ${className}`} />;
 }
 
 export function SidebarBody({
@@ -465,6 +553,12 @@ export function SidebarItem({
       }}
     >
       {icon && <span className="gy-sidebar-item-icon">{icon}</span>}
+      {isCollapsed && badge && (
+        <span
+          className={`gy-sidebar-item-badge-dot gy-sidebar-item-badge-dot--${badgeColor}`}
+          aria-label={typeof badge === "string" ? badge : "Notification"}
+        />
+      )}
       {!isCollapsed && (
         <span className="gy-sidebar-item-label">{label}</span>
       )}
@@ -479,9 +573,13 @@ export function SidebarItem({
   );
 
   if (isCollapsed) {
+    const tooltipContent = badge
+      ? `${typeof label === "string" ? label : ""} (${badge})`
+      : label;
+
     return (
       <Tooltip
-        content={label}
+        content={tooltipContent}
         placement={position === "left" ? "right" : "left"}
         delay={40}
       >
