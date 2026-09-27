@@ -1,9 +1,9 @@
 /* ── Breadcrumb Component ─────────────────────────────────────────────── */
 .gy-breadcrumb-nav {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   font-family: var(--gy-font-sans, system-ui, sans-serif);
-  line-height: 1.5;
+  line-height: 1;
 }
 
 .gy-breadcrumb-list {
@@ -13,13 +13,14 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0.25rem;
+  gap: 0.125rem;
 }
 
 .gy-breadcrumb-item {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.125rem;
+  line-height: 1;
 }
 
 .gy-breadcrumb-link {
@@ -29,14 +30,18 @@
   color: var(--gy-text-muted, #64748b);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 0.15s ease, transform 0.15s ease;
   border-radius: var(--gy-radius-md, 0.375rem);
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
 }
 
 .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
   color: var(--gy-primary);
-  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
+  background: transparent;
+  transform: translateY(-1px);
+  text-shadow: 0 0 0.5px currentColor;
 }
 
 .gy-breadcrumb-link--disabled {
@@ -50,7 +55,9 @@
   gap: 0.375rem;
   color: var(--gy-primary, #6366f1);
   font-weight: 600;
-  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0.3rem 0.5rem;
   border-radius: var(--gy-radius-md, 0.375rem);
 }
 
@@ -60,13 +67,15 @@
   justify-content: center;
   color: var(--gy-text-subtle, #94a3b8);
   font-weight: 400;
-  padding: 0 0.125rem;
+  line-height: 1;
+  padding: 0 0.1rem;
   user-select: none;
   opacity: 0.7;
 }
 
 .gy-breadcrumb-separator-char {
   font-size: 0.85em;
+  line-height: 1;
 }
 
 .gy-breadcrumb-icon {
@@ -74,22 +83,29 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  opacity: 0.8;
+  width: 1em;
+  height: 1em;
+  opacity: 0.75;
+}
+
+.gy-breadcrumb-icon > svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* ── Minimal Clean Back Button ─────────────────────────────────────────── */
 .gy-breadcrumb-back-wrapper {
   display: inline-flex;
   align-items: center;
-  margin-right: 0.25rem;
+  margin-right: 0.125rem;
 }
 
 .gy-breadcrumb-back-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.375rem;
+  gap: 0.25rem;
+  padding: 0.3rem 0.375rem;
   border-radius: var(--gy-radius-md, 0.375rem);
   border: none;
   background: transparent;
@@ -103,8 +119,8 @@
 
 .gy-breadcrumb-back-btn:hover {
   color: var(--gy-primary, #0f172a);
-  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
-  transform: translateX(-2px);
+  background: transparent;
+  transform: translateX(-2px) translateY(-1px);
 }
 
 .gy-breadcrumb-back-btn:active {
@@ -117,8 +133,8 @@
 }
 
 .gy-breadcrumb-back-icon {
-  width: 1rem;
-  height: 1rem;
+  width: 1em;
+  height: 1em;
   flex-shrink: 0;
   transition: transform 0.15s ease;
 }
@@ -151,32 +167,130 @@
 .gy-breadcrumb-ellipsis:hover {
   color: var(--gy-primary);
   border-color: var(--gy-border, #e2e8f0);
-  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
+  background: transparent;
+  transform: translateY(-1px);
 }
 
 /* ── Sizes ──────────────────────────────────────────────────────────────── */
 .gy-breadcrumb-nav--sm { font-size: 0.75rem; }
-.gy-breadcrumb-nav--sm .gy-breadcrumb-back-icon { width: 0.875rem; height: 0.875rem; }
 .gy-breadcrumb-nav--sm .gy-breadcrumb-link,
-.gy-breadcrumb-nav--sm .gy-breadcrumb-current { padding: 0.1875rem 0.375rem; }
+.gy-breadcrumb-nav--sm .gy-breadcrumb-current { padding: 0.2rem 0.375rem; }
 
 .gy-breadcrumb-nav--md { font-size: 0.875rem; }
-.gy-breadcrumb-nav--md .gy-breadcrumb-back-icon { width: 1rem; height: 1rem; }
 .gy-breadcrumb-nav--md .gy-breadcrumb-link,
-.gy-breadcrumb-nav--md .gy-breadcrumb-current { padding: 0.25rem 0.5rem; }
+.gy-breadcrumb-nav--md .gy-breadcrumb-current { padding: 0.3rem 0.5rem; }
 
 .gy-breadcrumb-nav--lg { font-size: 1rem; }
-.gy-breadcrumb-nav--lg .gy-breadcrumb-back-icon { width: 1.125rem; height: 1.125rem; }
 .gy-breadcrumb-nav--lg .gy-breadcrumb-link,
-.gy-breadcrumb-nav--lg .gy-breadcrumb-current { padding: 0.3125rem 0.625rem; }
+.gy-breadcrumb-nav--lg .gy-breadcrumb-current { padding: 0.35rem 0.625rem; }
 
 /* ── Variants ───────────────────────────────────────────────────────────── */
+
+/* Default Variant */
+.gy-breadcrumb-nav--default .gy-breadcrumb-current {
+  color: var(--gy-primary, #16a34a);
+  font-weight: 600;
+}
+
+/* Subtle Variant — Soft rounded pill / chip style */
+.gy-breadcrumb-nav--subtle .gy-breadcrumb-list {
+  gap: 0.25rem;
+}
+
+.gy-breadcrumb-nav--subtle .gy-breadcrumb-link {
+  background: var(--gy-surface-muted, #f1f5f9);
+  color: var(--gy-text-muted, #475569);
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--gy-border, rgba(0, 0, 0, 0.06));
+  transition: all 0.15s ease;
+}
+
+.gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
+  background: var(--gy-surface-hover, #e2e8f0);
+  color: var(--gy-text, #0f172a);
+  border-color: var(--gy-border-strong, #cbd5e1);
+  transform: translateY(-1px);
+}
+
 .gy-breadcrumb-nav--subtle .gy-breadcrumb-current {
-  color: var(--gy-primary);
+  background: var(--gy-primary-subtle, rgba(34, 197, 94, 0.12));
+  color: var(--gy-primary, #16a34a);
+  border: 1px solid var(--gy-primary-border, rgba(34, 197, 94, 0.25));
+  font-weight: 600;
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 0.25rem 0.65rem;
+}
+
+.gy-breadcrumb-nav--subtle .gy-breadcrumb-back-btn {
+  background: var(--gy-surface-muted, #f1f5f9);
+  border-radius: var(--gy-radius-full, 9999px);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--gy-border, rgba(0, 0, 0, 0.06));
+}
+
+.gy-breadcrumb-nav--subtle .gy-breadcrumb-back-btn:hover {
+  background: var(--gy-surface-hover, #e2e8f0);
+  color: var(--gy-text, #0f172a);
+}
+
+/* Ghost Variant — Ultra-minimal monochrome style */
+.gy-breadcrumb-nav--ghost .gy-breadcrumb-link {
+  color: var(--gy-text-subtle, #94a3b8);
+  padding: 0.2rem 0.35rem;
 }
 
 .gy-breadcrumb-nav--ghost .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
   background: transparent;
+  color: var(--gy-text, #0f172a);
   text-decoration: underline;
   text-underline-offset: 3px;
+  transform: none;
+}
+
+.gy-breadcrumb-nav--ghost .gy-breadcrumb-current {
+  color: var(--gy-text, #0f172a);
+  font-weight: 600;
+  padding: 0.2rem 0.35rem;
+}
+
+.gy-breadcrumb-nav--ghost .gy-breadcrumb-separator {
+  opacity: 0.45;
+}
+
+/* Dark mode overrides for breadcrumb variants */
+.gy-dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link,
+[data-color-mode="dark"] .gy-breadcrumb-nav--subtle .gy-breadcrumb-link,
+.dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.gy-dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
+[data-color-mode="dark"] .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
+.dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+}
+
+.gy-dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-current,
+[data-color-mode="dark"] .gy-breadcrumb-nav--subtle .gy-breadcrumb-current,
+.dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-current {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+
+.gy-dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-back-btn,
+[data-color-mode="dark"] .gy-breadcrumb-nav--subtle .gy-breadcrumb-back-btn,
+.dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-back-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.gy-dark .gy-breadcrumb-nav--ghost .gy-breadcrumb-current,
+[data-color-mode="dark"] .gy-breadcrumb-nav--ghost .gy-breadcrumb-current,
+.dark .gy-breadcrumb-nav--ghost .gy-breadcrumb-current {
+  color: #f1f5f9;
 }

@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./waterfall-chart.css";
 
 export interface WaterfallItem {
@@ -110,6 +111,10 @@ export function WaterfallChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

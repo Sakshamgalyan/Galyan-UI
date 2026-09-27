@@ -117,10 +117,13 @@
 }
 .gy-tabs--classic .gy-tabs-trigger--active {
   color: var(--gy-primary, #22c55e);
-  background: color-mix(in srgb, var(--gy-primary, #22c55e) 8%, var(--gy-surface, #ffffff));
+  background: transparent !important;
   border-bottom: 2px solid var(--gy-primary, #22c55e);
-  box-shadow: 0 -2px 8px -2px color-mix(in srgb, var(--gy-primary, #22c55e) 25%, transparent);
+  box-shadow: none !important;
   font-weight: 600;
+}
+.gy-tabs--classic .gy-tabs-trigger--active:hover {
+  background: transparent !important;
 }
 
 /* Classic Vertical */
@@ -148,8 +151,11 @@
 .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active {
   border-right-color: var(--gy-primary, #22c55e);
   color: var(--gy-primary, #22c55e);
-  background: color-mix(in srgb, var(--gy-primary, #22c55e) 8%, var(--gy-surface, #ffffff));
-  box-shadow: -2px 0 8px -2px color-mix(in srgb, var(--gy-primary, #22c55e) 25%, transparent);
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover {
+  background: transparent !important;
 }
 
 /* ── 2. Button Variant (Pill / Segmented) ── */
@@ -535,8 +541,16 @@
 [data-theme="dark"] .gy-tabs--classic .gy-tabs-trigger--active {
   color: var(--gy-primary, #22c55e);
   border-bottom-color: var(--gy-primary, #22c55e);
-  background: color-mix(in srgb, var(--gy-primary, #22c55e) 15%, #1e293b);
-  box-shadow: 0 -2px 8px color-mix(in srgb, var(--gy-primary, #22c55e) 25%, transparent);
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.gy-dark .gy-tabs--classic .gy-tabs-trigger--active:hover,
+[data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger--active:hover,
+.dark .gy-tabs--classic .gy-tabs-trigger--active:hover,
+[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-trigger--active:hover,
+[data-theme="dark"] .gy-tabs--classic .gy-tabs-trigger--active:hover {
+  background: transparent !important;
 }
 
 .gy-dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
@@ -555,7 +569,16 @@
 [data-theme="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active {
   border-right-color: var(--gy-primary, #22c55e);
   border-bottom-color: transparent;
-  box-shadow: -2px 0 8px color-mix(in srgb, var(--gy-primary, #22c55e) 25%, transparent);
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.gy-dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover,
+[data-color-mode="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover,
+.dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover,
+[data-theme="samantrix"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover,
+[data-theme="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover {
+  background: transparent !important;
 }
 
 /* ── 2. Button Variant Dark (Segmented Pill with Role Accent) ── */

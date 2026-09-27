@@ -27,6 +27,7 @@ export interface AccordionItemData {
   expanded?: boolean;
   expandIconPosition?: ExpandIconPosition;
   expandIcon?: React.ReactNode | ((expanded: boolean) => React.ReactNode);
+  rotateIcon?: boolean;
 }
 
 export interface AccordionProps {
@@ -39,6 +40,7 @@ export interface AccordionProps {
   unmountOnExit?: boolean;
   expandIconPosition?: ExpandIconPosition;
   expandIcon?: React.ReactNode | ((expanded: boolean) => React.ReactNode);
+  rotateIcon?: boolean;
   icon?: React.ReactNode;
   actions?: React.ReactNode;
   title?: React.ReactNode;
@@ -79,6 +81,7 @@ export function Accordion({
   unmountOnExit = false,
   expandIconPosition = "right",
   expandIcon,
+  rotateIcon,
   icon,
   actions,
   title,
@@ -173,6 +176,7 @@ export function Accordion({
               disabled={disabled || item.disabled}
               expandIconPosition={item.expandIconPosition || expandIconPosition}
               expandIcon={item.expandIcon || expandIcon}
+              rotateIcon={item.rotateIcon !== undefined ? item.rotateIcon : rotateIcon}
               icon={item.icon}
               actions={item.actions}
               title={item.title}
@@ -207,6 +211,9 @@ export function Accordion({
   const isIconRight =
     expandIconPosition === "right" || expandIconPosition === "end";
 
+  const shouldRotate =
+    rotateIcon !== undefined ? rotateIcon : typeof expandIcon !== "function";
+
   const renderIcon = () => {
     if (expandIcon) {
       return typeof expandIcon === "function"
@@ -235,7 +242,7 @@ export function Accordion({
       >
         {isIconLeft && (
           <span
-            className={`gy-accordion__icon ${isExpanded ? "gy-accordion__icon--open" : ""}`}
+            className={`gy-accordion__icon ${isExpanded && shouldRotate ? "gy-accordion__icon--open" : ""}`}
           >
             {renderIcon()}
           </span>
@@ -256,7 +263,7 @@ export function Accordion({
         )}
         {isIconRight && (
           <span
-            className={`gy-accordion__icon ${isExpanded ? "gy-accordion__icon--open" : ""}`}
+            className={`gy-accordion__icon ${isExpanded && shouldRotate ? "gy-accordion__icon--open" : ""}`}
           >
             {renderIcon()}
           </span>

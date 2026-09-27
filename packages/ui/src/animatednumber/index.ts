@@ -1,4 +1,4 @@
-export { AnimatedNumber } from "./AnimatedNumber";
+export { AnimatedNumber, cssEasingMap } from "./AnimatedNumber";
 export type {
   AnimatedNumberProps,
   AnimatedNumberVariant,

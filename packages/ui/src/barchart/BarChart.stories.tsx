@@ -207,7 +207,6 @@ export const Horizontal: Story = {
   args: {
     variant: "horizontal",
     data: filledSampleData,
-    height: 320,
     barWidth: 14,
     barSpacing: 16,
     showValues: true,
@@ -264,7 +263,6 @@ export const TruncatedLabels: Story = {
         icon: createIcon("var(--gy-info, #06b6d4)"),
       },
     ],
-    height: 340,
     truncateCharacterAfter: 24,
     showValues: true,
   },
@@ -332,7 +330,6 @@ export const HorizontalLoadingState: Story = {
     variant: "horizontal",
     data: [],
     loading: true,
-    height: 320,
     maxBars: 5,
   },
 };
@@ -350,9 +347,37 @@ export const HorizontalBothFormat: Story = {
   args: {
     variant: "horizontal",
     data: filledSampleData,
-    height: 320,
     showValues: true,
     valueFormat: "both",
+  },
+};
+
+export const HorizontalScrollable: Story = {
+  args: {
+    variant: "horizontal",
+    data: [
+      ...filledSampleData,
+      {
+        label: "Direct Corporate Sales",
+        value: 55000,
+        color: "var(--gy-primary, #3b82f6)",
+        icon: createIcon("var(--gy-primary, #3b82f6)"),
+      },
+      {
+        label: "Partner Referrals Network",
+        value: 41000,
+        color: "var(--gy-success, #10b981)",
+        icon: createIcon("var(--gy-success, #10b981)"),
+      },
+      {
+        label: "Affiliate & Reseller Channels",
+        value: 32000,
+        color: "var(--gy-warning, #f59e0b)",
+        icon: createIcon("var(--gy-warning, #f59e0b)"),
+      },
+    ],
+    height: 280,
+    showValues: true,
   },
 };
 

@@ -59,6 +59,17 @@ export interface TooltipProps {
   className?: string;
   /** Whether the tooltip is disabled */
   disabled?: boolean;
+  /**
+   * Whether to enable smart positioning that automatically flips between top and bottom.
+   * Restricts placement strictly to top and bottom to avoid unwanted horizontal flips.
+   * @default true
+   */
+  smartPosition?: boolean;
+  /**
+   * Custom z-index for the tooltip popover. Defaults to 100000 to always stay at the top.
+   * @default 100000
+   */
+  zIndex?: number;
 }
 
 const DefaultInfoIcon = () => (
@@ -106,6 +117,8 @@ export function Tooltip({
   trigger = "hover",
   className = "",
   disabled = false,
+  smartPosition = true,
+  zIndex = 100000,
 }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -113,6 +126,20 @@ export function Tooltip({
   const arrowRef = useRef<HTMLDivElement>(null);
 
   const desiredPlacement = (position ?? placement) as Placement;
+
+  const fallbackPlacements: Placement[] | undefined = desiredPlacement.startsWith("top")
+    ? [
+        (desiredPlacement.replace("top", "bottom") as Placement),
+        "bottom",
+        "top",
+      ]
+    : desiredPlacement.startsWith("bottom")
+    ? [
+        (desiredPlacement.replace("bottom", "top") as Placement),
+        "top",
+        "bottom",
+      ]
+    : undefined;
 
   const { refs, floatingStyles, middlewareData, placement: floatingPlacement } =
     useFloating({
@@ -125,7 +152,16 @@ export function Tooltip({
       whileElementsMounted: autoUpdate,
       middleware: [
         offset(8),
-        flip({ fallbackAxisSideDirection: "start", padding: 8 }),
+        ...(smartPosition
+          ? [
+              flip({
+                fallbackPlacements,
+                fallbackAxisSideDirection: "none",
+                crossAxis: false,
+                padding: 8,
+              }),
+            ]
+          : []),
         shift({ padding: 8 }),
         arrowMiddleware({ element: arrowRef, padding: 8 }),
       ],
@@ -257,7 +293,7 @@ export function Tooltip({
       style={{
         ...floatingStyles,
         ...tooltipCustomStyle,
-        zIndex: 99999,
+        zIndex,
       }}
       onMouseEnter={() => {
         if (trigger === "hover" || trigger === "both") {
@@ -283,7 +319,7 @@ export function Tooltip({
             position: "absolute",
             left: arrowX != null ? `${arrowX}px` : undefined,
             top: arrowY != null ? `${arrowY}px` : undefined,
-            [arrowSide]: "-4.5px",
+            [arrowSide]: "-5px",
           }}
         />
       )}

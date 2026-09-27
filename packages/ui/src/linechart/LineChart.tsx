@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./line-chart.css";
 
 export interface LineChartSeries {
@@ -98,6 +99,10 @@ export function LineChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

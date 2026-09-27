@@ -6,9 +6,35 @@
   font-feature-settings: "tnum";
   letter-spacing: -0.01em;
   user-select: none;
+  line-height: 1.15;
+}
+
+/* ── Smooth Fade Vignette Mask ── */
+.gy-animated-number--masked {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
 }
 
 .gy-animated-number--roller {
+  overflow: hidden;
+  height: 1.15em;
+  line-height: 1.15em;
+  vertical-align: -0.05em;
+}
+
+.gy-animated-number--slide {
   overflow: hidden;
   height: 1.15em;
   line-height: 1.15em;
@@ -21,8 +47,21 @@
   display: inline-block;
   vertical-align: baseline;
   line-height: inherit;
+  animation: gy-symbol-in 0.2s ease-out;
 }
 
+@keyframes gy-symbol-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── 1. Roller Mode (Multi-Revolution Odometer Reel) ───────────────────────── */
 .gy-animated-number__digit-column {
   position: relative;
   display: inline-block;
@@ -30,13 +69,13 @@
   line-height: 1.15em;
   overflow: hidden;
   vertical-align: baseline;
+  animation: gy-col-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .gy-animated-number__digit-track {
   display: flex;
   flex-direction: column;
   transition-property: transform;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -47,4 +86,253 @@
   align-items: center;
   justify-content: center;
   user-select: none;
+}
+
+/* ── 2. Slide Mode (Vertical Slide & Blur Transition) ──────────────────────── */
+.gy-animated-number__slide-column {
+  position: relative;
+  display: inline-block;
+  height: 1.15em;
+  line-height: 1.15em;
+  overflow: hidden;
+  vertical-align: baseline;
+  animation: gy-col-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.gy-animated-number__slide-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.15em;
+  line-height: 1.15em;
+  animation-name: gy-slide-in;
+  animation-fill-mode: both;
+}
+
+@keyframes gy-slide-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 80%, 0);
+    filter: blur(1.5px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+/* ── 3. Flip Mode (True Split-Flap Mechanical Display) ──────────────────────── */
+/* ── 3. Flip Mode (True Split-Flap Mechanical Display) ──────────────────────── */
+.gy-animated-number--flip {
+  height: auto;
+  line-height: 1;
+  vertical-align: middle;
+  align-items: center;
+  gap: 3px;
+}
+
+.gy-animated-number--flip .gy-animated-number__prefix,
+.gy-animated-number--flip .gy-animated-number__suffix,
+.gy-animated-number--flip .gy-animated-number__symbol {
+  align-self: center;
+}
+
+.gy-animated-number__flip-column {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 500px;
+  vertical-align: middle;
+  width: 0.72em;
+  height: 1.4em;
+  margin: 0 1.5px;
+  animation: gy-col-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Shared half styling ─────────────────────────────── */
+.gy-animated-number__flip-upper,
+.gy-animated-number__flip-lower,
+.gy-animated-number__flip-fold-upper,
+.gy-animated-number__flip-fold-lower {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--gy-surface-raised, #f0f1f4);
+  color: var(--gy-text-primary, #1a1a2e);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gy-animated-number__flip-digit-inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── Static upper half (shows new digit) ─────────────── */
+.gy-animated-number__flip-upper {
+  top: 0;
+  height: 50%;
+  border-radius: 6px 6px 0 0;
+  z-index: 1;
+  border-bottom: none;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+.gy-animated-number__flip-upper .gy-animated-number__flip-digit-inner,
+.gy-animated-number__flip-fold-upper .gy-animated-number__flip-digit-inner {
+  top: 0;
+}
+
+/* ── Static lower half (shows old→new digit) ─────────── */
+.gy-animated-number__flip-lower {
+  bottom: 0;
+  height: 50%;
+  border-radius: 0 0 6px 6px;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.gy-animated-number__flip-lower .gy-animated-number__flip-digit-inner,
+.gy-animated-number__flip-fold-lower .gy-animated-number__flip-digit-inner {
+  bottom: 0;
+}
+
+/* ── Animated fold: old upper folds DOWN ─────────────── */
+.gy-animated-number__flip-fold-upper {
+  top: 0;
+  height: 50%;
+  border-radius: 6px 6px 0 0;
+  z-index: 3;
+  transform-origin: bottom center;
+  animation-name: gy-flip-fold-down;
+  animation-fill-mode: forwards;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* ── Animated fold: new lower unfolds UP ─────────────── */
+.gy-animated-number__flip-fold-lower {
+  bottom: 0;
+  height: 50%;
+  border-radius: 0 0 6px 6px;
+  z-index: 2;
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  animation-name: gy-flip-fold-up;
+  animation-fill-mode: forwards;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* ── Center divider line ─────────────────────────────── */
+.gy-animated-number__flip-divider {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+  z-index: 5;
+  pointer-events: none;
+  transform: translateY(-0.5px);
+}
+
+/* ── Keyframes ───────────────────────────────────────── */
+@keyframes gy-flip-fold-down {
+  0% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(-90deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes gy-flip-fold-up {
+  0% {
+    transform: rotateX(90deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/* ── Dark mode variants ──────────────────────────────── */
+[data-color-mode="dark"] .gy-animated-number__flip-upper,
+[data-color-mode="dark"] .gy-animated-number__flip-lower,
+[data-color-mode="dark"] .gy-animated-number__flip-fold-upper,
+[data-color-mode="dark"] .gy-animated-number__flip-fold-lower,
+[data-theme="dark"] .gy-animated-number__flip-upper,
+[data-theme="dark"] .gy-animated-number__flip-lower,
+[data-theme="dark"] .gy-animated-number__flip-fold-upper,
+[data-theme="dark"] .gy-animated-number__flip-fold-lower,
+.dark .gy-animated-number__flip-upper,
+.dark .gy-animated-number__flip-lower,
+.dark .gy-animated-number__flip-fold-upper,
+.dark .gy-animated-number__flip-fold-lower {
+  background: #1a1a2e;
+  color: #f1f5f9;
+  border-color: rgba(255,255,255,0.06);
+}
+
+[data-color-mode="dark"] .gy-animated-number__flip-divider,
+[data-theme="dark"] .gy-animated-number__flip-divider,
+.dark .gy-animated-number__flip-divider {
+  background: rgba(255,255,255,0.08);
+}
+
+[data-color-mode="dark"] .gy-animated-number__flip-fold-upper,
+[data-theme="dark"] .gy-animated-number__flip-fold-upper,
+.dark .gy-animated-number__flip-fold-upper {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+[data-color-mode="dark"] .gy-animated-number__flip-fold-lower,
+[data-theme="dark"] .gy-animated-number__flip-fold-lower,
+.dark .gy-animated-number__flip-fold-lower {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+/* ── Column Entrance Expansion ── */
+@keyframes gy-col-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── 4. Counter Mode (Pulse Transition on Update) ─────────────────────────── */
+.gy-animated-number--pulsing {
+  animation: gy-number-pulse 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gy-number-pulse {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.05);
+    color: var(--gy-primary, #6366f1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

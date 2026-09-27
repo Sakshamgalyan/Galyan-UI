@@ -1,0 +1,54 @@
+/* ── Galyan UI Global Scrollbar Normalization ────────────────────────────────── */
+/* Hide default scrollbars across all Galyan UI components for clean aesthetics while preserving smooth scrolling */
+[class*="gy-"],
+[class*="gy-"] * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+[class*="gy-"]::-webkit-scrollbar,
+[class*="gy-"] *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Utilities for explicit control */
+.gy-no-scrollbar,
+.gy-scrollbar-none,
+.gy-hide-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.gy-no-scrollbar::-webkit-scrollbar,
+.gy-scrollbar-none::-webkit-scrollbar,
+.gy-hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.gy-scrollbar-visible {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--gy-border-strong, #cbd5e1) transparent !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-thumb {
+  background: var(--gy-border-strong, #cbd5e1) !important;
+  border-radius: var(--gy-radius-full, 9999px) !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: var(--gy-text-subtle, #94a3b8) !important;
+}

@@ -17,6 +17,25 @@ export interface InputGroupProps {
   className?: string;
 }
 
+function isButtonElement(node: React.ReactNode): boolean {
+  if (!React.isValidElement(node)) return false;
+  if (node.type === "button") return true;
+  if (typeof node.type === "function" || typeof node.type === "object") {
+    const name =
+      (node.type as any).displayName || (node.type as any).name || "";
+    if (name.toLowerCase().includes("button")) return true;
+  }
+  const props = node.props as any;
+  if (
+    props?.className &&
+    typeof props.className === "string" &&
+    props.className.includes("gy-btn")
+  ) {
+    return true;
+  }
+  return false;
+}
+
 export function InputGroup({
   leftAddon,
   rightAddon,
@@ -61,13 +80,21 @@ export function InputGroup({
       )}
       <div className={containerClasses}>
         {leftAddon && (
-          <div className="gy-input-group__addon gy-input-group__addon--left">
+          <div
+            className={`gy-input-group__addon gy-input-group__addon--left ${
+              isButtonElement(leftAddon) ? "gy-input-group__addon--button" : ""
+            }`}
+          >
             {leftAddon}
           </div>
         )}
         <div className="gy-input-group__control">{children}</div>
         {rightAddon && (
-          <div className="gy-input-group__addon gy-input-group__addon--right">
+          <div
+            className={`gy-input-group__addon gy-input-group__addon--right ${
+              isButtonElement(rightAddon) ? "gy-input-group__addon--button" : ""
+            }`}
+          >
             {rightAddon}
           </div>
         )}
@@ -116,7 +143,11 @@ export function DropdownGroup({
       {dropdown}
     </div>
   ) : leftAddon ? (
-    <div className="gy-input-group__addon gy-input-group__addon--left">
+    <div
+      className={`gy-input-group__addon gy-input-group__addon--left ${
+        isButtonElement(leftAddon) ? "gy-input-group__addon--button" : ""
+      }`}
+    >
       {leftAddon}
     </div>
   ) : null;
@@ -126,7 +157,11 @@ export function DropdownGroup({
       {dropdown}
     </div>
   ) : rightAddon ? (
-    <div className="gy-input-group__addon gy-input-group__addon--right">
+    <div
+      className={`gy-input-group__addon gy-input-group__addon--right ${
+        isButtonElement(rightAddon) ? "gy-input-group__addon--button" : ""
+      }`}
+    >
       {rightAddon}
     </div>
   ) : null;

@@ -79,9 +79,7 @@ export function GaugeChart({
       for (const entry of entries) {
         const { width: w, height: h } = entry.contentRect;
         if (w > 0) setContainerWidth(w);
-        if (h > 0 && typeof height === "string" && height.includes("%")) {
-          setContainerHeight(h);
-        }
+        if (h > 0) setContainerHeight(h);
       }
     });
 
@@ -94,10 +92,36 @@ export function GaugeChart({
     typeof height === "number" ? height : containerHeight || 220;
   const isCompact = numWidth < 360;
 
+  // Available vertical space inside wrapper (accounting for wrapper padding: 1rem or 0.75rem)
+  const wrapperPaddingY = isCompact ? 24 : 32;
+  const availHeight = Math.max(100, (containerHeight > 0 ? containerHeight : numHeight - wrapperPaddingY));
+
+  // Top clearance for arc stroke / hover elevation
+  const topClearance = isCompact ? 8 : 12;
+
+  // Space reserved below pivot for value text & status label
+  const valueAreaHeight = showValue ? (isCompact ? 42 : 50) : 8;
+
+  // Space reserved for legend at the bottom
+  const legendAreaHeight =
+    showLegend && segments.length > 0 ? (isCompact ? 24 : 32) : 0;
+
+  // Radius calculation guaranteeing that arc, pivot, value, and legend all fit without overlap
+  const maxRadiusByHeight = Math.max(
+    30,
+    availHeight - topClearance - valueAreaHeight - (showLegend ? legendAreaHeight + 6 : 0)
+  );
+  const maxRadiusByWidth = Math.max(30, numWidth / 2 - (isCompact ? 16 : 24));
+  const outerRadius = Math.min(maxRadiusByWidth, maxRadiusByHeight);
+  const strokeWidth = isCompact ? 18 : 24;
+  const innerRadius = Math.max(16, outerRadius - strokeWidth);
+
+  // Exact center pivot
   const cx = numWidth / 2;
-  const cy = numHeight - (showLegend ? 58 : 42);
-  const outerRadius = Math.max(40, Math.min(numWidth / 2 - 24, cy - 20));
-  const innerRadius = Math.max(20, outerRadius - (isCompact ? 22 : 30));
+  const cy = topClearance + outerRadius;
+
+  // Dedicated SVG height containing the arc and the value label
+  const svgHeight = cy + (showValue ? valueAreaHeight : 6);
 
   // Normalized value (min to max)
   const normValue = Math.max(min, Math.min(max, value));
@@ -249,12 +273,16 @@ export function GaugeChart({
 
     return (
       <div className="gy-gauge-body">
-        <div className="gy-gauge-svg-container">
+        <div
+          className="gy-gauge-svg-container"
+          style={{ height: `${svgHeight}px` }}
+        >
           <svg
             width={numWidth}
-            height={numHeight - (showLegend ? 32 : 0)}
+            height={svgHeight}
             className="gy-gauge-svg"
-            viewBox={`0 0 ${numWidth} ${numHeight - (showLegend ? 32 : 0)}`}
+            viewBox={`0 0 ${numWidth} ${svgHeight}`}
+            style={{ width: "100%", height: `${svgHeight}px`, maxWidth: "100%" }}
           >
             <defs>
               <filter
@@ -326,7 +354,7 @@ export function GaugeChart({
                   x2={needleTip.x}
                   y2={needleTip.y}
                   stroke="var(--gy-text, #0f172a)"
-                  strokeWidth={isCompact ? "3" : "3.5"}
+                  strokeWidth={isCompact ? "2.5" : "3.5"}
                   strokeLinecap="round"
                   className="gy-gauge-needle-line"
                 />
@@ -334,16 +362,16 @@ export function GaugeChart({
                 <circle
                   cx={cx}
                   cy={cy}
-                  r={isCompact ? 9 : 11}
+                  r={isCompact ? 7 : 9}
                   fill="var(--gy-surface, #ffffff)"
                   stroke="var(--gy-text, #0f172a)"
-                  strokeWidth={isCompact ? "2.5" : "3"}
+                  strokeWidth={isCompact ? "2" : "2.5"}
                 />
                 {/* Pivot Center Pin */}
                 <circle
                   cx={cx}
                   cy={cy}
-                  r={isCompact ? 4 : 5}
+                  r={isCompact ? 3 : 4}
                   fill={currentSegment?.color || "var(--gy-primary, #3b82f6)"}
                 />
               </g>
@@ -351,10 +379,10 @@ export function GaugeChart({
 
             {/* Value Label */}
             {showValue && (
-              <g>
+              <g className="gy-gauge-value-group">
                 <text
                   x={cx}
-                  y={cy + (isCompact ? 22 : 26)}
+                  y={cy + (isCompact ? 24 : 28)}
                   textAnchor="middle"
                   className="gy-gauge-value-text"
                 >
@@ -363,7 +391,7 @@ export function GaugeChart({
                 {currentSegment?.label && (
                   <text
                     x={cx}
-                    y={cy + (isCompact ? 35 : 40)}
+                    y={cy + (isCompact ? 37 : 43)}
                     textAnchor="middle"
                     className="gy-gauge-value-subtext"
                     fill={currentSegment.color}
@@ -429,6 +457,7 @@ export function GaugeChart({
                   onMouseEnter={() => setHoveredIndex(seg.idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   onClick={() => onSegmentClick?.(seg, seg.idx)}
+                  title={`${seg.label || "Segment"}: ${formatValue(seg.startVal)} – ${formatValue(seg.endVal)}`}
                 >
                   <span
                     className="gy-gauge-legend-dot"

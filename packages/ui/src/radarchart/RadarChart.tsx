@@ -11,6 +11,7 @@ import {
   Tooltip as RechartsTooltip,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./radar-chart.css";
 
 export interface RadarChartSeries {
@@ -174,7 +175,7 @@ export function RadarChart({
 
     if (data.length === 0) {
       return (
-        <div className="gy-radarchart-empty">No data available</div>
+        <EmptyState size="sm" variant="subtle" />
       );
     }
 

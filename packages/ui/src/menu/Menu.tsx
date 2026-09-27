@@ -27,7 +27,7 @@ export interface MenuItem {
 }
 
 export interface MenuProps {
-  items: MenuItem[];
+  items?: MenuItem[];
   orientation?: "vertical" | "horizontal";
   size?: MenuSize;
   variant?: MenuVariant;
@@ -43,7 +43,7 @@ export interface MenuProps {
 }
 
 export function Menu({
-  items,
+  items = [],
   orientation = "vertical",
   size = "md",
   variant = "bordered",
@@ -60,27 +60,27 @@ export function Menu({
   const rootRef = useRef<HTMLElement>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
     const expanded = new Set<string>();
-    if (!defaultCollapsed && orientation === "vertical") {
+    if (!defaultCollapsed && orientation === "vertical" && Array.isArray(items)) {
       // Expand parents of active item or first level collapsible by default in vertical
       items.forEach((item) => {
-        if (item.children) expanded.add(item.id);
+        if (item?.children) expanded.add(item.id);
       });
     }
     return expanded;
   });
 
-  // In horizontal menu, close submenus on outside click
+  // In horizontal menu, close submenus on outside click (only active when submenus are actually open)
   useEffect(() => {
-    if (orientation !== "horizontal") return;
+    if (orientation !== "horizontal" || expandedIds.size === 0) return;
 
     const handleOutsideClick = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setExpandedIds(new Set());
+        setExpandedIds((prev) => (prev.size === 0 ? prev : new Set()));
       }
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, [orientation]);
+  }, [orientation, expandedIds.size]);
 
   const toggleExpand = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -117,6 +117,9 @@ export function Menu({
   const isHorizontal = orientation === "horizontal";
 
   const renderItem = (item: MenuItem, depth: number = 0) => {
+    if (!item) return null;
+    if (depth > 8) return null; // Prevent runaway recursion
+
     if (item.divider) {
       return <div key={item.id} className="gy-nav-menu__divider" />;
     }
@@ -197,9 +200,9 @@ export function Menu({
           )}
         </button>
 
-        {hasChildren && isExpanded && (
+        {hasChildren && isExpanded && item.children && (
           <div className="gy-nav-menu__children">
-            {item.children!.map((child) => renderItem(child, depth + 1))}
+            {item.children.map((child) => renderItem(child, depth + 1))}
           </div>
         )}
       </div>
@@ -210,7 +213,7 @@ export function Menu({
     <nav ref={rootRef} className={rootClasses} style={rootStyle}>
       {children && <div className="gy-nav-menu__header">{children}</div>}
       <div className="gy-nav-menu__list" role="menu">
-        {items.map((item) => renderItem(item))}
+        {Array.isArray(items) && items.map((item) => renderItem(item))}
       </div>
     </nav>
   );

@@ -45,6 +45,11 @@ const meta: Meta<TableProps<any>> = {
       control: "select",
       options: ["left", "center", "right"],
     },
+    rounded: {
+      control: "select",
+      options: ["none", "sm", "md", "lg", "xl"],
+      description: "Corner rounding style (defaults to xl)",
+    },
   },
 };
 
@@ -1112,6 +1117,44 @@ export const KeyboardTabAccessibilityShowcase: Story = {
           pageSize={4}
           hoverable
         />
+      </div>
+    );
+  },
+};
+
+export const SharpBorderAndRoundingOptions: Story = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+        <div>
+          <div style={{ fontWeight: 600, marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+            Default Sharp Border (0px Radius):
+          </div>
+          <Table
+            columns={columns}
+            data={sampleData.slice(0, 5)}
+            rowKey={(r) => r.id}
+            pagination={true}
+            pageSize={5}
+            hoverable
+            sortable
+          />
+        </div>
+        <div>
+          <div style={{ fontWeight: 600, marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+            Rounded Variant (rounded="lg"):
+          </div>
+          <Table
+            columns={columns}
+            data={sampleData.slice(0, 5)}
+            rowKey={(r) => r.id}
+            rounded="lg"
+            pagination={true}
+            pageSize={5}
+            hoverable
+            sortable
+          />
+        </div>
       </div>
     );
   },

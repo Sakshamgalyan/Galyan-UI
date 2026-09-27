@@ -38,8 +38,7 @@
 .gy-donutchart-chart-wrapper {
   position: relative;
   width: 100%;
-  height: 100%;
-  flex: 1 1 auto;
+  flex: 1 1 0%;
   min-height: 0;
   display: flex;
   align-items: center;
@@ -174,19 +173,17 @@
   gap: 6px;
   padding-top: 8px;
   width: 100%;
-  max-height: 80px;
+  max-height: 96px;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gy-border, #cbd5e1) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-shrink: 0;
 }
 
 .gy-donutchart-legend::-webkit-scrollbar {
-  width: 3px;
-}
-
-.gy-donutchart-legend::-webkit-scrollbar-thumb {
-  background: var(--gy-border, #cbd5e1);
-  border-radius: 9999px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .gy-donutchart-legend-item {

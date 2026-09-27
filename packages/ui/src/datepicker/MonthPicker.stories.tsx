@@ -179,6 +179,7 @@ export const InlineBorderless: Story = {
       <div
         style={{
           width: 320,
+          boxSizing: "border-box",
           padding: "1rem",
           backgroundColor: "#ffffff",
           borderRadius: "1rem",

@@ -7,6 +7,7 @@ import {
   offset,
   flip,
   shift,
+  size as floatingSize,
   useDismiss,
   useRole,
   useInteractions,
@@ -36,6 +37,12 @@ export interface MonthPickerProps {
   onApply?: (val: MonthCalendarValue | null) => void;
   placement?: "top" | "bottom";
   align?: "left" | "right";
+  /**
+   * Whether to enable smart positioning that automatically flips between top and bottom.
+   * Restricts placement strictly to top and bottom to avoid unwanted horizontal flips.
+   * @default true
+   */
+  smartPosition?: boolean;
   zIndex?: number;
   usePortal?: boolean;
   required?: boolean;
@@ -84,7 +91,8 @@ export function MonthPicker({
   onApply,
   placement = "bottom",
   align = "left",
-  zIndex = 1000,
+  smartPosition = true,
+  zIndex = 10050,
   usePortal = true,
   required = false,
   disabled = false,
@@ -106,7 +114,7 @@ export function MonthPicker({
 
   useEffect(() => {
     setTempValue(value ?? null);
-  }, [value]);
+  }, [value, open]);
 
   useEffect(() => {
     if (open) onOpen?.();
@@ -116,19 +124,49 @@ export function MonthPicker({
   const desiredPlacement: FloatingPlacement =
     `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
 
-  const { refs, floatingStyles, context } = useFloating({
+  const fallbackPlacements: FloatingPlacement[] =
+    placement === "top"
+      ? [
+          align === "right" ? "bottom-end" : "bottom-start",
+          align === "right" ? "top-start" : "top-end",
+          align === "right" ? "bottom-start" : "bottom-end",
+        ]
+      : [
+          align === "right" ? "top-end" : "top-start",
+          align === "right" ? "bottom-end" : "bottom-start",
+          align === "right" ? "top-start" : "top-end",
+        ];
+
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: desiredPlacement,
     whileElementsMounted: autoUpdate,
     strategy: "fixed",
+    transform: false,
     middleware: [
       offset(6),
-      flip({
-        fallbackAxisSideDirection: "start",
-        padding: 8,
-      }),
+      ...(smartPosition
+        ? [
+            flip({
+              fallbackPlacements,
+              fallbackAxisSideDirection: "none",
+              crossAxis: false,
+              padding: 8,
+            }),
+          ]
+        : []),
       shift({ padding: 8 }),
+      floatingSize({
+        apply({ rects, elements }) {
+          const w = `${Math.max(rects.reference.width, 280)}px`;
+          elements.floating.style.setProperty("--gy-trigger-width", w);
+          Object.assign(elements.floating.style, {
+            width: w,
+            minWidth: w,
+          });
+        },
+      }),
     ],
   });
 
@@ -196,7 +234,7 @@ export function MonthPicker({
   const popoverContent = (
     <div
       ref={refs.setFloating}
-      className={`gy-monthpicker-popover ${
+      className={`gy-monthpicker-popover ${isPositioned ? "gy-monthpicker-popover--positioned" : ""} ${
         effectiveMenuSize ? `gy-monthpicker-popover--${effectiveMenuSize}` : ""
       } ${
         isBorderless ? "gy-monthpicker-popover--borderless" : ""
@@ -204,6 +242,9 @@ export function MonthPicker({
       style={{
         ...floatingStyles,
         zIndex,
+        visibility: isPositioned ? "visible" : "hidden",
+        opacity: isPositioned ? undefined : 0,
+        pointerEvents: isPositioned ? undefined : "none",
       }}
       {...getFloatingProps()}
     >
@@ -235,15 +276,26 @@ export function MonthPicker({
 
   return (
     <div className={`gy-monthpicker ${className}`}>
+      {label && (
+        <label
+          className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
+          htmlFor={`gy-monthpicker-${uid}`}
+        >
+          {label}
+        </label>
+      )}
+
       <div
         ref={refs.setReference}
+        style={{ width: "100%" }}
         {...getReferenceProps({
           onClick: () => !disabled && setOpen((o) => !o),
         })}
       >
         <Input
           id={`gy-monthpicker-${uid}`}
-          label={label}
+          fullWidth
+          isFocused={open}
           placeholder={placeholder}
           value={displayVal}
           size={size}
@@ -251,7 +303,6 @@ export function MonthPicker({
           disabled={disabled}
           required={required}
           hasError={hasError}
-          helperText={helperText}
           style={{ cursor: disabled ? "not-allowed" : "pointer" }}
           rightIcon={
             <svg
@@ -272,7 +323,13 @@ export function MonthPicker({
         />
       </div>
 
-      {open && !disabled && <FloatingPortal>{popoverContent}</FloatingPortal>}
+      {helperText && (
+        <div className={`gy-input-helper ${hasError ? "gy-input-helper--error" : ""}`}>
+          {helperText}
+        </div>
+      )}
+
+      {open && !disabled && (usePortal ? <FloatingPortal>{popoverContent}</FloatingPortal> : popoverContent)}
     </div>
   );
 }

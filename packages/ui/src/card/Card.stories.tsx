@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Card, CardHeader, CardBody, CardFooter, CardInfo } from "./Card";
 import { Button } from "../button/Button";
 import { Chip } from "../chips/Chips";
+import { Input } from "../input/Input";
+import { Dropdown } from "../dropdown/Dropdown";
+import { DatePicker } from "../datepicker/DatePicker";
+import { TimePicker } from "../timepicker/TimePicker";
+import { Toggle } from "../toggle/Toggle";
+import { ProgressBar } from "../progressbar/ProgressBar";
+import { Typography } from "../typography/Typography";
 
 /**
  * Versatile container for grouping related content and actions.
@@ -268,3 +275,166 @@ export const Glassmorphic: Story = {
     </div>
   ),
 };
+
+/* ── Story: Card Composing Input, DatePicker, TimePicker, Dropdown, Toggle & ProgressBar ── */
+export const CardWithFormAndPickers: Story = {
+  render: () => {
+    const [title, setTitle] = useState("Weekly Design Critique");
+    const [priority, setPriority] = useState("high");
+    const [date, setDate] = useState<any>(new Date());
+    const [time, setTime] = useState("03:30 PM");
+    const [notify, setNotify] = useState(true);
+
+    const priorityOptions = [
+      { value: "low", label: "Low Priority" },
+      { value: "medium", label: "Medium Priority" },
+      { value: "high", label: "High Priority (Urgent)" },
+    ];
+
+    return (
+      <div style={{ width: 460 }}>
+        <Card variant="outlined" padding="lg">
+          <CardHeader>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <Typography variant="h5" weight="semibold">
+                  New Calendar Task
+                </Typography>
+                <Typography variant="small" style={{ color: "var(--gy-text-muted)" }}>
+                  Embedded form components inside Card container
+                </Typography>
+              </div>
+              <Chip variant="warning" size="sm">Active Sprint</Chip>
+            </div>
+          </CardHeader>
+
+          <CardBody>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "0.5rem" }}>
+              <Input
+                label="Task Name"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+
+              <Dropdown
+                label="Priority Level"
+                options={priorityOptions}
+                value={priority}
+                onChange={setPriority}
+              />
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                <DatePicker
+                  label="Date"
+                  value={date}
+                  onChange={setDate}
+                />
+                <TimePicker
+                  label="Time Slot"
+                  value={time}
+                  onChange={(t) => setTime(t)}
+                  minuteStep={15}
+                />
+              </div>
+
+              <Toggle
+                label="Notify team members via push notification"
+                checked={notify}
+                withIcon
+                onChange={(e) => setNotify(e.target.checked)}
+              />
+
+              <ProgressBar
+                progress={65}
+                variant="primary"
+                label="Sprint Bandwidth Capacity (65%)"
+                showValue
+              />
+            </div>
+          </CardBody>
+
+          <CardFooter>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", width: "100%" }}>
+              <Button variant="outline" size="sm">
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => alert(`Saved: ${title} at ${time}`)}
+              >
+                Save Schedule
+              </Button>
+            </div>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  },
+};
+
+/* ── Story: Card Composing Resource Monitoring With ProgressBars & Chips ── */
+export const CardWithResourceMonitor: Story = {
+  render: () => {
+    const [cluster, setCluster] = useState("us-east");
+
+    const clusterOptions = [
+      { value: "us-east", label: "US East (Primary Kubernetes)" },
+      { value: "eu-west", label: "EU West (Edge Mirror)" },
+    ];
+
+    return (
+      <div style={{ width: 460 }}>
+        <Card variant="elevated" padding="lg">
+          <CardHeader>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <Typography variant="h5" weight="semibold">
+                Cluster Health
+              </Typography>
+              <Chip variant="success" size="sm">All Systems Operational</Chip>
+            </div>
+          </CardHeader>
+
+          <CardBody>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "0.5rem" }}>
+              <Dropdown
+                label="Active Region"
+                options={clusterOptions}
+                value={cluster}
+                onChange={setCluster}
+              />
+
+              <ProgressBar
+                progress={78}
+                variant="primary"
+                label="CPU Load (7.8 / 10 Cores)"
+                showValue
+              />
+
+              <ProgressBar
+                progress={54}
+                variant="indigo"
+                label="RAM Consumption (8.6 / 16 GB)"
+                showValue
+              />
+
+              <ProgressBar
+                progress={91}
+                variant="warning"
+                label="Network Ingress (910 Mbps / 1 Gbps)"
+                showValue
+              />
+            </div>
+          </CardBody>
+
+          <CardFooter>
+            <Button variant="primary" size="sm" fullWidth>
+              Scale Kubernetes Nodes
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  },
+};
+

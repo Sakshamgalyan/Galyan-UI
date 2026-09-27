@@ -15,6 +15,11 @@ const DEMO_CUSTOM_THEME: CustomThemeConfig = { primary: "#f97316" };
 
 const preview: Preview = {
   parameters: {
+    docs: {
+      source: {
+        type: "code",
+      },
+    },
     options: {
       storySort: {
         order: ["INTRODUCTION", ["Welcome", "Catalog"], "Galyan UI", "*"],

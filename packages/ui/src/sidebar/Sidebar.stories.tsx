@@ -145,6 +145,10 @@ const meta: Meta<typeof Sidebar> = {
       options: ["pill", "line", "subtle", "glow"],
     },
     accentColor: { control: "color" },
+    colorScheme: {
+      control: "select",
+      options: [undefined, "admin", "owner", "editor", "moderator", "viewer", "support", "guest"],
+    },
     width: { control: "text" },
     collapsedWidth: { control: "text" },
   },
@@ -698,6 +702,301 @@ export const DarkMode: Story = {
           <h2 style={{ margin: "0 0 0.5rem" }}>Dark Mode Workspace</h2>
           <p style={{ color: "#94a3b8" }}>
             Luminous active highlights, deep slate surface elevation, and high-contrast badges.
+          </p>
+        </main>
+      </div>
+    );
+  },
+};
+
+/* ── Role-Based Color Schemes ─────────────────────────────────────────── */
+
+const ROLE_COLORS: Record<string, string> = {
+  admin: "#dc2626",
+  owner: "#7c3aed",
+  editor: "#2563eb",
+  moderator: "#d97706",
+  viewer: "#059669",
+  support: "#0891b2",
+  guest: "#6b7280",
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  admin: "Administrator",
+  owner: "Owner",
+  editor: "Editor",
+  moderator: "Moderator",
+  viewer: "Viewer",
+  support: "Support",
+  guest: "Guest",
+};
+
+export const RoleColorSchemes: Story = {
+  render: () => {
+    const [active, setActive] = useState("home");
+    const [role, setRole] = useState<string>("admin");
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        {/* Role switcher */}
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          {Object.keys(ROLE_COLORS).map((r) => (
+            <button
+              key={r}
+              onClick={() => setRole(r)}
+              style={{
+                padding: "0.5rem 1rem",
+                borderRadius: "0.5rem",
+                border: role === r
+                  ? `2px solid ${ROLE_COLORS[r]}`
+                  : "2px solid var(--gy-border, #e2e8f0)",
+                background: role === r
+                  ? ROLE_COLORS[r]
+                  : "var(--gy-surface, #ffffff)",
+                color: role === r ? "#ffffff" : "var(--gy-text, #0f172a)",
+                fontWeight: 600,
+                fontSize: "0.8125rem",
+                cursor: "pointer",
+                textTransform: "capitalize",
+                transition: "all 0.15s ease",
+              }}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+        <div
+          style={{
+            height: "580px",
+            width: "760px",
+            display: "flex",
+            border: "1px solid var(--gy-border, #e2e8f0)",
+            borderRadius: "1rem",
+            overflow: "hidden",
+            background: "var(--gy-background-muted, #f8fafc)",
+          }}
+        >
+          <Sidebar
+            key={role}
+            colorScheme={role as any}
+            variant="default"
+            header={<BrandHeader color={ROLE_COLORS[role]} />}
+            footer={
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+                <div
+                  className="gy-sidebar-logo"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: ROLE_COLORS[role],
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 600,
+                    fontSize: "0.8125rem",
+                    flexShrink: 0,
+                  }}
+                >
+                  SG
+                </div>
+                <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+                  <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+                    Saksham Galyan
+                  </span>
+                  <span style={{ fontSize: "0.75rem", color: ROLE_COLORS[role], fontWeight: 600, textTransform: "capitalize" }}>
+                    {ROLE_LABELS[role]}
+                  </span>
+                </div>
+              </div>
+            }
+            items={standardSidebarItems}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+          <main style={{ flex: 1, padding: "2rem" }}>
+            <h2 style={{ margin: "0 0 0.5rem" }}>
+              Role: <span style={{ color: ROLE_COLORS[role], textTransform: "capitalize" }}>{ROLE_LABELS[role]}</span>
+            </h2>
+            <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6 }}>
+              Each role automatically applies a unique color theme across the sidebar —
+              including active item backgrounds, group titles, toggle button, dividers, and the accent border strip.
+            </p>
+            <p style={{ color: "var(--gy-text-muted, #64748b)", marginTop: "1rem", fontSize: "0.875rem" }}>
+              Use <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>colorScheme="{role}"</code> to apply this theme.
+            </p>
+          </main>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const RoleColorSchemesDark: Story = {
+  render: () => {
+    const [active, setActive] = useState("home");
+    const [role, setRole] = useState<string>("admin");
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          {Object.keys(ROLE_COLORS).map((r) => (
+            <button
+              key={r}
+              onClick={() => setRole(r)}
+              style={{
+                padding: "0.5rem 1rem",
+                borderRadius: "0.5rem",
+                border: role === r
+                  ? `2px solid ${ROLE_COLORS[r]}`
+                  : "2px solid #334155",
+                background: role === r ? ROLE_COLORS[r] : "#1e293b",
+                color: role === r ? "#ffffff" : "#94a3b8",
+                fontWeight: 600,
+                fontSize: "0.8125rem",
+                cursor: "pointer",
+                textTransform: "capitalize",
+                transition: "all 0.15s ease",
+              }}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+        <div
+          style={{
+            height: "580px",
+            width: "760px",
+            display: "flex",
+            borderRadius: "1.25rem",
+            overflow: "hidden",
+            background: "#0b132b",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.6)",
+          }}
+          data-color-mode="dark"
+        >
+          <Sidebar
+            key={role}
+            colorScheme={role as any}
+            variant="default"
+            header={<BrandHeader color={ROLE_COLORS[role]} />}
+            footer={
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+                <div
+                  className="gy-sidebar-logo"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: ROLE_COLORS[role],
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 600,
+                    fontSize: "0.8125rem",
+                    flexShrink: 0,
+                  }}
+                >
+                  SG
+                </div>
+                <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+                  <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap", color: "#f8fafc" }}>
+                    Saksham Galyan
+                  </span>
+                  <span style={{ fontSize: "0.75rem", color: ROLE_COLORS[role], fontWeight: 600, textTransform: "capitalize" }}>
+                    {ROLE_LABELS[role]}
+                  </span>
+                </div>
+              </div>
+            }
+            items={standardSidebarItems}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+          <main style={{ flex: 1, padding: "2.5rem", color: "#f8fafc" }}>
+            <h2 style={{ margin: "0 0 0.5rem" }}>
+              Role: <span style={{ color: ROLE_COLORS[role], textTransform: "capitalize" }}>{ROLE_LABELS[role]}</span>
+            </h2>
+            <p style={{ color: "#94a3b8", lineHeight: 1.6 }}>
+              Role-based color scheme in dark mode. Surface colors adapt
+              to the role's dark tint, providing a cohesive dark theme.
+            </p>
+          </main>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const CustomColorScheme: Story = {
+  render: () => {
+    const [active, setActive] = useState("home");
+    return (
+      <div
+        style={{
+          height: "580px",
+          width: "760px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-background-muted, #f8fafc)",
+        }}
+      >
+        <Sidebar
+          colorScheme={{
+            primary: "#e11d48",
+            surfaceLight: "#fff1f2",
+            surfaceDark: "#4c0519",
+            textLight: "#be123c",
+            textDark: "#fda4af",
+            border: "#fecdd3",
+          }}
+          variant="floating"
+          activeVariant="glow"
+          header={<BrandHeader color="#e11d48" />}
+          footer={
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+              <div
+                className="gy-sidebar-logo"
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #e11d48, #f43f5e)",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 600,
+                  fontSize: "0.8125rem",
+                  flexShrink: 0,
+                }}
+              >
+                SG
+              </div>
+              <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+                <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+                  Saksham Galyan
+                </span>
+                <span style={{ fontSize: "0.75rem", color: "#e11d48", fontWeight: 600 }}>
+                  Custom Brand
+                </span>
+              </div>
+            </div>
+          }
+          items={standardSidebarItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+        <main style={{ flex: 1, padding: "2rem" }}>
+          <h2 style={{ margin: "0 0 0.5rem" }}>Custom Color Scheme</h2>
+          <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6 }}>
+            Pass a custom <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>colorScheme</code> object
+            with <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>primary</code>,
+            <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}> surfaceLight</code>,
+            <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}> surfaceDark</code>,
+            and more fields for full brand customization.
           </p>
         </main>
       </div>

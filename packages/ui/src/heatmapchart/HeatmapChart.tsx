@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useRef } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./heatmap-chart.css";
 
 export interface HeatmapDataCell {
@@ -95,6 +96,10 @@ export function HeatmapChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

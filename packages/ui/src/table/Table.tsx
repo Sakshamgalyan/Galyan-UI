@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Checkbox } from "../checkbox/Checkbox";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./table.css";
 
 export type SortDirection = "asc" | "desc";
@@ -79,6 +80,18 @@ export interface TableProps<T> {
   responsive?: TableResponsiveMode;
   /** Accessible label for table / scrollable region */
   ariaLabel?: string;
+  /**
+   * Corner rounding style:
+   * - "none" | false: Crisp sharp 0px corners
+   * - true | "xl" (default): Standard 0.75rem rounded corners
+   * - "sm" | "md" | "lg": Proportional rounded corners
+   * @default "xl"
+   */
+  rounded?: boolean | "none" | "sm" | "md" | "lg" | "xl";
+  /** Custom border radius if a specific CSS value is needed */
+  borderRadius?: string | number;
+  /** Custom style for table wrapper */
+  style?: React.CSSProperties;
   className?: string;
 }
 
@@ -210,6 +223,9 @@ export function Table<T>({
   stickyHeader = false,
   responsive = "scroll",
   ariaLabel,
+  rounded = "xl",
+  borderRadius,
+  style,
   className = "",
 }: TableProps<T>) {
   // Local states for uncontrolled modes
@@ -442,15 +458,13 @@ export function Table<T>({
     if (emptyState) return emptyState;
 
     return (
-      <div className="gy-table-empty-container">
-        {emptyStateIcon && (
-          <div className="gy-table-empty-icon">{emptyStateIcon}</div>
-        )}
-        <h4 className="gy-table-empty-label">{emptyStateLabel}</h4>
-        {emptyStateMessage && (
-          <p className="gy-table-empty-message">{emptyStateMessage}</p>
-        )}
-      </div>
+      <EmptyState
+        title={emptyStateLabel}
+        description={emptyStateMessage}
+        icon={emptyStateIcon}
+        size="md"
+        className="gy-table-empty-container"
+      />
     );
   };
 
@@ -649,6 +663,11 @@ export function Table<T>({
 
   const wrapperClasses = [
     "gy-table-wrapper",
+    rounded === true
+      ? "gy-table-wrapper--rounded"
+      : typeof rounded === "string" && rounded !== "none"
+        ? `gy-table-wrapper--rounded-${rounded}`
+        : "gy-table-wrapper--sharp",
     isResponsive ? "gy-table-wrapper--responsive" : "",
     isStackedMode
       ? "gy-table-wrapper--responsive-stack"
@@ -661,6 +680,11 @@ export function Table<T>({
     .filter(Boolean)
     .join(" ");
 
+  const wrapperStyle: React.CSSProperties | undefined =
+    borderRadius !== undefined || style !== undefined
+      ? { ...(borderRadius !== undefined ? { borderRadius } : {}), ...style }
+      : undefined;
+
   const tableClasses = [
     "gy-table",
     `gy-table--${size}`,
@@ -671,7 +695,7 @@ export function Table<T>({
     .join(" ");
 
   return (
-    <div className={wrapperClasses}>
+    <div className={wrapperClasses} style={wrapperStyle}>
       <div
         ref={containerRef}
         className="gy-table-container"

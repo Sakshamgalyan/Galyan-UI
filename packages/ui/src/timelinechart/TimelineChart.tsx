@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./timeline-chart.css";
 
 export interface TimelineItem {
@@ -250,7 +251,7 @@ export function TimelineChart({
     }
 
     if (data.length === 0) {
-      return <div className="gy-timeline-empty">No data available</div>;
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     const yAxisWidth = isCompact ? 75 : 110;

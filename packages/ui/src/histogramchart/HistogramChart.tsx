@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./histogram-chart.css";
 
 export interface HistogramItem {
@@ -40,7 +41,11 @@ export interface HistogramChartProps {
   barCategoryGap?: number | string;
   tooltipConfig?: HistogramTooltipConfig;
   tokens?: Record<string, string>;
+  truncateCharacterAfter?: number;
+  tickFormatter?: (bin: string) => string;
   onBarClick?: (item: HistogramItem, index: number) => void;
+  /** Explicit angle for X-axis tick labels (e.g. -35) */
+  xAxisTickAngle?: number;
 }
 
 export function HistogramChart({
@@ -57,11 +62,31 @@ export function HistogramChart({
   barCategoryGap = 2,
   tooltipConfig = { show: true },
   tokens,
+  truncateCharacterAfter,
+  tickFormatter,
   onBarClick,
+  xAxisTickAngle,
 }: HistogramChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isCompact, setIsCompact] = useState(false);
+
+  const maxLabelLength = useMemo(() => {
+    if (!data || data.length === 0) return 0;
+    return Math.max(...data.map((d) => String(d.bin || "").length));
+  }, [data]);
+
+  const shouldAngleTicks = useMemo(() => {
+    if (xAxisTickAngle !== undefined) return xAxisTickAngle !== 0;
+    // Auto-angle if compact and labels are somewhat long, or if 4+ bins
+    if (isCompact) {
+      return (data.length >= 4 && maxLabelLength >= 5) || maxLabelLength >= 8;
+    }
+    // On regular screens, angle if many bars with moderately long labels
+    return data.length >= 7 && maxLabelLength >= 7;
+  }, [xAxisTickAngle, isCompact, data.length, maxLabelLength]);
+
+  const effectiveTickAngle = xAxisTickAngle ?? (shouldAngleTicks ? -35 : 0);
 
   // ResizeObserver for responsive observation
   useEffect(() => {
@@ -191,11 +216,20 @@ export function HistogramChart({
 
     if (data.length === 0) {
       return (
-        <div className="gy-histogram-empty">No data available</div>
+        <EmptyState size="md" variant="subtle" />
       );
     }
 
-    const isRotated = isCompact && data.length > 5;
+    const formatBinLabel = (val: string) => {
+      if (tickFormatter) return tickFormatter(val);
+      const limit =
+        truncateCharacterAfter ||
+        (!shouldAngleTicks && isCompact && data.length >= 4 ? 7 : undefined);
+      if (limit && typeof val === "string" && val.length > limit) {
+        return `${val.slice(0, limit)}…`;
+      }
+      return val;
+    };
 
     return (
       <div className="gy-histogram-body">
@@ -227,8 +261,8 @@ export function HistogramChart({
               margin={{
                 top: 8,
                 right: 8,
-                left: isCompact ? -18 : -10,
-                bottom: isRotated ? 18 : 0,
+                left: isCompact ? -20 : -10,
+                bottom: effectiveTickAngle !== 0 ? 8 : 0,
               }}
               barCategoryGap={barCategoryGap}
             >
@@ -256,8 +290,13 @@ export function HistogramChart({
               <XAxis
                 dataKey="bin"
                 stroke="var(--gy-border, #e2e8f0)"
-                angle={isRotated ? -30 : 0}
-                textAnchor={isRotated ? "end" : "middle"}
+                interval={0}
+                tickFormatter={formatBinLabel}
+                angle={effectiveTickAngle}
+                textAnchor={effectiveTickAngle !== 0 ? "end" : "middle"}
+                height={effectiveTickAngle !== 0 ? (isCompact ? 44 : 50) : (isCompact ? 24 : 30)}
+                dx={effectiveTickAngle !== 0 ? -2 : 0}
+                dy={effectiveTickAngle !== 0 ? 3 : 0}
                 tick={{
                   fill: "var(--gy-text-muted, #64748b)",
                   fontSize: isCompact ? 10 : 11,

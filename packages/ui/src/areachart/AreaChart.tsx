@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./area-chart.css";
 
 export interface AreaChartSeries {
@@ -97,6 +98,10 @@ export function AreaChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

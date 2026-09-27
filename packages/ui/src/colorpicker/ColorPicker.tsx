@@ -60,6 +60,12 @@ export interface ColorPickerProps {
   placement?: "top" | "bottom" | "left" | "right";
   /** Alignment for the floating popover */
   align?: "start" | "end" | "left" | "right" | "center";
+  /**
+   * Whether to enable smart positioning that automatically flips between top and bottom.
+   * Restricts placement strictly to top and bottom to avoid unwanted horizontal flips.
+   * @default true
+   */
+  smartPosition?: boolean;
   /** Z-index for the popover */
   zIndex?: number;
   /** Array of hex colors for quick preset swatches */
@@ -359,7 +365,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       style,
       placement = "bottom",
       align = "start",
-      zIndex = 1000,
+      smartPosition = true,
+      zIndex = 10050,
       presets = DEFAULT_PRESETS,
       placeholder = "#HEX",
       showClear = true,
@@ -532,18 +539,43 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
 
     // ── Floating UI ──
 
+    const effectiveAlign =
+      align === "right" || align === "end" ? "end" : "start";
     const desiredPlacement: FloatingPlacement =
-      `${placement}-${align === "right" || align === "end" ? "end" : "start"}` as FloatingPlacement;
+      `${placement}-${effectiveAlign}` as FloatingPlacement;
 
-    const { refs, floatingStyles, context } = useFloating({
+    const fallbackPlacements: FloatingPlacement[] =
+      placement === "top"
+        ? [
+            `bottom-${effectiveAlign}` as FloatingPlacement,
+            `top-${effectiveAlign === "end" ? "start" : "end"}` as FloatingPlacement,
+            `bottom-${effectiveAlign === "end" ? "start" : "end"}` as FloatingPlacement,
+          ]
+        : [
+            `top-${effectiveAlign}` as FloatingPlacement,
+            `bottom-${effectiveAlign === "end" ? "start" : "end"}` as FloatingPlacement,
+            `top-${effectiveAlign === "end" ? "start" : "end"}` as FloatingPlacement,
+          ];
+
+    const { refs, floatingStyles, context, isPositioned } = useFloating({
       open,
       onOpenChange: setOpen,
       placement: desiredPlacement,
       whileElementsMounted: autoUpdate,
       strategy: "fixed",
+      transform: false,
       middleware: [
         offset(6),
-        flip({ fallbackAxisSideDirection: "start", padding: 8 }),
+        ...(smartPosition
+          ? [
+              flip({
+                fallbackPlacements,
+                fallbackAxisSideDirection: "none",
+                crossAxis: false,
+                padding: 8,
+              }),
+            ]
+          : []),
         shift({ padding: 8 }),
       ],
     });
@@ -560,8 +592,14 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const popoverContent = (
       <div
         ref={refs.setFloating}
-        className="gy-colorpicker-popover"
-        style={{ ...floatingStyles, zIndex }}
+        className={`gy-colorpicker-popover ${isPositioned ? "gy-colorpicker-popover--positioned" : ""}`.trim()}
+        style={{
+          ...floatingStyles,
+          zIndex,
+          visibility: isPositioned ? "visible" : "hidden",
+          opacity: isPositioned ? undefined : 0,
+          pointerEvents: isPositioned ? undefined : "none",
+        }}
         {...getFloatingProps()}
       >
         {/* Saturation / Value 2D Box */}

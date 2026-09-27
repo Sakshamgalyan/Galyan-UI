@@ -830,3 +830,213 @@
 [data-color-mode="dark"] .gy-sidebar--glassmorphic .gy-sidebar-item-badge-dot {
   box-shadow: 0 0 0 2px #0f172a;
 }
+
+/* ── Role-Based Color Scheme ───────────────────────────────────────────── */
+
+/* Light Mode: Color Scheme Surface, Border, and Text Overrides */
+.gy-sidebar--color-scheme {
+  background: var(--gy-sidebar-cs-surface-light, var(--gy-surface, #ffffff));
+  border-color: var(--gy-sidebar-cs-border, var(--gy-border, #f1f5f9));
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-header,
+.gy-sidebar--color-scheme .gy-sidebar-footer {
+  border-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 18%, transparent);
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-group-title {
+  color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 55%, var(--gy-text-subtle, #94a3b8));
+  letter-spacing: 0.06em;
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-divider,
+.gy-sidebar--color-scheme .gy-sidebar-group-divider {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 14%, transparent);
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-item {
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active) {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 8%, var(--gy-sidebar-cs-surface-light, var(--gy-surface, #ffffff)));
+}
+
+/* Color scheme active item overrides for all active variants */
+.gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 14%, var(--gy-sidebar-cs-surface-light, var(--gy-surface, #ffffff)));
+  color: var(--gy-sidebar-cs-text-light, var(--gy-sidebar-cs-primary));
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active:hover {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 20%, var(--gy-sidebar-cs-surface-light, var(--gy-surface, #ffffff)));
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active .gy-sidebar-item-icon {
+  color: var(--gy-sidebar-cs-primary);
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active {
+  color: var(--gy-sidebar-cs-text-light, var(--gy-sidebar-cs-primary));
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active::before {
+  background: var(--gy-sidebar-cs-primary);
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active .gy-sidebar-item-icon {
+  color: var(--gy-sidebar-cs-primary);
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-subtle .gy-sidebar-item--active {
+  color: var(--gy-sidebar-cs-text-light, var(--gy-sidebar-cs-primary));
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-subtle .gy-sidebar-item--active .gy-sidebar-item-icon {
+  color: var(--gy-sidebar-cs-primary);
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-glow .gy-sidebar-item--active {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 14%, var(--gy-sidebar-cs-surface-light, var(--gy-surface, #ffffff)));
+  color: var(--gy-sidebar-cs-text-light, var(--gy-sidebar-cs-primary));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--gy-sidebar-cs-primary) 28%, transparent);
+}
+
+.gy-sidebar--color-scheme.gy-sidebar--active-glow .gy-sidebar-item--active .gy-sidebar-item-icon {
+  color: var(--gy-sidebar-cs-primary);
+}
+
+/* Toggle button picks up color scheme accent */
+.gy-sidebar--color-scheme .gy-sidebar-toggle-btn {
+  border-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 22%, var(--gy-border, #cbd5e1));
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-toggle-btn:hover {
+  background: var(--gy-sidebar-cs-primary);
+  border-color: var(--gy-sidebar-cs-primary);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--gy-sidebar-cs-primary) 35%, transparent);
+}
+
+/* Collapsed icon-only active item */
+.gy-sidebar--collapsed.gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active {
+  box-shadow: 0 3px 12px -2px color-mix(in srgb, var(--gy-sidebar-cs-primary) 35%, transparent);
+}
+
+/* Nested list border follows accent */
+.gy-sidebar--color-scheme .gy-sidebar-nested-list {
+  border-left-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 20%, transparent);
+}
+
+/* Badge follows color scheme primary */
+.gy-sidebar--color-scheme .gy-sidebar-item-badge--primary {
+  background: var(--gy-sidebar-cs-primary);
+}
+
+.gy-sidebar--color-scheme .gy-sidebar-item-badge-dot--primary {
+  background: var(--gy-sidebar-cs-primary);
+}
+
+/* ── Role Accent Strip (left-border indicator per role) ──────────────── */
+.gy-sidebar--role-admin,
+.gy-sidebar--role-owner,
+.gy-sidebar--role-editor,
+.gy-sidebar--role-moderator,
+.gy-sidebar--role-viewer,
+.gy-sidebar--role-support,
+.gy-sidebar--role-guest {
+  border-left: 3px solid var(--gy-sidebar-cs-primary) !important;
+}
+
+.gy-sidebar--right.gy-sidebar--role-admin,
+.gy-sidebar--right.gy-sidebar--role-owner,
+.gy-sidebar--right.gy-sidebar--role-editor,
+.gy-sidebar--right.gy-sidebar--role-moderator,
+.gy-sidebar--right.gy-sidebar--role-viewer,
+.gy-sidebar--right.gy-sidebar--role-support,
+.gy-sidebar--right.gy-sidebar--role-guest {
+  border-left: none !important;
+  border-right: 3px solid var(--gy-sidebar-cs-primary) !important;
+}
+
+/* ── Dark Mode: Color Scheme Overrides ─────────────────────────────────── */
+.gy-dark .gy-sidebar--color-scheme,
+[data-color-mode="dark"] .gy-sidebar--color-scheme,
+.dark .gy-sidebar--color-scheme,
+[data-theme="dark"] .gy-sidebar--color-scheme {
+  background: var(--gy-sidebar-cs-surface-dark, var(--gy-surface, #1e293b));
+  border-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 18%, #1e293b);
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-header,
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-footer,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-header,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-footer,
+.dark .gy-sidebar--color-scheme .gy-sidebar-header,
+.dark .gy-sidebar--color-scheme .gy-sidebar-footer {
+  border-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 15%, rgba(255, 255, 255, 0.06));
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-item,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-item,
+.dark .gy-sidebar--color-scheme .gy-sidebar-item {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+.dark .gy-sidebar--color-scheme .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active) {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 14%, var(--gy-sidebar-cs-surface-dark, #1e293b));
+  color: #ffffff;
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-group-title,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-group-title,
+.dark .gy-sidebar--color-scheme .gy-sidebar-group-title {
+  color: var(--gy-sidebar-cs-text-dark, color-mix(in srgb, var(--gy-sidebar-cs-primary) 60%, #94a3b8));
+}
+
+.gy-dark .gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active,
+[data-color-mode="dark"] .gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active,
+.dark .gy-sidebar--color-scheme.gy-sidebar--active-pill .gy-sidebar-item--active {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 22%, var(--gy-sidebar-cs-surface-dark, #1e293b));
+  color: var(--gy-sidebar-cs-text-dark, var(--gy-sidebar-cs-primary));
+}
+
+.gy-dark .gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active,
+[data-color-mode="dark"] .gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active,
+.dark .gy-sidebar--color-scheme.gy-sidebar--active-line .gy-sidebar-item--active {
+  color: var(--gy-sidebar-cs-text-dark, var(--gy-sidebar-cs-primary));
+}
+
+.gy-dark .gy-sidebar--color-scheme.gy-sidebar--active-glow .gy-sidebar-item--active,
+[data-color-mode="dark"] .gy-sidebar--color-scheme.gy-sidebar--active-glow .gy-sidebar-item--active,
+.dark .gy-sidebar--color-scheme.gy-sidebar--active-glow .gy-sidebar-item--active {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 22%, var(--gy-sidebar-cs-surface-dark, #1e293b));
+  color: var(--gy-sidebar-cs-text-dark, var(--gy-sidebar-cs-primary));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--gy-sidebar-cs-primary) 35%, transparent);
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-toggle-btn,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-toggle-btn,
+.dark .gy-sidebar--color-scheme .gy-sidebar-toggle-btn {
+  background: var(--gy-sidebar-cs-surface-dark, #1e293b);
+  border-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 20%, #334155);
+  color: var(--gy-sidebar-cs-text-dark, #94a3b8);
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-divider,
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-group-divider,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-divider,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-group-divider,
+.dark .gy-sidebar--color-scheme .gy-sidebar-divider,
+.dark .gy-sidebar--color-scheme .gy-sidebar-group-divider {
+  background: color-mix(in srgb, var(--gy-sidebar-cs-primary) 12%, rgba(255, 255, 255, 0.06));
+}
+
+.gy-dark .gy-sidebar--color-scheme .gy-sidebar-nested-list,
+[data-color-mode="dark"] .gy-sidebar--color-scheme .gy-sidebar-nested-list,
+.dark .gy-sidebar--color-scheme .gy-sidebar-nested-list {
+  border-left-color: color-mix(in srgb, var(--gy-sidebar-cs-primary) 18%, rgba(255, 255, 255, 0.08));
+}
+

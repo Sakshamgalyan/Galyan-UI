@@ -682,4 +682,63 @@ export const Glassmorphic: Story = {
   },
 };
 
+export const CustomWidth: Story = {
+  render: () => {
+    const [val1, setVal1] = useState("production");
+    const [val2, setVal2] = useState("staging");
+
+    const richOptions = [
+      {
+        value: "production",
+        label: "Production Cluster (us-east-1)",
+        description: "Zero-downtime multi-AZ deployment with 99.99% SLA",
+      },
+      {
+        value: "staging",
+        label: "Staging Mirror (us-west-2)",
+        description: "Pre-release testing environment with production parity",
+      },
+      {
+        value: "development",
+        label: "Development Sandbox (eu-central-1)",
+        description: "Ephemeral branch environment for continuous testing",
+      },
+    ];
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%" }}>
+        <div>
+          <p style={{ margin: "0 0 0.5rem", fontSize: "0.875rem", color: "var(--gy-text-muted, #64748b)" }}>
+            <strong>Default:</strong> Menu matches the trigger width precisely:
+          </p>
+          <div style={{ width: 280 }}>
+            <Dropdown
+              label="Trigger Width Matching (Default)"
+              options={richOptions}
+              value={val1}
+              onChange={setVal1}
+            />
+          </div>
+        </div>
+
+        <div>
+          <p style={{ margin: "0 0 0.5rem", fontSize: "0.875rem", color: "var(--gy-text-muted, #64748b)" }}>
+            <strong>Custom Width:</strong> Custom menu width (e.g. <code>customWidth="420px"</code>):
+          </p>
+          <div style={{ width: 280 }}>
+            <Dropdown
+              label="Custom Menu Width (420px)"
+              options={richOptions}
+              value={val2}
+              onChange={setVal2}
+              customWidth="420px"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+
 

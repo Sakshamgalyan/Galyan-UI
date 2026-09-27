@@ -13,6 +13,24 @@
   overflow: hidden;
 }
 
+.gy-histogramchart--compact {
+  padding: 0.75rem 0.625rem 0.5rem;
+}
+
+.gy-histogramchart--compact .gy-histogram-header {
+  margin-bottom: 0.375rem;
+  gap: 4px;
+}
+
+.gy-histogramchart--compact .gy-histogram-title {
+  font-size: 0.8125rem;
+}
+
+.gy-histogramchart--compact .gy-histogram-badge {
+  padding: 1px 6px;
+  font-size: 0.6875rem;
+}
+
 .gy-histogram-body {
   position: relative;
   width: 100%;

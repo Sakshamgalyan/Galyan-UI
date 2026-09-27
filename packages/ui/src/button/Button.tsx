@@ -75,20 +75,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) {
     const handleClick = useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
-        // Ripple effect for active feedback
-        const btn = e.currentTarget;
-        const rect = btn.getBoundingClientRect();
-        const s = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - s / 2;
-        const y = e.clientY - rect.top - s / 2;
+        if (variant !== "link") {
+          // Ripple effect for active feedback
+          const btn = e.currentTarget;
+          const rect = btn.getBoundingClientRect();
+          const s = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - s / 2;
+          const y = e.clientY - rect.top - s / 2;
 
-        const ripple = document.createElement("span");
-        ripple.className = "gy-btn__ripple";
-        ripple.style.width = ripple.style.height = `${s}px`;
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
+          const ripple = document.createElement("span");
+          ripple.className = "gy-btn__ripple";
+          ripple.style.width = ripple.style.height = `${s}px`;
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          btn.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 600);
+        }
 
         onClick?.(e);
       },

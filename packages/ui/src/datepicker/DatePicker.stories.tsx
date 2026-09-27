@@ -275,3 +275,138 @@ export const DisabledAndErrorStates: Story = {
     </div>
   ),
 };
+
+export const DateTimeSelector: Story = {
+  render: () => {
+    const [dateTime, setDateTime] = useState<DatePickerValue>(new Date());
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <DatePicker
+          mode="datetime"
+          label="Event Schedule (Date & Time)"
+          placeholder="Select date & time..."
+          value={dateTime}
+          onChange={setDateTime}
+          helperText="Includes scrollable time dropdown for hours, minutes, and AM/PM with quick 'Now' button"
+        />
+        <div style={{ fontSize: "0.8125rem", color: "var(--gy-text-muted)" }}>
+          Selected value: <code>{String(dateTime)}</code>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const DateTimeWithSeconds24h: Story = {
+  render: () => {
+    const [dateTime, setDateTime] = useState<DatePickerValue>(new Date());
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <DatePicker
+          mode="datetime"
+          timeFormat="24h"
+          showSeconds
+          dateFormat="YYYY-MM-DD HH:mm:ss"
+          label="Server Audit Log Timestamp (24h with Seconds)"
+          placeholder="YYYY-MM-DD HH:mm:ss"
+          value={dateTime}
+          onChange={setDateTime}
+          helperText="High-precision timestamp selector with seconds down to the exact second"
+        />
+        <div style={{ fontSize: "0.8125rem", color: "var(--gy-text-muted)" }}>
+          Formatted value: <code>{String(dateTime)}</code>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const EpochTimestampSelection: Story = {
+  render: () => {
+    // Initial value given as a numeric unix epoch timestamp (ms)
+    const [epochValue, setEpochValue] = useState<number | null>(Date.now());
+    const [contextInfo, setContextInfo] = useState<any>(null);
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <DatePicker
+          mode="datetime"
+          valueFormat="epoch"
+          label="Telemetry Snapshot (Epoch Value)"
+          placeholder="Pick date & exact time"
+          value={epochValue}
+          onChange={(val, ctx) => {
+            setEpochValue(val);
+            setContextInfo(ctx);
+          }}
+          helperText="Select exact date & time; returns value as a Unix epoch timestamp (milliseconds)"
+        />
+
+        <div
+          style={{
+            padding: "0.875rem",
+            background: "var(--gy-background-subtle, #f8fafc)",
+            border: "1px solid var(--gy-border, #e2e8f0)",
+            borderRadius: "0.5rem",
+            fontSize: "0.8125rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.375rem",
+          }}
+        >
+          <div>
+            <strong>Epoch Timestamp (ms):</strong>{" "}
+            <code style={{ color: "var(--gy-primary, #6366f1)", fontWeight: 700 }}>
+              {epochValue ?? "null"}
+            </code>
+          </div>
+          <div>
+            <strong>Readable ISO:</strong>{" "}
+            <code>{epochValue ? new Date(epochValue).toISOString() : "null"}</code>
+          </div>
+          <div>
+            <strong>Context Formatted:</strong>{" "}
+            <code>{contextInfo?.formatted || (epochValue ? new Date(epochValue).toLocaleString() : "")}</code>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const CustomDateFormatWithTime: Story = {
+  render: () => {
+    const [d1, setD1] = useState<DatePickerValue>(new Date());
+    const [d2, setD2] = useState<DatePickerValue>(new Date());
+    const [d3, setD3] = useState<DatePickerValue>(Date.now());
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <DatePicker
+          mode="datetime"
+          dateFormat="MM/DD/YYYY hh:mm A"
+          label="US Format with Time (MM/DD/YYYY hh:mm A)"
+          value={d1}
+          onChange={setD1}
+        />
+        <DatePicker
+          mode="datetime"
+          dateFormat="D MMM YYYY, h:mm A"
+          label="Friendly Verbal Format (D MMM YYYY, h:mm A)"
+          value={d2}
+          onChange={setD2}
+        />
+        <DatePicker
+          mode="datetime"
+          dateFormat="epoch"
+          valueFormat="epoch"
+          label="Direct Epoch Input Display (dateFormat='epoch')"
+          value={d3}
+          onChange={setD3}
+          helperText="Displays Unix epoch milliseconds directly in the input box"
+        />
+      </div>
+    );
+  },
+};
+

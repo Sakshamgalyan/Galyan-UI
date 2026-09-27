@@ -36,7 +36,7 @@
 
 .gy-banner {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.875rem;
   padding: 0.9375rem 1.125rem;
   border-radius: var(--gy-radius-lg, 0.5rem);
@@ -49,6 +49,14 @@
               border-color 0.2s ease;
   animation: gy-banner-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
+}
+
+.gy-banner--align-start {
+  align-items: flex-start;
+}
+
+.gy-banner--align-center {
+  align-items: center;
 }
 
 .gy-banner--dismissing {
@@ -366,11 +374,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 0.08rem;
+  margin-top: 0;
 }
 
-.gy-banner--single-line .gy-banner__icon {
-  margin-top: 0;
+.gy-banner--align-start .gy-banner__icon {
+  margin-top: 0.125rem;
 }
 
 .gy-banner__icon svg {
@@ -419,12 +427,13 @@
   flex-shrink: 0;
   transition: opacity 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
   padding: 0;
-  margin-top: -0.125rem;
+  margin-top: 0;
   margin-right: -0.25rem;
+  margin-left: auto;
 }
 
-.gy-banner--single-line .gy-banner__close {
-  margin-top: 0;
+.gy-banner--align-start .gy-banner__close {
+  margin-top: -0.125rem;
 }
 
 .gy-banner__close:hover {

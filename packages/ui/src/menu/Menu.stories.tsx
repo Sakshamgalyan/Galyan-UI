@@ -111,54 +111,6 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const meta: Meta<typeof Menu> = {
-  title: "Galyan UI/Menu",
-  component: Menu,
-  parameters: { layout: "centered" },
-  tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <div style={{ width: "100%", maxWidth: 680, minHeight: 180 }}>
-        <Story />
-      </div>
-    ),
-  ],
-  argTypes: {
-    variant: { control: "select", options: ["default", "bordered", "minimal"] },
-    size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    collapsible: { control: "boolean" },
-  },
-} satisfies Meta<typeof Menu>;
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const NavigationMenuDemo: Story = {
-  render: () => {
-    const [active, setActive] = useState("home");
-    const demoItems = [
-      { id: "home", label: "Home", icon: <HomeIcon /> },
-      { id: "profile", label: "Profile", icon: <ProfileIcon />, badge: "2" },
-      { id: "div1", label: "", divider: true },
-      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
-      {
-        id: "documents",
-        label: "Documents",
-        icon: <DocumentIcon />,
-        disabled: true,
-      },
-    ];
-    return (
-      <div style={{ width: 260 }}>
-        <Menu
-          items={demoItems}
-          activeItemId={active}
-          onItemClick={setActive}
-        />
-      </div>
-    );
-  },
-};
-
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
   {
@@ -181,13 +133,75 @@ const menuItems = [
   },
 ];
 
+const meta: Meta<typeof Menu> = {
+  title: "Galyan UI/Menu",
+  component: Menu,
+  parameters: {
+    layout: "centered",
+    docs: {
+      source: {
+        type: "code",
+      },
+    },
+  },
+  tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <div style={{ width: "100%", maxWidth: 680, minHeight: 180 }}>
+        <Story />
+      </div>
+    ),
+  ],
+  argTypes: {
+    items: {
+      table: { disable: true },
+    },
+    children: {
+      table: { disable: true },
+    },
+    onItemClick: {
+      table: { disable: true },
+    },
+    variant: {
+      control: "select",
+      options: ["default", "bordered", "minimal", "glassmorphic", "glass"],
+    },
+    orientation: {
+      control: "inline-radio",
+      options: ["vertical", "horizontal"],
+    },
+    size: {
+      control: "inline-radio",
+      options: ["sm", "md", "lg"],
+    },
+    collapsible: {
+      control: "boolean",
+    },
+    defaultCollapsed: {
+      control: "boolean",
+    },
+    readOnly: {
+      control: "boolean",
+    },
+  },
+  args: {
+    variant: "bordered",
+    size: "md",
+    orientation: "vertical",
+    collapsible: true,
+  },
+} satisfies Meta<typeof Menu>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 export const Default: Story = {
   args: {
     variant: "bordered",
     size: "md",
+    orientation: "vertical",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("all-users");
     return (
       <div style={{ width: 300 }}>
@@ -202,12 +216,41 @@ export const Default: Story = {
   },
 };
 
+export const NavigationMenuDemo: Story = {
+  render: function Render(args) {
+    const [active, setActive] = useState("home");
+    const demoItems = [
+      { id: "home", label: "Home", icon: <HomeIcon /> },
+      { id: "profile", label: "Profile", icon: <ProfileIcon />, badge: "2" },
+      { id: "div1", label: "", divider: true },
+      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+      {
+        id: "documents",
+        label: "Documents",
+        icon: <DocumentIcon />,
+        disabled: true,
+      },
+    ];
+    return (
+      <div style={{ width: 260 }}>
+        <Menu
+          {...args}
+          items={demoItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
+    );
+  },
+};
+
 export const Minimal: Story = {
-  render: () => {
+  render: function Render(args) {
     const [active, setActive] = useState("dashboard");
     return (
       <div style={{ width: 300 }}>
         <Menu
+          {...args}
           variant="minimal"
           items={menuItems}
           activeItemId={active}
@@ -219,7 +262,7 @@ export const Minimal: Story = {
 };
 
 export const WithBadgesAndDividers: Story = {
-  render: () => {
+  render: function Render(args) {
     const [active, setActive] = useState("inbox");
     const badgeItems = [
       { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
@@ -240,6 +283,7 @@ export const WithBadgesAndDividers: Story = {
     return (
       <div style={{ width: 300 }}>
         <Menu
+          {...args}
           variant="bordered"
           items={badgeItems}
           activeItemId={active}
@@ -251,11 +295,12 @@ export const WithBadgesAndDividers: Story = {
 };
 
 export const WithCustomHeader: Story = {
-  render: () => {
+  render: function Render(args) {
     const [active, setActive] = useState("all-users");
     return (
       <div style={{ width: 300 }}>
         <Menu
+          {...args}
           variant="bordered"
           items={menuItems}
           activeItemId={active}
@@ -297,7 +342,11 @@ export const WithCustomHeader: Story = {
 };
 
 export const HorizontalMenu: Story = {
-  render: () => {
+  args: {
+    orientation: "horizontal",
+    variant: "bordered",
+  },
+  render: function Render(args) {
     const [active, setActive] = useState("dashboard");
     const horizontalItems = [
       { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
@@ -322,6 +371,7 @@ export const HorizontalMenu: Story = {
     ];
     return (
       <Menu
+        {...args}
         orientation="horizontal"
         variant="bordered"
         items={horizontalItems}
@@ -333,7 +383,11 @@ export const HorizontalMenu: Story = {
 };
 
 export const HorizontalMinimalNavbar: Story = {
-  render: () => {
+  args: {
+    orientation: "horizontal",
+    variant: "minimal",
+  },
+  render: function Render(args) {
     const [active, setActive] = useState("overview");
     const navItems = [
       { id: "overview", label: "Overview", icon: <DashboardIcon /> },
@@ -343,6 +397,7 @@ export const HorizontalMinimalNavbar: Story = {
     ];
     return (
       <Menu
+        {...args}
         orientation="horizontal"
         variant="minimal"
         items={navItems}
@@ -354,7 +409,7 @@ export const HorizontalMinimalNavbar: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => {
+  render: function Render(args) {
     const [active, setActive] = useState("users");
     return (
       <div
@@ -372,6 +427,7 @@ export const Sizes: Story = {
             Small (sm)
           </span>
           <Menu
+            {...args}
             size="sm"
             items={menuItems.slice(0, 2)}
             activeItemId={active}
@@ -385,6 +441,7 @@ export const Sizes: Story = {
             Medium (md)
           </span>
           <Menu
+            {...args}
             size="md"
             items={menuItems.slice(0, 2)}
             activeItemId={active}
@@ -398,6 +455,7 @@ export const Sizes: Story = {
             Large (lg)
           </span>
           <Menu
+            {...args}
             size="lg"
             items={menuItems.slice(0, 2)}
             activeItemId={active}
@@ -408,3 +466,290 @@ export const Sizes: Story = {
     );
   },
 };
+
+export const Glassmorphic: Story = {
+  args: {
+    variant: "glassmorphic",
+    size: "md",
+    collapsible: true,
+  },
+  render: function Render(args) {
+    const [active, setActive] = useState("dashboard");
+    const glassItems = [
+      { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
+      {
+        id: "projects",
+        label: "Projects",
+        icon: <FolderIcon />,
+        badge: "6",
+        children: [
+          { id: "active-projects", label: "Active Sprints" },
+          { id: "archived-projects", label: "Archived" },
+        ],
+      },
+      {
+        id: "team",
+        label: "Team",
+        icon: <UsersIcon />,
+        children: [
+          { id: "members", label: "Members" },
+          { id: "roles", label: "Permissions" },
+        ],
+      },
+      { id: "div1", label: "", divider: true },
+      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+      {
+        id: "documents",
+        label: "Documents",
+        icon: <DocumentIcon />,
+        disabled: true,
+      },
+    ];
+
+    return (
+      <div
+        style={{
+          position: "relative",
+          padding: "2.5rem 2rem",
+          background:
+            "radial-gradient(circle at 15% 15%, rgba(251, 146, 60, 0.4) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.45) 0%, transparent 45%), linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%)",
+          borderRadius: "1.5rem",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1.5rem",
+          boxShadow: "0 25px 50px -12px rgba(99, 102, 241, 0.4)",
+        }}
+      >
+        <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              color: "#ffffff",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+            }}
+          >
+            Glassmorphic Menu
+          </h3>
+          <p
+            style={{
+              margin: 0,
+              color: "rgba(255, 255, 255, 0.85)",
+              fontSize: "0.875rem",
+            }}
+          >
+            Frosted translucency, backdrop blur, and modern light refraction
+          </p>
+        </div>
+
+        <div style={{ width: 320, position: "relative", zIndex: 1 }}>
+          <Menu
+            {...args}
+            variant="glassmorphic"
+            items={glassItems}
+            activeItemId={active}
+            onItemClick={setActive}
+          >
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+            >
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #6366f1, #a855f7)",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                  boxShadow: "0 2px 8px rgba(99, 102, 241, 0.4)",
+                }}
+              >
+                G
+              </div>
+              <div>
+                <div
+                  style={{
+                    fontWeight: 600,
+                    fontSize: "0.875rem",
+                    color: "#0f172a",
+                  }}
+                >
+                  Galyan Workspace
+                </div>
+                <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                  Design System Pro
+                </div>
+              </div>
+            </div>
+          </Menu>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const GlassmorphicHorizontal: Story = {
+  args: {
+    variant: "glassmorphic",
+    orientation: "horizontal",
+    size: "md",
+  },
+  render: function Render(args) {
+    const [active, setActive] = useState("dashboard");
+    const navItems = [
+      { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
+      {
+        id: "projects",
+        label: "Projects",
+        icon: <FolderIcon />,
+        badge: "3",
+        children: [
+          { id: "active-sprints", label: "Active Sprints" },
+          { id: "roadmaps", label: "Roadmaps" },
+          { id: "analytics", label: "Project Analytics" },
+        ],
+      },
+      {
+        id: "team",
+        label: "Team",
+        icon: <UsersIcon />,
+        children: [
+          { id: "all-members", label: "All Members" },
+          { id: "roles", label: "Roles & Permissions" },
+        ],
+      },
+      { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+    ];
+
+    return (
+      <div
+        style={{
+          position: "relative",
+          padding: "3rem 2rem",
+          background:
+            "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 40%, #8b5cf6 100%)",
+          borderRadius: "1.5rem",
+          overflow: "visible",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1.5rem",
+          boxShadow: "0 25px 50px -12px rgba(14, 165, 233, 0.35)",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              color: "#ffffff",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+            }}
+          >
+            Horizontal Glassmorphic Navbar
+          </h3>
+          <p
+            style={{
+              margin: 0,
+              color: "rgba(255, 255, 255, 0.85)",
+              fontSize: "0.875rem",
+            }}
+          >
+            Horizontal bar with frosted glass dropdown popovers
+          </p>
+        </div>
+
+        <Menu
+          {...args}
+          orientation="horizontal"
+          variant="glassmorphic"
+          items={navItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
+    );
+  },
+};
+
+export const GlassmorphicDarkMode: Story = {
+  render: function Render() {
+    const [active, setActive] = useState("analytics");
+    const darkItems = [
+      { id: "analytics", label: "Analytics", icon: <DashboardIcon /> },
+      {
+        id: "cloud",
+        label: "Cloud Services",
+        icon: <FolderIcon />,
+        badge: "Live",
+        children: [
+          { id: "clusters", label: "Kubernetes Clusters" },
+          { id: "databases", label: "Managed Databases" },
+        ],
+      },
+      {
+        id: "access",
+        label: "Security & Keys",
+        icon: <SettingsIcon />,
+        children: [
+          { id: "tokens", label: "API Tokens" },
+          { id: "audit", label: "Audit Logs" },
+        ],
+      },
+      { id: "div1", label: "", divider: true },
+      { id: "team", label: "Collaborators", icon: <UsersIcon /> },
+    ];
+
+    return (
+      <div
+        className="gy-dark dark"
+        data-color-mode="dark"
+        data-theme="dark"
+        style={{
+          position: "relative",
+          padding: "2.5rem 2rem",
+          background:
+            "radial-gradient(circle at 20% 15%, rgba(139, 92, 246, 0.35) 0%, transparent 45%), radial-gradient(circle at 80% 85%, rgba(236, 72, 153, 0.3) 0%, transparent 45%), linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%)",
+          borderRadius: "1.5rem",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1.5rem",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7)",
+        }}
+      >
+        <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              color: "#f8fafc",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+            }}
+          >
+            Dark Mode Glassmorphic
+          </h3>
+          <p style={{ margin: 0, color: "#94a3b8", fontSize: "0.875rem" }}>
+            Dark frosted glass with subtle neon violet accents
+          </p>
+        </div>
+
+        <div style={{ width: 320, position: "relative", zIndex: 1 }}>
+          <Menu
+            variant="glassmorphic"
+            items={darkItems}
+            activeItemId={active}
+            onItemClick={setActive}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+

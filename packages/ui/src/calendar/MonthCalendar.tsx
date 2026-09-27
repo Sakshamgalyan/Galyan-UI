@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./calendar.css";
 
 export interface MonthCalendarValue {
@@ -124,6 +124,13 @@ export function MonthCalendar({
     selectedVal?.year ?? currentYearNow,
   );
   const [view, setView] = useState<"months" | "years">(defaultView);
+
+  useEffect(() => {
+    const val = parseValue(value);
+    if (val) {
+      setCurrentYear(val.year);
+    }
+  }, [value]);
 
   // Compute effective min and max bounds
   const effectiveMinYear = (() => {

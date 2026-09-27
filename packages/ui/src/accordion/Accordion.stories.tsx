@@ -6,6 +6,12 @@ import { Button } from "../button/Button";
 import { Toggle } from "../toggle/Toggle";
 import { Input } from "../input/Input";
 import { Checkbox } from "../checkbox/Checkbox";
+import { Dropdown } from "../dropdown/Dropdown";
+import { DatePicker } from "../datepicker/DatePicker";
+import { TimePicker } from "../timepicker/TimePicker";
+import { RadioGroup } from "../radiogroup/RadioGroup";
+import { ProgressBar } from "../progressbar/ProgressBar";
+import { ColorPicker } from "../colorpicker/ColorPicker";
 
 /* ── SVG Icons ───────────────────────────────────────────────────────────── */
 
@@ -1568,6 +1574,577 @@ export const RulesManagement: Story = {
               </div>
             ),
           }))}
+        />
+      </div>
+    );
+  },
+};
+
+/* ── 30. Multi-Component: Enterprise Settings Workflow ─────────────────────── */
+
+export const EnterpriseSettingsComposition: Story = {
+  name: "Multi-Component: Enterprise Workflow",
+  render: () => {
+    // Schedule state
+    const [meetingDate, setMeetingDate] = useState<any>(new Date());
+    const [startTime, setStartTime] = useState("09:00 AM");
+    const [endTime, setEndTime] = useState("05:30 PM");
+    const [timezone, setTimezone] = useState("utc");
+    const [isRecurring, setIsRecurring] = useState(true);
+
+    // Security state
+    const [mfa, setMfa] = useState(true);
+    const [biometrics, setBiometrics] = useState(true);
+    const [sessionTimeout, setSessionTimeout] = useState("30m");
+    const [allowedIp, setAllowedIp] = useState("192.168.1.0/24");
+    const [brandColor, setBrandColor] = useState("#6366f1");
+
+    // Notifications state
+    const [channels, setChannels] = useState<string[]>(["slack", "pagerduty"]);
+    const [priority, setPriority] = useState("high");
+    const [webhookUrl, setWebhookUrl] = useState("https://hooks.samantrix.io/alerts/prod");
+    const [sendDigest, setSendDigest] = useState(true);
+
+    const timezoneOptions = [
+      { value: "utc", label: "UTC (Coordinated Universal Time)" },
+      { value: "est", label: "US Eastern (UTC-5)" },
+      { value: "pst", label: "US Pacific (UTC-8)" },
+      { value: "ist", label: "India Standard Time (UTC+5:30)" },
+      { value: "cet", label: "Central European Time (UTC+1)" },
+    ];
+
+    const timeoutOptions = [
+      { value: "15m", label: "15 Minutes (High Security)" },
+      { value: "30m", label: "30 Minutes (Recommended)" },
+      { value: "1h", label: "1 Hour (Standard)" },
+      { value: "8h", label: "8 Hours (Shift Duration)" },
+    ];
+
+    const channelOptions = [
+      { value: "slack", label: "Slack (#devops-alerts)" },
+      { value: "pagerduty", label: "PagerDuty (On-Call Rotation)" },
+      { value: "email", label: "Security Operations Email" },
+      { value: "webhook", label: "Custom Incident Webhook" },
+    ];
+
+    const priorityOptions = [
+      { value: "low", label: "Low Priority (Informational)" },
+      { value: "medium", label: "Medium (Review within 4 hours)" },
+      { value: "high", label: "High (Immediate On-Call Page)" },
+      { value: "critical", label: "Critical (Executive Escalation)" },
+    ];
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+        <div>
+          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+            Organization Enterprise Configuration
+          </h3>
+          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+            Accordion composing DatePicker, TimePicker, Dropdown, Toggle, Input, ColorPicker, ProgressBar & RadioGroup.
+          </p>
+        </div>
+
+        <Accordion
+          variant="separated"
+          allowMultiple
+          defaultExpandedIds={["schedule", "security"]}
+          items={[
+            {
+              id: "schedule",
+              icon: <ZapIcon />,
+              title: "On-Call Shift & Meeting Scheduling",
+              subtitle: "Configure coverage windows, local timezone, and calendar intervals",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "0.75rem" }}>
+                    <DatePicker
+                      label="Shift Effective Date"
+                      value={meetingDate}
+                      onChange={setMeetingDate}
+                    />
+                    <TimePicker
+                      label="Shift Start Window"
+                      value={startTime}
+                      onChange={(formatted) => setStartTime(formatted)}
+                      minuteStep={15}
+                      clearable
+                    />
+                    <TimePicker
+                      label="Shift End Window"
+                      value={endTime}
+                      onChange={(formatted) => setEndTime(formatted)}
+                      minuteStep={15}
+                      clearable
+                    />
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1rem", alignItems: "flex-end" }}>
+                    <Dropdown
+                      label="Regional Operations Timezone"
+                      options={timezoneOptions}
+                      value={timezone}
+                      onChange={(v) => setTimezone(v as string)}
+                    />
+                    <div style={{ paddingBottom: "0.625rem" }}>
+                      <Checkbox
+                        label="Recurring weekly shift pattern"
+                        checked={isRecurring}
+                        onChange={(e) => setIsRecurring(e.target.checked)}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                    <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
+                      Active Window: <strong>{startTime}</strong> – <strong>{endTime}</strong> ({timezone.toUpperCase()})
+                    </span>
+                    <Button size="sm" variant="primary" onClick={() => alert(`Saved schedule: ${startTime} - ${endTime}`)}>
+                      Save Shift Schedule
+                    </Button>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "security",
+              icon: <ShieldIcon />,
+              title: "Security, Session & Auth Policy",
+              subtitle: "MFA enforcement, IP whitelist, brand tint, and session boundaries",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                  <ProgressBar
+                    label="Compliance Hardening Score"
+                    progress={88}
+                    variant="success"
+                    showLabel
+                    showValue
+                  />
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                      <div>
+                        <Toggle
+                          label="Mandatory Hardware Security Keys (FIDO2)"
+                          checked={mfa}
+                          onChange={(e) => setMfa(e.target.checked)}
+                        />
+                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
+                          Require physical YubiKey or TouchID hardware authentication.
+                        </div>
+                      </div>
+                      <div>
+                        <Toggle
+                          label="Biometric Passkey Auto-Verification"
+                          checked={biometrics}
+                          onChange={(e) => setBiometrics(e.target.checked)}
+                        />
+                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
+                          Authenticate headless browser workers with encrypted client certificates.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                      <Dropdown
+                        label="Session Inactivity Expiration"
+                        options={timeoutOptions}
+                        value={sessionTimeout}
+                        onChange={(v) => setSessionTimeout(v as string)}
+                      />
+                      <Input
+                        label="Allowed CIDR IP Subnet"
+                        value={allowedIp}
+                        onChange={(e) => setAllowedIp(e.target.value)}
+                        clearable
+                        onClear={() => setAllowedIp("")}
+                        placeholder="e.g. 10.0.0.0/16"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "1rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                    <div style={{ flex: 1 }}>
+                      <ColorPicker
+                        label="Compliance Badge Accent Color"
+                        value={brandColor}
+                        onChange={setBrandColor}
+                        showAlpha
+                      />
+                    </div>
+                    <Button size="sm" variant="outline" onClick={() => alert("Security policy updated")}>
+                      Apply Security Policy
+                    </Button>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "notifications",
+              icon: <BellIcon />,
+              title: "Incident Response & Dispatch Channels",
+              subtitle: "Multi-select tag routing, priority levels, and webhook targets",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                  <Dropdown
+                    label="Dispatch Alert Channels (Multi-Select with Clearable Tags)"
+                    options={channelOptions}
+                    multiple
+                    clearable
+                    value={channels}
+                    onChange={(v) => setChannels(v as string[])}
+                    placeholder="Select dispatch targets..."
+                  />
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
+                    <div>
+                      <label style={{ fontSize: "0.8125rem", fontWeight: 600, display: "block", marginBottom: "0.5rem", color: "var(--gy-text)" }}>
+                        Incident Trigger Threshold
+                      </label>
+                      <RadioGroup
+                        name="incident-priority"
+                        options={priorityOptions}
+                        value={priority}
+                        onChange={setPriority}
+                        size="sm"
+                      />
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                      <Input
+                        label="Primary Webhook Endpoint"
+                        value={webhookUrl}
+                        onChange={(e) => setWebhookUrl(e.target.value)}
+                        clearable
+                        onClear={() => setWebhookUrl("")}
+                        placeholder="https://..."
+                      />
+                      <div>
+                        <Toggle
+                          label="Executive Summary Digest"
+                          checked={sendDigest}
+                          onChange={(e) => setSendDigest(e.target.checked)}
+                        />
+                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
+                          Email daily consolidated incident overview to leadership.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                    <Button size="sm" variant="ghost" onClick={() => setChannels(["slack"])}>
+                      Reset Defaults
+                    </Button>
+                    <Button size="sm" variant="primary" onClick={() => alert("Notification routing saved")}>
+                      Save Dispatch Routing
+                    </Button>
+                  </div>
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
+    );
+  },
+};
+
+/* ── 31. Multi-Component: Order Checkout & Fulfillment ─────────────────────── */
+
+export const OrderCheckoutComposition: Story = {
+  name: "Multi-Component: Checkout & Fulfillment",
+  render: () => {
+    const [deliveryDate, setDeliveryDate] = useState<any>(new Date());
+    const [deliveryTime, setDeliveryTime] = useState("02:00 PM");
+    const [address, setAddress] = useState("742 Evergreen Terrace, Sector 42");
+    const [instructions, setInstructions] = useState("reception");
+
+    const [paymentMethod, setPaymentMethod] = useState("card");
+    const [cardName, setCardName] = useState("Saksham Galyan");
+    const [cardNumber, setCardNumber] = useState("•••• •••• •••• 4242");
+    const [saveBilling, setSaveBilling] = useState(true);
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+        <div>
+          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+            B2B Express Order Checkout
+          </h3>
+          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+            Accordion composing DatePicker, TimePicker, Input, Dropdown, Checkbox, Chip & Button.
+          </p>
+        </div>
+
+        <Accordion
+          variant="bordered"
+          allowMultiple
+          defaultExpandedIds={["shipping", "payment"]}
+          items={[
+            {
+              id: "shipping",
+              icon: <SlidersIcon />,
+              title: "1. Delivery Schedule & Location",
+              subtitle: "Select delivery date, precise drop-off time window, and address",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <DatePicker
+                      label="Delivery Date"
+                      value={deliveryDate}
+                      onChange={setDeliveryDate}
+                    />
+                    <TimePicker
+                      label="Preferred Arrival Window"
+                      value={deliveryTime}
+                      onChange={(formatted) => setDeliveryTime(formatted)}
+                      minuteStep={30}
+                      clearable
+                    />
+                  </div>
+
+                  <Input
+                    label="Shipping Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    clearable
+                    onClear={() => setAddress("")}
+                    placeholder="Enter street, suite, building..."
+                  />
+
+                  <Dropdown
+                    label="Delivery Access Instructions"
+                    options={[
+                      { value: "reception", label: "Deliver to Main Reception Desk" },
+                      { value: "loading", label: "Loading Dock Bay 3 (Freight)" },
+                      { value: "door", label: "Front Door Contactless Drop-off" },
+                      { value: "call", label: "Call Recipient on Arrival" },
+                    ]}
+                    value={instructions}
+                    onChange={(v) => setInstructions(v as string)}
+                  />
+                </div>
+              ),
+            },
+            {
+              id: "payment",
+              icon: <CreditCardIcon />,
+              title: "2. Payment Method & Invoicing",
+              subtitle: "Corporate credit card, wire transfer, or credit line",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <Dropdown
+                    label="Select Payment Method"
+                    options={[
+                      { value: "card", label: "Corporate Credit / Debit Card" },
+                      { value: "po", label: "Purchase Order (Net-30 Invoice)" },
+                      { value: "wire", label: "Direct Wire Transfer (ACH / SEPA)" },
+                    ]}
+                    value={paymentMethod}
+                    onChange={(v) => setPaymentMethod(v as string)}
+                  />
+
+                  {paymentMethod === "card" && (
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                      <Input
+                        label="Name on Card"
+                        value={cardName}
+                        onChange={(e) => setCardName(e.target.value)}
+                        placeholder="Cardholder Name"
+                      />
+                      <Input
+                        label="Card Number"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                        placeholder="16-digit card number"
+                      />
+                    </div>
+                  )}
+
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <Checkbox
+                      label="Save payment method for future automated dispatches"
+                      checked={saveBilling}
+                      onChange={(e) => setSaveBilling(e.target.checked)}
+                    />
+                    <div style={{ display: "flex", gap: "0.375rem" }}>
+                      <Chip size="sm" variant="solid">VISA</Chip>
+                      <Chip size="sm" variant="neutral">MC</Chip>
+                      <Chip size="sm" variant="soft">AMEX</Chip>
+                    </div>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "review",
+              icon: <SettingsIcon />,
+              title: "3. Fulfillment Review & Final Authorization",
+              subtitle: "Verify order parameters before locking shipment",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <ProgressBar
+                    label="Checkout Completion Status"
+                    progress={92}
+                    variant="indigo"
+                    showLabel
+                    showValue
+                  />
+
+                  <div style={{ background: "var(--gy-background-muted, #f8fafc)", padding: "0.875rem", borderRadius: "0.5rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", fontSize: "0.8125rem" }}>
+                    <div>
+                      <span style={{ color: "var(--gy-text-muted)" }}>Target Window:</span>
+                      <div style={{ fontWeight: 600, color: "var(--gy-text)", marginTop: 2 }}>{deliveryTime}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: "var(--gy-text-muted)" }}>Payment Status:</span>
+                      <div style={{ marginTop: 2 }}><Chip size="sm" variant="success">Authorized</Chip></div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
+                    <Button variant="outline" size="sm" onClick={() => alert("Order draft saved")}>
+                      Save Draft
+                    </Button>
+                    <Button variant="primary" size="sm" onClick={() => alert(`Order confirmed for ${deliveryTime}!`)}>
+                      Confirm & Authorize Order
+                    </Button>
+                  </div>
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
+    );
+  },
+};
+
+/* ── 32. Multi-Component: Server Fleet Health & Maintenance ────────────────── */
+
+export const ServerFleetComposition: Story = {
+  name: "Multi-Component: Server Fleet & Telemetry",
+  render: () => {
+    const [maintenanceDate, setMaintenanceDate] = useState<any>(new Date());
+    const [maintenanceTime, setMaintenanceTime] = useState("03:00 AM");
+    const [region, setRegion] = useState("us-east");
+    const [autoScale, setAutoScale] = useState(true);
+    const [drainTraffic, setDrainTraffic] = useState(false);
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+        <div>
+          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+            Infrastructure Fleet Orchestration
+          </h3>
+          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+            Accordion composing real-time ProgressBar metrics, DatePicker, TimePicker, Dropdown, Toggle & Button.
+          </p>
+        </div>
+
+        <Accordion
+          variant="separated"
+          allowMultiple
+          defaultExpandedIds={["telemetry", "maintenance"]}
+          items={[
+            {
+              id: "telemetry",
+              icon: <ZapIcon />,
+              title: "Production Cluster Telemetry",
+              subtitle: "Live compute utilization, memory pressure, and worker autoscaling",
+              actions: <Chip size="sm" variant="success">Operational</Chip>,
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <ProgressBar
+                    label="Cluster CPU Allocation"
+                    progress={64}
+                    variant="primary"
+                    showLabel
+                    showValue
+                  />
+                  <ProgressBar
+                    label="Memory Utilization (RAM)"
+                    progress={82}
+                    variant="warning"
+                    showLabel
+                    showValue
+                  />
+                  <ProgressBar
+                    label="SSD NVMe Storage Capacity"
+                    progress={39}
+                    variant="success"
+                    showLabel
+                    showValue
+                  />
+
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                    <Toggle
+                      label="Dynamic Elastic Horizontal Autoscaling"
+                      checked={autoScale}
+                      onChange={(e) => setAutoScale(e.target.checked)}
+                    />
+                    <Chip size="sm" variant="neutral">48 Nodes Active</Chip>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "maintenance",
+              icon: <SlidersIcon />,
+              title: "Schedule Maintenance & Kernel Patching",
+              subtitle: "Zero-downtime rolling updates with traffic draining",
+              content: (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <DatePicker
+                      label="Maintenance Window Date"
+                      value={maintenanceDate}
+                      onChange={setMaintenanceDate}
+                    />
+                    <TimePicker
+                      label="Window Start Time"
+                      value={maintenanceTime}
+                      onChange={(formatted) => setMaintenanceTime(formatted)}
+                      minuteStep={30}
+                      clearable
+                    />
+                  </div>
+
+                  <Dropdown
+                    label="Target AWS / Azure Region"
+                    options={[
+                      { value: "us-east", label: "US East (N. Virginia) - Cluster Primary" },
+                      { value: "us-west", label: "US West (Oregon) - Disaster Recovery" },
+                      { value: "eu-central", label: "EU Central (Frankfurt) - Primary" },
+                      { value: "ap-south", label: "Asia Pacific (Mumbai) - Regional Hub" },
+                    ]}
+                    value={region}
+                    onChange={(v) => setRegion(v as string)}
+                  />
+
+                  <div>
+                    <Toggle
+                      label="Pre-drain ingress traffic before node reboot"
+                      checked={drainTraffic}
+                      onChange={(e) => setDrainTraffic(e.target.checked)}
+                    />
+                    <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
+                      Safely redirect active WebSocket and HTTP/2 connections to standby instances.
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                    <Button size="sm" variant="secondary" onClick={() => alert("Simulation executed with zero downtime")}>
+                      Simulate Rollout
+                    </Button>
+                    <Button size="sm" variant="primary" onClick={() => alert(`Scheduled maintenance at ${maintenanceTime}`)}>
+                      Commit Maintenance Window
+                    </Button>
+                  </div>
+                </div>
+              ),
+            },
+          ]}
         />
       </div>
     );

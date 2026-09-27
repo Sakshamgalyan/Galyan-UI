@@ -108,6 +108,8 @@ export interface BannerProps {
   className?: string;
   /** Whether to render a border around the banner. Default is true. */
   bordered?: boolean;
+  /** Vertical alignment of items within the banner ('center' | 'start'). Default is 'center'. */
+  align?: "center" | "start";
   /** Children content passed as fallback or alternative for description. */
   children?: React.ReactNode;
 }
@@ -125,6 +127,7 @@ export function Banner({
   onDismiss,
   className = "",
   bordered = true,
+  align = "center",
   children,
 }: BannerProps) {
   const [isDismissing, setIsDismissing] = useState(false);
@@ -148,6 +151,7 @@ export function Banner({
     `gy-banner--${variant}`,
     `gy-banner--${bannerStyle}`,
     `gy-banner--${size}`,
+    align === "start" ? "gy-banner--align-start" : "gy-banner--align-center",
     fullWidth ? "gy-banner--full-width" : "",
     bordered ? "gy-banner--bordered" : "",
     isSingleLine ? "gy-banner--single-line" : "",

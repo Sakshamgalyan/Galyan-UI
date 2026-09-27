@@ -116,6 +116,164 @@
 .gy-toast--loading .gy-toast-accent { background: var(--gy-primary); }
 .gy-toast--loading .gy-toast-icon { color: var(--gy-primary); }
 
+.gy-toast--primary {
+  background: color-mix(in srgb, var(--gy-primary) 7%, var(--gy-surface, #ffffff));
+  border-color: color-mix(in srgb, var(--gy-primary) 28%, var(--gy-border, #e2e8f0));
+}
+.gy-toast--primary .gy-toast-accent { background: var(--gy-primary); }
+.gy-toast--primary .gy-toast-icon { color: var(--gy-primary); }
+
+.gy-toast--secondary {
+  background: color-mix(in srgb, var(--gy-secondary, #64748b) 7%, var(--gy-surface, #ffffff));
+  border-color: color-mix(in srgb, var(--gy-secondary, #64748b) 28%, var(--gy-border, #e2e8f0));
+}
+.gy-toast--secondary .gy-toast-accent { background: var(--gy-secondary, #64748b); }
+.gy-toast--secondary .gy-toast-icon { color: var(--gy-secondary, #64748b); }
+
+.gy-toast--default,
+.gy-toast--neutral {
+  background: var(--gy-surface, #ffffff);
+  border-color: var(--gy-border, #cbd5e1);
+}
+.gy-toast--default .gy-toast-accent,
+.gy-toast--neutral .gy-toast-accent { background: var(--gy-text-muted, #64748b); }
+.gy-toast--default .gy-toast-icon,
+.gy-toast--neutral .gy-toast-icon { color: var(--gy-text, #0f172a); }
+
+/* ── Glassmorphic Variant / Style ── */
+.gy-toast--glassmorphic,
+.gy-toast--glass,
+.gy-toast--style-glassmorphic,
+.gy-toast--style-glass {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ── Solid Variant / Style ── */
+.gy-toast--style-solid,
+.gy-toast--solid {
+  color: #ffffff !important;
+  border: none !important;
+}
+.gy-toast--style-solid .gy-toast-title,
+.gy-toast--solid .gy-toast-title {
+  color: #ffffff !important;
+}
+.gy-toast--style-solid .gy-toast-description,
+.gy-toast--solid .gy-toast-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.gy-toast--style-solid .gy-toast-icon,
+.gy-toast--solid .gy-toast-icon {
+  color: #ffffff !important;
+}
+.gy-toast--style-solid .gy-toast-close,
+.gy-toast--solid .gy-toast-close {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.gy-toast--style-solid .gy-toast-close:hover,
+.gy-toast--solid .gy-toast-close:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+.gy-toast--style-solid .gy-toast-accent,
+.gy-toast--solid .gy-toast-accent {
+  display: none;
+}
+
+.gy-toast--style-solid.gy-toast--success,
+.gy-toast--solid.gy-toast--success {
+  background: var(--gy-success, #10b981) !important;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.2) !important;
+}
+.gy-toast--style-solid.gy-toast--error,
+.gy-toast--solid.gy-toast--error {
+  background: var(--gy-danger, #ef4444) !important;
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4), 0 8px 10px -6px rgba(239, 68, 68, 0.2) !important;
+}
+.gy-toast--style-solid.gy-toast--warning,
+.gy-toast--solid.gy-toast--warning {
+  background: var(--gy-warning, #f59e0b) !important;
+  box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4), 0 8px 10px -6px rgba(245, 158, 11, 0.2) !important;
+}
+.gy-toast--style-solid.gy-toast--info,
+.gy-toast--solid.gy-toast--info {
+  background: var(--gy-info, #0ea5e9) !important;
+  box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.4), 0 8px 10px -6px rgba(14, 165, 233, 0.2) !important;
+}
+.gy-toast--style-solid.gy-toast--primary,
+.gy-toast--solid.gy-toast--primary {
+  background: var(--gy-primary) !important;
+  box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--gy-primary) 40%, transparent) !important;
+}
+.gy-toast--style-solid.gy-toast--secondary,
+.gy-toast--solid.gy-toast--secondary {
+  background: var(--gy-secondary, #64748b) !important;
+  box-shadow: 0 10px 25px -5px rgba(100, 116, 139, 0.4) !important;
+}
+.gy-toast--style-solid.gy-toast--default,
+.gy-toast--style-solid.gy-toast--neutral,
+.gy-toast--solid {
+  background: #0f172a !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.4) !important;
+}
+
+/* ── Outline Variant / Style ── */
+.gy-toast--style-outline,
+.gy-toast--outline {
+  background: var(--gy-surface, #ffffff) !important;
+  border-width: 1.5px !important;
+}
+.gy-toast--style-outline .gy-toast-accent,
+.gy-toast--outline .gy-toast-accent {
+  display: none;
+}
+.gy-toast--style-outline.gy-toast--success,
+.gy-toast--outline.gy-toast--success {
+  border-color: var(--gy-success, #10b981) !important;
+}
+.gy-toast--style-outline.gy-toast--error,
+.gy-toast--outline.gy-toast--error {
+  border-color: var(--gy-danger, #ef4444) !important;
+}
+.gy-toast--style-outline.gy-toast--warning,
+.gy-toast--outline.gy-toast--warning {
+  border-color: var(--gy-warning, #f59e0b) !important;
+}
+.gy-toast--style-outline.gy-toast--info,
+.gy-toast--outline.gy-toast--info {
+  border-color: var(--gy-info, #0ea5e9) !important;
+}
+.gy-toast--style-outline.gy-toast--primary,
+.gy-toast--outline.gy-toast--primary {
+  border-color: var(--gy-primary) !important;
+}
+.gy-toast--style-outline.gy-toast--secondary,
+.gy-toast--outline.gy-toast--secondary {
+  border-color: var(--gy-secondary, #64748b) !important;
+}
+.gy-toast--style-outline.gy-toast--default,
+.gy-toast--style-outline.gy-toast--neutral,
+.gy-toast--outline {
+  border-color: var(--gy-border, #cbd5e1) !important;
+}
+
+/* ── Minimal Variant / Style ── */
+.gy-toast--style-minimal,
+.gy-toast--minimal {
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 1rem;
+}
+.gy-toast--style-minimal .gy-toast-accent,
+.gy-toast--minimal .gy-toast-accent {
+  display: none;
+}
+
 /* Sizes */
 .gy-toast--sm { padding: 0.625rem 0.875rem; width: 320px; }
 .gy-toast--md { padding: 0.875rem 1.125rem; width: 360px; }
@@ -262,6 +420,74 @@
 .gy-dark .gy-toast--loading,
 [data-color-mode="dark"] .gy-toast--loading,
 .dark .gy-toast--loading {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+
+.gy-dark .gy-toast--primary,
+[data-color-mode="dark"] .gy-toast--primary,
+.dark .gy-toast--primary {
+  background: color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface, #1e293b));
+  border-color: color-mix(in srgb, var(--gy-primary) 35%, transparent);
+}
+
+.gy-dark .gy-toast--secondary,
+[data-color-mode="dark"] .gy-toast--secondary,
+.dark .gy-toast--secondary {
+  background: color-mix(in srgb, var(--gy-secondary, #64748b) 12%, var(--gy-surface, #1e293b));
+  border-color: color-mix(in srgb, var(--gy-secondary, #64748b) 35%, transparent);
+}
+
+.gy-dark .gy-toast--default,
+.gy-dark .gy-toast--neutral,
+[data-color-mode="dark"] .gy-toast--default,
+[data-color-mode="dark"] .gy-toast--neutral,
+.dark .gy-toast--default,
+.dark .gy-toast--neutral {
+  background: var(--gy-surface, #1e293b);
+  border-color: var(--gy-border, #334155);
+}
+.gy-dark .gy-toast--default .gy-toast-icon,
+.gy-dark .gy-toast--neutral .gy-toast-icon,
+[data-color-mode="dark"] .gy-toast--default .gy-toast-icon,
+[data-color-mode="dark"] .gy-toast--neutral .gy-toast-icon,
+.dark .gy-toast--default .gy-toast-icon,
+.dark .gy-toast--neutral .gy-toast-icon {
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-toast--glassmorphic,
+.gy-dark .gy-toast--glass,
+.gy-dark .gy-toast--style-glassmorphic,
+.gy-dark .gy-toast--style-glass,
+[data-color-mode="dark"] .gy-toast--glassmorphic,
+[data-color-mode="dark"] .gy-toast--glass,
+[data-color-mode="dark"] .gy-toast--style-glassmorphic,
+[data-color-mode="dark"] .gy-toast--style-glass,
+.dark .gy-toast--glassmorphic,
+.dark .gy-toast--glass,
+.dark .gy-toast--style-glassmorphic,
+.dark .gy-toast--style-glass {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.gy-dark .gy-toast--style-outline,
+.gy-dark .gy-toast--outline,
+[data-color-mode="dark"] .gy-toast--style-outline,
+[data-color-mode="dark"] .gy-toast--outline,
+.dark .gy-toast--style-outline,
+.dark .gy-toast--outline {
+  background: var(--gy-surface, #1e293b) !important;
+}
+
+.gy-dark .gy-toast--style-minimal,
+.gy-dark .gy-toast--minimal,
+[data-color-mode="dark"] .gy-toast--style-minimal,
+[data-color-mode="dark"] .gy-toast--minimal,
+.dark .gy-toast--style-minimal,
+.dark .gy-toast--minimal {
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, #334155);
 }

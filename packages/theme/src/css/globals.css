@@ -23,23 +23,59 @@ html, body {
   outline: none;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* ── Galyan UI Global Scrollbar Normalization ────────────────────────────────── */
+/* Hide default scrollbars across all Galyan UI components while preserving smooth scrolling */
+[class*="gy-"],
+[class*="gy-"] * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--gy-background-subtle);
+[class*="gy-"]::-webkit-scrollbar,
+[class*="gy-"] *::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--gy-border-strong);
-  border-radius: var(--gy-radius-full);
+/* Global utilities for scrollbar control */
+.gy-no-scrollbar,
+.gy-scrollbar-none,
+.gy-hide-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gy-text-subtle);
+.gy-no-scrollbar::-webkit-scrollbar,
+.gy-scrollbar-none::-webkit-scrollbar,
+.gy-hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.gy-scrollbar-visible {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--gy-border-strong, #cbd5e1) transparent !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-thumb {
+  background: var(--gy-border-strong, #cbd5e1) !important;
+  border-radius: var(--gy-radius-full, 9999px) !important;
+}
+
+.gy-scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: var(--gy-text-subtle, #94a3b8) !important;
 }
 
 /* Smooth scrolling */

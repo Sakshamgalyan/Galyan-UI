@@ -7,6 +7,7 @@ import {
   Tooltip as RechartsTooltip,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./treemap-chart.css";
 
 export interface TreemapChartItem {
@@ -331,7 +332,7 @@ export function TreemapChart({
     }
 
     if (data.length === 0) {
-      return <div className="gy-treemap-empty">No data available</div>;
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

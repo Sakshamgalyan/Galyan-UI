@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./calendar.css";
 
 export type CalendarValue = Date | [Date, Date | undefined];
@@ -94,6 +94,16 @@ export function Calendar({
   });
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
   const [isPicking, setIsPicking] = useState(false);
+
+  useEffect(() => {
+    if (Array.isArray(value)) {
+      if (value[0] instanceof Date) {
+        setCurrent(value[0]);
+      }
+    } else if (value instanceof Date) {
+      setCurrent(value);
+    }
+  }, [value]);
 
   const [selStart, selEnd] = Array.isArray(value) ? value : [value, undefined];
 

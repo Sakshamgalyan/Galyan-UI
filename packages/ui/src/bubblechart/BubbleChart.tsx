@@ -13,6 +13,7 @@ import {
   Legend,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./bubble-chart.css";
 
 export interface BubbleChartItem {
@@ -91,6 +92,10 @@ export function BubbleChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

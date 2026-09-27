@@ -34,14 +34,14 @@
 
 .gy-input-group__addon--left {
   border-right: none;
-  border-top-left-radius: var(--gy-radius-md, 0.5rem);
-  border-bottom-left-radius: var(--gy-radius-md, 0.5rem);
+  border-top-left-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem);
 }
 
 .gy-input-group__addon--right {
   border-left: none;
-  border-top-right-radius: var(--gy-radius-md, 0.5rem);
-  border-bottom-right-radius: var(--gy-radius-md, 0.5rem);
+  border-top-right-radius: var(--gy-radius-lg, 0.5rem);
+  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem);
 }
 
 /* Seamless Dropdown inside Addon */
@@ -68,6 +68,8 @@
 .gy-input-group__addon--dropdown.gy-input-group__addon--left .gy-dropdown-trigger {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+  border-top-left-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-right: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
   background: var(--gy-background-muted, #f8fafc);
@@ -76,9 +78,61 @@
 .gy-input-group__addon--dropdown.gy-input-group__addon--right .gy-dropdown-trigger {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+  border-top-right-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-left: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
   background: var(--gy-background-muted, #f8fafc);
+}
+
+/* ── Seamless Button inside Addon ────────────────────────────────────────── */
+.gy-input-group__addon--button,
+.gy-input-group__addon:has(.gy-btn),
+.gy-input-group__addon:has(button) {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  align-items: stretch;
+}
+
+.gy-input-group__addon--button .gy-btn,
+.gy-input-group__addon:has(.gy-btn) .gy-btn,
+.gy-input-group__addon:has(button) button {
+  height: 100% !important;
+  min-height: 100% !important;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+.gy-input-group__addon--button .gy-btn:hover,
+.gy-input-group__addon:has(.gy-btn) .gy-btn:hover,
+.gy-input-group__addon:has(button) button:hover,
+.gy-input-group__addon--button .gy-btn:focus-visible,
+.gy-input-group__addon:has(.gy-btn) .gy-btn:focus-visible,
+.gy-input-group__addon:has(button) button:focus-visible {
+  z-index: 3;
+}
+
+/* Left button addon */
+.gy-input-group__addon--left.gy-input-group__addon--button .gy-btn,
+.gy-input-group__addon--left:has(.gy-btn) .gy-btn,
+.gy-input-group__addon--left:has(button) button {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem) !important;
+}
+
+/* Right button addon */
+.gy-input-group__addon--right.gy-input-group__addon--button .gy-btn,
+.gy-input-group__addon--right:has(.gy-btn) .gy-btn,
+.gy-input-group__addon--right:has(button) button {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
 }
 
 .gy-input-group__control {
@@ -87,26 +141,44 @@
   display: flex;
 }
 
+.gy-input-group__control .gy-input-root,
 .gy-input-group__control .gy-input-container,
+.gy-input-group__control .gy-input-wrapper,
 .gy-input-group__control .gy-input {
   width: 100%;
 }
 
 .gy-input-group--has-left .gy-input-group__control .gy-input,
-.gy-input-group--has-left .gy-input-group__control .gy-input-container {
+.gy-input-group--has-left .gy-input-group__control .gy-input-container,
+.gy-input-group--has-left .gy-input-group__control .gy-input-wrapper {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
 
 .gy-input-group--has-right .gy-input-group__control .gy-input,
-.gy-input-group--has-right .gy-input-group__control .gy-input-container {
+.gy-input-group--has-right .gy-input-group__control .gy-input-container,
+.gy-input-group--has-right .gy-input-group__control .gy-input-wrapper {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
 .gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input,
-.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-container {
+.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-container,
+.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-wrapper {
   border-radius: 0 !important;
+}
+
+.gy-input-group--has-left .gy-input-group__control .gy-input-wrapper {
+  margin-left: -1px;
+}
+
+.gy-input-group__addon--right {
+  margin-left: -1px;
+}
+
+.gy-input-group__control .gy-input-wrapper:focus-within {
+  position: relative;
+  z-index: 2;
 }
 
 /* Sizes */

@@ -14,6 +14,7 @@ import {
   Legend,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./stacked-chart.css";
 
 export interface StackedChartSeries {
@@ -99,6 +100,10 @@ export function StackedChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     if (variant === "area") {

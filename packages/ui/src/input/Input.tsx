@@ -1,6 +1,7 @@
 "use client";
 
 import React, { forwardRef, useId, useState } from "react";
+import { ClearButton } from "../clearbutton/ClearButton";
 import "./input.css";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -266,25 +267,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         />
 
         {showClear && (
-          <button
-            type="button"
-            className="gy-input-clear"
+          <ClearButton
+            size={size === "lg" ? "md" : size === "sm" ? "xs" : "sm"}
+            variant="subtle"
+            ariaLabel="Clear input"
             onClick={onClear}
-            aria-label="Clear input"
-            tabIndex={-1}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <line x1="1" y1="1" x2="13" y2="13" />
-              <line x1="13" y1="2" x2="1" y2="13" />
-            </svg>
-          </button>
+            className="gy-input-clear"
+          />
         )}
 
         {rightIcon && !showClear && (

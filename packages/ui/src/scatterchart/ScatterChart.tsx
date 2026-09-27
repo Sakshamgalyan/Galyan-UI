@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./scatter-chart.css";
 
 export interface ScatterChartItem {
@@ -87,6 +88,10 @@ export function ScatterChart({
           />
         </div>
       );
+    }
+
+    if (data.length === 0) {
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     return (

@@ -5,8 +5,9 @@
   background: var(--gy-surface, #ffffff);
   border: 1px solid var(--gy-border, #e2e8f0);
   border-radius: var(--gy-radius-2xl, 1rem);
-  padding: 1.25rem;
-  width: 330px;
+  padding: 1rem 1.125rem 0.875rem;
+  width: 312px;
+  max-width: 100%;
   box-shadow:
     0 10px 25px -5px rgba(0, 0, 0, 0.06),
     0 8px 10px -6px rgba(0, 0, 0, 0.04);
@@ -20,14 +21,14 @@
 }
 
 .gy-calendar.gy-month-calendar {
-  width: 330px;
+  width: 312px;
   max-width: 100%;
-  padding: 0.5rem 1.25rem 0.375rem;
-  border-radius: var(--gy-radius-2xl, 1.25rem);
+  padding: 0.875rem 1.125rem 0.75rem;
+  border-radius: var(--gy-radius-2xl, 1rem);
 }
 
 .gy-calendar.gy-month-calendar .gy-calendar-header {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .gy-calendar--borderless,
@@ -36,35 +37,37 @@
   background: transparent !important;
   box-shadow: none !important;
   padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
-/* Nav button in Month Calendar (compact soft rounded square button) */
+/* Nav button in Month Calendar (clean borderless arrow button) */
 .gy-month-calendar .gy-calendar-nav {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: var(--gy-radius-md, 0.375rem);
-  background: var(--gy-background-muted, #f8fafc);
+  background: transparent !important;
   border: 1px solid transparent;
   color: var(--gy-text, #0f172a);
 }
 
 .gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
-  background: var(--gy-border, #e2e8f0);
-  color: var(--gy-text, #0f172a);
+  background: transparent !important;
+  color: var(--gy-primary, #6366f1);
 }
 
 .gy-month-calendar .gy-calendar-title {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: var(--gy-text, #0f172a);
   letter-spacing: -0.01em;
-  padding: 0.125rem 0.25rem;
+  padding: 0.175rem 0.375rem;
 }
 
 /* Sizing variations for MonthCalendar (height only) */
 .gy-month-calendar--sm .gy-calendar-picker-item {
-  min-height: 26px;
-  height: 26px;
+  min-height: 28px;
+  height: 28px;
   font-size: 0.75rem;
 }
 .gy-month-calendar--sm .gy-calendar-picker-grid {
@@ -72,8 +75,8 @@
 }
 
 .gy-month-calendar--lg .gy-calendar-picker-item {
-  min-height: 36px;
-  height: 36px;
+  min-height: 38px;
+  height: 38px;
   font-size: 0.875rem;
 }
 .gy-month-calendar--lg .gy-calendar-picker-grid {
@@ -85,7 +88,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .gy-calendar-title {
@@ -121,7 +126,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: var(--gy-radius-md, 0.375rem);
-  background: transparent;
+  background: transparent !important;
   border: 1px solid transparent;
   color: var(--gy-text-muted, #64748b);
   cursor: pointer;
@@ -130,8 +135,8 @@
 }
 
 .gy-calendar-nav:hover {
-  background: var(--gy-background-muted, #f1f5f9);
-  color: var(--gy-text, #0f172a);
+  background: transparent !important;
+  color: var(--gy-primary, #6366f1);
 }
 
 .gy-calendar-nav:focus-visible {
@@ -143,18 +148,21 @@
 .gy-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  row-gap: 4px;
+  row-gap: 2px;
   column-gap: 0;
   text-align: center;
 }
 
 .gy-calendar-weekday {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--gy-text-subtle, #94a3b8);
-  padding: 0.25rem 0 0.625rem;
+  padding: 0.125rem 0 0.375rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── Day Cell ───────────────────────────────────────────────────────────── */
@@ -163,22 +171,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 2.375rem;
+  width: 2.125rem;
+  height: 2.125rem;
+  margin: 0 auto;
   padding: 0;
-  margin: 0;
   background: transparent;
   border: none;
   cursor: pointer;
   color: var(--gy-text, #0f172a);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   box-sizing: border-box;
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
     transform 0.1s ease;
-  border-radius: var(--gy-radius-full, 9999px);
+  border-radius: 50%;
+  aspect-ratio: 1;
 }
 
 .gy-calendar-day__inner {
@@ -197,9 +207,21 @@
   color: var(--gy-primary, #6366f1);
 }
 
-.gy-calendar-day--outside {
+.gy-calendar-day--outside:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end) {
   color: var(--gy-text-subtle, #cbd5e1);
   opacity: 0.45;
+}
+
+.gy-calendar-day--outside.gy-calendar-day--range-in {
+  color: var(--gy-text, #0f172a) !important;
+  opacity: 1 !important;
+}
+
+.gy-calendar-day--outside.gy-calendar-day--selected,
+.gy-calendar-day--outside.gy-calendar-day--range-start,
+.gy-calendar-day--outside.gy-calendar-day--range-end {
+  color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 /* Today indicator */
@@ -210,7 +232,7 @@
 .gy-calendar-day--today:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end)::after {
   content: '';
   position: absolute;
-  bottom: 3px;
+  bottom: 2px;
   width: 4px;
   height: 4px;
   border-radius: 50%;
@@ -222,17 +244,24 @@
    RANGE SELECTION (Seamless Connected Capsule)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Single selected day */
+/* Single selected day: PERFECT CIRCLE */
 .gy-calendar-day--selected:not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end) {
   background-color: var(--gy-primary, #6366f1) !important;
   color: #ffffff !important;
-  border-radius: var(--gy-radius-full, 9999px) !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 !important;
+  width: 2.125rem !important;
+  height: 2.125rem !important;
+  margin: 0 auto !important;
   font-weight: 600;
-  box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent);
+  box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent);
 }
 
 /* Range Start Day: Solid primary with rounded left cap */
 .gy-calendar-day--range-start {
+  width: 100% !important;
+  margin: 0 !important;
+  aspect-ratio: auto !important;
   background-color: var(--gy-primary, #6366f1) !important;
   color: #ffffff !important;
   border-top-left-radius: var(--gy-radius-full, 9999px) !important;
@@ -246,6 +275,9 @@
 
 /* Middle In-Range Days: Tinted primary connecting ribbon */
 .gy-calendar-day--range-in {
+  width: 100% !important;
+  margin: 0 !important;
+  aspect-ratio: auto !important;
   background-color: color-mix(in srgb, var(--gy-primary, #6366f1) 16%, var(--gy-surface, #ffffff)) !important;
   color: var(--gy-text, #0f172a) !important;
   border-radius: 0 !important;
@@ -259,6 +291,9 @@
 
 /* Range End Day: Solid primary with rounded right cap */
 .gy-calendar-day--range-end {
+  width: 100% !important;
+  margin: 0 !important;
+  aspect-ratio: auto !important;
   background-color: var(--gy-primary, #6366f1) !important;
   color: #ffffff !important;
   border-top-right-radius: var(--gy-radius-full, 9999px) !important;
@@ -284,7 +319,11 @@
 
 /* When start and end are on the same day in range mode */
 .gy-calendar-day--range-start.gy-calendar-day--range-end {
-  border-radius: var(--gy-radius-full, 9999px) !important;
+  width: 2.125rem !important;
+  height: 2.125rem !important;
+  margin: 0 auto !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 !important;
 }
 
 .gy-calendar-day--disabled {
@@ -295,35 +334,38 @@
 /* ── Month / Year Picker Grid ─────────────────────────────────────────────── */
 .gy-calendar-picker-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 0.5rem;
   row-gap: 0.5rem;
-  padding: 0.125rem 0 0;
+  padding: 0.25rem 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Clean compact month / year item without borders and without backgrounds by default */
 .gy-calendar-picker-item {
-  padding: 0.125rem 0.25rem;
+  width: 100%;
+  padding: 0.25rem 0.375rem;
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--gy-text, #0f172a);
   background: transparent;
   border: 1.5px solid transparent;
-  border-radius: var(--gy-radius-md, 0.375rem);
+  border-radius: var(--gy-radius-lg, 0.5rem);
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  height: 38px;
+  min-height: 34px;
+  height: 34px;
   box-sizing: border-box;
 }
 
 .gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected) {
-  background: var(--gy-background-muted, #f1f5f9);
-  color: var(--gy-text, #0f172a);
+  background: color-mix(in srgb, var(--gy-primary, #6366f1) 8%, transparent);
+  color: var(--gy-primary, #6366f1);
   border-color: transparent;
 }
 
@@ -333,14 +375,14 @@
   color: #ffffff !important;
   border-color: transparent !important;
   font-weight: 600;
-  box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+  box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
 }
 
 /* Current month: thin primary outline with transparent background (matches 'Sep' in screenshot) */
 .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
   background: transparent !important;
   border-color: var(--gy-primary, #6366f1) !important;
-  color: var(--gy-text, #0f172a) !important;
+  color: var(--gy-primary, #6366f1) !important;
   font-weight: 600;
 }
 
@@ -363,14 +405,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
+  margin-top: 0.625rem;
+  padding-top: 0.625rem;
   border-top: 1px solid var(--gy-border, #e2e8f0);
 }
 
 .gy-calendar-today-btn {
-  padding: 0.375rem 0.875rem;
-  font-size: 0.8125rem;
+  padding: 0.3125rem 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--gy-primary, #6366f1);
   background: color-mix(in srgb, var(--gy-primary, #6366f1) 10%, transparent);
@@ -378,6 +420,7 @@
   border-radius: var(--gy-radius-full, 9999px);
   cursor: pointer;
   transition: all 0.15s ease;
+  line-height: 1.25;
 }
 
 .gy-calendar-today-btn:hover {
@@ -422,6 +465,7 @@
 [data-color-mode="dark"] .gy-calendar-nav,
 .dark .gy-calendar-nav,
 .gy-calendar--dark .gy-calendar-nav {
+  background: transparent !important;
   color: var(--gy-text-muted, #94a3b8);
 }
 
@@ -429,7 +473,7 @@
 [data-color-mode="dark"] .gy-calendar-nav:hover,
 .dark .gy-calendar-nav:hover,
 .gy-calendar--dark .gy-calendar-nav:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: transparent !important;
   color: #ffffff;
 }
 
@@ -455,12 +499,36 @@
   color: #ffffff;
 }
 
-[data-theme="dark"] .gy-calendar-day--outside,
-[data-color-mode="dark"] .gy-calendar-day--outside,
-.dark .gy-calendar-day--outside,
-.gy-calendar--dark .gy-calendar-day--outside {
+[data-theme="dark"] .gy-calendar-day--outside:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end),
+[data-color-mode="dark"] .gy-calendar-day--outside:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end),
+.dark .gy-calendar-day--outside:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end),
+.gy-calendar--dark .gy-calendar-day--outside:not(.gy-calendar-day--selected):not(.gy-calendar-day--range-in):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end) {
   color: #475569;
   opacity: 0.5;
+}
+
+[data-theme="dark"] .gy-calendar-day--outside.gy-calendar-day--range-in,
+[data-color-mode="dark"] .gy-calendar-day--outside.gy-calendar-day--range-in,
+.dark .gy-calendar-day--outside.gy-calendar-day--range-in,
+.gy-calendar--dark .gy-calendar-day--outside.gy-calendar-day--range-in {
+  color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] .gy-calendar-day--outside.gy-calendar-day--selected,
+[data-theme="dark"] .gy-calendar-day--outside.gy-calendar-day--range-start,
+[data-theme="dark"] .gy-calendar-day--outside.gy-calendar-day--range-end,
+[data-color-mode="dark"] .gy-calendar-day--outside.gy-calendar-day--selected,
+[data-color-mode="dark"] .gy-calendar-day--outside.gy-calendar-day--range-start,
+[data-color-mode="dark"] .gy-calendar-day--outside.gy-calendar-day--range-end,
+.dark .gy-calendar-day--outside.gy-calendar-day--selected,
+.dark .gy-calendar-day--outside.gy-calendar-day--range-start,
+.dark .gy-calendar-day--outside.gy-calendar-day--range-end,
+.gy-calendar--dark .gy-calendar-day--outside.gy-calendar-day--selected,
+.gy-calendar--dark .gy-calendar-day--outside.gy-calendar-day--range-start,
+.gy-calendar--dark .gy-calendar-day--outside.gy-calendar-day--range-end {
+  color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 [data-theme="dark"] .gy-calendar-day--range-in,
@@ -482,18 +550,27 @@
 [data-color-mode="dark"] .gy-calendar-picker-item,
 .dark .gy-calendar-picker-item,
 .gy-calendar--dark .gy-calendar-picker-item {
-  color: var(--gy-text, #f8fafc);
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--gy-text, #e2e8f0);
+  background: transparent;
+  border-color: transparent;
 }
 
-[data-theme="dark"] .gy-calendar-picker-item:hover,
-[data-color-mode="dark"] .gy-calendar-picker-item:hover,
-.dark .gy-calendar-picker-item:hover,
-.gy-calendar--dark .gy-calendar-picker-item:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
-  border-color: var(--gy-primary, #6366f1);
+[data-theme="dark"] .gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected),
+[data-color-mode="dark"] .gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected),
+.dark .gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected),
+.gy-calendar--dark .gy-calendar-picker-item:hover:not(:disabled):not(.gy-calendar-picker-item--disabled):not(.gy-calendar-picker-item--selected) {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
   color: #ffffff;
+}
+
+[data-theme="dark"] .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+[data-color-mode="dark"] .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+.dark .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+.gy-calendar--dark .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
+  background: transparent !important;
+  border-color: var(--gy-primary, #6366f1) !important;
+  color: #f8fafc !important;
 }
 
 [data-theme="dark"] .gy-calendar-footer,
@@ -508,8 +585,24 @@
 .dark .gy-calendar-today-btn,
 .gy-calendar--dark .gy-calendar-today-btn {
   color: #f8fafc;
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
-  border-color: color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+  background: color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
+  border-color: color-mix(in srgb, var(--gy-primary, #6366f1) 35%, transparent);
+}
+
+[data-theme="dark"] .gy-month-calendar .gy-calendar-nav,
+[data-color-mode="dark"] .gy-month-calendar .gy-calendar-nav,
+.dark .gy-month-calendar .gy-calendar-nav,
+.gy-calendar--dark .gy-month-calendar .gy-calendar-nav {
+  background: transparent !important;
+  color: var(--gy-text, #e2e8f0);
+}
+
+[data-theme="dark"] .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
+[data-color-mode="dark"] .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
+.dark .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
+.gy-calendar--dark .gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
+  background: transparent !important;
+  color: #ffffff;
 }
 
 /* ── Glassmorphic Variant ─────────────────────────────────────────────────── */
@@ -527,7 +620,8 @@
 
 .gy-calendar--glassmorphic .gy-calendar-nav:hover,
 .gy-calendar--glass .gy-calendar-nav:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent !important;
+  color: var(--gy-primary, #6366f1);
 }
 
 .gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),
@@ -567,7 +661,8 @@
 [data-theme="dark"] .gy-calendar--glass .gy-calendar-nav:hover,
 .dark .gy-calendar--glassmorphic .gy-calendar-nav:hover,
 .dark .gy-calendar--glass .gy-calendar-nav:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: transparent !important;
+  color: #ffffff;
 }
 
 [data-color-mode="dark"] .gy-calendar--glassmorphic .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(.gy-calendar-day--selected),

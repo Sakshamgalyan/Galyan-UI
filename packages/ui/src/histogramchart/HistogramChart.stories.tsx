@@ -71,7 +71,7 @@ export const ResponsiveMobile: Story = {
         Mobile Container Preview (320px)
       </div>
       <HistogramChart
-        data={latencyBins}
+        data={latencyBins.slice(0, 5)}
         height={300}
         width="100%"
         summaryTitle="Latency"

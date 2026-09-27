@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./box-whisker-chart.css";
 
 export interface BoxWhiskerItem {
@@ -252,7 +253,7 @@ export function BoxWhiskerChart({
       {loading ? (
         renderSkeletons()
       ) : data.length === 0 ? (
-        <div className="gy-boxwhisker-empty">No data available</div>
+        <EmptyState size="md" variant="subtle" />
       ) : (
         <>
           <svg

@@ -1,0 +1,122 @@
+/* ── Galyan UI Reusable Clear / Close Button ──────────────────────────────── */
+.gy-clear-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--gy-text-subtle, #94a3b8);
+  border-radius: var(--gy-radius-full, 9999px);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  flex-shrink: 0;
+  position: relative;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Sizing */
+.gy-clear-button--xs {
+  width: 16px;
+  height: 16px;
+}
+.gy-clear-button--xs .gy-clear-button__icon {
+  width: 9px;
+  height: 9px;
+}
+
+.gy-clear-button--sm {
+  width: 20px;
+  height: 20px;
+}
+.gy-clear-button--sm .gy-clear-button__icon {
+  width: 11px;
+  height: 11px;
+}
+
+.gy-clear-button--md {
+  width: 24px;
+  height: 24px;
+}
+.gy-clear-button--md .gy-clear-button__icon {
+  width: 13px;
+  height: 13px;
+}
+
+/* Subtle Variant (Default in inputs, popovers, and tags) */
+.gy-clear-button--subtle {
+  background: transparent;
+  color: var(--gy-text-subtle, #94a3b8);
+}
+.gy-clear-button--subtle:hover:not(:disabled) {
+  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-text, #0f172a);
+}
+.gy-clear-button--subtle:active:not(:disabled) {
+  transform: scale(0.92);
+  background: var(--gy-border, #e2e8f0);
+}
+
+/* Filled / Pill Variant */
+.gy-clear-button--filled {
+  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-text-subtle, #64748b);
+}
+.gy-clear-button--filled:hover:not(:disabled) {
+  background: var(--gy-border, #cbd5e1);
+  color: var(--gy-text, #0f172a);
+}
+.gy-clear-button--filled:active:not(:disabled) {
+  transform: scale(0.92);
+  background: var(--gy-border-strong, #94a3b8);
+}
+
+/* Focus styles */
+.gy-clear-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--gy-primary, #6366f1);
+}
+
+.gy-clear-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Icon micro-animation on hover */
+.gy-clear-button__icon {
+  display: block;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+.gy-clear-button:hover:not(:disabled) .gy-clear-button__icon {
+  transform: scale(1.12);
+}
+
+/* Dark Mode Support */
+.gy-dark .gy-clear-button--subtle:hover:not(:disabled),
+[data-color-mode="dark"] .gy-clear-button--subtle:hover:not(:disabled),
+.dark .gy-clear-button--subtle:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+.gy-dark .gy-clear-button--subtle:active:not(:disabled),
+[data-color-mode="dark"] .gy-clear-button--subtle:active:not(:disabled),
+.dark .gy-clear-button--subtle:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.gy-dark .gy-clear-button--filled,
+[data-color-mode="dark"] .gy-clear-button--filled,
+.dark .gy-clear-button--filled {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gy-text-subtle, #94a3b8);
+}
+.gy-dark .gy-clear-button--filled:hover:not(:disabled),
+[data-color-mode="dark"] .gy-clear-button--filled:hover:not(:disabled),
+.dark .gy-clear-button--filled:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}

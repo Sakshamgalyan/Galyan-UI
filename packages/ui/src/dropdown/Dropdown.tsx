@@ -16,6 +16,7 @@ import {
 } from "@floating-ui/react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Spinner } from "../spinner/Spinner";
+import { ClearButton } from "../clearbutton/ClearButton";
 import "./dropdown.css";
 
 export interface DropdownOption {
@@ -62,7 +63,15 @@ export interface DropdownProps {
   maxTagCount?: number;
   placement?: "top" | "bottom";
   align?: "left" | "right";
+  /**
+   * Whether to enable smart positioning that automatically flips between top and bottom.
+   * Restricts placement strictly to top and bottom to avoid unwanted horizontal flips.
+   * @default true
+   */
+  smartPosition?: boolean;
   dropdownWidth?: string | number;
+  /** Alias for dropdownWidth to set a custom width for the dropdown menu */
+  customWidth?: string | number;
   showSelectAll?: boolean;
   groupBy?: string;
   zIndex?: number;
@@ -101,16 +110,19 @@ export function Dropdown({
   renderOption,
   renderValue,
   renderDropdown,
-  maxTagCount = 3,
+  maxTagCount,
   placement = "bottom",
   align = "left",
-  dropdownWidth,
+  smartPosition = true,
+  dropdownWidth: propDropdownWidth,
+  customWidth,
   showSelectAll = false,
   groupBy,
-  zIndex = 1000,
+  zIndex = 10050,
   expandedMenu = false,
   usePortal = true,
 }: DropdownProps) {
+  const effectiveDropdownWidth = customWidth ?? propDropdownWidth;
   const uid = useId();
   const inputId = id ?? uid;
   const [open, setOpen] = useState(expandedMenu);
@@ -121,7 +133,20 @@ export function Dropdown({
   const desiredPlacement: FloatingPlacement =
     `${placement}-${align === "right" ? "end" : "start"}` as FloatingPlacement;
 
-  const { refs, floatingStyles, context } = useFloating({
+  const fallbackPlacements: FloatingPlacement[] =
+    placement === "top"
+      ? [
+          align === "right" ? "bottom-end" : "bottom-start",
+          align === "right" ? "top-start" : "top-end",
+          align === "right" ? "bottom-start" : "bottom-end",
+        ]
+      : [
+          align === "right" ? "top-end" : "top-start",
+          align === "right" ? "bottom-end" : "bottom-start",
+          align === "right" ? "top-start" : "top-end",
+        ];
+
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
     open: isMenuOpen,
     onOpenChange: (val) => {
       if (!expandedMenu) setOpen(val);
@@ -129,17 +154,33 @@ export function Dropdown({
     placement: desiredPlacement,
     whileElementsMounted: autoUpdate,
     strategy: "fixed",
+    transform: false,
     middleware: [
-      offset(4),
-      flip({
-        fallbackAxisSideDirection: "start",
-        padding: 8,
-      }),
+      offset(6),
+      ...(smartPosition
+        ? [
+            flip({
+              fallbackPlacements,
+              fallbackAxisSideDirection: "none",
+              crossAxis: false,
+              padding: 8,
+            }),
+          ]
+        : []),
       shift({ padding: 8 }),
       floatingSize({
         apply({ rects, elements }) {
-          if (!dropdownWidth) {
+          if (effectiveDropdownWidth) {
+            const w =
+              typeof effectiveDropdownWidth === "number"
+                ? `${effectiveDropdownWidth}px`
+                : effectiveDropdownWidth;
             Object.assign(elements.floating.style, {
+              width: w,
+            });
+          } else {
+            Object.assign(elements.floating.style, {
+              width: `${rects.reference.width}px`,
               minWidth: `${rects.reference.width}px`,
             });
           }
@@ -240,8 +281,9 @@ export function Dropdown({
 
     if (multiple && Array.isArray(value) && value.length > 0) {
       const selectedOpts = options.filter((o) => value.includes(o.value));
-      const visibleTags = selectedOpts.slice(0, maxTagCount);
-      const remaining = selectedOpts.length - maxTagCount;
+      const hasCap = typeof maxTagCount === "number" && maxTagCount > 0;
+      const visibleTags = hasCap ? selectedOpts.slice(0, maxTagCount) : selectedOpts;
+      const remaining = hasCap ? selectedOpts.length - maxTagCount : 0;
 
       return (
         <div className="gy-dropdown-tags">
@@ -255,18 +297,15 @@ export function Dropdown({
                 title={tagTitle}
               >
                 <span>{opt.label}</span>
-                <span
+                <ClearButton
+                  size="xs"
+                  ariaLabel={`Remove ${typeof opt.label === "string" ? opt.label : "option"}`}
                   className="gy-dropdown-tag-remove"
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Remove ${opt.label}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleOptionSelect(opt);
                   }}
-                >
-                  ×
-                </span>
+                />
               </span>
             );
           })}
@@ -316,11 +355,21 @@ export function Dropdown({
   const menuNode = (
     <div
       ref={refs.setFloating}
-      className={`gy-dropdown-menu gy-dropdown-menu--${size} ${isGlassVariant ? `gy-dropdown-menu--${variant}` : ""}`.trim()}
+      className={`gy-dropdown-menu gy-dropdown-menu--${size} ${isPositioned ? "gy-dropdown-menu--positioned" : ""} ${isGlassVariant ? `gy-dropdown-menu--${variant}` : ""}`.trim()}
       style={{
         ...floatingStyles,
         zIndex,
-        ...(dropdownWidth ? { width: dropdownWidth } : {}),
+        visibility: isPositioned ? "visible" : "hidden",
+        opacity: isPositioned ? undefined : 0,
+        pointerEvents: isPositioned ? undefined : "none",
+        ...(effectiveDropdownWidth
+          ? {
+              width:
+                typeof effectiveDropdownWidth === "number"
+                  ? `${effectiveDropdownWidth}px`
+                  : effectiveDropdownWidth,
+            }
+          : {}),
       }}
       role="listbox"
       {...getFloatingProps()}
@@ -510,44 +559,50 @@ export function Dropdown({
           </span>
         )}
         <div className="gy-dropdown-trigger-body">{renderTriggerContent()}</div>
-        {loading && (
-          <span className="gy-dropdown-spinner">
-            <Spinner size="xs" />
-          </span>
-        )}
-        {clearable &&
-          value &&
-          !loading &&
-          (Array.isArray(value) ? value.length > 0 : true) && (
-            <span className="gy-dropdown-clear" onClick={handleClear}>
-              ×
+        <div className="gy-dropdown-right-addons">
+          {loading && (
+            <span className="gy-dropdown-spinner">
+              <Spinner size="xs" />
             </span>
           )}
-        {rightIcon ? (
-          <span className="gy-dropdown-icon gy-dropdown-icon--right">
-            {rightIcon}
-          </span>
-        ) : (
-          <span
-            className={`gy-dropdown-chevron ${open ? "gy-dropdown-chevron--open" : ""}`}
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {clearable &&
+            value &&
+            !loading &&
+            (Array.isArray(value) ? value.length > 0 : true) && (
+              <ClearButton
+                size={size === "lg" ? "md" : "sm"}
+                variant="subtle"
+                ariaLabel="Clear selection"
+                className="gy-dropdown-clear"
+                onClick={handleClear}
+              />
+            )}
+          {rightIcon ? (
+            <span className="gy-dropdown-icon gy-dropdown-icon--right">
+              {rightIcon}
+            </span>
+          ) : (
+            <span
+              className={`gy-dropdown-chevron ${open ? "gy-dropdown-chevron--open" : ""}`}
             >
-              <polyline points="2,4 6,8 10,4" />
-            </svg>
-          </span>
-        )}
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="2,4 6,8 10,4" />
+              </svg>
+            </span>
+          )}
+        </div>
       </button>
 
-      {isMenuOpen && <FloatingPortal>{menuNode}</FloatingPortal>}
+      {isMenuOpen && (usePortal ? <FloatingPortal>{menuNode}</FloatingPortal> : menuNode)}
 
       {(displayErrorMsg || helperText) && (
         <div

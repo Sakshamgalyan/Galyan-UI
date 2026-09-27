@@ -10,6 +10,7 @@ import {
   Sector,
 } from "recharts";
 import { Skeleton } from "../skeleton/Skeleton";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./pie-chart.css";
 
 export interface PieChartItem {
@@ -113,17 +114,32 @@ export function PieChart({
   const measuredH =
     containerSize.height || (typeof height === "number" ? height : 320);
 
-  const padX = isCompact || borderless ? 16 : 28;
-  const padY = isCompact || borderless ? 14 : 24;
-  const legendH =
-    showLegend && data.length > 0 ? (data.length > 4 ? 60 : 42) : 0;
+  const isSmall = isCompact || (measuredW > 0 && measuredW < 440);
+
+  // Dynamically estimate legend height based on item count and container width
+  const legendH = useMemo(() => {
+    if (!showLegend || data.length === 0) return 0;
+    if (isSmall || measuredW < 380) {
+      if (data.length <= 2) return 36;
+      if (data.length <= 4) return 66;
+      if (data.length <= 6) return 92;
+      return 110;
+    }
+    if (data.length <= 3) return 36;
+    if (data.length <= 6) return 64;
+    return 88;
+  }, [showLegend, data.length, isSmall, measuredW]);
+
+  const padX = containerSize.width ? 8 : borderless ? 0 : isSmall ? 20 : 32;
+  const padY = containerSize.height ? 8 : borderless ? 0 : isSmall ? 20 : 32;
+
   const availableChartW = Math.max(60, measuredW - padX);
   const availableChartH = Math.max(60, measuredH - padY - legendH);
 
   // Maximum safe outer radius that guarantees NO clipping on hover expansion or shadow
   const maxSafeOuter = Math.max(
     25,
-    Math.floor(Math.min(availableChartW, availableChartH) / 2) - 10
+    Math.floor(Math.min(availableChartW, availableChartH) / 2) - 8
   );
 
   const effectiveOuterRadius = useMemo(() => {
@@ -266,7 +282,7 @@ export function PieChart({
 
     if (data.length === 0) {
       return (
-        <div className="gy-piechart-empty">No data available</div>
+        <EmptyState size="sm" variant="subtle" />
       );
     }
 

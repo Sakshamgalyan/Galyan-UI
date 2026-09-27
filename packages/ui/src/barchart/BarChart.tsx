@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
+import { EmptyState } from "../emptystate/EmptyState";
 import "./bar-chart.css";
 
 export type BarChartVariant = "cylindrical" | "filled" | "horizontal";
@@ -53,7 +54,7 @@ export interface BarChartProps {
 export function BarChart({
   variant,
   data = [],
-  height = 300,
+  height,
   width = "100%",
   barColor,
   maxBars,
@@ -120,7 +121,7 @@ export function BarChart({
   const effectiveBarSpacing = useMemo(() => {
     if (barSpacing === undefined) {
       return variant === "horizontal"
-        ? (isCompact ? 6 : 10)
+        ? (isCompact ? 8 : 12)
         : (isCompact ? 8 : 16);
     }
     if (typeof barSpacing === "number") {
@@ -200,47 +201,112 @@ export function BarChart({
     const count = maxBars || 5;
 
     if (variant === "horizontal") {
-      return (
-        <div
-          className="gy-barchart-skeleton-container"
-          style={{ flexDirection: "column", gap: "16px", width: "100%" }}
-        >
-          {Array.from({ length: count }).map((_, i) => (
+      const iconSize = isCompact ? "28px" : "32px";
+      const barHeight = effectiveHorizontalBarHeight
+        ? typeof effectiveHorizontalBarHeight === "number"
+          ? `${effectiveHorizontalBarHeight}px`
+          : effectiveHorizontalBarHeight
+        : isCompact
+        ? "8px"
+        : "10px";
+      const hasIcons = data.length > 0 ? data.some((d) => Boolean(d.icon)) : true;
+      const labelWidths = ["42%", "55%", "38%", "50%", "45%"];
+
+      return Array.from({ length: count }).map((_, i) => {
+        const labelWidth = labelWidths[i % labelWidths.length];
+
+        if (horizontalAlignment === "inline") {
+          return (
             <div
               key={i}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                width: "100%",
-              }}
+              className="gy-barchart-row--horizontal gy-barchart-row--inline gy-barchart-row--skeleton"
+              style={{ pointerEvents: "none", cursor: "default" }}
             >
-              <Skeleton
-                variant="rectangular"
-                width="36px"
-                height="36px"
-                style={{ borderRadius: "8px" }}
-              />
-              <div
-                style={{
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                <Skeleton variant="text" width="120px" height="12px" />
+              {hasIcons && (
                 <Skeleton
                   variant="rectangular"
-                  width="85%"
-                  height="12px"
-                  style={{ borderRadius: "6px" }}
+                  width={iconSize}
+                  height={iconSize}
+                  style={{
+                    borderRadius: "var(--gy-radius-lg, 0.5rem)",
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+              <div className="gy-barchart-content--horizontal">
+                <Skeleton
+                  variant="text"
+                  width={labelWidth}
+                  height={isCompact ? "12px" : "13px"}
+                  style={{ borderRadius: "4px", margin: "2px 0" }}
+                />
+                <div className="gy-barchart-bar-wrapper">
+                  <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height={barHeight}
+                    style={{ borderRadius: "9999px" }}
+                  />
+                </div>
+              </div>
+              {showValues && (
+                <Skeleton
+                  variant="text"
+                  width={isCompact ? "28px" : "34px"}
+                  height={isCompact ? "12px" : "13px"}
+                  style={{ borderRadius: "4px", margin: "2px 0" }}
+                />
+              )}
+            </div>
+          );
+        }
+
+        return (
+          <div
+            key={i}
+            className="gy-barchart-row--horizontal gy-barchart-row--stacked gy-barchart-row--skeleton"
+            style={{ pointerEvents: "none", cursor: "default" }}
+          >
+            {hasIcons && (
+              <Skeleton
+                variant="rectangular"
+                width={iconSize}
+                height={iconSize}
+                style={{
+                  borderRadius: "var(--gy-radius-lg, 0.5rem)",
+                  flexShrink: 0,
+                }}
+              />
+            )}
+            <div className="gy-barchart-content--horizontal">
+              <div className="gy-barchart-row-header--horizontal">
+                <Skeleton
+                  variant="text"
+                  width={labelWidth}
+                  height={isCompact ? "12px" : "13px"}
+                  style={{ borderRadius: "4px", margin: "2px 0" }}
+                />
+                {showValues && (
+                  <Skeleton
+                    variant="text"
+                    width={isCompact ? "28px" : "34px"}
+                    height={isCompact ? "12px" : "13px"}
+                    style={{ borderRadius: "4px", margin: "2px 0" }}
+                  />
+                )}
+              </div>
+              <div className="gy-barchart-bar-wrapper">
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height={barHeight}
+                  style={{ borderRadius: "9999px" }}
                 />
               </div>
             </div>
-          ))}
-        </div>
-      );
+          </div>
+        );
+      });
     }
 
     return (
@@ -297,18 +363,25 @@ export function BarChart({
     );
   };
 
+  const isHorizontal = variant === "horizontal";
+  const defaultHeight = isHorizontal ? "auto" : 300;
+  const resolvedHeight = height !== undefined ? height : defaultHeight;
+  const isAutoHeight = resolvedHeight === "auto";
+
   const wrapperStyle: React.CSSProperties = {
-    height: typeof height === "number" ? `${height}px` : height,
+    height: typeof resolvedHeight === "number" ? `${resolvedHeight}px` : resolvedHeight,
     width: typeof width === "number" ? `${width}px` : width,
     backgroundColor: backgroundColor || undefined,
     color: textColor || undefined,
     ...tokens,
   };
 
-  const isShort = containerHeight > 0 && containerHeight <= 280;
+  const isShort = !isHorizontal && !isAutoHeight && containerHeight > 0 && containerHeight <= 280;
 
   const rootClasses = [
     "gy-barchart-wrapper",
+    isHorizontal ? "gy-barchart-wrapper--horizontal" : "",
+    isAutoHeight ? "gy-barchart--auto-height" : "",
     isCompact ? "gy-barchart--compact" : "",
     isShort ? "gy-barchart--short" : "",
     borderless ? "gy-barchart--borderless" : "",
@@ -340,19 +413,10 @@ export function BarChart({
         {loading ? (
           renderSkeletons()
         ) : processedData.length === 0 ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-              height: "100%",
-              color: "var(--gy-text-subtle)",
-              fontSize: "var(--gy-font-size-sm)",
-            }}
-          >
-            No data available
-          </div>
+          <EmptyState
+            size={isShort || isCompact ? "sm" : "md"}
+            variant="subtle"
+          />
         ) : (
           processedData.map((item, index) => {
             const percentage = Math.round((item.value / maxValue) * 100);

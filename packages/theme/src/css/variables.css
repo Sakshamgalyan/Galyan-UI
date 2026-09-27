@@ -100,15 +100,15 @@
   --gy-shadow-popover: 0 8px 24px -4px rgb(0 0 0 / 0.15), 0 2px 8px -2px rgb(0 0 0 / 0.08);
 
   /* Z-Index */
-  --gy-z-dropdown: 1000;
   --gy-z-sticky: 1100;
   --gy-z-fixed: 1200;
   --gy-z-drawer: 1300;
-  --gy-z-modal: 1400;
-  --gy-z-popover: 1500;
-  --gy-z-toast: 1600;
-  --gy-z-tooltip: 1700;
-  --gy-z-loading: 1800;
+  --gy-z-modal: 9999;
+  --gy-z-dropdown: 10050;
+  --gy-z-popover: 10050;
+  --gy-z-toast: 10100;
+  --gy-z-tooltip: 100000;
+  --gy-z-loading: 100050;
 
   /* Durations */
   --gy-duration-instant: 0ms;

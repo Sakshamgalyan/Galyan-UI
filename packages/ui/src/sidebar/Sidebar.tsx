@@ -15,6 +15,104 @@ export type SidebarVariant =
   | "dark";
 export type SidebarActiveVariant = "pill" | "line" | "subtle" | "glow";
 
+/** Built-in role color scheme presets */
+export type SidebarRolePreset =
+  | "admin"
+  | "editor"
+  | "viewer"
+  | "moderator"
+  | "owner"
+  | "support"
+  | "guest";
+
+/** Custom color scheme object for full control */
+export interface SidebarCustomColorScheme {
+  /** Primary accent color (buttons, active items, badges) */
+  primary: string;
+  /** Lighter tint for surfaces & active-item backgrounds (light mode) */
+  surfaceLight?: string;
+  /** Darker tint for surfaces (dark mode) */
+  surfaceDark?: string;
+  /** Text color for light mode (defaults to the primary) */
+  textLight?: string;
+  /** Text color for dark mode */
+  textDark?: string;
+  /** Border color override */
+  border?: string;
+}
+
+/** Can be a preset role name or a custom color scheme object */
+export type SidebarColorScheme = SidebarRolePreset | SidebarCustomColorScheme;
+
+/** Role-based color presets */
+const ROLE_COLOR_PRESETS: Record<SidebarRolePreset, SidebarCustomColorScheme> = {
+  admin: {
+    primary: "#dc2626",
+    surfaceLight: "#fef2f2",
+    surfaceDark: "#450a0a",
+    textLight: "#991b1b",
+    textDark: "#fca5a5",
+    border: "#fecaca",
+  },
+  owner: {
+    primary: "#7c3aed",
+    surfaceLight: "#f5f3ff",
+    surfaceDark: "#2e1065",
+    textLight: "#5b21b6",
+    textDark: "#c4b5fd",
+    border: "#ddd6fe",
+  },
+  editor: {
+    primary: "#2563eb",
+    surfaceLight: "#eff6ff",
+    surfaceDark: "#172554",
+    textLight: "#1d4ed8",
+    textDark: "#93c5fd",
+    border: "#bfdbfe",
+  },
+  moderator: {
+    primary: "#d97706",
+    surfaceLight: "#fffbeb",
+    surfaceDark: "#451a03",
+    textLight: "#b45309",
+    textDark: "#fcd34d",
+    border: "#fde68a",
+  },
+  viewer: {
+    primary: "#059669",
+    surfaceLight: "#ecfdf5",
+    surfaceDark: "#022c22",
+    textLight: "#047857",
+    textDark: "#6ee7b7",
+    border: "#a7f3d0",
+  },
+  support: {
+    primary: "#0891b2",
+    surfaceLight: "#ecfeff",
+    surfaceDark: "#083344",
+    textLight: "#0e7490",
+    textDark: "#67e8f9",
+    border: "#a5f3fc",
+  },
+  guest: {
+    primary: "#6b7280",
+    surfaceLight: "#f9fafb",
+    surfaceDark: "#1f2937",
+    textLight: "#4b5563",
+    textDark: "#d1d5db",
+    border: "#e5e7eb",
+  },
+};
+
+/** Resolves a colorScheme to a concrete color object */
+function resolveColorScheme(
+  scheme?: SidebarColorScheme,
+): SidebarCustomColorScheme | undefined {
+  if (!scheme) return undefined;
+  if (typeof scheme === "string") return ROLE_COLOR_PRESETS[scheme];
+  return scheme;
+}
+
 export interface SidebarItemData {
   id: string;
   label: React.ReactNode;
@@ -46,6 +144,12 @@ export interface SidebarProps {
   activeVariant?: SidebarActiveVariant;
   /** Custom accent color for active item / brand highlight */
   accentColor?: string;
+  /**
+   * Role-based color scheme. Pass a preset role name
+   * ("admin" | "editor" | "viewer" | "moderator" | "owner" | "support" | "guest")
+   * or a custom { primary, surfaceLight?, surfaceDark?, textLight?, textDark?, border? } object.
+   */
+  colorScheme?: SidebarColorScheme;
   /** Expanded width */
   width?: string | number;
   /** Collapsed width */
@@ -147,6 +251,7 @@ export function Sidebar({
   variant = "default",
   activeVariant = "pill",
   accentColor,
+  colorScheme,
   width = 260,
   collapsedWidth = 70,
   header,
@@ -161,6 +266,7 @@ export function Sidebar({
   className = "",
   style,
 }: SidebarProps) {
+  const resolvedColors = useMemo(() => resolveColorScheme(colorScheme), [colorScheme]);
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -226,6 +332,7 @@ export function Sidebar({
       : width;
 
   const isGlass = variant === "glass" || variant === "glassmorphic";
+  const hasColorScheme = !!resolvedColors;
 
   const sidebarClasses = [
     "gy-sidebar",
@@ -237,6 +344,8 @@ export function Sidebar({
     responsive ? "gy-sidebar--responsive" : "",
     isMobile ? "gy-sidebar--mobile" : "",
     isMobile && !isCollapsed ? "gy-sidebar--mobile-open" : "",
+    hasColorScheme ? "gy-sidebar--color-scheme" : "",
+    typeof colorScheme === "string" ? `gy-sidebar--role-${colorScheme}` : "",
     className,
   ]
     .filter(Boolean)
@@ -262,13 +371,34 @@ export function Sidebar({
     }, {});
   }, [items]);
 
+  // Build CSS custom properties for role color scheme
+  const colorSchemeVars: Record<string, string> = {};
+  if (resolvedColors) {
+    colorSchemeVars["--gy-sidebar-accent"] = resolvedColors.primary;
+    colorSchemeVars["--gy-sidebar-brand"] = resolvedColors.primary;
+    colorSchemeVars["--gy-sidebar-cs-primary"] = resolvedColors.primary;
+    if (resolvedColors.surfaceLight)
+      colorSchemeVars["--gy-sidebar-cs-surface-light"] = resolvedColors.surfaceLight;
+    if (resolvedColors.surfaceDark)
+      colorSchemeVars["--gy-sidebar-cs-surface-dark"] = resolvedColors.surfaceDark;
+    if (resolvedColors.textLight)
+      colorSchemeVars["--gy-sidebar-cs-text-light"] = resolvedColors.textLight;
+    if (resolvedColors.textDark)
+      colorSchemeVars["--gy-sidebar-cs-text-dark"] = resolvedColors.textDark;
+    if (resolvedColors.border)
+      colorSchemeVars["--gy-sidebar-cs-border"] = resolvedColors.border;
+  }
+
   const customAccentStyle: React.CSSProperties = {
-    ...(accentColor ? ({ "--gy-sidebar-accent": accentColor } as any) : {}),
+    ...(accentColor && !resolvedColors
+      ? ({ "--gy-sidebar-accent": accentColor } as any)
+      : {}),
+    ...colorSchemeVars,
     width: resolvedWidth,
     minWidth: resolvedWidth,
     maxWidth: resolvedWidth,
     ...style,
-  };
+  } as React.CSSProperties;
 
   const renderItem = (item: SidebarItemData, level: number = 0) => {
     if (item.divider) {

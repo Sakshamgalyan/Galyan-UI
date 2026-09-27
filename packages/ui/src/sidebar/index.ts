@@ -17,4 +17,7 @@ export type {
   SidebarVariant,
   SidebarActiveVariant,
   SidebarItemData,
+  SidebarRolePreset,
+  SidebarCustomColorScheme,
+  SidebarColorScheme,
 } from "./Sidebar";
