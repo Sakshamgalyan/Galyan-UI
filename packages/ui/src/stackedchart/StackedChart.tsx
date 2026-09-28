@@ -34,6 +34,9 @@ export interface StackedChartProps {
   showLegend?: boolean;
   loading?: boolean;
   className?: string;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
 }
 
 const DEFAULT_COLORS = [
@@ -57,6 +60,9 @@ export function StackedChart({
   showLegend = true,
   loading = false,
   className = "",
+  animate = true,
+  animationDuration = 1200,
+  animationEasing = "ease-in-out",
 }: StackedChartProps) {
   const commonAxisProps = {
     stroke: "var(--gy-border-strong)",
@@ -139,6 +145,10 @@ export function StackedChart({
                   stroke={color}
                   fill={color}
                   fillOpacity={0.4}
+                  isAnimationActive={animate}
+                  animationDuration={animationDuration}
+                  animationEasing={animationEasing}
+                  animationBegin={i * 150}
                 />
               );
             })}
@@ -176,6 +186,10 @@ export function StackedChart({
                 name={s.name ?? s.key}
                 fill={color}
                 maxBarSize={40}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={i * 150}
               />
             );
           })}

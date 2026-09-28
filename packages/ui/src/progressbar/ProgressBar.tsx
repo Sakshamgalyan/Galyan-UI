@@ -12,11 +12,12 @@ export type ProgressColor =
   | "danger"
   | "info"
   | "gradient"
-  | "indigo";
+  | "indigo"
+  | "purple";
 
 export interface ProgressBarProps {
   /** Current progress value (0-100) */
-  progress: number;
+  progress?: number;
   /** Display type: linear bar or circular ring */
   type?: "bar" | "circular";
   /** Height of the bar / diameter of the circle */
@@ -29,7 +30,16 @@ export interface ProgressBarProps {
     | "danger"
     | "info"
     | "gradient"
-    | "indigo";
+    | "indigo"
+    | "purple";
+  /** Custom bar color */
+  color?: string;
+  /** Custom track background color */
+  trackColor?: string;
+  /** Whether the progress bar is in an indeterminate loading state */
+  loading?: boolean;
+  /** Alias for loading state */
+  indeterminate?: boolean;
   /** Whether to show the percentage label */
   showLabel?: boolean;
   /** Custom label text to show above the bar */
@@ -56,6 +66,10 @@ export function ProgressBar({
   type = "bar",
   size = "md",
   variant = "primary",
+  color,
+  trackColor,
+  loading = false,
+  indeterminate = false,
   showLabel = false,
   label,
   showValue = false,
@@ -63,6 +77,7 @@ export function ProgressBar({
   barClassName = "",
   strokeWidth: customStrokeWidth,
 }: ProgressBarProps) {
+  const isLoading = loading || indeterminate;
   const clampedProgress = Math.min(Math.max(progress, 0), 100);
 
   if (type === "circular") {
@@ -72,8 +87,9 @@ export function ProgressBar({
       (size === "sm" ? 4 : size === "md" ? 6 : size === "lg" ? 8 : 10);
     const radius = (dim - sw) / 2;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset =
-      circumference - (clampedProgress / 100) * circumference;
+    const strokeDashoffset = isLoading
+      ? circumference * 0.25
+      : circumference - (clampedProgress / 100) * circumference;
 
     return (
       <div
@@ -91,7 +107,9 @@ export function ProgressBar({
           </div>
         )}
         <div
-          className={`gy-progress-circular gy-progress-circular--${size} gy-progress-circular--${variant}`}
+          className={`gy-progress-circular gy-progress-circular--${size} gy-progress-circular--${variant} ${
+            isLoading ? "gy-progress-circular--indeterminate" : ""
+          }`}
         >
           <svg
             width={dim}
@@ -105,6 +123,7 @@ export function ProgressBar({
               cy={dim / 2}
               r={radius}
               strokeWidth={sw}
+              style={{ stroke: trackColor }}
             />
             <circle
               className={`gy-progress-circular__fill ${barClassName}`}
@@ -115,9 +134,10 @@ export function ProgressBar({
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
               strokeLinecap="round"
+              style={{ stroke: color }}
             />
           </svg>
-          {(showValue || showLabel) && (
+          {!isLoading && (showValue || showLabel) && (
             <div className="gy-progress-circular__content">
               <Typography
                 variant="span"
@@ -135,18 +155,18 @@ export function ProgressBar({
 
   return (
     <div className={`gy-progress gy-progress--${size} ${className}`}>
-      {(label || showLabel || showValue) && (
+      {(label || (!isLoading && (showLabel || showValue))) && (
         <div className="gy-progress__header">
           {label && (
             <Typography
               variant="span"
-              weight="medium"
+              weight="semibold"
               className="gy-progress__label"
             >
               {label}
             </Typography>
           )}
-          {(showValue || showLabel) && (
+          {!isLoading && (showValue || showLabel) && (
             <Typography
               variant="span"
               weight="semibold"
@@ -158,18 +178,27 @@ export function ProgressBar({
         </div>
       )}
       <div
-        className={`gy-progress__track gy-progress__track--${size}`}
+        className={`gy-progress__track gy-progress__track--${size} ${
+          isLoading ? "gy-progress__track--indeterminate" : ""
+        }`}
+        style={{ backgroundColor: trackColor }}
         role="progressbar"
-        aria-valuenow={clampedProgress}
+        aria-valuenow={isLoading ? undefined : clampedProgress}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={label ?? "Progress"}
+        aria-label={label ?? (isLoading ? "Loading" : "Progress")}
       >
         <div
-          className={`gy-progress__bar gy-progress__bar--${variant} ${barClassName}`}
-          style={{ width: `${clampedProgress}%` }}
+          className={`gy-progress__bar gy-progress__bar--${variant} ${
+            isLoading ? "gy-progress__bar--indeterminate" : ""
+          } ${barClassName}`}
+          style={{
+            ...(!isLoading ? { width: `${clampedProgress}%` } : {}),
+            ...(color ? { backgroundColor: color } : {}),
+          }}
         />
       </div>
     </div>
   );
 }
+

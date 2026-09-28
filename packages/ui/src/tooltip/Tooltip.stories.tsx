@@ -107,7 +107,7 @@ const meta: Meta<typeof Tooltip> = {
     },
     size: {
       control: "select",
-      options: ["sm", "md", "lg"],
+      options: ["xs", "sm", "md", "lg", "xl"],
       description: "Size scale of the tooltip popup",
     },
     trigger: {
@@ -562,9 +562,15 @@ export const Sizes: Story = {
         display: "flex",
         gap: "1.5rem",
         alignItems: "center",
+        flexWrap: "wrap",
         padding: "3rem 1.5rem",
       }}
     >
+      <Tooltip content="Extra small tooltip" size="xs" shortcut="⌘X">
+        <Button variant="secondary" size="xs">
+          Extra Small (xs)
+        </Button>
+      </Tooltip>
       <Tooltip content="Small compact tooltip" size="sm" shortcut="⌘S">
         <Button variant="secondary" size="sm">
           Small (sm)
@@ -576,6 +582,11 @@ export const Sizes: Story = {
       <Tooltip content="Large spacious tooltip" size="lg" shortcut="⌘L">
         <Button variant="secondary" size="lg">
           Large (lg)
+        </Button>
+      </Tooltip>
+      <Tooltip content="Extra large tooltip" size="xl" shortcut="⌘E">
+        <Button variant="secondary" size="xl">
+          Extra Large (xl)
         </Button>
       </Tooltip>
     </div>

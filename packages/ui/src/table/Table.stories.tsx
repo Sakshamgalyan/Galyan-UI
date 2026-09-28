@@ -13,11 +13,18 @@ const meta: Meta<TableProps<any>> = {
   component: Table,
   tags: ["autodocs"],
   parameters: {
-    layout: "centered",
+    layout: "padded",
   },
   decorators: [
     (Story) => (
-      <div style={{ width: "100%", maxWidth: 860, padding: "1rem" }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 1050,
+          minWidth: 0,
+          boxSizing: "border-box",
+        }}
+      >
         <Story />
       </div>
     ),
@@ -686,6 +693,7 @@ export const EnterpriseCompanyDirectory: Story = {
         header: "ACTIONS",
         width: "80px",
         align: "center",
+        fixed: "right",
         accessor: (r) => (
           <button
             type="button"
@@ -721,12 +729,132 @@ export const EnterpriseCompanyDirectory: Story = {
           columns={enterpriseColumns}
           data={companyData}
           rowKey={(r) => r.id}
-          fixedRightmost
           pagination={true}
           pageSize={3}
           paginationVariant="compact"
           hoverable
         />
+      </div>
+    );
+  },
+};
+
+export const FixedColumnsByColumnProp: Story = {
+  render: () => {
+    const multiFixedColumns: Column<User>[] = [
+      {
+        key: "id",
+        header: "ID",
+        accessor: (r) => `#${r.id}`,
+        width: "70px",
+        fixed: "left",
+      },
+      {
+        key: "name",
+        header: "Name",
+        accessor: (r) => r.name,
+        width: "180px",
+        fixed: "left",
+        sortable: true,
+      },
+      {
+        key: "email",
+        header: "Email",
+        accessor: (r) => r.email ?? "-",
+        width: "200px",
+      },
+      {
+        key: "department",
+        header: "Department",
+        accessor: (r) => r.department ?? "-",
+        width: "160px",
+      },
+      {
+        key: "role",
+        header: "Role",
+        accessor: (r) => r.role,
+        width: "180px",
+      },
+      {
+        key: "revenue",
+        header: "Revenue",
+        accessor: (r) => `$${r.revenue.toLocaleString()}`,
+        width: "140px",
+        align: "right",
+      },
+      {
+        key: "status",
+        header: "Status",
+        accessor: (r) => (
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "2px 8px",
+              borderRadius: "9999px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              background:
+                r.status === "active"
+                  ? "color-mix(in srgb, #10b981 14%, var(--gy-surface))"
+                  : "color-mix(in srgb, #ef4444 14%, var(--gy-surface))",
+              color: r.status === "active" ? "#10b981" : "#ef4444",
+            }}
+          >
+            {r.status}
+          </span>
+        ),
+        width: "100px",
+        align: "center",
+        fixed: "right",
+      },
+      {
+        key: "actions",
+        header: "Actions",
+        width: "80px",
+        align: "center",
+        fixed: "right",
+        accessor: (r) => (
+          <button
+            type="button"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              border: "1px solid var(--gy-border)",
+              background: "var(--gy-surface)",
+              color: "var(--gy-primary)",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              alert(`Action for ${r.name}`);
+            }}
+            aria-label="Actions"
+          >
+            <MoreVerticalIcon />
+          </button>
+        ),
+      },
+    ];
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
+          Table with multiple left fixed columns (<strong>ID</strong>, <strong>Name</strong>) and right fixed columns (<strong>Status</strong>, <strong>Actions</strong>) configured via <code>column.fixed</code>:
+        </div>
+        <div style={{ maxWidth: 640, overflowX: "auto" }}>
+          <Table
+            columns={multiFixedColumns}
+            data={sampleData.slice(0, 6)}
+            rowKey={(r) => r.id}
+            isRowSelection
+            hoverable
+          />
+        </div>
       </div>
     );
   },
@@ -864,6 +992,158 @@ export const TreeNestedGrid: Story = {
     rowKey: (row) => row.id,
     nestedChildrenAccessor: "subRows",
     nestedDefaultExpanded: true,
+    treeLines: true,
+  },
+};
+
+interface BankSettlementItem {
+  id: string;
+  name: string;
+  currency?: string;
+  settlementMode?: string;
+  settlementCycle?: string;
+  status?: "active" | "inactive" | "pending";
+  subRows?: BankSettlementItem[];
+}
+
+const bankSettlementColumns: Column<BankSettlementItem>[] = [
+  {
+    key: "name",
+    header: "Bank / MID Name",
+    accessor: (row) => (
+      <span style={{ fontWeight: row.subRows ? 600 : 500 }}>
+        {row.name}
+      </span>
+    ),
+    sortable: true,
+    width: "280px",
+  },
+  {
+    key: "currency",
+    header: "Currency",
+    accessor: (row) => row.currency || "—",
+    align: "center",
+    width: "110px",
+  },
+  {
+    key: "settlementMode",
+    header: "Settlement Mode",
+    accessor: (row) => row.settlementMode || "—",
+    width: "160px",
+  },
+  {
+    key: "settlementCycle",
+    header: "Settlement Cycle",
+    accessor: (row) => row.settlementCycle || "—",
+    width: "140px",
+  },
+  {
+    key: "status",
+    header: "Status",
+    accessor: (row) =>
+      row.status ? (
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            padding: "2px 8px",
+            borderRadius: "9999px",
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            background:
+              row.status === "active"
+                ? "color-mix(in srgb, #10b981 14%, var(--gy-surface))"
+                : "color-mix(in srgb, #ef4444 14%, var(--gy-surface))",
+            color: row.status === "active" ? "#10b981" : "#ef4444",
+          }}
+        >
+          {row.status}
+        </span>
+      ) : null,
+    align: "center",
+    width: "100px",
+  },
+];
+
+const bankSettlementData: BankSettlementItem[] = [
+  {
+    id: "bank-1",
+    name: "Bank1",
+    currency: "USD, EUR",
+    settlementMode: "Gross Settlement",
+    settlementCycle: "T+1 Daily",
+    status: "active",
+    subRows: [
+      {
+        id: "mid-1",
+        name: "MID-ADY-...-XYZ-1",
+        currency: "USD",
+        settlementMode: "Net Direct",
+        settlementCycle: "T+1 Daily",
+        status: "active",
+      },
+      {
+        id: "mid-2",
+        name: "MID-ADY-2",
+        currency: "EUR",
+        settlementMode: "Gross Direct",
+        settlementCycle: "T+2 Rolling",
+        status: "active",
+      },
+    ],
+  },
+  {
+    id: "bank-2",
+    name: "Bank2",
+    currency: "GBP, EUR",
+    settlementMode: "Net Settlement",
+    settlementCycle: "T+2 Rolling",
+    status: "active",
+    subRows: [
+      {
+        id: "mid-3",
+        name: "MID-BNK2-GB-1",
+        currency: "GBP",
+        settlementMode: "Net Direct",
+        settlementCycle: "T+1 Daily",
+        status: "active",
+      },
+    ],
+  },
+  {
+    id: "bank-3",
+    name: "Bank3",
+    currency: "SGD",
+    settlementMode: "Gross Settlement",
+    settlementCycle: "T+3 Weekly",
+    status: "active",
+    subRows: [
+      {
+        id: "mid-4",
+        name: "MID-BNK3-SG-1",
+        currency: "SGD",
+        settlementMode: "Gross Direct",
+        settlementCycle: "T+3 Weekly",
+        status: "active",
+      },
+    ],
+  },
+];
+
+export const BankSettlementTreeTable: StoryObj<any> = {
+  name: "Bank Settlement Tree Table (Screenshot Match)",
+  render: () => {
+    return (
+      <Table
+        columns={bankSettlementColumns}
+        data={bankSettlementData}
+        rowKey={(row) => row.id}
+        nestedChildrenAccessor="subRows"
+        nestedDefaultExpanded={true}
+        treeLines={true}
+        hoverable={true}
+      />
+    );
   },
 };
 

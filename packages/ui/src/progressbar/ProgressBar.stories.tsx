@@ -53,6 +53,22 @@ const meta: Meta<typeof ProgressBar> = {
         defaultValue: { summary: "'primary'" },
       },
     },
+    loading: {
+      control: "boolean",
+      description: "Whether the progress bar is in an indeterminate loading state",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    indeterminate: {
+      control: "boolean",
+      description: "Alias for loading state",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
     showLabel: {
       control: "boolean",
       description: "Show percentage label",
@@ -73,6 +89,14 @@ const meta: Meta<typeof ProgressBar> = {
       control: "text",
       description: "Custom label text above progress bar",
       table: { type: { summary: "string" } },
+    },
+    color: {
+      control: "color",
+      description: "Custom bar fill color override",
+    },
+    trackColor: {
+      control: "color",
+      description: "Custom track background color override",
     },
     strokeWidth: {
       control: "number",
@@ -95,6 +119,39 @@ const meta: Meta<typeof ProgressBar> = {
 export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
+/**
+ * Exact replica of the Indeterminate Progress Bar Loading States from user screenshot.
+ * Top: "Loading..." with purple indeterminate sliding bar.
+ * Bottom: "Processing..." with green indeterminate sliding bar.
+ */
+export const LoadingStateMatch: Story = {
+  name: "Loading & Processing States (User Upload Match)",
+  render: () => (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.5rem",
+        maxWidth: "480px",
+        padding: "1rem",
+      }}
+    >
+      <ProgressBar
+        loading
+        variant="purple"
+        label="Loading..."
+        size="md"
+      />
+      <ProgressBar
+        loading
+        variant="success"
+        label="Processing..."
+        size="md"
+      />
+    </div>
+  ),
+};
+
 export const DefaultLinearBar: Story = {
   args: {
     progress: 65,
@@ -104,6 +161,40 @@ export const DefaultLinearBar: Story = {
     label: "Downloading update",
     showValue: true,
   },
+};
+
+export const IndeterminateCircularRings: Story = {
+  name: "Indeterminate Circular Spinners",
+  render: () => (
+    <div
+      style={{
+        display: "flex",
+        gap: "2rem",
+        alignItems: "center",
+      }}
+    >
+      <ProgressBar
+        type="circular"
+        loading
+        size="sm"
+        variant="purple"
+      />
+      <ProgressBar
+        type="circular"
+        loading
+        size="md"
+        variant="indigo"
+        label="Syncing"
+      />
+      <ProgressBar
+        type="circular"
+        loading
+        size="lg"
+        variant="success"
+        label="Uploading"
+      />
+    </div>
+  ),
 };
 
 export const DefaultCircularRing: Story = {
@@ -164,6 +255,12 @@ export const LinearBarVariants: Story = {
         showValue
       />
       <ProgressBar
+        progress={70}
+        variant="purple"
+        label="Purple Progress"
+        showValue
+      />
+      <ProgressBar
         progress={85}
         variant="gradient"
         label="Gradient Progress"
@@ -217,3 +314,4 @@ export const CircularRingVariants: Story = {
     </div>
   ),
 };
+

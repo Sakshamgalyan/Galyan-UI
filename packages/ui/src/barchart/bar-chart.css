@@ -55,7 +55,7 @@
   box-sizing: border-box;
 }
 
-/* ── Variant: Cylindrical ───────────────────────────────────────────────── */
+/* ── Variant: Cylindrical (3D Glass Tube) ────────────────────────────────── */
 .gy-barchart--cylindrical {
   align-items: stretch;
   justify-content: space-around;
@@ -65,117 +65,218 @@
   box-sizing: border-box;
 }
 
-.gy-barchart--cylindrical::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 34px;
-  height: 2px;
-  background: var(--gy-border, #e2e8f0);
-  border-radius: 1px;
-  pointer-events: none;
-}
-
 .gy-barchart-col--cylindrical {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex: 1 1 0;
   min-width: 0;
   height: 100%;
   position: relative;
-  padding-bottom: 36px;
   box-sizing: border-box;
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0 4px;
 }
 
-.gy-barchart-col--cylindrical.gy-barchart-col--active .gy-barchart-bar--cylindrical {
-  transform: translateY(-2px) scaleY(1.02);
-  filter: brightness(1.08) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+.gy-barchart-col--cylindrical.gy-barchart-col--active .gy-barchart-cylinder-3d {
+  transform: translateY(-3px) scale(1.02);
+  filter: drop-shadow(0 6px 16px rgba(124, 58, 237, 0.22));
 }
 
 .gy-barchart-col--cylindrical.gy-barchart-col--dimmed {
   opacity: 0.45;
 }
 
-.gy-barchart-col--cylindrical .gy-barchart-bar-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  position: relative;
-}
-
-.gy-barchart-col--cylindrical .gy-barchart-bar-wrapper .gy-tooltip-trigger {
-  position: static;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.gy-barchart-col--cylindrical .gy-barchart-label-wrapper {
-  position: absolute;
-  bottom: 8px;
-  left: 2px;
-  right: 2px;
-  display: flex;
-  justify-content: center;
-}
-
-.gy-barchart-col--cylindrical .gy-barchart-label-wrapper > .gy-tooltip-trigger {
-  width: 100%;
-  max-width: 100%;
-  display: block;
-}
-
-.gy-barchart-bar--cylindrical {
-  border-radius: 9999px 9999px 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0.5rem 0;
-  box-sizing: border-box;
-  position: relative;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease, width 0.2s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.gy-barchart-bar--cylindrical:hover {
-  transform: scaleY(1.02);
-  filter: brightness(1.06);
-}
-
-.gy-barchart-bar-percentage--cylindrical {
-  color: #ffffff;
-  font-size: 0.6875rem;
+/* Top Value Label */
+.gy-barchart-bar-value--cylindrical {
+  font-size: 0.8125rem;
   font-weight: 700;
-  line-height: 1;
+  color: var(--gy-text, #0f172a);
+  margin-bottom: 0.5rem;
   user-select: none;
-  margin-top: 0.25rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
   text-align: center;
 }
 
-.gy-barchart-bar-icon--cylindrical {
+/* Cylinder Tube Wrapper */
+.gy-barchart-bar-wrapper--cylindrical {
+  width: 100%;
+  flex: 1 1 0;
+  min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 0.875rem;
+  position: relative;
+}
+
+.gy-barchart-bar-wrapper--cylindrical .gy-tooltip-trigger {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 3D Glass Cylinder Tube */
+.gy-barchart-cylinder-3d {
+  --gy-cyl-track: var(--gy-cylinder-track, #e5e0f8);
+  --gy-cyl-fill: var(--gy-cylinder-fill, #7c3aed);
+  --gy-cyl-cap-h: 14px;
+  
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+  width: 42px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+}
+
+/* Cylinder Glass Body */
+.gy-barchart-cylinder-body {
+  position: absolute;
+  top: calc(var(--gy-cyl-cap-h) / 2);
+  bottom: calc(var(--gy-cyl-cap-h) / 2);
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(215, 205, 245, 0.6) 0%,
+    rgba(238, 233, 255, 0.85) 30%,
+    rgba(246, 243, 255, 0.95) 55%,
+    rgba(218, 208, 246, 0.7) 100%
+  );
+  border-left: 1px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(210, 200, 245, 0.65);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: visible;
+}
+
+/* Top 3D Elliptical Cap */
+.gy-barchart-cylinder-cap--top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--gy-cyl-cap-h);
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(228, 222, 250, 0.95) 0%,
+    rgba(206, 196, 244, 0.85) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Bottom 3D Elliptical Cap / Base */
+.gy-barchart-cylinder-cap--bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--gy-cyl-cap-h);
+  border-radius: 50%;
+  z-index: 3;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.gy-barchart-cylinder-cap--bottom.gy-barchart-cylinder-cap--filled {
+  background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 3px 6px rgba(109, 40, 217, 0.3);
+}
+
+.gy-barchart-cylinder-cap--bottom.gy-barchart-cylinder-cap--empty {
+  background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 2px 5px rgba(124, 58, 237, 0.25);
+}
+
+/* Glass Sheen Specular Streak */
+.gy-barchart-cylinder-sheen {
+  position: absolute;
+  top: var(--gy-cyl-cap-h);
+  bottom: var(--gy-cyl-cap-h);
+  left: 4px;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  border-radius: 9999px;
+  filter: blur(0.5px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Inner Liquid Fill */
+.gy-barchart-cylinder-fill {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #6d28d9 0%,
+    #8b5cf6 32%,
+    #a78bfa 58%,
+    #7c3aed 100%
+  );
+  transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+  z-index: 2;
+}
+
+/* Meniscus Top Ellipse on Liquid */
+.gy-barchart-cylinder-meniscus {
+  position: absolute;
+  top: calc(var(--gy-cyl-cap-h) / -2);
+  left: 0;
+  right: 0;
+  height: var(--gy-cyl-cap-h);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #9d75f7 0%, #7c3aed 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+}
+
+/* Icon Slot below cylinder */
+.gy-barchart-icon-slot--cylindrical {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  min-height: 32px;
+  margin-top: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Category Label below icon */
+.gy-barchart-label-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.375rem;
 }
 
 .gy-barchart-label--cylindrical {
   width: 100%;
   max-width: 100%;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--gy-text-muted, #64748b);
   text-align: center;
   overflow: hidden;
@@ -184,6 +285,8 @@
   line-height: 1.25;
   cursor: pointer;
   display: block;
+  letter-spacing: 0.02em;
+  transition: color 0.15s ease;
 }
 
 .gy-barchart-label--cylindrical:hover {
@@ -191,22 +294,25 @@
 }
 
 /* ── Compact adjustments ── */
-.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar--cylindrical {
-  padding: 0.375rem 0;
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-cylinder-3d {
+  --gy-cyl-cap-h: 11px;
 }
 
-.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-percentage--cylindrical {
-  font-size: 0.5625rem;
-  margin-top: 0.125rem;
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-value--cylindrical {
+  font-size: 0.6875rem;
+  margin-bottom: 0.375rem;
 }
 
-.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-bar-icon--cylindrical {
-  font-size: 0.75rem;
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-icon-slot--cylindrical {
+  height: 26px;
+  min-height: 26px;
+  margin-top: 0.5rem;
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label--cylindrical {
   font-size: 0.6875rem;
 }
+
 
 /* ── Variant: Filled ────────────────────────────────────────────────────── */
 .gy-barchart--filled {
@@ -401,7 +507,7 @@
 }
 
 .gy-barchart-row--horizontal.gy-barchart-row--active {
-  background-color: var(--gy-surface-hover, rgba(0, 0, 0, 0.03));
+  background-color: var(--gy-surface-hover, rgba(0, 0, 0, 0.025));
   opacity: 1;
 }
 
@@ -410,13 +516,63 @@
 }
 
 .gy-barchart-row--horizontal.gy-barchart-row--active .gy-barchart-bar--horizontal {
-  filter: brightness(1.08) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+  filter: brightness(1.08) drop-shadow(0 2px 6px rgba(124, 58, 237, 0.2));
 }
 
 .gy-barchart-row--horizontal.gy-barchart-row--dimmed {
   opacity: 0.45;
 }
 
+/* ── Inline Horizontal Layout (Single Row per item) ── */
+.gy-barchart-row--horizontal.gy-barchart-row--inline {
+  gap: 1rem;
+  padding: 4px 6px;
+}
+
+.gy-barchart-label-col--horizontal {
+  display: flex;
+  align-items: center;
+  width: 95px;
+  min-width: 85px;
+  max-width: 120px;
+  flex-shrink: 0;
+}
+
+.gy-barchart-row--inline .gy-barchart-bar-wrapper {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  position: relative;
+}
+
+.gy-barchart-track--horizontal.gy-barchart-track--inline {
+  height: 26px;
+  border-radius: 6px;
+  background: var(--gy-track-lavender, #f1edfa);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.gy-barchart-bar--horizontal.gy-barchart-bar--inline {
+  height: 100%;
+  border-radius: 6px 0 0 6px;
+  background: linear-gradient(
+    180deg,
+    #9f82f2 0%,
+    #7d57d9 50%,
+    #6940c7 100%
+  );
+  box-shadow: 0 1px 3px rgba(109, 40, 217, 0.2);
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+}
+
+.gy-barchart-row--inline .gy-barchart-value--horizontal {
+  min-width: 58px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+/* ── Stacked Horizontal Layout ── */
 .gy-barchart-row--horizontal.gy-barchart-row--stacked {
   align-items: center;
 }
@@ -425,14 +581,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   border-radius: var(--gy-radius-lg, 0.5rem);
-  background: var(--gy-surface-disabled, #f8fafc);
+  background: #ffffff;
   color: var(--gy-text-muted, #64748b);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--gy-border, #e2e8f0);
+  border: 1.5px solid #0f172a;
   flex-shrink: 0;
   margin-top: 0;
 }
@@ -452,10 +608,6 @@
   width: 100%;
   margin-bottom: 0.375rem;
   gap: 0.5rem;
-}
-
-.gy-barchart-row--horizontal.gy-barchart-row--inline .gy-barchart-content--horizontal {
-  gap: 0.25rem;
 }
 
 .gy-barchart-content--horizontal .gy-barchart-bar-wrapper {
@@ -483,6 +635,7 @@
   cursor: pointer;
   line-height: 1.3;
   transition: color 0.15s ease;
+  letter-spacing: 0.01em;
 }
 
 .gy-barchart-label--horizontal:hover {
@@ -530,15 +683,25 @@
 
 /* Compact and Mobile adjustments for Horizontal */
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-row--horizontal {
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label--horizontal {
   font-size: 0.75rem;
 }
 
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label-col--horizontal {
+  width: 75px;
+  min-width: 65px;
+}
+
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-value--horizontal {
   font-size: 0.75rem;
+  min-width: 48px;
+}
+
+.gy-barchart-wrapper.gy-barchart--compact .gy-barchart-track--inline {
+  height: 18px;
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-track--horizontal {
@@ -546,7 +709,111 @@
 }
 
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-icon-square--horizontal {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
 }
+
+/* ── Entrance Animations ─────────────────────────────────────────────────── */
+.gy-barchart--animate .gy-barchart-cylinder-fill {
+  animation: gy-cyl-fill-rise var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation-delay: calc(var(--gy-bar-index, 0) * 80ms);
+  transform-origin: bottom;
+}
+
+.gy-barchart--animate .gy-barchart-bar--filled {
+  animation: gy-bar-filled-rise var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation-delay: calc(var(--gy-bar-index, 0) * 80ms);
+  transform-origin: bottom;
+}
+
+.gy-barchart--animate .gy-barchart-bar--horizontal {
+  animation: gy-bar-horiz-grow var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation-delay: calc(var(--gy-bar-index, 0) * 75ms);
+  transform-origin: left;
+}
+
+.gy-barchart--animate .gy-barchart-bar-value--cylindrical,
+.gy-barchart--animate .gy-barchart-bar-value--filled,
+.gy-barchart--animate .gy-barchart-value--horizontal {
+  animation: gy-bar-value-fade-in var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation-delay: calc(var(--gy-bar-index, 0) * 80ms + 120ms);
+}
+
+.gy-barchart--animate .gy-barchart-icon-slot--cylindrical,
+.gy-barchart--animate .gy-barchart-bar-icon--filled,
+.gy-barchart--animate .gy-barchart-icon-square--horizontal {
+  animation: gy-bar-icon-pop 600ms var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation-delay: calc(var(--gy-bar-index, 0) * 75ms + 60ms);
+}
+
+@keyframes gy-cyl-fill-rise {
+  from {
+    opacity: 0.2;
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gy-bar-filled-rise {
+  from {
+    opacity: 0.3;
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gy-bar-horiz-grow {
+  from {
+    opacity: 0.2;
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gy-bar-value-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gy-bar-icon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gy-barchart--animate .gy-barchart-cylinder-fill,
+  .gy-barchart--animate .gy-barchart-bar-value--cylindrical,
+  .gy-barchart--animate .gy-barchart-bar-value--filled,
+  .gy-barchart--animate .gy-barchart-value--horizontal,
+  .gy-barchart--animate .gy-barchart-bar--filled,
+  .gy-barchart--animate .gy-barchart-bar--horizontal,
+  .gy-barchart--animate .gy-barchart-icon-slot--cylindrical,
+  .gy-barchart--animate .gy-barchart-bar-icon--filled,
+  .gy-barchart--animate .gy-barchart-icon-square--horizontal {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+

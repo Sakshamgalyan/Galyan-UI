@@ -7,11 +7,11 @@
 
 .gy-tooltip {
   z-index: var(--gy-z-tooltip, 100000);
-  padding: calc(0.3125rem + 2.5px) calc(0.625rem + 2px);
+  padding: 0.45rem 0.85rem;
   border-radius: var(--gy-radius-md, 0.375rem);
-  font-size: var(--gy-font-size-xs, 0.75rem);
+  font-size: var(--gy-font-size-sm, 0.875rem);
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.4;
   letter-spacing: -0.01em;
   white-space: nowrap;
   pointer-events: none;
@@ -49,34 +49,59 @@
 }
 
 /* ── Sizes ── */
-.gy-tooltip--sm {
-  padding: calc(0.2rem + 2.5px) calc(0.45rem + 2px);
-  font-size: 0.6875rem;
+.gy-tooltip--xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
   border-radius: var(--gy-radius-sm, 0.25rem);
+  line-height: 1.35;
 }
-.gy-tooltip--sm .gy-tooltip__kbd {
-  font-size: 0.5625rem;
+.gy-tooltip--xs .gy-tooltip__kbd {
+  font-size: 0.625rem;
   padding: 0.05rem 0.25rem;
 }
 
+.gy-tooltip--sm {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8125rem;
+  border-radius: var(--gy-radius-sm, 0.25rem);
+  line-height: 1.35;
+}
+.gy-tooltip--sm .gy-tooltip__kbd {
+  font-size: 0.6875rem;
+  padding: 0.07rem 0.28rem;
+}
+
 .gy-tooltip--md {
-  padding: calc(0.3125rem + 2.5px) calc(0.625rem + 2px);
-  font-size: var(--gy-font-size-xs, 0.75rem);
+  padding: 0.45rem 0.85rem;
+  font-size: var(--gy-font-size-sm, 0.875rem);
   border-radius: var(--gy-radius-md, 0.375rem);
+  line-height: 1.4;
 }
 .gy-tooltip--md .gy-tooltip__kbd {
-  font-size: 0.6875rem;
-  padding: 0.08rem 0.3rem;
+  font-size: 0.75rem;
+  padding: 0.08rem 0.32rem;
 }
 
 .gy-tooltip--lg {
-  padding: calc(0.4375rem + 2.5px) calc(0.75rem + 2px);
-  font-size: var(--gy-font-size-sm, 0.875rem);
-  border-radius: var(--gy-radius-lg, 0.5rem);
+  padding: 0.575rem 1rem;
+  font-size: var(--gy-font-size-md, 1rem);
+  border-radius: var(--gy-radius-md, 0.425rem);
+  line-height: 1.45;
 }
 .gy-tooltip--lg .gy-tooltip__kbd {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   padding: 0.1rem 0.375rem;
+}
+
+.gy-tooltip--xl {
+  padding: 0.725rem 1.25rem;
+  font-size: var(--gy-font-size-lg, 1.125rem);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  line-height: 1.5;
+}
+.gy-tooltip--xl .gy-tooltip__kbd {
+  font-size: 0.875rem;
+  padding: 0.12rem 0.45rem;
 }
 
 /* ── Content & Keyboard Shortcut ── */

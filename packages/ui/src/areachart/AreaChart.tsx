@@ -32,6 +32,9 @@ export interface AreaChartProps {
   showLegend?: boolean;
   loading?: boolean;
   className?: string;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
 }
 
 const DEFAULT_COLORS = [
@@ -55,6 +58,9 @@ export function AreaChart({
   showLegend = true,
   loading = false,
   className = "",
+  animate = true,
+  animationDuration = 1200,
+  animationEasing = "ease-in-out",
 }: AreaChartProps) {
   const commonAxisProps = {
     stroke: "var(--gy-border-strong)",
@@ -162,6 +168,10 @@ export function AreaChart({
                 strokeWidth={2}
                 fillOpacity={1}
                 fill={`url(#area-grad-${s.key})`}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={i * 150}
               />
             );
           })}

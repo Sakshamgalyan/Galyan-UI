@@ -21,6 +21,13 @@ export interface Column<T> {
   headerAlign?: "left" | "center" | "right";
   ellipsis?: boolean;
   showTooltip?: boolean;
+  /**
+   * Fix column to left or right during horizontal scroll:
+   * - "left" | true: Sticky fixed to left side
+   * - "right": Sticky fixed to right side
+   * - false | undefined: Normal scrolling column
+   */
+  fixed?: "left" | "right" | boolean;
 }
 
 export interface TablePaginationConfig {
@@ -58,6 +65,13 @@ export interface TableProps<T> {
   onPageChange?: (page: number) => void;
   nestedChildrenAccessor?: keyof T | ((row: T) => T[] | undefined);
   nestedDefaultExpanded?: boolean;
+  /**
+   * Whether to render tree branch connecting lines for nested expandable child rows
+   * @default true
+   */
+  treeLines?: boolean;
+  /** Custom stroke color for tree branch connecting lines */
+  treeLineColor?: string;
   isLoading?: boolean;
   skeletonRows?: number;
   skeletonContent?: React.ReactNode;
@@ -210,6 +224,8 @@ export function Table<T>({
   onPageChange,
   nestedChildrenAccessor,
   nestedDefaultExpanded = false,
+  treeLines = true,
+  treeLineColor,
   isLoading = false,
   skeletonRows = 5,
   skeletonContent,
@@ -266,6 +282,87 @@ export function Table<T>({
     onRowSelect?.(keys);
     onSelectionChange?.(keys);
   };
+
+  // Helper to parse CSS width strings to px numbers for sticky positioning
+  const parseWidthToPx = (width?: string): number => {
+    if (!width) return 120;
+    const match = String(width).match(/^([\d.]+)(px|rem|em)?$/);
+    if (match && match[1]) {
+      const val = parseFloat(match[1]);
+      const unit = match[2] || "px";
+      if (unit === "rem" || unit === "em") {
+        return val * 16;
+      }
+      return val;
+    }
+    const parsed = parseFloat(width);
+    return isNaN(parsed) ? 120 : parsed;
+  };
+
+  const {
+    leftOffsets,
+    rightOffsets,
+    isFixedLeft,
+    isFixedRight,
+    isLastFixedLeft,
+    isFirstFixedRight,
+    hasFixedLeft,
+    hasFixedRight,
+  } = useMemo(() => {
+    const leftOffsets: (number | undefined)[] = [];
+    const rightOffsets: (number | undefined)[] = [];
+    const isFixedLeftList: boolean[] = [];
+    const isFixedRightList: boolean[] = [];
+
+    let currentLeft = enableSelection ? 48 : 0;
+    let lastLeftIdx = -1;
+
+    columns.forEach((col, idx) => {
+      const isLeft =
+        col.fixed === "left" ||
+        col.fixed === true ||
+        (fixedLeftmost && idx === 0);
+      isFixedLeftList[idx] = isLeft;
+      if (isLeft) {
+        leftOffsets[idx] = currentLeft;
+        lastLeftIdx = idx;
+        currentLeft += parseWidthToPx(col.width);
+      } else {
+        leftOffsets[idx] = undefined;
+      }
+    });
+
+    let currentRight = 0;
+    let firstRightIdx = -1;
+    for (let idx = columns.length - 1; idx >= 0; idx--) {
+      const col = columns[idx];
+      if (!col) continue;
+      const isRight =
+        col.fixed === "right" ||
+        (fixedRightmost && idx === columns.length - 1);
+      isFixedRightList[idx] = isRight;
+      if (isRight) {
+        rightOffsets[idx] = currentRight;
+        firstRightIdx = idx;
+        currentRight += parseWidthToPx(col.width);
+      } else {
+        rightOffsets[idx] = undefined;
+      }
+    }
+
+    return {
+      leftOffsets,
+      rightOffsets,
+      isFixedLeft: (idx: number) => isFixedLeftList[idx],
+      isFixedRight: (idx: number) => isFixedRightList[idx],
+      isLastFixedLeft: (idx: number) => idx === lastLeftIdx,
+      isFirstFixedRight: (idx: number) => idx === firstRightIdx,
+      hasFixedLeft: lastLeftIdx !== -1 || (enableSelection && fixedLeftmost),
+      hasFixedRight: firstRightIdx !== -1,
+    };
+  }, [columns, enableSelection, fixedLeftmost, fixedRightmost]);
+
+  const isCheckboxFixed = fixedLeftmost || hasFixedLeft;
 
   // Helper to extract row key
   const getRowKey = (row: T, index: number): string => {
@@ -387,7 +484,7 @@ export function Table<T>({
     pageSize,
   ]);
 
-  // Flattened hierarchical view of visible rows (handles nested expansion)
+  // Flattened hierarchical view of visible rows (handles nested expansion and tree lines)
   const visibleRows = useMemo(() => {
     const visible: {
       row: T;
@@ -395,22 +492,45 @@ export function Table<T>({
       key: string;
       hasChildren: boolean;
       isExpanded: boolean;
+      isLastChild: boolean;
+      ancestorHasNextSibling: boolean[];
     }[] = [];
 
-    const process = (item: T, depth: number) => {
+    const process = (
+      item: T,
+      depth: number,
+      isLast: boolean,
+      ancestorsNext: boolean[],
+    ) => {
       const key = getRowKey(item, visible.length);
       const children = getNestedChildren(item);
       const hasChildren = !!(children && children.length > 0);
       const isExpanded = isRowExpanded(key);
 
-      visible.push({ row: item, depth, key, hasChildren, isExpanded });
+      visible.push({
+        row: item,
+        depth,
+        key,
+        hasChildren,
+        isExpanded,
+        isLastChild: isLast,
+        ancestorHasNextSibling: ancestorsNext,
+      });
 
       if (hasChildren && isExpanded) {
-        children.forEach((child) => process(child, depth + 1));
+        children.forEach((child, idx) => {
+          const childIsLast = idx === children.length - 1;
+          process(child, depth + 1, childIsLast, [
+            ...ancestorsNext,
+            !childIsLast,
+          ]);
+        });
       }
     };
 
-    paginatedRootRows.forEach((item) => process(item, 0));
+    paginatedRootRows.forEach((item, idx) =>
+      process(item, 0, idx === paginatedRootRows.length - 1, []),
+    );
     return visible;
   }, [paginatedRootRows, expandedRows, nestedDefaultExpanded]);
 
@@ -478,9 +598,9 @@ export function Table<T>({
           {enableSelection && (
             <td
               className={`gy-table-td gy-table-td--checkbox ${
-                fixedLeftmost ? "gy-table-td--fixed-left" : ""
+                isCheckboxFixed ? "gy-table-td--fixed-left" : ""
               }`}
-              style={{ left: fixedLeftmost ? 0 : undefined }}
+              style={{ left: isCheckboxFixed ? 0 : undefined }}
             >
               <Skeleton
                 variant="rectangular"
@@ -491,18 +611,19 @@ export function Table<T>({
             </td>
           )}
           {columns.map((col, cIdx) => {
-            const isLeftFixed = fixedLeftmost && cIdx === 0;
-            const isRightFixed = fixedRightmost && cIdx === columns.length - 1;
-            const leftOffset = isLeftFixed
-              ? enableSelection
-                ? 48
-                : 0
-              : undefined;
+            const isLeft = isFixedLeft(cIdx);
+            const isRight = isFixedRight(cIdx);
+            const isLastLeft = isLastFixedLeft(cIdx);
+            const isFirstRight = isFirstFixedRight(cIdx);
+            const leftOffset = leftOffsets[cIdx];
+            const rightOffset = rightOffsets[cIdx];
 
             const classes = [
               "gy-table-td",
-              isLeftFixed ? "gy-table-td--fixed-left" : "",
-              isRightFixed ? "gy-table-td--fixed-right" : "",
+              isLeft ? "gy-table-td--fixed-left" : "",
+              isLastLeft ? "gy-table-td--fixed-left-last" : "",
+              isRight ? "gy-table-td--fixed-right" : "",
+              isFirstRight ? "gy-table-td--fixed-right-first" : "",
             ]
               .filter(Boolean)
               .join(" ");
@@ -517,8 +638,9 @@ export function Table<T>({
                   textAlign: col.align || "left",
                   left:
                     leftOffset !== undefined ? `${leftOffset}px` : undefined,
-                  right: isRightFixed ? 0 : undefined,
-                  zIndex: isLeftFixed || isRightFixed ? 2 : undefined,
+                  right:
+                    rightOffset !== undefined ? `${rightOffset}px` : undefined,
+                  zIndex: isLeft || isRight ? 2 : undefined,
                 }}
               >
                 {skeletonContent ? (
@@ -672,6 +794,8 @@ export function Table<T>({
     isStackedMode
       ? "gy-table-wrapper--responsive-stack"
       : "gy-table-wrapper--responsive-scroll",
+    hasFixedLeft ? "gy-table-wrapper--has-fixed-left" : "",
+    hasFixedRight ? "gy-table-wrapper--has-fixed-right" : "",
     canScrollLeft ? "gy-table-wrapper--scroll-left" : "",
     canScrollRight ? "gy-table-wrapper--scroll-right" : "",
     noBorder ? "gy-table-wrapper--no-border" : "",
@@ -681,9 +805,23 @@ export function Table<T>({
     .join(" ");
 
   const wrapperStyle: React.CSSProperties | undefined =
-    borderRadius !== undefined || style !== undefined
-      ? { ...(borderRadius !== undefined ? { borderRadius } : {}), ...style }
+    borderRadius !== undefined || style !== undefined || treeLineColor !== undefined
+      ? {
+          ...(borderRadius !== undefined ? { borderRadius } : {}),
+          ...(treeLineColor !== undefined ? ({ "--gy-tree-line-color": treeLineColor } as any) : {}),
+          ...style,
+        }
       : undefined;
+
+  // Compute minimum table width from declared column widths so columns
+  // maintain their sizes and the container scrolls instead of crushing.
+  const tableMinWidth = useMemo(() => {
+    let total = enableSelection ? 48 : 0;
+    columns.forEach((col) => {
+      total += parseWidthToPx(col.width);
+    });
+    return total;
+  }, [columns, enableSelection]);
 
   const tableClasses = [
     "gy-table",
@@ -703,7 +841,11 @@ export function Table<T>({
         role="region"
         aria-label={ariaLabel || "Data table"}
       >
-        <table className={tableClasses} aria-label={ariaLabel || "Data table"}>
+        <table
+          className={tableClasses}
+          aria-label={ariaLabel || "Data table"}
+          style={{ minWidth: tableMinWidth > 0 ? `${tableMinWidth}px` : undefined }}
+        >
           {showHeader && (
             <thead
               className={`gy-table-header ${stickyHeader ? "gy-table-header--sticky" : ""}`}
@@ -712,12 +854,14 @@ export function Table<T>({
                 {enableSelection && (
                   <th
                     className={`gy-table-th gy-table-th--checkbox ${
-                      fixedLeftmost ? "gy-table-th--fixed-left" : ""
+                      isCheckboxFixed ? "gy-table-th--fixed-left" : ""
                     }`}
                     style={{
-                      left: fixedLeftmost ? 0 : undefined,
-                      zIndex: fixedLeftmost
-                        ? 13
+                      left: isCheckboxFixed ? 0 : undefined,
+                      zIndex: isCheckboxFixed
+                        ? stickyHeader
+                          ? 14
+                          : 13
                         : stickyHeader
                           ? 10
                           : undefined,
@@ -736,14 +880,12 @@ export function Table<T>({
                   </th>
                 )}
                 {columns.map((col, cIdx) => {
-                  const isLeftFixed = fixedLeftmost && cIdx === 0;
-                  const isRightFixed =
-                    fixedRightmost && cIdx === columns.length - 1;
-                  const leftOffset = isLeftFixed
-                    ? enableSelection
-                      ? 48
-                      : 0
-                    : undefined;
+                  const isLeft = isFixedLeft(cIdx);
+                  const isRight = isFixedRight(cIdx);
+                  const isLastLeft = isLastFixedLeft(cIdx);
+                  const isFirstRight = isFirstFixedRight(cIdx);
+                  const leftOffset = leftOffsets[cIdx];
+                  const rightOffset = rightOffsets[cIdx];
                   const align = col.align || headerAlign;
 
                   const isColSortable = sortable && col.sortable !== false;
@@ -751,8 +893,10 @@ export function Table<T>({
                   const classes = [
                     "gy-table-th",
                     isColSortable ? "gy-table-th--sortable" : "",
-                    isLeftFixed ? "gy-table-th--fixed-left" : "",
-                    isRightFixed ? "gy-table-th--fixed-right" : "",
+                    isLeft ? "gy-table-th--fixed-left" : "",
+                    isLastLeft ? "gy-table-th--fixed-left-last" : "",
+                    isRight ? "gy-table-th--fixed-right" : "",
+                    isFirstRight ? "gy-table-th--fixed-right-first" : "",
                   ]
                     .filter(Boolean)
                     .join(" ");
@@ -769,10 +913,15 @@ export function Table<T>({
                           leftOffset !== undefined
                             ? `${leftOffset}px`
                             : undefined,
-                        right: isRightFixed ? 0 : undefined,
+                        right:
+                          rightOffset !== undefined
+                            ? `${rightOffset}px`
+                            : undefined,
                         zIndex:
-                          isLeftFixed || isRightFixed
-                            ? 12
+                          isLeft || isRight
+                            ? stickyHeader
+                              ? 14
+                              : 12
                             : stickyHeader
                               ? 10
                               : undefined,
@@ -847,14 +996,25 @@ export function Table<T>({
               </tr>
             ) : (
               visibleRows.map(
-                ({ row, depth, key, hasChildren, isExpanded }) => {
+                ({
+                  row,
+                  depth,
+                  key,
+                  hasChildren,
+                  isExpanded,
+                  isLastChild,
+                  ancestorHasNextSibling,
+                }) => {
                   const isSelected = activeSelectedRows.includes(key);
 
                   const trClasses = [
                     "gy-table-tr",
                     isSelected ? "gy-table-tr--selected" : "",
                     hasChildren ? "gy-table-tr--parent" : "",
+                    hasChildren && isExpanded ? "gy-table-tr--expanded" : "",
                     depth > 0 ? "gy-table-tr--nested" : "",
+                    depth > 0 ? `gy-table-tr--depth-${depth}` : "",
+                    isLastChild ? "gy-table-tr--last-child" : "",
                   ]
                     .filter(Boolean)
                     .join(" ");
@@ -882,11 +1042,11 @@ export function Table<T>({
                       {enableSelection && (
                         <td
                           className={`gy-table-td gy-table-td--checkbox ${
-                            fixedLeftmost ? "gy-table-td--fixed-left" : ""
+                            isCheckboxFixed ? "gy-table-td--fixed-left" : ""
                           }`}
                           style={{
-                            left: fixedLeftmost ? 0 : undefined,
-                            zIndex: fixedLeftmost ? 3 : undefined,
+                            left: isCheckboxFixed ? 0 : undefined,
+                            zIndex: isCheckboxFixed ? 3 : undefined,
                           }}
                           onClick={(e) => e.stopPropagation()} // Stop triggering row clicks
                         >
@@ -900,14 +1060,12 @@ export function Table<T>({
                         </td>
                       )}
                       {columns.map((col, cIdx) => {
-                        const isLeftFixed = fixedLeftmost && cIdx === 0;
-                        const isRightFixed =
-                          fixedRightmost && cIdx === columns.length - 1;
-                        const leftOffset = isLeftFixed
-                          ? enableSelection
-                            ? 48
-                            : 0
-                          : undefined;
+                        const isLeft = isFixedLeft(cIdx);
+                        const isRight = isFixedRight(cIdx);
+                        const isLastLeft = isLastFixedLeft(cIdx);
+                        const isFirstRight = isFirstFixedRight(cIdx);
+                        const leftOffset = leftOffsets[cIdx];
+                        const rightOffset = rightOffsets[cIdx];
 
                         const cellValue = col.accessor(row);
                         const isText =
@@ -930,8 +1088,10 @@ export function Table<T>({
                         const classes = [
                           "gy-table-td",
                           shouldEllipsis ? "gy-table-td--ellipsis" : "",
-                          isLeftFixed ? "gy-table-td--fixed-left" : "",
-                          isRightFixed ? "gy-table-td--fixed-right" : "",
+                          isLeft ? "gy-table-td--fixed-left" : "",
+                          isLastLeft ? "gy-table-td--fixed-left-last" : "",
+                          isRight ? "gy-table-td--fixed-right" : "",
+                          isFirstRight ? "gy-table-td--fixed-right-first" : "",
                         ]
                           .filter(Boolean)
                           .join(" ");
@@ -951,9 +1111,12 @@ export function Table<T>({
                                 leftOffset !== undefined
                                   ? `${leftOffset}px`
                                   : undefined,
-                              right: isRightFixed ? 0 : undefined,
+                              right:
+                                rightOffset !== undefined
+                                  ? `${rightOffset}px`
+                                  : undefined,
                               zIndex:
-                                isLeftFixed || isRightFixed ? 2 : undefined,
+                                isLeft || isRight ? 2 : undefined,
                             }}
                           >
                             <span className="gy-table-cell-mobile-label">
@@ -961,9 +1124,57 @@ export function Table<T>({
                             </span>
                             {cIdx === 0 ? (
                               <div
-                                className="gy-table-cell-first"
-                                style={{ paddingLeft: `${depth * 20}px` }}
+                                className={[
+                                  "gy-table-cell-first",
+                                  treeLines && depth > 0
+                                    ? "gy-table-cell-first--tree"
+                                    : "",
+                                  treeLines && hasChildren && isExpanded
+                                    ? "gy-table-cell-first--tree-parent"
+                                    : "",
+                                ]
+                                  .filter(Boolean)
+                                  .join(" ")}
+                                style={{
+                                  ...(treeLines
+                                    ? ({
+                                        "--gy-tree-depth": String(depth),
+                                      } as React.CSSProperties)
+                                    : depth > 0
+                                      ? { paddingLeft: `${depth * 28}px` }
+                                      : {}),
+                                }}
                               >
+                                {treeLines && depth > 0 && (
+                                  <div
+                                    className={`gy-table-tree-branches ${
+                                      hasChildren
+                                        ? ""
+                                        : "gy-table-tree-branches--leaf"
+                                    }`}
+                                    aria-hidden="true"
+                                  >
+                                    {ancestorHasNextSibling
+                                      .slice(0, depth - 1)
+                                      .map((hasNext, dIdx) => (
+                                        <span
+                                          key={dIdx}
+                                          className={`gy-table-tree-line ${
+                                            hasNext
+                                              ? "gy-table-tree-line--vertical"
+                                              : "gy-table-tree-line--blank"
+                                          }`}
+                                        />
+                                      ))}
+                                    <span
+                                      className={`gy-table-tree-line ${
+                                        isLastChild
+                                          ? "gy-table-tree-line--corner"
+                                          : "gy-table-tree-line--tee"
+                                      }`}
+                                    />
+                                  </div>
+                                )}
                                 {hasChildren && (
                                   <button
                                     type="button"
@@ -979,22 +1190,23 @@ export function Table<T>({
                                     }
                                   >
                                     <svg
-                                      width="10"
-                                      height="10"
-                                      viewBox="0 0 10 10"
+                                      width="12"
+                                      height="12"
+                                      viewBox="0 0 12 12"
                                       fill="none"
                                       stroke="currentColor"
-                                      strokeWidth="1.5"
+                                      strokeWidth="1.75"
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                     >
-                                      <path d="M3 1l4 4-4 4" />
+                                      <path d="M2.5 4.5L6 8L9.5 4.5" />
                                     </svg>
                                   </button>
                                 )}
-                                {!hasChildren && depth > 0 && (
-                                  <span className="gy-table-expand-spacer" />
-                                )}
+                                {!hasChildren &&
+                                  (depth > 0 || !!nestedChildrenAccessor) && (
+                                    <span className="gy-table-expand-spacer" />
+                                  )}
                                 <span className="gy-table-cell-content">
                                   {cellNode}
                                 </span>
@@ -1018,8 +1230,15 @@ export function Table<T>({
         <div className="gy-table-pagination">
           {isLoading && showPaginationSkeleton ? (
             <>
-              <Skeleton variant="text" width="120px" height="16px" />
-              <div style={{ display: "flex", gap: "4px" }}>
+              {/* Mirrors the info text's flex so the skeleton sits where the
+                  real pagination row will. */}
+              <Skeleton
+                variant="text"
+                width="120px"
+                height="16px"
+                style={{ flex: "1 1 auto" }}
+              />
+              <div style={{ display: "flex", gap: "4px", flex: "0 0 auto" }}>
                 <Skeleton
                   variant="rectangular"
                   width="32px"

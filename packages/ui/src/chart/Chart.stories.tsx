@@ -108,3 +108,25 @@ export const DonutChartStory: Story = {
     showLegend: true,
   },
 };
+
+export const RegionChartStory: Story = {
+  name: "Region / World Map Chart",
+  args: {
+    type: "region",
+    data: [
+      { id: "CA", name: "Canada", value: 45 },
+      { id: "RU", name: "Russia", value: 60 },
+      { id: "CN", name: "China", value: 75 },
+      { id: "IN", name: "India", value: 50 },
+      { id: "BR", name: "Brazil", value: 40 },
+      { id: "AU", name: "Australia", value: 35 },
+      { id: "ZA", name: "South Africa", value: 92 },
+    ],
+    selectedRegion: "ZA",
+    highlightColor: "#4338ca",
+    activeColor: "#e0e7ff",
+    height: 450,
+    showZoomControls: true,
+  },
+};
+

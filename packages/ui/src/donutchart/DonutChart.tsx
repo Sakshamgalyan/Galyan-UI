@@ -35,6 +35,10 @@ export interface DonutChartProps {
   outerRadius?: number | string;
   paddingAngle?: number;
   cornerRadius?: number;
+  startAngle?: number;
+  endAngle?: number;
+  stroke?: string;
+  strokeWidth?: number;
   loading?: boolean;
   borderless?: boolean;
   className?: string;
@@ -69,6 +73,10 @@ export function DonutChart({
   outerRadius,
   paddingAngle = 3,
   cornerRadius = 4,
+  startAngle: customStartAngle,
+  endAngle: customEndAngle,
+  stroke,
+  strokeWidth,
   loading = false,
   borderless = false,
   className = "",
@@ -111,8 +119,8 @@ export function DonutChart({
   }, [data]);
 
   const isSemi = variant === "semi";
-  const startAngle = isSemi ? 180 : 90;
-  const endAngle = isSemi ? 0 : -270;
+  const startAngle = customStartAngle ?? (isSemi ? 180 : 90);
+  const endAngle = customEndAngle ?? (isSemi ? 0 : -270);
   const cy = isSemi ? "80%" : "50%";
 
   // Determine available chart area height and width dynamically
@@ -208,8 +216,8 @@ export function DonutChart({
           startAngle={sAngle}
           endAngle={eAngle}
           fill={fill}
-          stroke="var(--gy-surface, #ffffff)"
-          strokeWidth={2}
+          stroke={stroke ?? "var(--gy-surface, #ffffff)"}
+          strokeWidth={strokeWidth ?? (paddingAngle === 0 ? 1 : 2)}
           cornerRadius={cornerRadius}
           onMouseLeave={handleResetActive}
           onClick={(entry) => onItemClick?.(props.payload ?? entry, activeIndex ?? 0)}
@@ -355,8 +363,8 @@ export function DonutChart({
                 endAngle={endAngle}
                 innerRadius={effectiveInnerRadius}
                 outerRadius={effectiveOuterRadius}
-                stroke="var(--gy-surface, #ffffff)"
-                strokeWidth={2}
+                stroke={stroke ?? "var(--gy-surface, #ffffff)"}
+                strokeWidth={strokeWidth ?? (paddingAngle === 0 ? 1 : 2)}
                 paddingAngle={paddingAngle}
                 cornerRadius={cornerRadius}
                 onMouseEnter={(_, index) => setActiveIndex(index)}

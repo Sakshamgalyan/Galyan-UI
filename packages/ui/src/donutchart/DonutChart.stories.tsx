@@ -19,6 +19,9 @@ const meta: Meta<typeof DonutChart> = {
     responsive: { control: "boolean" },
     paddingAngle: { control: "number" },
     cornerRadius: { control: "number" },
+    startAngle: { control: "number" },
+    endAngle: { control: "number" },
+    strokeWidth: { control: "number" },
   },
 } satisfies Meta<typeof DonutChart>;
 
@@ -170,6 +173,80 @@ export const DashboardCardPreview: Story = {
             showCenterMetric
           />
         </div>
+      </div>
+    );
+  },
+};
+
+export const MinimalThreeSegmentDonut: Story = {
+  render: () => {
+    const minimalData = [
+      { name: "Teal Segment", value: 75, color: "#3B8B9B" },
+      { name: "Gold Segment", value: 17, color: "#D8A436" },
+      { name: "Coral Segment", value: 8, color: "#E0533C" },
+    ];
+
+    return (
+      <div
+        style={{
+          padding: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div style={{ width: 280, height: 280 }}>
+          <DonutChart
+            data={minimalData}
+            variant="standard"
+            height={280}
+            width={280}
+            paddingAngle={0}
+            cornerRadius={0}
+            stroke="var(--gy-surface, #ffffff)"
+            strokeWidth={1}
+            showLegend={false}
+            showCenterMetric={false}
+            borderless
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const MinimalDonutWithLegend: Story = {
+  render: () => {
+    const minimalData = [
+      { name: "Active Users", value: 75, color: "#3B8B9B" },
+      { name: "Inactive Users", value: 17, color: "#D8A436" },
+      { name: "Churned Users", value: 8, color: "#E0533C" },
+    ];
+
+    return (
+      <div
+        style={{
+          width: 320,
+          background: "#ffffff",
+          borderRadius: "1.25rem",
+          padding: "1.25rem",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)",
+        }}
+      >
+        <DonutChart
+          data={minimalData}
+          variant="standard"
+          height={280}
+          paddingAngle={0}
+          cornerRadius={0}
+          stroke="var(--gy-surface, #ffffff)"
+          strokeWidth={1}
+          showLegend={true}
+          showCenterMetric={true}
+          borderless
+        />
       </div>
     );
   },

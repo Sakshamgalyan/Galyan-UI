@@ -18,8 +18,9 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { ChoroplethMap, type MapRegionItem } from "../choroplethmap/ChoroplethMap";
 
-export type ChartType = "line" | "bar" | "area" | "pie" | "donut";
+export type ChartType = "line" | "bar" | "area" | "pie" | "donut" | "region" | "choropleth";
 
 export interface ChartSeries {
   key: string;
@@ -38,6 +39,16 @@ export interface ChartProps {
   showGrid?: boolean;
   showLegend?: boolean;
   className?: string;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  selectedRegion?: string | null;
+  onRegionClick?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => void;
+  colorScale?: string[];
+  highlightColor?: string;
+  activeColor?: string;
+  baseColor?: string;
+  showZoomControls?: boolean;
 }
 
 const DEFAULT_COLORS = [
@@ -61,6 +72,16 @@ export function Chart({
   showGrid = true,
   showLegend = true,
   className = "",
+  animate = true,
+  animationDuration = 1200,
+  animationEasing = "ease-in-out",
+  selectedRegion,
+  onRegionClick,
+  colorScale,
+  highlightColor,
+  activeColor,
+  baseColor,
+  showZoomControls = true,
 }: ChartProps) {
   const commonAxisProps = {
     stroke: "var(--gy-border-strong)",
@@ -79,6 +100,24 @@ export function Chart({
     },
     itemStyle: { color: "var(--gy-text)" },
   };
+
+  if (type === "region" || type === "choropleth") {
+    return (
+      <ChoroplethMap
+        variant="world"
+        data={data as MapRegionItem[]}
+        height={height}
+        selectedRegion={selectedRegion}
+        onRegionClick={onRegionClick}
+        colorScale={colorScale}
+        highlightColor={highlightColor}
+        activeColor={activeColor}
+        baseColor={baseColor}
+        showZoomControls={showZoomControls}
+        className={className}
+      />
+    );
+  }
 
   const renderContent = () => {
     switch (type) {
@@ -106,6 +145,10 @@ export function Chart({
                 strokeWidth={2}
                 dot={{ r: 4, strokeWidth: 2, fill: "var(--gy-surface)" }}
                 activeDot={{ r: 6, strokeWidth: 0 }}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={i * 150}
               />
             ))}
           </LineChart>
@@ -135,6 +178,10 @@ export function Chart({
                 name={s.name ?? s.key}
                 fill={s.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length]}
                 radius={[4, 4, 0, 0]}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={i * 150}
               />
             ))}
           </BarChart>
@@ -186,6 +233,10 @@ export function Chart({
                   strokeWidth={2}
                   fillOpacity={1}
                   fill={`url(#grad-${s.key})`}
+                  isAnimationActive={animate}
+                  animationDuration={animationDuration}
+                  animationEasing={animationEasing}
+                  animationBegin={i * 150}
                 />
               );
             })}
@@ -209,6 +260,9 @@ export function Chart({
               stroke="var(--gy-surface)"
               strokeWidth={2}
               paddingAngle={type === "donut" ? 2 : 0}
+              isAnimationActive={animate}
+              animationDuration={animationDuration}
+              animationEasing={animationEasing}
             >
               {data.map((entry, index) => (
                 <Cell
@@ -232,3 +286,4 @@ export function Chart({
     </div>
   );
 }
+

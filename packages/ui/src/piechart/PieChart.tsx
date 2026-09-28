@@ -41,6 +41,9 @@ export interface PieChartProps {
   tooltipConfig?: PieChartTooltipConfig;
   tokens?: Record<string, string>;
   onItemClick?: (item: PieChartItem, index: number) => void;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
 }
 
 const DEFAULT_COLORS = [
@@ -69,6 +72,9 @@ export function PieChart({
   tooltipConfig = { show: true },
   tokens,
   onItemClick,
+  animate = true,
+  animationDuration = 1000,
+  animationEasing = "ease-out",
 }: PieChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -325,6 +331,9 @@ export function PieChart({
                 stroke="var(--gy-surface, #ffffff)"
                 strokeWidth={2}
                 paddingAngle={effectivePaddingAngle}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
                 onMouseEnter={(_, index) => setActiveIndex(index)}
                 onMouseLeave={handleResetActive}
                 onClick={(entry, index) => onItemClick?.(entry, index)}

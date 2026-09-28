@@ -1,21 +1,43 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
+import { WORLD_COUNTRIES, type WorldCountryPath } from "./world-map-data";
 import "./choropleth-map.css";
 
 export interface MapRegionItem {
-  id: string; // state abbreviation, e.g. "CA"
-  value: number;
+  id: string; // ISO 2 (e.g. "ZA"), ISO 3 (e.g. "ZAF"), or Country Name / State (e.g. "South Africa", "CA")
+  name?: string;
+  value?: number;
+  color?: string; // Custom fill color override for this country
+  tooltip?: React.ReactNode;
+  [key: string]: any;
 }
 
+export type MapVariant = "world" | "tiles";
+
 export interface ChoroplethMapProps {
-  data: MapRegionItem[];
+  variant?: MapVariant;
+  data?: MapRegionItem[];
+  selectedRegion?: string | null;
+  defaultSelectedRegion?: string | null;
+  onRegionClick?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => void;
+  onRegionHover?: (region: { id: string; name: string; value?: number; item?: MapRegionItem } | null) => void;
   height?: number | string;
   width?: number | string;
-  colorScale?: string[]; // array of colors for low to high values
+  baseColor?: string;
+  borderColor?: string;
+  activeColor?: string;
+  highlightColor?: string;
+  colorScale?: string[];
+  showZoomControls?: boolean;
+  allowPan?: boolean;
   loading?: boolean;
   className?: string;
+  tooltipConfig?: {
+    show?: boolean;
+    formatter?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => React.ReactNode;
+  };
 }
 
 interface StateGridPosition {
@@ -25,7 +47,7 @@ interface StateGridPosition {
   col: number;
 }
 
-// US State Grid coordinates for modern tile grid map layout
+// US State Grid coordinates for tile grid map layout
 const STATE_GRID: StateGridPosition[] = [
   { id: "AK", name: "Alaska", row: 0, col: 0 },
   { id: "ME", name: "Maine", row: 0, col: 11 },
@@ -78,142 +100,344 @@ const STATE_GRID: StateGridPosition[] = [
   { id: "FL", name: "Florida", row: 6, col: 9 },
 ];
 
-const DEFAULT_SCALE = [
-  "var(--gy-primary-light)",
-  "var(--gy-primary-hover)",
-  "var(--gy-primary-deep)",
-];
-
 export function ChoroplethMap({
+  variant = "world",
   data = [],
-  height = 360,
+  selectedRegion,
+  defaultSelectedRegion,
+  onRegionClick,
+  onRegionHover,
+  height = 420,
   width = "100%",
-  colorScale = DEFAULT_SCALE,
+  baseColor = "var(--gy-map-base, #ffffff)",
+  borderColor = "var(--gy-map-border, #e2e8f0)",
+  activeColor = "var(--gy-map-active, #dbeafe)",
+  highlightColor = "var(--gy-map-highlight, #4338ca)",
+  colorScale,
+  showZoomControls = true,
+  allowPan = true,
   loading = false,
   className = "",
+  tooltipConfig = { show: true },
 }: ChoroplethMapProps) {
-  const [hoveredState, setHoveredState] = useState<{
+  const [internalSelected, setInternalSelected] = useState<string | null>(
+    defaultSelectedRegion ?? null
+  );
+  const activeSelected = selectedRegion !== undefined ? selectedRegion : internalSelected;
+
+  const [hoveredRegion, setHoveredRegion] = useState<{
     id: string;
     name: string;
-    value: number;
+    value?: number;
+    item?: MapRegionItem;
   } | null>(null);
+
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
 
-  // Map values for fast state lookup
-  const valMap = useMemo(() => {
-    const map = new Map<string, number>();
-    data.forEach((d) => map.set(d.id.toUpperCase(), d.value));
+  // Zoom & Pan state
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+
+  // Map index for fast ID/ISO lookup
+  const dataLookup = useMemo(() => {
+    const map = new Map<string, MapRegionItem>();
+    data.forEach((item) => {
+      if (item.id) map.set(item.id.toUpperCase(), item);
+      if (item.iso3) map.set(item.iso3.toUpperCase(), item);
+      if (item.name) map.set(item.name.toLowerCase(), item);
+    });
     return map;
   }, [data]);
 
-  // Compute min/max for dynamic scaling
+  // Compute min/max values for color scale
   const { minVal, maxVal } = useMemo(() => {
-    if (data.length === 0) return { minVal: 0, maxVal: 100 };
-    const vals = data.map((d) => d.value);
+    const numericVals = data
+      .map((d) => d.value)
+      .filter((v): v is number => typeof v === "number" && !isNaN(v));
+    if (numericVals.length === 0) return { minVal: 0, maxVal: 100 };
     return {
-      minVal: Math.min(...vals),
-      maxVal: Math.max(...vals, 1),
+      minVal: Math.min(...numericVals),
+      maxVal: Math.max(...numericVals, 1),
     };
   }, [data]);
 
-  const getColor = (val: number) => {
-    const range = maxVal - minVal || 1;
-    const fraction = (val - minVal) / range;
+  const getColorForValue = useCallback(
+    (item: MapRegionItem | undefined, isHighlighted: boolean) => {
+      if (isHighlighted) {
+        return highlightColor;
+      }
+      if (!item) {
+        return baseColor;
+      }
+      if (item.color) {
+        return item.color;
+      }
+      if (colorScale && colorScale.length > 0 && typeof item.value === "number") {
+        const range = maxVal - minVal || 1;
+        const fraction = Math.max(0, Math.min(1, (item.value - minVal) / range));
+        const index = Math.min(
+          Math.floor(fraction * colorScale.length),
+          colorScale.length - 1
+        );
+        return colorScale[index];
+      }
+      return activeColor;
+    },
+    [baseColor, activeColor, highlightColor, colorScale, minVal, maxVal]
+  );
 
-    if (fraction <= 0.33) return colorScale[0];
-    if (fraction <= 0.66) return colorScale[1] || colorScale[0];
-    return colorScale[2] || colorScale[1] || colorScale[0];
+  const handleZoomIn = () => {
+    setZoom((prev) => Math.min(prev + 0.5, 4));
   };
 
-  const handleMouseEnter = (
-    state: StateGridPosition,
-    value: number,
-    e: React.MouseEvent,
-  ) => {
-    setHoveredState({ id: state.id, name: state.name, value });
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const container = containerRef.current;
-    if (container) {
-      const containerRect = container.getBoundingClientRect();
+  const handleZoomOut = () => {
+    setZoom((prev) => {
+      const next = Math.max(prev - 0.5, 1);
+      if (next === 1) setPan({ x: 0, y: 0 });
+      return next;
+    });
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!allowPan || zoom <= 1) return;
+    setIsDragging(true);
+    dragStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && allowPan && zoom > 1) {
+      setPan({
+        x: e.clientX - dragStartRef.current.x,
+        y: e.clientY - dragStartRef.current.y,
+      });
+    }
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
       setTooltipPos({
-        x: rect.left - containerRect.left + rect.width / 2,
-        y: rect.top - containerRect.top,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
       });
     }
   };
 
-  const handleMouseLeave = () => {
-    setHoveredState(null);
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-            height: "100%",
-          }}
-        >
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height="100%"
-            style={{ borderRadius: "12px" }}
-          />
-        </div>
-      );
-    }
+  const handleCountryHover = (
+    country: WorldCountryPath,
+    item: MapRegionItem | undefined,
+    e: React.MouseEvent
+  ) => {
+    const regionObj = {
+      id: country.id,
+      name: country.name,
+      value: item?.value,
+      item,
+    };
+    setHoveredRegion(regionObj);
+    onRegionHover?.(regionObj);
+  };
 
+  const handleCountryLeave = () => {
+    setHoveredRegion(null);
+    onRegionHover?.(null);
+  };
+
+  const handleCountryClick = (
+    country: WorldCountryPath,
+    item: MapRegionItem | undefined
+  ) => {
+    const nextId = activeSelected === country.id ? null : country.id;
+    setInternalSelected(nextId);
+    onRegionClick?.({
+      id: country.id,
+      name: country.name,
+      value: item?.value,
+      item,
+    });
+  };
+
+  const isSelected = (id: string, iso3?: string, name?: string): boolean => {
+    if (!activeSelected) return false;
+    const s = activeSelected.toUpperCase();
+    if (id.toUpperCase() === s) return true;
+    if (iso3 && iso3.toUpperCase() === s) return true;
+    if (name && name.toLowerCase() === activeSelected.toLowerCase()) return true;
+    return false;
+  };
+
+  if (loading) {
     return (
-      <div className="gy-choropleth-grid">
-        {STATE_GRID.map((state) => {
-          const val = valMap.get(state.id) ?? 0;
-          const bg = valMap.has(state.id)
-            ? getColor(val)
-            : "var(--gy-surface-disabled)";
-          const hasValue = valMap.has(state.id);
-
-          return (
-            <div
-              key={state.id}
-              className="gy-choropleth-tile"
-              style={{
-                gridRow: state.row + 1,
-                gridColumn: state.col + 1,
-                backgroundColor: bg,
-              }}
-              onMouseEnter={(e) => handleMouseEnter(state, val, e)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span
-                className={`gy-choropleth-tile-text ${hasValue ? "gy-choropleth-tile-text--active" : ""}`}
-              >
-                {state.id}
-              </span>
-            </div>
-          );
-        })}
+      <div
+        className={`gy-choropleth-wrapper ${className}`}
+        style={{
+          width: typeof width === "number" ? `${width}px` : width,
+          height: typeof height === "number" ? `${height}px` : height,
+        }}
+      >
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height="100%"
+          style={{ borderRadius: "16px" }}
+        />
       </div>
     );
-  };
+  }
 
   return (
     <div
       ref={containerRef}
-      className={`gy-choropleth-wrapper ${className}`}
+      className={`gy-choropleth-wrapper ${
+        variant === "world" ? "gy-choropleth-wrapper--world" : "gy-choropleth-wrapper--tiles"
+      } ${className}`}
       style={{
         width: typeof width === "number" ? `${width}px` : width,
         height: typeof height === "number" ? `${height}px` : height,
       }}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={() => {
+        handleMouseUp();
+        handleCountryLeave();
+      }}
     >
-      {renderContent()}
+      {variant === "world" ? (
+        <div
+          className="gy-choropleth-svg-container"
+          onMouseDown={handleMouseDown}
+          style={{ cursor: zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default" }}
+        >
+          <svg
+            ref={svgRef}
+            viewBox="0 0 1000 500"
+            className="gy-choropleth-svg"
+            style={{
+              transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+              transformOrigin: "center center",
+              transition: isDragging ? "none" : "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+            }}
+          >
+            <g className="gy-choropleth-countries">
+              {WORLD_COUNTRIES.map((country) => {
+                const item =
+                  dataLookup.get(country.id.toUpperCase()) ??
+                  dataLookup.get(country.iso3.toUpperCase()) ??
+                  dataLookup.get(country.name.toLowerCase());
+                const highlighted = isSelected(country.id, country.iso3, country.name);
+                const fillColor = getColorForValue(item, highlighted);
+                const isHovered = hoveredRegion?.id === country.id;
 
-      {/* Floating State Tooltip */}
-      {hoveredState && (
+                return (
+                  <path
+                    key={country.id}
+                    id={`country-${country.id}`}
+                    d={country.path}
+                    className={`gy-choropleth-country ${
+                      highlighted ? "gy-choropleth-country--selected" : ""
+                    } ${item ? "gy-choropleth-country--active" : ""} ${
+                      isHovered ? "gy-choropleth-country--hovered" : ""
+                    }`}
+                    fill={fillColor}
+                    stroke={highlighted ? highlightColor : borderColor}
+                    strokeWidth={highlighted ? "1.5" : "0.75"}
+                    strokeLinejoin="round"
+                    onMouseEnter={(e) => handleCountryHover(country, item, e)}
+                    onMouseLeave={handleCountryLeave}
+                    onClick={() => handleCountryClick(country, item)}
+                  />
+                );
+              })}
+            </g>
+          </svg>
+        </div>
+      ) : (
+        /* US State Grid Tiles variant */
+        <div className="gy-choropleth-grid">
+          {STATE_GRID.map((state) => {
+            const item = dataLookup.get(state.id.toUpperCase());
+            const highlighted = isSelected(state.id, undefined, state.name);
+            const bg = getColorForValue(item, highlighted);
+            const hasValue = item !== undefined;
+
+            return (
+              <div
+                key={state.id}
+                className={`gy-choropleth-tile ${
+                  highlighted ? "gy-choropleth-tile--selected" : ""
+                }`}
+                style={{
+                  gridRow: state.row + 1,
+                  gridColumn: state.col + 1,
+                  backgroundColor: bg,
+                }}
+                onMouseEnter={(e) =>
+                  handleCountryHover(
+                    { id: state.id, iso3: state.id, name: state.name, path: "" },
+                    item,
+                    e
+                  )
+                }
+                onMouseLeave={handleCountryLeave}
+                onClick={() =>
+                  handleCountryClick(
+                    { id: state.id, iso3: state.id, name: state.name, path: "" },
+                    item
+                  )
+                }
+              >
+                <span
+                  className={`gy-choropleth-tile-text ${
+                    hasValue || highlighted ? "gy-choropleth-tile-text--active" : ""
+                  }`}
+                >
+                  {state.id}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Floating Zoom Controls (Bottom Right) matching screenshot */}
+      {showZoomControls && variant === "world" && (
+        <div className="gy-choropleth-zoom-controls">
+          <button
+            type="button"
+            className="gy-choropleth-zoom-btn"
+            onClick={handleZoomIn}
+            title="Zoom In"
+            aria-label="Zoom in"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+          <div className="gy-choropleth-zoom-divider" />
+          <button
+            type="button"
+            className="gy-choropleth-zoom-btn"
+            onClick={handleZoomOut}
+            disabled={zoom <= 1}
+            title="Zoom Out"
+            aria-label="Zoom out"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Interactive Floating Hover Tooltip */}
+      {tooltipConfig?.show !== false && hoveredRegion && (
         <div
           className="gy-choropleth-tooltip"
           style={{
@@ -221,12 +445,21 @@ export function ChoroplethMap({
             top: `${tooltipPos.y}px`,
           }}
         >
-          <div className="gy-choropleth-tooltip-title">
-            {hoveredState.name} ({hoveredState.id})
-          </div>
-          <div className="gy-choropleth-tooltip-value">
-            Value: {hoveredState.value.toLocaleString()}
-          </div>
+          {tooltipConfig?.formatter ? (
+            tooltipConfig.formatter(hoveredRegion)
+          ) : (
+            <>
+              <div className="gy-choropleth-tooltip-title">
+                {hoveredRegion.name} ({hoveredRegion.id})
+              </div>
+              {hoveredRegion.value !== undefined && (
+                <div className="gy-choropleth-tooltip-value">
+                  {hoveredRegion.value.toLocaleString()}{" "}
+                  {typeof hoveredRegion.value === "number" && hoveredRegion.value <= 100 ? "%" : ""}
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
     </div>

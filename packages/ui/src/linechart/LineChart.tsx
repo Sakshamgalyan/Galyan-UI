@@ -34,6 +34,9 @@ export interface LineChartProps {
   strokeWidth?: number;
   loading?: boolean;
   className?: string;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
 }
 
 export function LineChart({
@@ -49,6 +52,9 @@ export function LineChart({
   strokeWidth = 2,
   loading = false,
   className = "",
+  animate = true,
+  animationDuration = 1200,
+  animationEasing = "ease-in-out",
 }: LineChartProps) {
   const commonAxisProps = {
     stroke: "var(--gy-border-strong)",
@@ -134,6 +140,10 @@ export function LineChart({
               strokeWidth={strokeWidth}
               dot={{ r: dotSize, strokeWidth: 2, fill: "var(--gy-surface)" }}
               activeDot={{ r: dotSize + 2, strokeWidth: 0 }}
+              isAnimationActive={animate}
+              animationDuration={animationDuration}
+              animationEasing={animationEasing}
+              animationBegin={i * 150}
             />
           ))}
         </ReChartsLineChart>
