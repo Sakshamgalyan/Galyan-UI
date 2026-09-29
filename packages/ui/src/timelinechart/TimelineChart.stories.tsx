@@ -24,10 +24,20 @@ const sprintTasks = [
   { label: "Planning", start: 0, end: 3, color: "var(--gy-primary, #3b82f6)" },
   { label: "Design", start: 2, end: 6, color: "var(--gy-info, #06b6d4)" },
   { label: "DB Setup", start: 4, end: 8, color: "var(--gy-warning, #f59e0b)" },
-  { label: "Backend API", start: 6, end: 13, color: "var(--gy-success, #10b981)" },
+  {
+    label: "Backend API",
+    start: 6,
+    end: 13,
+    color: "var(--gy-success, #10b981)",
+  },
   { label: "Frontend UI", start: 8, end: 15, color: "#8b5cf6" },
   { label: "Testing", start: 13, end: 17, color: "#ec4899" },
-  { label: "Deployment", start: 16, end: 18, color: "var(--gy-danger, #ef4444)" },
+  {
+    label: "Deployment",
+    start: 16,
+    end: 18,
+    color: "var(--gy-danger, #ef4444)",
+  },
 ];
 
 export const Default: Story = {
@@ -75,9 +85,24 @@ export const ResponsiveMobile: Story = {
 export const CustomHoursUnit: Story = {
   args: {
     data: [
-      { label: "Keynote", start: 9, end: 11, color: "var(--gy-primary, #3b82f6)" },
-      { label: "Tech Session", start: 11, end: 13, color: "var(--gy-success, #10b981)" },
-      { label: "Lunch & Networking", start: 13, end: 14, color: "var(--gy-warning, #f59e0b)" },
+      {
+        label: "Keynote",
+        start: 9,
+        end: 11,
+        color: "var(--gy-primary, #3b82f6)",
+      },
+      {
+        label: "Tech Session",
+        start: 11,
+        end: 13,
+        color: "var(--gy-success, #10b981)",
+      },
+      {
+        label: "Lunch & Networking",
+        start: 13,
+        end: 14,
+        color: "var(--gy-warning, #f59e0b)",
+      },
       { label: "Workshops", start: 14, end: 17, color: "#8b5cf6" },
       { label: "Afterparty", start: 17, end: 21, color: "#ec4899" },
     ],

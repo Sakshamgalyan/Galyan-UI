@@ -21,6 +21,7 @@ import {
   Placement as FloatingPlacement,
 } from "@floating-ui/react";
 import "./color-picker.css";
+import { Typography } from "../typography";
 
 export type ColorPickerSize = "sm" | "md" | "lg";
 export type ColorPickerFormat = "hex" | "rgb" | "hsl";
@@ -126,10 +127,14 @@ function rgbToHsv(r: number, g: number, b: number): [number, number, number] {
 
 function rgbToHex(r: number, g: number, b: number, a = 1): string {
   const toHex = (n: number) =>
-    Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, "0");
+    Math.max(0, Math.min(255, Math.round(n)))
+      .toString(16)
+      .padStart(2, "0");
   const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   if (a < 1) {
-    const alphaHex = Math.round(a * 255).toString(16).padStart(2, "0");
+    const alphaHex = Math.round(a * 255)
+      .toString(16)
+      .padStart(2, "0");
     return `${hex}${alphaHex}`.toUpperCase();
   }
   return hex.toUpperCase();
@@ -211,20 +216,13 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
       if (tNorm < 2 / 3) return p + (q - p) * (2 / 3 - tNorm) * 6;
       return p;
     };
-    const q =
-      lNorm < 0.5
-        ? lNorm * (1 + sNorm)
-        : lNorm + sNorm - lNorm * sNorm;
+    const q = lNorm < 0.5 ? lNorm * (1 + sNorm) : lNorm + sNorm - lNorm * sNorm;
     const p = 2 * lNorm - q;
     r = hue2rgb(p, q, hNorm + 1 / 3);
     g = hue2rgb(p, q, hNorm);
     b = hue2rgb(p, q, hNorm - 1 / 3);
   }
-  return [
-    Math.round(r * 255),
-    Math.round(g * 255),
-    Math.round(b * 255),
-  ];
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
 
 function parseColorToHsv(input?: string): {
@@ -405,9 +403,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const [hslH, hslS, hslL] = rgbToHsl(r, g, b);
     const hexColor = rgbToHex(r, g, b, showAlpha ? hsv.a : 1);
     const cssColor =
-      showAlpha && hsv.a < 1
-        ? `rgba(${r}, ${g}, ${b}, ${hsv.a})`
-        : hexColor;
+      showAlpha && hsv.a < 1 ? `rgba(${r}, ${g}, ${b}, ${hsv.a})` : hexColor;
 
     const pureHueRgb = hsvToRgb(hsv.h, 100, 100);
     const pureHueColor = `rgb(${pureHueRgb[0]}, ${pureHueRgb[1]}, ${pureHueRgb[2]})`;
@@ -442,8 +438,14 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       (e: PointerEvent | React.PointerEvent) => {
         if (!satAreaRef.current) return;
         const rect = satAreaRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+        const x = Math.max(
+          0,
+          Math.min(1, (e.clientX - rect.left) / rect.width),
+        );
+        const y = Math.max(
+          0,
+          Math.min(1, (e.clientY - rect.top) / rect.height),
+        );
         const s = Math.round(x * 100);
         const v = Math.round((1 - y) * 100);
         handleColorCommit({ ...hsv, s, v });
@@ -467,7 +469,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       (e: PointerEvent | React.PointerEvent) => {
         if (!hueSliderRef.current) return;
         const rect = hueSliderRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const x = Math.max(
+          0,
+          Math.min(1, (e.clientX - rect.left) / rect.width),
+        );
         const h = Math.round(x * 360) % 360;
         handleColorCommit({ ...hsv, h });
       },
@@ -490,7 +495,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       (e: PointerEvent | React.PointerEvent) => {
         if (!alphaSliderRef.current) return;
         const rect = alphaSliderRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const x = Math.max(
+          0,
+          Math.min(1, (e.clientX - rect.left) / rect.width),
+        );
         const a = parseFloat(x.toFixed(2));
         handleColorCommit({ ...hsv, a });
       },
@@ -512,7 +520,11 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const handleEyedropper = async () => {
       if (typeof window !== "undefined" && "EyeDropper" in window) {
         try {
-          const eyeDropper = new (window as any).EyeDropper();
+          const eyeDropper = new (
+            window as unknown as {
+              EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> };
+            }
+          ).EyeDropper();
           const result = await eyeDropper.open();
           if (result?.sRGBHex) {
             handleColorCommit(parseColorToHsv(result.sRGBHex));
@@ -679,7 +691,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
               className="gy-colorpicker-format-toggle"
               onClick={() => {
                 const formats: ColorPickerFormat[] = ["hex", "rgb", "hsl"];
-                const nextIdx = (formats.indexOf(activeFormat) + 1) % formats.length;
+                const nextIdx =
+                  (formats.indexOf(activeFormat) + 1) % formats.length;
                 setActiveFormat(formats[nextIdx]!);
               }}
             >
@@ -715,7 +728,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={r}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(255, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(255, Number(e.target.value)),
+                  );
                   const [nh, ns, nv] = rgbToHsv(val, g, b);
                   handleColorCommit({ ...hsv, h: nh, s: ns, v: nv });
                 }}
@@ -727,7 +743,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={g}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(255, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(255, Number(e.target.value)),
+                  );
                   const [nh, ns, nv] = rgbToHsv(r, val, b);
                   handleColorCommit({ ...hsv, h: nh, s: ns, v: nv });
                 }}
@@ -739,7 +758,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={b}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(255, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(255, Number(e.target.value)),
+                  );
                   const [nh, ns, nv] = rgbToHsv(r, g, val);
                   handleColorCommit({ ...hsv, h: nh, s: ns, v: nv });
                 }}
@@ -756,7 +778,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={hslH}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(360, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(360, Number(e.target.value)),
+                  );
                   const [nr, ng, nb] = hslToRgb(val, hslS, hslL);
                   const [, ns, nv] = rgbToHsv(nr, ng, nb);
                   handleColorCommit({ ...hsv, h: val, s: ns, v: nv });
@@ -769,7 +794,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={hslS}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(100, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(100, Number(e.target.value)),
+                  );
                   const [nr, ng, nb] = hslToRgb(hslH, val, hslL);
                   const [, ns, nv] = rgbToHsv(nr, ng, nb);
                   handleColorCommit({ ...hsv, s: ns, v: nv });
@@ -782,7 +810,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 className="gy-colorpicker-number-input"
                 value={hslL}
                 onChange={(e) => {
-                  const val = Math.max(0, Math.min(100, Number(e.target.value)));
+                  const val = Math.max(
+                    0,
+                    Math.min(100, Number(e.target.value)),
+                  );
                   const [nr, ng, nb] = hslToRgb(hslH, hslS, val);
                   const [, ns, nv] = rgbToHsv(nr, ng, nb);
                   handleColorCommit({ ...hsv, s: ns, v: nv });
@@ -869,7 +900,9 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
           <label htmlFor={inputId} className="gy-colorpicker-label">
             {label}
             {effectiveRequired && (
-              <span className="gy-colorpicker-required">*</span>
+              <Typography variant="span" className="gy-colorpicker-required">
+                *
+              </Typography>
             )}
           </label>
         )}
@@ -885,10 +918,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
           {...getReferenceProps({
             onClick: () => !effectiveDisabled && setOpen((o) => !o),
             onKeyDown: (e) => {
-              if (
-                !effectiveDisabled &&
-                (e.key === "Enter" || e.key === " ")
-              ) {
+              if (!effectiveDisabled && (e.key === "Enter" || e.key === " ")) {
                 e.preventDefault();
                 setOpen((o) => !o);
               }
@@ -902,28 +932,29 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
             />
           </div>
 
-          <span className="gy-colorpicker-trigger-text">
+          <Typography variant="span" className="gy-colorpicker-trigger-text">
             {cssColor || placeholder}
-          </span>
+          </Typography>
         </div>
 
         {helperText && (
-          <span
+          <Typography
+            variant="span"
             className={`gy-colorpicker-helper ${
               hasError ? "gy-colorpicker-helper--error" : ""
             }`}
           >
             {helperText}
-          </span>
+          </Typography>
         )}
 
-        {open && !effectiveDisabled && (
-          usePortal ? (
+        {open &&
+          !effectiveDisabled &&
+          (usePortal ? (
             <FloatingPortal>{popoverContent}</FloatingPortal>
           ) : (
             popoverContent
-          )
-        )}
+          ))}
       </div>
     );
   },

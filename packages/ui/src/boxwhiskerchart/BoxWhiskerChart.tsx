@@ -1,10 +1,17 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./box-whisker-chart.css";
+import { Typography } from "../typography";
 
 export interface BoxWhiskerItem {
   label: string;
@@ -14,7 +21,7 @@ export interface BoxWhiskerItem {
   q3: number;
   max: number;
   color?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface BoxWhiskerTooltipConfig {
@@ -51,10 +58,10 @@ export function BoxWhiskerChart({
 }: BoxWhiskerChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(
-    typeof width === "number" ? width : 500
+    typeof width === "number" ? width : 500,
   );
   const [containerHeight, setContainerHeight] = useState<number>(
-    typeof height === "number" ? height : 350
+    typeof height === "number" ? height : 350,
   );
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -107,10 +114,13 @@ export function BoxWhiskerChart({
     };
   }, [data]);
 
-  const scaleY = (val: number) => {
-    const range = maxVal - minVal || 1;
-    return paddingTop + chartHeight - ((val - minVal) / range) * chartHeight;
-  };
+  const scaleY = useCallback(
+    (val: number) => {
+      const range = maxVal - minVal || 1;
+      return paddingTop + chartHeight - ((val - minVal) / range) * chartHeight;
+    },
+    [minVal, maxVal, paddingTop, chartHeight],
+  );
 
   const truncateLabel = (text: string) => {
     const limit = truncateCharacterAfter || (isMobile ? 8 : 16);
@@ -129,48 +139,94 @@ export function BoxWhiskerChart({
     return (
       <div className="gy-boxwhisker-tooltip-content">
         <div className="gy-boxwhisker-tooltip-header">
-          <span className="gy-boxwhisker-tooltip-title">{item.label}</span>
+          <Typography variant="span" className="gy-boxwhisker-tooltip-title">
+            {item.label}
+          </Typography>
         </div>
         <div className="gy-boxwhisker-tooltip-grid">
           <div className="gy-boxwhisker-tooltip-row">
-            <span className="gy-boxwhisker-tooltip-stat-label">Maximum</span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
+              Maximum
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(item.max)}
-            </span>
+            </Typography>
           </div>
           <div className="gy-boxwhisker-tooltip-row">
-            <span className="gy-boxwhisker-tooltip-stat-label">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
               Q3 (75th %)
-            </span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(item.q3)}
-            </span>
+            </Typography>
           </div>
           <div className="gy-boxwhisker-tooltip-row gy-boxwhisker-tooltip-row--highlight">
-            <span className="gy-boxwhisker-tooltip-stat-label">Median</span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
+              Median
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(item.median)}
-            </span>
+            </Typography>
           </div>
           <div className="gy-boxwhisker-tooltip-row">
-            <span className="gy-boxwhisker-tooltip-stat-label">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
               Q1 (25th %)
-            </span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(item.q1)}
-            </span>
+            </Typography>
           </div>
           <div className="gy-boxwhisker-tooltip-row">
-            <span className="gy-boxwhisker-tooltip-stat-label">Minimum</span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
+              Minimum
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(item.min)}
-            </span>
+            </Typography>
           </div>
           <div className="gy-boxwhisker-tooltip-row gy-boxwhisker-tooltip-row--subtle">
-            <span className="gy-boxwhisker-tooltip-stat-label">IQR</span>
-            <span className="gy-boxwhisker-tooltip-stat-val">
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-label"
+            >
+              IQR
+            </Typography>
+            <Typography
+              variant="span"
+              className="gy-boxwhisker-tooltip-stat-val"
+            >
               {format(Number(iqr.toFixed(2)))}
-            </span>
+            </Typography>
           </div>
         </div>
       </div>
@@ -234,7 +290,7 @@ export function BoxWhiskerChart({
       const y = scaleY(val);
       return { val, y };
     });
-  }, [minVal, maxVal, tickCount, paddingTop, chartHeight]);
+  }, [minVal, maxVal, tickCount, scaleY]);
 
   const wrapperStyle: React.CSSProperties = {
     height: typeof height === "number" ? `${height}px` : height,
@@ -314,7 +370,7 @@ export function BoxWhiskerChart({
 
               const boxWidth = Math.min(
                 isMobile ? 30 : 44,
-                Math.max(14, colWidth * 0.48)
+                Math.max(14, colWidth * 0.48),
               );
               const capWidth = Math.min(16, Math.max(7, boxWidth * 0.45));
               const itemColor = item.color || color;
@@ -415,7 +471,7 @@ export function BoxWhiskerChart({
 
               const boxWidth = Math.min(
                 isMobile ? 30 : 44,
-                Math.max(14, colWidth * 0.48)
+                Math.max(14, colWidth * 0.48),
               );
 
               return (

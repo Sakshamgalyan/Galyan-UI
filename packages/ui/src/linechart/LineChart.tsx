@@ -22,7 +22,7 @@ export interface LineChartSeries {
 }
 
 export interface LineChartProps {
-  data: any[];
+  data: object[];
   series: LineChartSeries[];
   xAxisKey: string;
   variant?: "monotone" | "straight" | "stepped";

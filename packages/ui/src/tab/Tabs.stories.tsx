@@ -94,12 +94,60 @@ export default meta;
 type Story = StoryObj<typeof Tabs>;
 
 const simpleItems = [
-  { id: "tab1", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 1</p> },
-  { id: "tab2", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 2</p> },
-  { id: "tab3", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 3</p> },
-  { id: "tab4", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 4</p> },
-  { id: "tab5", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 5</p> },
-  { id: "tab6", label: "Tab label", content: <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>Content for Tab 6</p> },
+  {
+    id: "tab1",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 1
+      </p>
+    ),
+  },
+  {
+    id: "tab2",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 2
+      </p>
+    ),
+  },
+  {
+    id: "tab3",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 3
+      </p>
+    ),
+  },
+  {
+    id: "tab4",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 4
+      </p>
+    ),
+  },
+  {
+    id: "tab5",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 5
+      </p>
+    ),
+  },
+  {
+    id: "tab6",
+    label: "Tab label",
+    content: (
+      <p style={{ color: "var(--gy-text-muted)", margin: "0.5rem 0" }}>
+        Content for Tab 6
+      </p>
+    ),
+  },
 ];
 
 const demoItems = [
@@ -194,14 +242,9 @@ export const Merged: Story = {
 
 export const AllVariants: Story = {
   render: () => {
-    const variants: Array<"classic" | "button" | "card" | "outline" | "ghost" | "merged"> = [
-      "classic",
-      "button",
-      "card",
-      "outline",
-      "ghost",
-      "merged",
-    ];
+    const variants: Array<
+      "classic" | "button" | "card" | "outline" | "ghost" | "merged"
+    > = ["classic", "button", "card", "outline", "ghost", "merged"];
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
@@ -301,11 +344,36 @@ export const FullWidth: Story = {
 
 export const RoleThemes: Story = {
   render: () => {
-    const roles: Array<{ name: string; brand?: string; role?: string; desc: string }> = [
-      { name: "Customer Role (EasyLife Green)", brand: "easylife", role: "customer", desc: "Green primary color (#22c55e)" },
-      { name: "Professional Role (Blue/Indigo)", brand: "easylife", role: "professional", desc: "Blue primary color (#3b82f6)" },
-      { name: "Agent Role (Rose / Coral)", brand: "easylife", role: "agent", desc: "Rose primary color (#f43f5e)" },
-      { name: "Samantrix Brand (Violet / Dark)", brand: "samantrix", role: "customer", desc: "Violet primary color (#7c5cff)" },
+    const roles: Array<{
+      name: string;
+      brand?: string;
+      role?: string;
+      desc: string;
+    }> = [
+      {
+        name: "Customer Role (EasyLife Green)",
+        brand: "easylife",
+        role: "customer",
+        desc: "Green primary color (#22c55e)",
+      },
+      {
+        name: "Professional Role (Blue/Indigo)",
+        brand: "easylife",
+        role: "professional",
+        desc: "Blue primary color (#3b82f6)",
+      },
+      {
+        name: "Agent Role (Rose / Coral)",
+        brand: "easylife",
+        role: "agent",
+        desc: "Rose primary color (#f43f5e)",
+      },
+      {
+        name: "Samantrix Brand (Violet / Dark)",
+        brand: "samantrix",
+        role: "customer",
+        desc: "Violet primary color (#7c5cff)",
+      },
     ];
 
     return (
@@ -344,17 +412,50 @@ export const RoleThemes: Story = {
               </span>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+              }}
+            >
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.25rem" }}>Classic:</span>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "var(--gy-text-subtle)",
+                    display: "block",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  Classic:
+                </span>
                 <Tabs items={simpleItems.slice(0, 4)} variant="classic" />
               </div>
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.25rem" }}>Button:</span>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "var(--gy-text-subtle)",
+                    display: "block",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  Button:
+                </span>
                 <Tabs items={simpleItems.slice(0, 4)} variant="button" />
               </div>
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle)", display: "block", marginBottom: "0.25rem" }}>Card:</span>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "var(--gy-text-subtle)",
+                    display: "block",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  Card:
+                </span>
                 <Tabs items={simpleItems.slice(0, 4)} variant="card" />
               </div>
             </div>
@@ -364,4 +465,3 @@ export const RoleThemes: Story = {
     );
   },
 };
-

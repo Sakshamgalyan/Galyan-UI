@@ -9,10 +9,12 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 :root {
   /* Typography */
-  --gy-font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --gy-font-serif: 'Georgia', 'Times New Roman', serif;
-  --gy-font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
-  --gy-font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --gy-font-sans:
+    "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --gy-font-serif: "Georgia", "Times New Roman", serif;
+  --gy-font-mono: "Geist Mono", "JetBrains Mono", "Fira Code", monospace;
+  --gy-font-display: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
   --gy-font-weight-thin: 100;
   --gy-font-weight-light: 300;
@@ -90,14 +92,20 @@
   /* Shadows */
   --gy-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --gy-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --gy-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --gy-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --gy-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --gy-shadow-md:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --gy-shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --gy-shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --gy-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --gy-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
-  --gy-shadow-modal: 0 32px 64px -12px rgb(0 0 0 / 0.35), 0 0 0 1px rgb(0 0 0 / 0.05);
-  --gy-shadow-dropdown: 0 4px 16px -2px rgb(0 0 0 / 0.12), 0 2px 6px -1px rgb(0 0 0 / 0.08);
-  --gy-shadow-popover: 0 8px 24px -4px rgb(0 0 0 / 0.15), 0 2px 8px -2px rgb(0 0 0 / 0.08);
+  --gy-shadow-modal:
+    0 32px 64px -12px rgb(0 0 0 / 0.35), 0 0 0 1px rgb(0 0 0 / 0.05);
+  --gy-shadow-dropdown:
+    0 4px 16px -2px rgb(0 0 0 / 0.12), 0 2px 6px -1px rgb(0 0 0 / 0.08);
+  --gy-shadow-popover:
+    0 8px 24px -4px rgb(0 0 0 / 0.15), 0 2px 8px -2px rgb(0 0 0 / 0.08);
 
   /* Z-Index */
   --gy-z-sticky: 1100;
@@ -255,7 +263,12 @@
 
   /* Skeleton */
   --gy-skeleton-base: #f1f5f9;
-  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  --gy-skeleton-shimmer: linear-gradient(
+    90deg,
+    #f1f5f9 25%,
+    #e2e8f0 50%,
+    #f1f5f9 75%
+  );
 
   /* Brand */
   --gy-brand: #22c55e;
@@ -264,7 +277,12 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #22c55e 0%, #14b8a6 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdfa 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #f0fdf4 0%,
+    #dcfce7 50%,
+    #f0fdfa 100%
+  );
   --gy-gradient-brand: linear-gradient(135deg, #16a34a 0%, #0d9488 100%);
 
   /* Elevation */
@@ -360,7 +378,12 @@
 
   /* Skeleton */
   --gy-skeleton-base: #f1f2f7;
-  --gy-skeleton-shimmer: linear-gradient(90deg, #f1f2f7 25%, #e2e8f0 50%, #f1f2f7 75%);
+  --gy-skeleton-shimmer: linear-gradient(
+    90deg,
+    #f1f2f7 25%,
+    #e2e8f0 50%,
+    #f1f2f7 75%
+  );
 
   /* Brand */
   --gy-brand: #707fdd;
@@ -369,8 +392,18 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #707fdd 0%, #5a67c4 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #f0f2fb 0%, #dbe0f7 50%, #f1f2f7 100%);
-  --gy-gradient-brand: linear-gradient(135deg, #707fdd 0%, #5a67c4 50%, #4a57b4 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #f0f2fb 0%,
+    #dbe0f7 50%,
+    #f1f2f7 100%
+  );
+  --gy-gradient-brand: linear-gradient(
+    135deg,
+    #707fdd 0%,
+    #5a67c4 50%,
+    #4a57b4 100%
+  );
 
   /* Elevation */
   --gy-elevation-0: #ffffff;
@@ -465,7 +498,12 @@
 
   /* Skeleton */
   --gy-skeleton-base: #13131f;
-  --gy-skeleton-shimmer: linear-gradient(90deg, #13131f 25%, #1c1c2b 50%, #13131f 75%);
+  --gy-skeleton-shimmer: linear-gradient(
+    90deg,
+    #13131f 25%,
+    #1c1c2b 50%,
+    #13131f 75%
+  );
 
   /* Brand */
   --gy-brand: #7c5cff;
@@ -474,7 +512,12 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #2a1568 0%, #7c5cff 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #06060a 0%, #0a0a12 50%, #13131f 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #06060a 0%,
+    #0a0a12 50%,
+    #13131f 100%
+  );
   --gy-gradient-brand: linear-gradient(135deg, #5028c4 0%, #7c5cff 100%);
 
   /* Elevation (dark surface stack) */
@@ -499,7 +542,7 @@
 [data-theme="custom"],
 .gy-theme-custom {
   /* Primary Scale */
-  --gy-color-primary-50:  var(--gy-custom-primary-50, #f0fdf4);
+  --gy-color-primary-50: var(--gy-custom-primary-50, #f0fdf4);
   --gy-color-primary-100: var(--gy-custom-primary-100, #dcfce7);
   --gy-color-primary-200: var(--gy-custom-primary-200, #bbf7d0);
   --gy-color-primary-300: var(--gy-custom-primary-300, #86efac);
@@ -512,75 +555,87 @@
   --gy-color-primary-950: var(--gy-custom-primary-950, #052e16);
 
   /* Semantic Primary */
-  --gy-primary:        var(--gy-custom-primary, #22c55e);
-  --gy-primary-hover:  var(--gy-custom-primary-hover, #16a34a);
+  --gy-primary: var(--gy-custom-primary, #22c55e);
+  --gy-primary-hover: var(--gy-custom-primary-hover, #16a34a);
   --gy-primary-active: var(--gy-custom-primary-active, #15803d);
-  --gy-primary-muted:  var(--gy-custom-primary-muted, #bbf7d0);
+  --gy-primary-muted: var(--gy-custom-primary-muted, #bbf7d0);
   --gy-primary-subtle: var(--gy-custom-primary-subtle, #f0fdf4);
-  --gy-primary-fg:     var(--gy-custom-primary-fg, #ffffff);
+  --gy-primary-fg: var(--gy-custom-primary-fg, #ffffff);
 
   /* Secondary */
-  --gy-secondary:        var(--gy-custom-secondary, #14b8a6);
-  --gy-secondary-hover:  var(--gy-custom-secondary-hover, #0d9488);
-  --gy-secondary-muted:  var(--gy-custom-secondary-muted, #99f6e4);
+  --gy-secondary: var(--gy-custom-secondary, #14b8a6);
+  --gy-secondary-hover: var(--gy-custom-secondary-hover, #0d9488);
+  --gy-secondary-muted: var(--gy-custom-secondary-muted, #99f6e4);
   --gy-secondary-subtle: var(--gy-custom-secondary-subtle, #f0fdfa);
-  --gy-secondary-fg:     var(--gy-custom-secondary-fg, #ffffff);
+  --gy-secondary-fg: var(--gy-custom-secondary-fg, #ffffff);
 
   /* Background */
-  --gy-background:         var(--gy-custom-background, #ffffff);
-  --gy-background-subtle:  var(--gy-custom-background-subtle, #f8fafc);
-  --gy-background-muted:   var(--gy-custom-background-muted, #f1f5f9);
+  --gy-background: var(--gy-custom-background, #ffffff);
+  --gy-background-subtle: var(--gy-custom-background-subtle, #f8fafc);
+  --gy-background-muted: var(--gy-custom-background-muted, #f1f5f9);
   --gy-background-inverse: var(--gy-custom-background-inverse, #0f172a);
 
   /* Surface */
-  --gy-surface:          var(--gy-custom-surface, #ffffff);
-  --gy-surface-raised:   var(--gy-custom-surface-raised, #ffffff);
-  --gy-surface-overlay:  var(--gy-custom-surface-overlay, #ffffff);
-  --gy-surface-sunken:   var(--gy-custom-surface-sunken, #f8fafc);
+  --gy-surface: var(--gy-custom-surface, #ffffff);
+  --gy-surface-raised: var(--gy-custom-surface-raised, #ffffff);
+  --gy-surface-overlay: var(--gy-custom-surface-overlay, #ffffff);
+  --gy-surface-sunken: var(--gy-custom-surface-sunken, #f8fafc);
   --gy-surface-disabled: var(--gy-custom-surface-disabled, #f1f5f9);
 
   /* Text */
-  --gy-text:           var(--gy-custom-text, #0f172a);
-  --gy-text-muted:     var(--gy-custom-text-muted, #475569);
-  --gy-text-subtle:    var(--gy-custom-text-subtle, #94a3b8);
-  --gy-text-disabled:  var(--gy-custom-text-disabled, #cbd5e1);
-  --gy-text-inverse:   var(--gy-custom-text-inverse, #ffffff);
-  --gy-text-link:      var(--gy-custom-text-link, #16a34a);
+  --gy-text: var(--gy-custom-text, #0f172a);
+  --gy-text-muted: var(--gy-custom-text-muted, #475569);
+  --gy-text-subtle: var(--gy-custom-text-subtle, #94a3b8);
+  --gy-text-disabled: var(--gy-custom-text-disabled, #cbd5e1);
+  --gy-text-inverse: var(--gy-custom-text-inverse, #ffffff);
+  --gy-text-link: var(--gy-custom-text-link, #16a34a);
   --gy-text-link-hover: var(--gy-custom-text-link-hover, #15803d);
 
   /* Border */
-  --gy-border:       var(--gy-custom-border, #e2e8f0);
+  --gy-border: var(--gy-custom-border, #e2e8f0);
   --gy-border-muted: var(--gy-custom-border-muted, #f1f5f9);
   --gy-border-strong: var(--gy-custom-border-strong, #cbd5e1);
   --gy-border-focus: var(--gy-custom-border-focus, #22c55e);
   --gy-border-error: var(--gy-custom-border-error, #ef4444);
 
   /* Divider */
-  --gy-divider:        var(--gy-custom-divider, #e2e8f0);
+  --gy-divider: var(--gy-custom-divider, #e2e8f0);
   --gy-divider-strong: var(--gy-custom-divider-strong, #cbd5e1);
 
   /* Focus */
-  --gy-focus-ring:    var(--gy-custom-focus-ring, rgba(34, 197, 94, 0.4));
+  --gy-focus-ring: var(--gy-custom-focus-ring, rgba(34, 197, 94, 0.4));
   --gy-focus-outline: var(--gy-custom-focus-outline, #22c55e);
 
   /* Disabled */
-  --gy-disabled-bg:     var(--gy-custom-disabled-bg, #f1f5f9);
-  --gy-disabled-text:   var(--gy-custom-disabled-text, #94a3b8);
+  --gy-disabled-bg: var(--gy-custom-disabled-bg, #f1f5f9);
+  --gy-disabled-text: var(--gy-custom-disabled-text, #94a3b8);
   --gy-disabled-border: var(--gy-custom-disabled-border, #e2e8f0);
 
   /* Skeleton */
-  --gy-skeleton-base:    var(--gy-custom-skeleton-base, #f1f5f9);
-  --gy-skeleton-shimmer: var(--gy-custom-skeleton-shimmer, linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%));
+  --gy-skeleton-base: var(--gy-custom-skeleton-base, #f1f5f9);
+  --gy-skeleton-shimmer: var(
+    --gy-custom-skeleton-shimmer,
+    linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%)
+  );
 
   /* Brand */
-  --gy-brand:       var(--gy-custom-brand, #22c55e);
-  --gy-brand-dark:  var(--gy-custom-brand-dark, #15803d);
+  --gy-brand: var(--gy-custom-brand, #22c55e);
+  --gy-brand-dark: var(--gy-custom-brand-dark, #15803d);
   --gy-brand-light: var(--gy-custom-brand-light, #bbf7d0);
 
   /* Gradient */
-  --gy-gradient-primary: var(--gy-custom-gradient-primary, linear-gradient(135deg, #22c55e 0%, #14b8a6 100%));
-  --gy-gradient-hero:    var(--gy-custom-gradient-hero, linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdfa 100%));
-  --gy-gradient-brand:   var(--gy-custom-gradient-brand, linear-gradient(135deg, #16a34a 0%, #0d9488 100%));
+  --gy-gradient-primary: var(
+    --gy-custom-gradient-primary,
+    linear-gradient(135deg, #22c55e 0%, #14b8a6 100%)
+  );
+  --gy-gradient-hero: var(
+    --gy-custom-gradient-hero,
+    linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdfa 100%)
+  );
+  --gy-gradient-brand: var(
+    --gy-custom-gradient-brand,
+    linear-gradient(135deg, #16a34a 0%, #0d9488 100%)
+  );
 
   /* Elevation */
   --gy-elevation-0: var(--gy-custom-elevation-0, #ffffff);
@@ -589,13 +644,19 @@
   --gy-elevation-3: var(--gy-custom-elevation-3, #e2e8f0);
 
   /* Overlay */
-  --gy-overlay:      var(--gy-custom-overlay, rgba(0, 0, 0, 0.4));
+  --gy-overlay: var(--gy-custom-overlay, rgba(0, 0, 0, 0.4));
   --gy-overlay-dark: var(--gy-custom-overlay-dark, rgba(0, 0, 0, 0.6));
 
   /* Neumorphism */
-  --gy-neu-bg:           var(--gy-custom-neu-bg, #e2ece5);
-  --gy-neu-shadow-light: var(--gy-custom-neu-shadow-light, rgba(255, 255, 255, 0.85));
-  --gy-neu-shadow-dark:  var(--gy-custom-neu-shadow-dark, rgba(165, 190, 172, 0.5));
+  --gy-neu-bg: var(--gy-custom-neu-bg, #e2ece5);
+  --gy-neu-shadow-light: var(
+    --gy-custom-neu-shadow-light,
+    rgba(255, 255, 255, 0.85)
+  );
+  --gy-neu-shadow-dark: var(
+    --gy-custom-neu-shadow-dark,
+    rgba(165, 190, 172, 0.5)
+  );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -652,7 +713,12 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #eef2ff 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #eff6ff 0%,
+    #dbeafe 50%,
+    #eef2ff 100%
+  );
   --gy-gradient-brand: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
 
   /* Neumorphism */
@@ -737,7 +803,12 @@
 
   /* Skeleton */
   --gy-skeleton-base: #f5eaea;
-  --gy-skeleton-shimmer: linear-gradient(90deg, #f5eaea 25%, #e7e5e4 50%, #f5eaea 75%);
+  --gy-skeleton-shimmer: linear-gradient(
+    90deg,
+    #f5eaea 25%,
+    #e7e5e4 50%,
+    #f5eaea 75%
+  );
 
   /* Brand */
   --gy-brand: #f43f5e;
@@ -746,7 +817,12 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fff7ed 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #fff1f2 0%,
+    #ffe4e6 50%,
+    #fff7ed 100%
+  );
   --gy-gradient-brand: linear-gradient(135deg, #e11d48 0%, #f97316 100%);
 
   /* Elevation */
@@ -811,7 +887,12 @@
 
   /* Gradient */
   --gy-gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  --gy-gradient-hero: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f5f3ff 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #eef2ff 0%,
+    #e0e7ff 50%,
+    #f5f3ff 100%
+  );
   --gy-gradient-brand: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
 
   /* Neumorphism */
@@ -823,7 +904,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    DARK MODE OVERRIDES (Applies to all brands except samantrix)
    ═══════════════════════════════════════════════════════════════════════════ */
-[data-color-mode="dark"]:not([data-brand="samantrix"]):not([data-theme="samantrix"]),
+[data-color-mode="dark"]:not([data-brand="samantrix"]):not(
+    [data-theme="samantrix"]
+  ),
 .gy-dark:not([data-brand="samantrix"]):not([data-theme="samantrix"]) {
   --gy-background: #0f172a;
   --gy-background-subtle: #1e293b;
@@ -854,7 +937,12 @@
   --gy-disabled-border: #475569;
 
   --gy-skeleton-base: #1e293b;
-  --gy-skeleton-shimmer: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  --gy-skeleton-shimmer: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #334155 50%,
+    #1e293b 75%
+  );
 
   --gy-elevation-0: #0f172a;
   --gy-elevation-1: #1e293b;
@@ -871,92 +959,194 @@
    KEYFRAME ANIMATIONS
    ═══════════════════════════════════════════════════════════════════════════ */
 @keyframes gy-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes gy-fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes gy-slide-in-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes gy-slide-in-down {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes gy-slide-in-left {
-  from { opacity: 0; transform: translateX(-8px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes gy-slide-in-right {
-  from { opacity: 0; transform: translateX(8px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes gy-zoom-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes gy-zoom-out {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.95); }
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }
 
 @keyframes gy-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes gy-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 @keyframes gy-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-25%); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
 }
 
 @keyframes gy-shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 50%, 90% { transform: translateX(-4px); }
-  30%, 70% { transform: translateX(4px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  50%,
+  90% {
+    transform: translateX(-4px);
+  }
+  30%,
+  70% {
+    transform: translateX(4px);
+  }
 }
 
 @keyframes gy-ripple {
-  0% { transform: scale(0); opacity: 0.6; }
-  100% { transform: scale(4); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 @keyframes gy-wave {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes gy-collapse-open {
-  from { height: 0; opacity: 0; }
-  to { height: var(--gy-collapse-height, auto); opacity: 1; }
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--gy-collapse-height, auto);
+    opacity: 1;
+  }
 }
 
 @keyframes gy-collapse-close {
-  from { height: var(--gy-collapse-height, auto); opacity: 1; }
-  to { height: 0; opacity: 0; }
+  from {
+    height: var(--gy-collapse-height, auto);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes gy-slide-toast-in-right {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes gy-count-up {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

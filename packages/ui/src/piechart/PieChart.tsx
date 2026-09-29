@@ -8,16 +8,35 @@ import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Sector,
+  type TooltipProps,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
+import type { CategoricalChartState } from "recharts/types/chart/types";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./pie-chart.css";
+import { Typography } from "../typography";
 
 export interface PieChartItem {
   name: string;
   value: number;
   color?: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+/** Sector props Recharts passes to `activeShape` (the subset used here). */
+interface ActiveSectorShapeProps {
+  cx?: number;
+  cy?: number;
+  innerRadius?: number;
+  outerRadius?: number;
+  startAngle?: number;
+  endAngle?: number;
+  fill?: string;
+  payload?: PieChartItem;
 }
 
 export interface PieChartTooltipConfig {
@@ -34,6 +53,11 @@ export interface PieChartProps {
   innerRadius?: number | string;
   outerRadius?: number | string;
   paddingAngle?: number;
+  cornerRadius?: number;
+  startAngle?: number;
+  endAngle?: number;
+  stroke?: string;
+  strokeWidth?: number;
   loading?: boolean;
   borderless?: boolean;
   className?: string;
@@ -44,6 +68,7 @@ export interface PieChartProps {
   animate?: boolean;
   animationDuration?: number;
   animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  animationBegin?: number;
 }
 
 const DEFAULT_COLORS = [
@@ -64,7 +89,12 @@ export function PieChart({
   showLegend = true,
   innerRadius = 0,
   outerRadius,
-  paddingAngle,
+  paddingAngle = 0,
+  cornerRadius = 0,
+  startAngle = 0,
+  endAngle = 360,
+  stroke,
+  strokeWidth,
   loading = false,
   borderless = false,
   className = "",
@@ -75,11 +105,13 @@ export function PieChart({
   animate = true,
   animationDuration = 1000,
   animationEasing = "ease-out",
+  animationBegin = 0,
 }: PieChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [isCompact, setIsCompact] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const handleResetActive = () => {
     setActiveIndex(null);
@@ -87,15 +119,30 @@ export function PieChart({
 
   // ResizeObserver for responsive observation of width & height
   useEffect(() => {
-    if (!responsive) return;
+    if (!responsive) {
+      setIsReady(true);
+      return;
+    }
     const el = containerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
+    if (!el || typeof ResizeObserver === "undefined") {
+      setIsReady(true);
+      return;
+    }
+
+    if (el.clientWidth > 0 && el.clientHeight > 0) {
+      setContainerSize({ width: el.clientWidth, height: el.clientHeight });
+      setIsCompact(el.clientWidth < 440);
+      setIsReady(true);
+    }
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width: w, height: h } = entry.contentRect;
-        setContainerSize({ width: w, height: h });
-        setIsCompact(w > 0 && w < 440);
+        if (w > 0 && h > 0) {
+          setContainerSize({ width: w, height: h });
+          setIsCompact(w < 440);
+          setIsReady(true);
+        }
       }
     });
 
@@ -108,11 +155,13 @@ export function PieChart({
   }, [data]);
 
   const effectivePaddingAngle =
-    paddingAngle !== undefined
-      ? paddingAngle
-      : variant === "segmented"
-        ? 4
-        : 1.5;
+    paddingAngle !== undefined ? paddingAngle : variant === "segmented" ? 4 : 0;
+
+  const effectiveStroke =
+    stroke ??
+    (strokeWidth && strokeWidth > 0 ? "var(--gy-surface, #ffffff)" : "none");
+  const effectiveStrokeWidth =
+    strokeWidth ?? (stroke && stroke !== "none" ? 1 : 0);
 
   // Determine available chart area height and width dynamically
   const measuredW =
@@ -145,7 +194,7 @@ export function PieChart({
   // Maximum safe outer radius that guarantees NO clipping on hover expansion or shadow
   const maxSafeOuter = Math.max(
     25,
-    Math.floor(Math.min(availableChartW, availableChartH) / 2) - 8
+    Math.floor(Math.min(availableChartW, availableChartH) / 2) - 8,
   );
 
   const effectiveOuterRadius = useMemo(() => {
@@ -159,28 +208,23 @@ export function PieChart({
   }, [outerRadius, maxSafeOuter]);
 
   // Elevated Active Sector shape on hover
-  const renderActiveShape = (props: any) => {
-    const {
-      cx,
-      cy,
-      innerRadius: inRad,
-      outerRadius: outRad,
-      startAngle,
-      endAngle,
-      fill,
-    } = props;
-
+  const renderActiveShape = ({
+    cx,
+    cy,
+    innerRadius: inRad,
+    outerRadius: outRad,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+  }: ActiveSectorShapeProps) => {
     const hoverExpansion = isCompact ? 4 : 6;
     const numOutRad =
       typeof outRad === "number" ? outRad + hoverExpansion : outRad;
-    const numInRad =
-      typeof inRad === "number" ? Math.max(0, inRad - 1) : inRad;
+    const numInRad = typeof inRad === "number" ? Math.max(0, inRad - 1) : inRad;
 
     return (
-      <g
-        className="gy-piechart-active-slice"
-        onMouseLeave={handleResetActive}
-      >
+      <g className="gy-piechart-active-slice" onMouseLeave={handleResetActive}>
         <Sector
           cx={cx}
           cy={cy}
@@ -189,12 +233,13 @@ export function PieChart({
           startAngle={startAngle}
           endAngle={endAngle}
           fill={fill}
-          stroke="var(--gy-surface, #ffffff)"
-          strokeWidth={2.5}
+          stroke={effectiveStroke}
+          strokeWidth={effectiveStrokeWidth}
+          cornerRadius={cornerRadius}
           onMouseLeave={handleResetActive}
-          onClick={(entry) =>
-            onItemClick?.(props.payload ?? entry, activeIndex ?? 0)
-          }
+          onClick={() => {
+            if (payload) onItemClick?.(payload, activeIndex ?? 0);
+          }}
           style={{
             filter: "drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16))",
             cursor: "pointer",
@@ -205,7 +250,10 @@ export function PieChart({
     );
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -216,10 +264,10 @@ export function PieChart({
     }
 
     const current = payload[0];
+    if (!current) return null;
     const itemData = current.payload as PieChartItem;
     const val = Number(current.value) || 0;
-    const percentage =
-      total > 0 ? Math.round((val / total) * 100) : 0;
+    const percentage = total > 0 ? Math.round((val / total) * 100) : 0;
     const formattedVal = tooltipConfig?.formatter
       ? tooltipConfig.formatter(val)
       : val.toLocaleString();
@@ -237,13 +285,17 @@ export function PieChart({
             className="gy-piechart-tooltip-badge"
             style={{ backgroundColor: itemColor }}
           />
-          <span className="gy-piechart-tooltip-title">{itemData.name}</span>
+          <Typography variant="span" className="gy-piechart-tooltip-title">
+            {itemData.name}
+          </Typography>
         </div>
         <div className="gy-piechart-tooltip-row">
-          <span className="gy-piechart-tooltip-value">{formattedVal}</span>
-          <span className="gy-piechart-tooltip-percentage">
+          <Typography variant="span" className="gy-piechart-tooltip-value">
+            {formattedVal}
+          </Typography>
+          <Typography variant="span" className="gy-piechart-tooltip-percentage">
             ({percentage}%)
-          </span>
+          </Typography>
         </div>
       </div>
     );
@@ -287,17 +339,18 @@ export function PieChart({
     }
 
     if (data.length === 0) {
-      return (
-        <EmptyState size="sm" variant="subtle" />
-      );
+      return <EmptyState size="sm" variant="subtle" />;
     }
 
     return (
       <div className="gy-piechart-body" onMouseLeave={handleResetActive}>
-        <div className="gy-piechart-chart-wrapper" onMouseLeave={handleResetActive}>
+        <div
+          className="gy-piechart-chart-wrapper"
+          onMouseLeave={handleResetActive}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <ReChartsPieChart
-              onMouseMove={(state: any) => {
+              onMouseMove={(state: CategoricalChartState) => {
                 if (
                   !state ||
                   state.isTooltipActive === false ||
@@ -315,10 +368,15 @@ export function PieChart({
                 <RechartsTooltip
                   content={<CustomTooltip />}
                   allowEscapeViewBox={{ x: true, y: true }}
-                  wrapperStyle={{ outline: "none", zIndex: 100, pointerEvents: "none" }}
+                  wrapperStyle={{
+                    outline: "none",
+                    zIndex: 100,
+                    pointerEvents: "none",
+                  }}
                 />
               )}
               <Pie
+                key={isReady ? "piechart-ready" : "piechart-init"}
                 activeIndex={activeIndex !== null ? activeIndex : undefined}
                 activeShape={renderActiveShape}
                 data={data}
@@ -326,14 +384,18 @@ export function PieChart({
                 nameKey="name"
                 cx="50%"
                 cy="50%"
+                startAngle={startAngle}
+                endAngle={endAngle}
                 innerRadius={innerRadius}
                 outerRadius={effectiveOuterRadius}
-                stroke="var(--gy-surface, #ffffff)"
-                strokeWidth={2}
+                stroke={effectiveStroke}
+                strokeWidth={effectiveStrokeWidth}
                 paddingAngle={effectivePaddingAngle}
+                cornerRadius={cornerRadius}
                 isAnimationActive={animate}
                 animationDuration={animationDuration}
                 animationEasing={animationEasing}
+                animationBegin={animationBegin}
                 onMouseEnter={(_, index) => setActiveIndex(index)}
                 onMouseLeave={handleResetActive}
                 onClick={(entry, index) => onItemClick?.(entry, index)}
@@ -345,6 +407,8 @@ export function PieChart({
                       entry.color ??
                       DEFAULT_COLORS[index % DEFAULT_COLORS.length]
                     }
+                    stroke={effectiveStroke}
+                    strokeWidth={effectiveStrokeWidth}
                     style={{
                       transition:
                         "opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s ease",
@@ -390,12 +454,18 @@ export function PieChart({
                     className="gy-piechart-legend-dot"
                     style={{ backgroundColor: itemColor }}
                   />
-                  <span className="gy-piechart-legend-label">
+                  <Typography
+                    variant="span"
+                    className="gy-piechart-legend-label"
+                  >
                     {entry.name}
-                  </span>
-                  <span className="gy-piechart-legend-percentage">
+                  </Typography>
+                  <Typography
+                    variant="span"
+                    className="gy-piechart-legend-percentage"
+                  >
                     {percentage}%
-                  </span>
+                  </Typography>
                 </button>
               );
             })}

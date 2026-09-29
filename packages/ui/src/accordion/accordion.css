@@ -5,15 +5,20 @@
   border: 1px solid var(--gy-border, #e2e8f0);
   border-radius: var(--gy-radius-lg, 0.5rem);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.2s ease;
+  transition:
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease;
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .gy-accordion--expanded {
-  border-color: color-mix(in srgb, var(--gy-border, #e2e8f0) 80%, var(--gy-text, #0f172a) 20%);
+  border-color: color-mix(
+    in srgb,
+    var(--gy-border, #e2e8f0) 80%,
+    var(--gy-text, #0f172a) 20%
+  );
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -81,7 +86,11 @@
 
 .gy-accordion--filled.gy-accordion--expanded {
   background: var(--gy-surface, #ffffff);
-  border-color: color-mix(in srgb, var(--gy-border, #e2e8f0) 80%, var(--gy-text, #0f172a) 20%);
+  border-color: color-mix(
+    in srgb,
+    var(--gy-border, #e2e8f0) 80%,
+    var(--gy-text, #0f172a) 20%
+  );
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -92,7 +101,11 @@
 /* Glassmorphic Variant */
 .gy-accordion--glassmorphic,
 .gy-accordion--glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.45) 100%
+  ) !important;
   backdrop-filter: blur(20px) saturate(180%) contrast(95%);
   -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%);
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
@@ -103,7 +116,11 @@
 
 .gy-accordion--glassmorphic.gy-accordion--expanded,
 .gy-accordion--glass.gy-accordion--expanded {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.6) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(255, 255, 255, 0.6) 100%
+  ) !important;
   border-color: rgba(255, 255, 255, 0.7) !important;
   box-shadow:
     0 12px 36px 0 rgba(31, 38, 135, 0.1),
@@ -127,7 +144,11 @@
 .dark .gy-accordion--glass,
 [data-theme="samantrix"] .gy-accordion--glassmorphic,
 [data-theme="dark"] .gy-accordion--glassmorphic {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.55) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.75) 0%,
+    rgba(30, 41, 59, 0.55) 100%
+  ) !important;
   backdrop-filter: blur(24px) saturate(180%) contrast(100%);
   -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(100%);
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -139,7 +160,11 @@
 
 .gy-dark .gy-accordion--glassmorphic.gy-accordion--expanded,
 [data-color-mode="dark"] .gy-accordion--glassmorphic.gy-accordion--expanded {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.7) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(15, 23, 42, 0.7) 100%
+  ) !important;
   border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow:
     0 16px 40px 0 rgba(0, 0, 0, 0.6),
@@ -181,6 +206,10 @@
 
 .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]) {
   background: var(--gy-surface-hover, rgba(0, 0, 0, 0.018));
+}
+
+.gy-accordion--expanded .gy-accordion__trigger {
+  background: var(--gy-surface, #ffffff);
 }
 
 .gy-accordion__trigger:focus-visible {
@@ -257,12 +286,14 @@
   min-height: 1.25rem;
   flex-shrink: 0;
   transform-origin: center center;
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.2s ease;
+  transition:
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.2s ease;
   will-change: transform;
 }
 
-.gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]) .gy-accordion__icon {
+.gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"])
+  .gy-accordion__icon {
   color: var(--gy-text, #0f172a);
 }
 
@@ -282,7 +313,7 @@
   font-size: 0.75rem;
 }
 .gy-accordion--sm .gy-accordion__content {
-  padding: 0.25rem 1rem 1rem 1rem;
+  padding: 0.75rem 1rem 1rem 1rem;
   font-size: 0.8125rem;
 }
 
@@ -296,7 +327,7 @@
   font-size: 0.8125rem;
 }
 .gy-accordion--md .gy-accordion__content {
-  padding: 0.25rem 1.25rem 1.25rem 1.25rem;
+  padding: 1rem 1.25rem 1.25rem 1.25rem;
   font-size: 0.875rem;
 }
 
@@ -310,7 +341,7 @@
   font-size: 0.875rem;
 }
 .gy-accordion--lg .gy-accordion__content {
-  padding: 0.375rem 1.5rem 1.5rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.5rem 1.5rem;
   font-size: 0.9375rem;
 }
 
@@ -329,24 +360,152 @@
 .gy-accordion__panel-inner {
   overflow: hidden;
   min-height: 0;
+  background: var(--gy-surface-sunken, #f8fafc);
+  border-top: 1px solid var(--gy-border, #e2e8f0);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 /* Panel Content Glide & Fade */
 .gy-accordion__content {
-  padding: 0.25rem 1.25rem 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
   color: var(--gy-text-muted, #475569);
   font-size: var(--gy-font-size-sm, 0.875rem);
   line-height: 1.6;
   opacity: 0;
   transform: translateY(-8px);
-  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1) 40ms,
-              transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 280ms cubic-bezier(0.16, 1, 0.3, 1) 40ms,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
 .gy-accordion__panel--expanded .gy-accordion__content {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ── Hover: border picks up the active role theme ────────────────────────── */
+/* --gy-primary is redefined per role (professional / agent / admin), so the
+   highlight follows whichever role theme is active with no per-role rules. */
+.gy-accordion:hover:not(.gy-accordion--disabled) {
+  border-color: color-mix(
+    in srgb,
+    var(--gy-primary, #3b82f6) 60%,
+    var(--gy-border, #e2e8f0)
+  );
+}
+
+.gy-accordion-group--bordered:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--gy-primary, #3b82f6) 40%,
+    var(--gy-border, #e2e8f0)
+  );
+}
+
+/* ── Dark Mode ───────────────────────────────────────────────────────────── */
+/* An open accordion lifts to the raised surface. The light-mode expanded state
+   reads through a drop shadow, which is invisible against a dark background,
+   so dark mode needs the tonal shift instead. */
+.gy-dark
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ),
+[data-color-mode="dark"]
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ),
+.dark
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ),
+[data-theme="dark"]
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ),
+[data-theme="samantrix"]
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ) {
+  background: var(--gy-surface-raised, #1e293b);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Keep the role-theme hover highlight on top of the expanded treatment. */
+.gy-dark .gy-accordion:hover:not(.gy-accordion--disabled),
+[data-color-mode="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
+.dark .gy-accordion:hover:not(.gy-accordion--disabled),
+[data-theme="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
+[data-theme="samantrix"] .gy-accordion:hover:not(.gy-accordion--disabled) {
+  border-color: color-mix(
+    in srgb,
+    var(--gy-primary, #3b82f6) 75%,
+    var(--gy-border, #334155)
+  );
+}
+
+/* --gy-surface-hover is not defined by the theme, so the light fallbacks below
+   would wash a dark accordion with a pale grey. Use a light overlay instead. */
+.gy-dark
+  .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
+[data-color-mode="dark"]
+  .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
+.dark .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
+[data-theme="dark"]
+  .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
+[data-theme="samantrix"]
+  .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Dark mode differentiated header and body shades */
+.gy-dark .gy-accordion--expanded .gy-accordion__trigger,
+[data-color-mode="dark"] .gy-accordion--expanded .gy-accordion__trigger,
+.dark .gy-accordion--expanded .gy-accordion__trigger,
+[data-theme="dark"] .gy-accordion--expanded .gy-accordion__trigger,
+[data-theme="samantrix"] .gy-accordion--expanded .gy-accordion__trigger {
+  background: var(--gy-surface-raised, #1e293b);
+}
+
+.gy-dark .gy-accordion__panel-inner,
+[data-color-mode="dark"] .gy-accordion__panel-inner,
+.dark .gy-accordion__panel-inner,
+[data-theme="dark"] .gy-accordion__panel-inner,
+[data-theme="samantrix"] .gy-accordion__panel-inner {
+  background: var(--gy-surface-sunken, #0f172a);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glassmorphic body panel differentiation */
+.gy-accordion--glassmorphic .gy-accordion__panel-inner,
+.gy-accordion--glass .gy-accordion__panel-inner {
+  background: rgba(255, 255, 255, 0.35);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.gy-dark .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+.gy-dark .gy-accordion--glass .gy-accordion__panel-inner,
+[data-color-mode="dark"] .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+[data-color-mode="dark"] .gy-accordion--glass .gy-accordion__panel-inner,
+.dark .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+.dark .gy-accordion--glass .gy-accordion__panel-inner,
+[data-theme="dark"] .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+[data-theme="samantrix"] .gy-accordion--glassmorphic .gy-accordion__panel-inner {
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gy-dark .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-color-mode="dark"]
+  .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+.dark .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-theme="dark"] .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-theme="samantrix"]
+  .gy-accordion--filled:hover:not(.gy-accordion--disabled) {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Accessibility / Reduced Motion */

@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Sidebar,
-  SidebarHeader,
-  SidebarBody,
-  SidebarGroup,
-  SidebarItem,
-  SidebarFooter,
   SidebarItemData,
+  type SidebarRolePreset,
 } from "./Sidebar";
 
 const HomeIcon = () => (
@@ -138,7 +134,15 @@ const meta: Meta<typeof Sidebar> = {
     },
     variant: {
       control: "select",
-      options: ["default", "floating", "bordered", "compact", "glass", "glassmorphic", "dark"],
+      options: [
+        "default",
+        "floating",
+        "bordered",
+        "compact",
+        "glass",
+        "glassmorphic",
+        "dark",
+      ],
     },
     activeVariant: {
       control: "select",
@@ -147,7 +151,16 @@ const meta: Meta<typeof Sidebar> = {
     accentColor: { control: "color" },
     colorScheme: {
       control: "select",
-      options: [undefined, "admin", "owner", "editor", "moderator", "viewer", "support", "guest"],
+      options: [
+        undefined,
+        "admin",
+        "owner",
+        "editor",
+        "moderator",
+        "viewer",
+        "support",
+        "guest",
+      ],
     },
     width: { control: "text" },
     collapsedWidth: { control: "text" },
@@ -233,7 +246,12 @@ const nestedSidebarItems: SidebarItemData[] = [
     children: [
       { id: "projects-active", label: "Active Sprints" },
       { id: "projects-roadmap", label: "Product Roadmap" },
-      { id: "projects-backlog", label: "Backlog Items", badge: "8", badgeColor: "neutral" },
+      {
+        id: "projects-backlog",
+        label: "Backlog Items",
+        badge: "8",
+        badgeColor: "neutral",
+      },
     ],
   },
   {
@@ -255,7 +273,14 @@ const nestedSidebarItems: SidebarItemData[] = [
 ];
 
 const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "0.75rem",
+      width: "100%",
+    }}
+  >
     <div
       className="gy-sidebar-logo"
       style={{
@@ -274,11 +299,27 @@ const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
     >
       G
     </div>
-    <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-      <span style={{ fontWeight: 700, fontSize: "0.95rem", lineHeight: 1.2, whiteSpace: "nowrap" }}>
+    <div
+      className="gy-sidebar-text"
+      style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}
+    >
+      <span
+        style={{
+          fontWeight: 700,
+          fontSize: "0.95rem",
+          lineHeight: 1.2,
+          whiteSpace: "nowrap",
+        }}
+      >
         Galyan Studio
       </span>
-      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)", whiteSpace: "nowrap" }}>
+      <span
+        style={{
+          fontSize: "0.75rem",
+          color: "var(--gy-text-subtle, #94a3b8)",
+          whiteSpace: "nowrap",
+        }}
+      >
         Enterprise v2.4
       </span>
     </div>
@@ -286,7 +327,14 @@ const BrandHeader = ({ color = "#10b981" }: { color?: string }) => (
 );
 
 const UserFooter = () => (
-  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "0.75rem",
+      width: "100%",
+    }}
+  >
     <div
       className="gy-sidebar-logo"
       style={{
@@ -305,11 +353,28 @@ const UserFooter = () => (
     >
       SG
     </div>
-    <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-      <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+    <div
+      className="gy-sidebar-text"
+      style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}
+    >
+      <span
+        style={{
+          fontWeight: 600,
+          fontSize: "0.875rem",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
         Saksham Galyan
       </span>
-      <span style={{ fontSize: "0.75rem", color: "var(--gy-text-subtle, #94a3b8)", whiteSpace: "nowrap" }}>
+      <span
+        style={{
+          fontSize: "0.75rem",
+          color: "var(--gy-text-subtle, #94a3b8)",
+          whiteSpace: "nowrap",
+        }}
+      >
         Admin Owner
       </span>
     </div>
@@ -326,7 +391,7 @@ export const Default: Story = {
     width: 260,
     collapsedWidth: 70,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -366,7 +431,7 @@ export const LineIndicatorVariant: Story = {
     accentColor: "#3b82f6",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("analytics");
     return (
       <div
@@ -406,7 +471,7 @@ export const NestedAccordionItems: Story = {
     accentColor: "#7c3aed",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("projects-active");
     return (
       <div
@@ -445,7 +510,7 @@ export const FloatingElevated: Story = {
     collapsible: true,
     accentColor: "#10b981",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("projects");
     return (
       <div
@@ -469,7 +534,8 @@ export const FloatingElevated: Story = {
         <main style={{ flex: 1, padding: "2rem" }}>
           <h3 style={{ margin: "0 0 0.5rem" }}>Floating Elevated Variant</h3>
           <p style={{ color: "var(--gy-text-muted)" }}>
-            Elevated aesthetic with rounded container and soft ambient drop shadows.
+            Elevated aesthetic with rounded container and soft ambient drop
+            shadows.
           </p>
         </main>
       </div>
@@ -483,7 +549,7 @@ export const Glassmorphism: Story = {
     accentColor: "#6366f1",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -492,7 +558,8 @@ export const Glassmorphism: Story = {
           width: "720px",
           display: "flex",
           borderRadius: "1.25rem",
-          background: "linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #dbeafe 100%)",
+          background:
+            "linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #dbeafe 100%)",
           padding: "0.5rem",
           boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
         }}
@@ -522,7 +589,7 @@ export const GlassmorphicEffect: Story = {
     accentColor: "#8b5cf6",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -531,7 +598,8 @@ export const GlassmorphicEffect: Story = {
           width: "780px",
           display: "flex",
           borderRadius: "1.5rem",
-          background: "radial-gradient(circle at 15% 25%, #c7d2fe 0%, transparent 45%), radial-gradient(circle at 85% 75%, #fbcfe8 0%, #e0e7ff 100%)",
+          background:
+            "radial-gradient(circle at 15% 25%, #c7d2fe 0%, transparent 45%), radial-gradient(circle at 85% 75%, #fbcfe8 0%, #e0e7ff 100%)",
           padding: "1rem",
           boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)",
           position: "relative",
@@ -546,7 +614,14 @@ export const GlassmorphicEffect: Story = {
           activeItemId={active}
           onItemClick={setActive}
         />
-        <main style={{ flex: 1, padding: "2.5rem", position: "relative", zIndex: 1 }}>
+        <main
+          style={{
+            flex: 1,
+            padding: "2.5rem",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
           <div
             style={{
               background: "rgba(255, 255, 255, 0.5)",
@@ -558,12 +633,17 @@ export const GlassmorphicEffect: Story = {
               boxShadow: "0 8px 32px rgba(31, 38, 135, 0.05)",
             }}
           >
-            <h2 style={{ margin: "0 0 0.5rem", color: "#1e1b4b" }}>Glassmorphic Sidebar</h2>
+            <h2 style={{ margin: "0 0 0.5rem", color: "#1e1b4b" }}>
+              Glassmorphic Sidebar
+            </h2>
             <p style={{ color: "#475569", lineHeight: 1.6 }}>
-              State-of-the-art frosted glass aesthetic featuring high-density backdrop blur,
-              specular inner bevels, liquid pill highlights, and luminous ambient glow.
+              State-of-the-art frosted glass aesthetic featuring high-density
+              backdrop blur, specular inner bevels, liquid pill highlights, and
+              luminous ambient glow.
             </p>
-            <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}>
+            <div
+              style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}
+            >
               <span
                 style={{
                   display: "inline-flex",
@@ -593,7 +673,7 @@ export const CollapsedIconMode: Story = {
     variant: "default",
     accentColor: "#10b981",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("analytics");
     return (
       <div
@@ -618,9 +698,11 @@ export const CollapsedIconMode: Story = {
         <main style={{ flex: 1, padding: "2rem" }}>
           <h3 style={{ margin: "0 0 0.5rem" }}>Slick Collapsed View</h3>
           <p style={{ color: "var(--gy-text-muted)", lineHeight: 1.6 }}>
-            Notice how the logo and avatar remain perfectly centered without awkward wrapping,
-            notification badge dots glow on the top-right corner of icons with badges,
-            hover provides micro-elevation, and hovering any icon triggers a floating tooltip with badge information.
+            Notice how the logo and avatar remain perfectly centered without
+            awkward wrapping, notification badge dots glow on the top-right
+            corner of icons with badges, hover provides micro-elevation, and
+            hovering any icon triggers a floating tooltip with badge
+            information.
           </p>
         </main>
       </div>
@@ -636,7 +718,7 @@ export const ResponsiveMobileDrawer: Story = {
     accentColor: "#0284c7",
     collapsible: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -664,8 +746,8 @@ export const ResponsiveMobileDrawer: Story = {
           <h3 style={{ margin: "0 0 0.5rem" }}>Responsive Mobile Drawer</h3>
           <p style={{ color: "var(--gy-text-muted)", lineHeight: 1.6 }}>
             On viewport widths below 768px, the sidebar automatically collapses.
-            When expanded on mobile devices, it elevates as a full-height overlay drawer
-            with a frosted backdrop click-to-dismiss behavior.
+            When expanded on mobile devices, it elevates as a full-height
+            overlay drawer with a frosted backdrop click-to-dismiss behavior.
           </p>
         </main>
       </div>
@@ -674,7 +756,7 @@ export const ResponsiveMobileDrawer: Story = {
 };
 
 export const DarkMode: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -701,7 +783,8 @@ export const DarkMode: Story = {
         <main style={{ flex: 1, padding: "2.5rem", color: "#f8fafc" }}>
           <h2 style={{ margin: "0 0 0.5rem" }}>Dark Mode Workspace</h2>
           <p style={{ color: "#94a3b8" }}>
-            Luminous active highlights, deep slate surface elevation, and high-contrast badges.
+            Luminous active highlights, deep slate surface elevation, and
+            high-contrast badges.
           </p>
         </main>
       </div>
@@ -732,7 +815,7 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 export const RoleColorSchemes: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState("home");
     const [role, setRole] = useState<string>("admin");
     return (
@@ -746,12 +829,12 @@ export const RoleColorSchemes: Story = {
               style={{
                 padding: "0.5rem 1rem",
                 borderRadius: "0.5rem",
-                border: role === r
-                  ? `2px solid ${ROLE_COLORS[r]}`
-                  : "2px solid var(--gy-border, #e2e8f0)",
-                background: role === r
-                  ? ROLE_COLORS[r]
-                  : "var(--gy-surface, #ffffff)",
+                border:
+                  role === r
+                    ? `2px solid ${ROLE_COLORS[r]}`
+                    : "2px solid var(--gy-border, #e2e8f0)",
+                background:
+                  role === r ? ROLE_COLORS[r] : "var(--gy-surface, #ffffff)",
                 color: role === r ? "#ffffff" : "var(--gy-text, #0f172a)",
                 fontWeight: 600,
                 fontSize: "0.8125rem",
@@ -777,11 +860,18 @@ export const RoleColorSchemes: Story = {
         >
           <Sidebar
             key={role}
-            colorScheme={role as any}
+            colorScheme={role as SidebarRolePreset}
             variant="default"
             header={<BrandHeader color={ROLE_COLORS[role]} />}
             footer={
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  width: "100%",
+                }}
+              >
                 <div
                   className="gy-sidebar-logo"
                   style={{
@@ -800,11 +890,32 @@ export const RoleColorSchemes: Story = {
                 >
                   SG
                 </div>
-                <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-                  <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+                <div
+                  className="gy-sidebar-text"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    minWidth: 0,
+                    flex: 1,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "0.875rem",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     Saksham Galyan
                   </span>
-                  <span style={{ fontSize: "0.75rem", color: ROLE_COLORS[role], fontWeight: 600, textTransform: "capitalize" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      color: ROLE_COLORS[role],
+                      fontWeight: 600,
+                      textTransform: "capitalize",
+                    }}
+                  >
                     {ROLE_LABELS[role]}
                   </span>
                 </div>
@@ -816,14 +927,44 @@ export const RoleColorSchemes: Story = {
           />
           <main style={{ flex: 1, padding: "2rem" }}>
             <h2 style={{ margin: "0 0 0.5rem" }}>
-              Role: <span style={{ color: ROLE_COLORS[role], textTransform: "capitalize" }}>{ROLE_LABELS[role]}</span>
+              Role:{" "}
+              <span
+                style={{
+                  color: ROLE_COLORS[role],
+                  textTransform: "capitalize",
+                }}
+              >
+                {ROLE_LABELS[role]}
+              </span>
             </h2>
-            <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6 }}>
-              Each role automatically applies a unique color theme across the sidebar —
-              including active item backgrounds, group titles, toggle button, dividers, and the accent border strip.
+            <p
+              style={{
+                color: "var(--gy-text-muted, #64748b)",
+                lineHeight: 1.6,
+              }}
+            >
+              Each role automatically applies a unique color theme across the
+              sidebar — including active item backgrounds, group titles, toggle
+              button, dividers, and the accent border strip.
             </p>
-            <p style={{ color: "var(--gy-text-muted, #64748b)", marginTop: "1rem", fontSize: "0.875rem" }}>
-              Use <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>colorScheme="{role}"</code> to apply this theme.
+            <p
+              style={{
+                color: "var(--gy-text-muted, #64748b)",
+                marginTop: "1rem",
+                fontSize: "0.875rem",
+              }}
+            >
+              Use{" "}
+              <code
+                style={{
+                  background: "#f1f5f9",
+                  padding: "0.125rem 0.375rem",
+                  borderRadius: "4px",
+                }}
+              >
+                colorScheme=&quot;{role}&quot;
+              </code>{" "}
+              to apply this theme.
             </p>
           </main>
         </div>
@@ -833,7 +974,7 @@ export const RoleColorSchemes: Story = {
 };
 
 export const RoleColorSchemesDark: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState("home");
     const [role, setRole] = useState<string>("admin");
     return (
@@ -846,9 +987,10 @@ export const RoleColorSchemesDark: Story = {
               style={{
                 padding: "0.5rem 1rem",
                 borderRadius: "0.5rem",
-                border: role === r
-                  ? `2px solid ${ROLE_COLORS[r]}`
-                  : "2px solid #334155",
+                border:
+                  role === r
+                    ? `2px solid ${ROLE_COLORS[r]}`
+                    : "2px solid #334155",
                 background: role === r ? ROLE_COLORS[r] : "#1e293b",
                 color: role === r ? "#ffffff" : "#94a3b8",
                 fontWeight: 600,
@@ -876,11 +1018,18 @@ export const RoleColorSchemesDark: Story = {
         >
           <Sidebar
             key={role}
-            colorScheme={role as any}
+            colorScheme={role as SidebarRolePreset}
             variant="default"
             header={<BrandHeader color={ROLE_COLORS[role]} />}
             footer={
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  width: "100%",
+                }}
+              >
                 <div
                   className="gy-sidebar-logo"
                   style={{
@@ -899,11 +1048,33 @@ export const RoleColorSchemesDark: Story = {
                 >
                   SG
                 </div>
-                <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-                  <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap", color: "#f8fafc" }}>
+                <div
+                  className="gy-sidebar-text"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    minWidth: 0,
+                    flex: 1,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "0.875rem",
+                      whiteSpace: "nowrap",
+                      color: "#f8fafc",
+                    }}
+                  >
                     Saksham Galyan
                   </span>
-                  <span style={{ fontSize: "0.75rem", color: ROLE_COLORS[role], fontWeight: 600, textTransform: "capitalize" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      color: ROLE_COLORS[role],
+                      fontWeight: 600,
+                      textTransform: "capitalize",
+                    }}
+                  >
                     {ROLE_LABELS[role]}
                   </span>
                 </div>
@@ -915,11 +1086,19 @@ export const RoleColorSchemesDark: Story = {
           />
           <main style={{ flex: 1, padding: "2.5rem", color: "#f8fafc" }}>
             <h2 style={{ margin: "0 0 0.5rem" }}>
-              Role: <span style={{ color: ROLE_COLORS[role], textTransform: "capitalize" }}>{ROLE_LABELS[role]}</span>
+              Role:{" "}
+              <span
+                style={{
+                  color: ROLE_COLORS[role],
+                  textTransform: "capitalize",
+                }}
+              >
+                {ROLE_LABELS[role]}
+              </span>
             </h2>
             <p style={{ color: "#94a3b8", lineHeight: 1.6 }}>
-              Role-based color scheme in dark mode. Surface colors adapt
-              to the role's dark tint, providing a cohesive dark theme.
+              Role-based color scheme in dark mode. Surface colors adapt to the
+              role&apos;s dark tint, providing a cohesive dark theme.
             </p>
           </main>
         </div>
@@ -929,7 +1108,7 @@ export const RoleColorSchemesDark: Story = {
 };
 
 export const CustomColorScheme: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState("home");
     return (
       <div
@@ -956,7 +1135,14 @@ export const CustomColorScheme: Story = {
           activeVariant="glow"
           header={<BrandHeader color="#e11d48" />}
           footer={
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                width: "100%",
+              }}
+            >
               <div
                 className="gy-sidebar-logo"
                 style={{
@@ -975,11 +1161,31 @@ export const CustomColorScheme: Story = {
               >
                 SG
               </div>
-              <div className="gy-sidebar-text" style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-                <span style={{ fontWeight: 600, fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+              <div
+                className="gy-sidebar-text"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minWidth: 0,
+                  flex: 1,
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 600,
+                    fontSize: "0.875rem",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   Saksham Galyan
                 </span>
-                <span style={{ fontSize: "0.75rem", color: "#e11d48", fontWeight: 600 }}>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#e11d48",
+                    fontWeight: 600,
+                  }}
+                >
                   Custom Brand
                 </span>
               </div>
@@ -991,12 +1197,52 @@ export const CustomColorScheme: Story = {
         />
         <main style={{ flex: 1, padding: "2rem" }}>
           <h2 style={{ margin: "0 0 0.5rem" }}>Custom Color Scheme</h2>
-          <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6 }}>
-            Pass a custom <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>colorScheme</code> object
-            with <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}>primary</code>,
-            <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}> surfaceLight</code>,
-            <code style={{ background: "#f1f5f9", padding: "0.125rem 0.375rem", borderRadius: "4px" }}> surfaceDark</code>,
-            and more fields for full brand customization.
+          <p
+            style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6 }}
+          >
+            Pass a custom{" "}
+            <code
+              style={{
+                background: "#f1f5f9",
+                padding: "0.125rem 0.375rem",
+                borderRadius: "4px",
+              }}
+            >
+              colorScheme
+            </code>{" "}
+            object with{" "}
+            <code
+              style={{
+                background: "#f1f5f9",
+                padding: "0.125rem 0.375rem",
+                borderRadius: "4px",
+              }}
+            >
+              primary
+            </code>
+            ,
+            <code
+              style={{
+                background: "#f1f5f9",
+                padding: "0.125rem 0.375rem",
+                borderRadius: "4px",
+              }}
+            >
+              {" "}
+              surfaceLight
+            </code>
+            ,
+            <code
+              style={{
+                background: "#f1f5f9",
+                padding: "0.125rem 0.375rem",
+                borderRadius: "4px",
+              }}
+            >
+              {" "}
+              surfaceDark
+            </code>
+            , and more fields for full brand customization.
           </p>
         </main>
       </div>

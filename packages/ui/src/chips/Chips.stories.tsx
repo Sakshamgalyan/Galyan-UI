@@ -212,7 +212,7 @@ export const WithIconsAndAvatars: Story = {
 };
 
 export const SelectableFilterGroup: Story = {
-  render: () => {
+  render: function Render() {
     const [selectedFilters, setSelectedFilters] = useState<string[]>([
       "design",
       "react",
@@ -283,7 +283,7 @@ export const Removable: Story = {
 };
 
 export const ChipsInputDemo: Story = {
-  render: () => {
+  render: function Render() {
     const [tags, setTags] = useState(["React", "TypeScript", "Galyan UI"]);
     return (
       <div style={{ width: "380px" }}>

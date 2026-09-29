@@ -10,16 +10,22 @@ import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Cell,
+  type TooltipProps,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./histogram-chart.css";
+import { Typography } from "../typography";
 
 export interface HistogramItem {
   bin: string; // e.g. "0-10", "10-20"
   frequency: number;
   color?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface HistogramTooltipConfig {
@@ -46,6 +52,14 @@ export interface HistogramChartProps {
   onBarClick?: (item: HistogramItem, index: number) => void;
   /** Explicit angle for X-axis tick labels (e.g. -35) */
   xAxisTickAngle?: number;
+  /** Whether to animate bar entrance and data updates (default: true) */
+  animate?: boolean;
+  /** Duration of the bar animation in milliseconds (default: 800) */
+  animationDuration?: number;
+  /** Easing curve for the bar animation (default: "ease-out") */
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  /** Delay before animation starts in milliseconds (default: 0) */
+  animationBegin?: number;
 }
 
 export function HistogramChart({
@@ -66,10 +80,15 @@ export function HistogramChart({
   tickFormatter,
   onBarClick,
   xAxisTickAngle,
+  animate = true,
+  animationDuration = 800,
+  animationEasing = "ease-out",
+  animationBegin = 0,
 }: HistogramChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isCompact, setIsCompact] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const maxLabelLength = useMemo(() => {
     if (!data || data.length === 0) return 0;
@@ -90,14 +109,28 @@ export function HistogramChart({
 
   // ResizeObserver for responsive observation
   useEffect(() => {
-    if (!responsive) return;
+    if (!responsive) {
+      setIsReady(true);
+      return;
+    }
     const el = containerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
+    if (!el || typeof ResizeObserver === "undefined") {
+      setIsReady(true);
+      return;
+    }
+
+    if (el.clientWidth > 0) {
+      setIsCompact(el.clientWidth < 480);
+      setIsReady(true);
+    }
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const w = entry.contentRect.width;
-        setIsCompact(w > 0 && w < 480);
+        if (w > 0) {
+          setIsCompact(w < 480);
+          setIsReady(true);
+        }
       }
     });
 
@@ -113,11 +146,14 @@ export function HistogramChart({
     if (!data || data.length === 0) return null;
     return data.reduce(
       (max, d) => (!max || d.frequency > max.frequency ? d : max),
-      data[0]
+      data[0],
     );
   }, [data]);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -128,12 +164,12 @@ export function HistogramChart({
     }
 
     const current = payload[0];
+
+    if (!current) return null;
     const itemData = current.payload as HistogramItem;
     const count = Number(itemData.frequency) || 0;
     const percentage =
-      totalCount > 0
-        ? ((count / totalCount) * 100).toFixed(1)
-        : "0";
+      totalCount > 0 ? ((count / totalCount) * 100).toFixed(1) : "0";
     const formattedCount = tooltipConfig?.formatter
       ? tooltipConfig.formatter(count)
       : count.toLocaleString();
@@ -147,20 +183,26 @@ export function HistogramChart({
             className="gy-histogram-tooltip-badge"
             style={{ backgroundColor: barColor }}
           />
-          <span className="gy-histogram-tooltip-title">
+          <Typography variant="span" className="gy-histogram-tooltip-title">
             Bin: {itemData.bin}
-          </span>
+          </Typography>
         </div>
         <div className="gy-histogram-tooltip-body">
           <div className="gy-histogram-tooltip-row">
-            <span className="gy-histogram-tooltip-label">Frequency:</span>
-            <span className="gy-histogram-tooltip-val">
+            <Typography variant="span" className="gy-histogram-tooltip-label">
+              Frequency:
+            </Typography>
+            <Typography variant="span" className="gy-histogram-tooltip-val">
               {formattedCount}
-            </span>
+            </Typography>
           </div>
           <div className="gy-histogram-tooltip-row gy-histogram-tooltip-row--highlight">
-            <span className="gy-histogram-tooltip-label">Share:</span>
-            <span className="gy-histogram-tooltip-val">{percentage}%</span>
+            <Typography variant="span" className="gy-histogram-tooltip-label">
+              Share:
+            </Typography>
+            <Typography variant="span" className="gy-histogram-tooltip-val">
+              {percentage}%
+            </Typography>
           </div>
         </div>
       </div>
@@ -215,9 +257,7 @@ export function HistogramChart({
     }
 
     if (data.length === 0) {
-      return (
-        <EmptyState size="md" variant="subtle" />
-      );
+      return <EmptyState size="md" variant="subtle" />;
     }
 
     const formatBinLabel = (val: string) => {
@@ -235,7 +275,9 @@ export function HistogramChart({
       <div className="gy-histogram-body">
         {showSummaryHeader && (
           <div className="gy-histogram-header">
-            <span className="gy-histogram-title">{summaryTitle}</span>
+            <Typography variant="span" className="gy-histogram-title">
+              {summaryTitle}
+            </Typography>
             <div className="gy-histogram-badges">
               <span className="gy-histogram-badge">
                 Total:{" "}
@@ -294,7 +336,15 @@ export function HistogramChart({
                 tickFormatter={formatBinLabel}
                 angle={effectiveTickAngle}
                 textAnchor={effectiveTickAngle !== 0 ? "end" : "middle"}
-                height={effectiveTickAngle !== 0 ? (isCompact ? 44 : 50) : (isCompact ? 24 : 30)}
+                height={
+                  effectiveTickAngle !== 0
+                    ? isCompact
+                      ? 44
+                      : 50
+                    : isCompact
+                      ? 24
+                      : 30
+                }
                 dx={effectiveTickAngle !== 0 ? -2 : 0}
                 dy={effectiveTickAngle !== 0 ? 3 : 0}
                 tick={{
@@ -317,14 +367,21 @@ export function HistogramChart({
               {tooltipConfig?.show !== false && (
                 <RechartsTooltip
                   content={<CustomTooltip />}
-                  cursor={{ fill: "var(--gy-background-subtle, rgba(0,0,0,0.03))" }}
+                  cursor={{
+                    fill: "var(--gy-background-subtle, rgba(0,0,0,0.03))",
+                  }}
                   wrapperStyle={{ outline: "none", zIndex: 100 }}
                 />
               )}
 
               <Bar
+                key={isReady ? "gy-bar-ready" : "gy-bar-init"}
                 dataKey="frequency"
                 radius={[4, 4, 0, 0]}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={animationBegin}
                 onMouseEnter={(_, index) => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={(entry, index) => onBarClick?.(entry, index)}
@@ -338,20 +395,16 @@ export function HistogramChart({
                       key={`cell-${index}`}
                       fill={barColor}
                       fillOpacity={
-                        hoveredIndex === null
-                          ? 0.9
-                          : isHovered
-                            ? 1
-                            : 0.55
+                        hoveredIndex === null ? 0.9 : isHovered ? 1 : 0.55
                       }
                       stroke={isHovered ? "var(--gy-text, #0f172a)" : "none"}
                       strokeWidth={isHovered ? 1.5 : 0}
                       style={{
                         transition:
-                          "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                          "fill-opacity 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease",
                         cursor: "pointer",
                         filter: isHovered
-                          ? "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.14))"
+                          ? "drop-shadow(0 4px 10px rgba(0, 0, 0, 0.16))"
                           : "none",
                       }}
                     />
@@ -365,11 +418,12 @@ export function HistogramChart({
     );
   };
 
-  const wrapperStyle: React.CSSProperties = {
+  const wrapperStyle = {
     height: typeof height === "number" ? `${height}px` : height,
     width: typeof width === "number" ? `${width}px` : width,
+    "--gy-histogram-duration": `${animationDuration}ms`,
     ...tokens,
-  };
+  } as React.CSSProperties;
 
   return (
     <div

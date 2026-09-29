@@ -127,45 +127,50 @@ export function Tooltip({
 
   const desiredPlacement = (position ?? placement) as Placement;
 
-  const fallbackPlacements: Placement[] | undefined = desiredPlacement.startsWith("top")
-    ? [
-        (desiredPlacement.replace("top", "bottom") as Placement),
-        "bottom",
-        "top",
-      ]
-    : desiredPlacement.startsWith("bottom")
-    ? [
-        (desiredPlacement.replace("bottom", "top") as Placement),
-        "top",
-        "bottom",
-      ]
-    : undefined;
+  const fallbackPlacements: Placement[] | undefined =
+    desiredPlacement.startsWith("top")
+      ? [
+          desiredPlacement.replace("top", "bottom") as Placement,
+          "bottom",
+          "top",
+        ]
+      : desiredPlacement.startsWith("bottom")
+        ? [
+            desiredPlacement.replace("bottom", "top") as Placement,
+            "top",
+            "bottom",
+          ]
+        : undefined;
 
-  const { refs, floatingStyles, middlewareData, placement: floatingPlacement } =
-    useFloating({
-      open: visible && !disabled,
-      onOpenChange: (open) => {
-        if (!disabled) setVisible(open);
-      },
-      placement: desiredPlacement,
-      strategy: "fixed",
-      whileElementsMounted: autoUpdate,
-      middleware: [
-        offset(8),
-        ...(smartPosition
-          ? [
-              flip({
-                fallbackPlacements,
-                fallbackAxisSideDirection: "none",
-                crossAxis: false,
-                padding: 8,
-              }),
-            ]
-          : []),
-        shift({ padding: 8 }),
-        arrowMiddleware({ element: arrowRef, padding: 8 }),
-      ],
-    });
+  const {
+    refs,
+    floatingStyles,
+    middlewareData,
+    placement: floatingPlacement,
+  } = useFloating({
+    open: visible && !disabled,
+    onOpenChange: (open) => {
+      if (!disabled) setVisible(open);
+    },
+    placement: desiredPlacement,
+    strategy: "fixed",
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset(8),
+      ...(smartPosition
+        ? [
+            flip({
+              fallbackPlacements,
+              fallbackAxisSideDirection: "none",
+              crossAxis: false,
+              padding: 8,
+            }),
+          ]
+        : []),
+      shift({ padding: 8 }),
+      arrowMiddleware({ element: arrowRef, padding: 8 }),
+    ],
+  });
 
   const show = () => {
     if (disabled || !content) return;

@@ -5,6 +5,7 @@ import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./bar-chart.css";
+import { Typography } from "../typography";
 
 export type BarChartVariant = "cylindrical" | "filled" | "horizontal";
 
@@ -16,7 +17,7 @@ export interface BarChartItem {
   fillColor?: string;
   trackColor?: string;
   displayValue?: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface BarChartTooltipConfig {
@@ -116,7 +117,14 @@ export function BarChart({
 
   const effectiveBarWidth = useMemo(() => {
     if (variant === "horizontal") return undefined;
-    if (!barWidth) return isCompact ? (variant === "cylindrical" ? 32 : 28) : (variant === "cylindrical" ? 42 : 36);
+    if (!barWidth)
+      return isCompact
+        ? variant === "cylindrical"
+          ? 32
+          : 28
+        : variant === "cylindrical"
+          ? 42
+          : 36;
     if (typeof barWidth === "number") {
       return isCompact ? Math.min(barWidth, 32) : barWidth;
     }
@@ -128,14 +136,28 @@ export function BarChart({
     if (barWidth !== undefined) {
       return typeof barWidth === "number" ? `${barWidth}px` : barWidth;
     }
-    return horizontalAlignment === "inline" ? (isCompact ? 18 : 26) : (isCompact ? 8 : 10);
+    return horizontalAlignment === "inline"
+      ? isCompact
+        ? 18
+        : 26
+      : isCompact
+        ? 8
+        : 10;
   }, [variant, barWidth, horizontalAlignment, isCompact]);
 
   const effectiveBarSpacing = useMemo(() => {
     if (barSpacing === undefined) {
       return variant === "horizontal"
-        ? (horizontalAlignment === "inline" ? (isCompact ? 8 : 14) : (isCompact ? 8 : 12))
-        : (isCompact ? 10 : 18);
+        ? horizontalAlignment === "inline"
+          ? isCompact
+            ? 8
+            : 14
+          : isCompact
+            ? 8
+            : 12
+        : isCompact
+          ? 10
+          : 18;
     }
     if (typeof barSpacing === "number") {
       return isCompact ? Math.min(barSpacing, 12) : barSpacing;
@@ -176,7 +198,10 @@ export function BarChart({
     return `Item ${index + 1}`;
   };
 
-  const renderFormattedValue = (item: BarChartItem, calculatedPercentage: number) => {
+  const renderFormattedValue = (
+    item: BarChartItem,
+    calculatedPercentage: number,
+  ) => {
     if (item.displayValue !== undefined) {
       return String(item.displayValue);
     }
@@ -207,10 +232,22 @@ export function BarChart({
       : item.value.toLocaleString();
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "2px", textAlign: "center" }}>
-        <span style={{ fontWeight: 600, fontSize: "0.8125rem" }}>{item.label}</span>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
+          textAlign: "center",
+        }}
+      >
+        <span style={{ fontWeight: 600, fontSize: "0.8125rem" }}>
+          {item.label}
+        </span>
         <span style={{ fontSize: "0.75rem", opacity: 0.9 }}>
-          {formattedValue} {typeof item.value === "number" && item.value % 1 !== 0 ? `(${item.value}%)` : `(${Math.round(calculatedPercentage)}%)`}
+          {formattedValue}{" "}
+          {typeof item.value === "number" && item.value % 1 !== 0
+            ? `(${item.value}%)`
+            : `(${Math.round(calculatedPercentage)}%)`}
         </span>
       </div>
     );
@@ -229,11 +266,14 @@ export function BarChart({
           ? `${effectiveHorizontalBarHeight}px`
           : effectiveHorizontalBarHeight
         : horizontalAlignment === "inline"
-        ? (isCompact ? "18px" : "24px")
-        : isCompact
-        ? "8px"
-        : "10px";
-      const hasIcons = data.length > 0 ? data.some((d) => Boolean(d.icon)) : true;
+          ? isCompact
+            ? "18px"
+            : "24px"
+          : isCompact
+            ? "8px"
+            : "10px";
+      const hasIcons =
+        data.length > 0 ? data.some((d) => Boolean(d.icon)) : true;
       const labelWidths = ["42%", "55%", "38%", "50%", "45%"];
 
       return Array.from({ length: count }).map((_, i) => {
@@ -469,14 +509,21 @@ export function BarChart({
   const isAutoHeight = resolvedHeight === "auto";
 
   const wrapperStyle: React.CSSProperties = {
-    height: typeof resolvedHeight === "number" ? `${resolvedHeight}px` : resolvedHeight,
+    height:
+      typeof resolvedHeight === "number"
+        ? `${resolvedHeight}px`
+        : resolvedHeight,
     width: typeof width === "number" ? `${width}px` : width,
     backgroundColor: backgroundColor || undefined,
     color: textColor || undefined,
     ...tokens,
   };
 
-  const isShort = !isHorizontal && !isAutoHeight && containerHeight > 0 && containerHeight <= 280;
+  const isShort =
+    !isHorizontal &&
+    !isAutoHeight &&
+    containerHeight > 0 &&
+    containerHeight <= 280;
 
   const rootClasses = [
     "gy-barchart-wrapper",
@@ -497,9 +544,9 @@ export function BarChart({
       className={rootClasses}
       style={{
         ...wrapperStyle,
-        ["--gy-bar-duration" as any]: `${animationDuration}ms`,
-        ["--gy-bar-easing" as any]: animationEasing,
-      }}
+        "--gy-bar-duration": `${animationDuration}ms`,
+        "--gy-bar-easing": animationEasing,
+      } as React.CSSProperties}
       onMouseLeave={handleResetHover}
       onPointerLeave={handleResetHover}
     >
@@ -524,9 +571,13 @@ export function BarChart({
           />
         ) : (
           processedData.map((item, index) => {
-            const percentage = calculatedMaxValue > 0
-              ? Math.min(100, Math.max(0, (item.value / calculatedMaxValue) * 100))
-              : 0;
+            const percentage =
+              calculatedMaxValue > 0
+                ? Math.min(
+                    100,
+                    Math.max(0, (item.value / calculatedMaxValue) * 100),
+                  )
+                : 0;
             const rawColor = item.color || item.fillColor || barColor;
             const isHovered = hoveredIndex === index;
             const isDimmed = hoveredIndex !== null && !isHovered;
@@ -546,19 +597,20 @@ export function BarChart({
                     isHovered ? "gy-barchart-col--active" : ""
                   } ${isDimmed ? "gy-barchart-col--dimmed" : ""}`}
                   style={{
-                    ["--gy-bar-index" as any]: index,
-                  }}
+                    "--gy-bar-index": index,
+                  } as React.CSSProperties}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={handleResetHover}
                 >
                   {/* Top Value / Percentage */}
                   {showValues && (
-                    <span
+                    <Typography
+                      variant="span"
                       className="gy-barchart-bar-value--cylindrical"
                       style={{ color: textColor }}
                     >
                       {formattedVal}
-                    </span>
+                    </Typography>
                   )}
 
                   {/* 3D Glass Cylinder Tube */}
@@ -574,10 +626,14 @@ export function BarChart({
                         style={{
                           width: calculatedWidth,
                           ...(itemTrackColor
-                            ? ({ "--gy-cylinder-track": itemTrackColor } as React.CSSProperties)
+                            ? ({
+                                "--gy-cylinder-track": itemTrackColor,
+                              } as React.CSSProperties)
                             : {}),
                           ...(rawColor
-                            ? ({ "--gy-cylinder-fill": rawColor } as React.CSSProperties)
+                            ? ({
+                                "--gy-cylinder-fill": rawColor,
+                              } as React.CSSProperties)
                             : {}),
                         }}
                       >
@@ -634,24 +690,30 @@ export function BarChart({
                   )}
 
                   {/* Bottom Category Label */}
-                  <div className="gy-barchart-label-wrapper">
+                  <div className="gy-barchart-label-wrapper gy-barchart-label-wrapper--cylindrical">
                     {item.label &&
                     item.label.length > (truncateCharacterAfter || 10) ? (
-                      <Tooltip content={item.label} position="bottom" delay={60}>
-                        <span
+                      <Tooltip
+                        content={item.label}
+                        position="bottom"
+                        delay={60}
+                      >
+                        <Typography
+                          variant="span"
                           className="gy-barchart-label--cylindrical"
                           style={{ color: textColor }}
                         >
                           {truncateLabel(item.label)}
-                        </span>
+                        </Typography>
                       </Tooltip>
                     ) : (
-                      <span
+                      <Typography
+                        variant="span"
                         className="gy-barchart-label--cylindrical"
                         style={{ color: textColor }}
                       >
                         {item.label}
-                      </span>
+                      </Typography>
                     )}
                   </div>
                 </div>
@@ -679,8 +741,8 @@ export function BarChart({
                     isHovered ? "gy-barchart-col--active" : ""
                   } ${isDimmed ? "gy-barchart-col--dimmed" : ""}`}
                   style={{
-                    ["--gy-bar-index" as any]: index,
-                  }}
+                    "--gy-bar-index": index,
+                  } as React.CSSProperties}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={handleResetHover}
                 >
@@ -699,7 +761,10 @@ export function BarChart({
                       delay={40}
                       disabled={tooltipConfig?.show === false}
                     >
-                      <div className="gy-barchart-track--filled" style={trackStyle}>
+                      <div
+                        className="gy-barchart-track--filled"
+                        style={trackStyle}
+                      >
                         <div
                           className="gy-barchart-bar--filled"
                           style={fillStyle}
@@ -715,21 +780,27 @@ export function BarChart({
                   <div className="gy-barchart-label-wrapper">
                     {item.label &&
                     item.label.length > (truncateCharacterAfter || 10) ? (
-                      <Tooltip content={item.label} position="bottom" delay={60}>
-                        <span
+                      <Tooltip
+                        content={item.label}
+                        position="bottom"
+                        delay={60}
+                      >
+                        <Typography
+                          variant="span"
                           className="gy-barchart-label--filled"
                           style={{ color: textColor }}
                         >
                           {truncateLabel(item.label)}
-                        </span>
+                        </Typography>
                       </Tooltip>
                     ) : (
-                      <span
+                      <Typography
+                        variant="span"
                         className="gy-barchart-label--filled"
                         style={{ color: textColor }}
                       >
                         {item.label}
-                      </span>
+                      </Typography>
                     )}
                   </div>
                 </div>
@@ -762,8 +833,8 @@ export function BarChart({
                     isHovered ? "gy-barchart-row--active" : ""
                   } ${isDimmed ? "gy-barchart-row--dimmed" : ""}`}
                   style={{
-                    ["--gy-bar-index" as any]: index,
-                  }}
+                    "--gy-bar-index": index,
+                  } as React.CSSProperties}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={handleResetHover}
                 >
@@ -775,21 +846,23 @@ export function BarChart({
                   <div className="gy-barchart-label-col--horizontal">
                     {isTruncated ? (
                       <Tooltip content={fullLabel} position="top" delay={60}>
-                        <span
+                        <Typography
+                          variant="span"
                           className="gy-barchart-label--horizontal"
                           style={{ color: textColor }}
                           title={fullLabel}
                         >
                           {displayLabel}
-                        </span>
+                        </Typography>
                       </Tooltip>
                     ) : (
-                      <span
+                      <Typography
+                        variant="span"
                         className="gy-barchart-label--horizontal"
                         style={{ color: textColor }}
                       >
                         {displayLabel}
-                      </span>
+                      </Typography>
                     )}
                   </div>
                   <div className="gy-barchart-bar-wrapper">
@@ -803,7 +876,9 @@ export function BarChart({
                         className="gy-barchart-track--horizontal gy-barchart-track--inline"
                         style={{
                           ...customBarHeight,
-                          ...(itemTrackBg ? { backgroundColor: itemTrackBg } : {}),
+                          ...(itemTrackBg
+                            ? { backgroundColor: itemTrackBg }
+                            : {}),
                         }}
                       >
                         <div
@@ -817,12 +892,13 @@ export function BarChart({
                     </Tooltip>
                   </div>
                   {showValues && (
-                    <span
+                    <Typography
+                      variant="span"
                       className="gy-barchart-value--horizontal"
                       style={{ color: textColor }}
                     >
                       {formattedValue}
-                    </span>
+                    </Typography>
                   )}
                 </div>
               );
@@ -836,8 +912,8 @@ export function BarChart({
                   isHovered ? "gy-barchart-row--active" : ""
                 } ${isDimmed ? "gy-barchart-row--dimmed" : ""}`}
                 style={{
-                  ["--gy-bar-index" as any]: index,
-                }}
+                  "--gy-bar-index": index,
+                } as React.CSSProperties}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={handleResetHover}
               >
@@ -850,29 +926,32 @@ export function BarChart({
                   <div className="gy-barchart-row-header--horizontal">
                     {isTruncated ? (
                       <Tooltip content={fullLabel} position="top" delay={60}>
-                        <span
+                        <Typography
+                          variant="span"
                           className="gy-barchart-label--horizontal"
                           style={{ color: textColor }}
                           title={fullLabel}
                         >
                           {displayLabel}
-                        </span>
+                        </Typography>
                       </Tooltip>
                     ) : (
-                      <span
+                      <Typography
+                        variant="span"
                         className="gy-barchart-label--horizontal"
                         style={{ color: textColor }}
                       >
                         {displayLabel}
-                      </span>
+                      </Typography>
                     )}
                     {showValues && (
-                      <span
+                      <Typography
+                        variant="span"
                         className="gy-barchart-value--horizontal"
                         style={{ color: textColor }}
                       >
                         {formattedValue}
-                      </span>
+                      </Typography>
                     )}
                   </div>
                   <div className="gy-barchart-bar-wrapper">
@@ -902,4 +981,3 @@ export function BarChart({
     </div>
   );
 }
-

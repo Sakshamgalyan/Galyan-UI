@@ -24,7 +24,7 @@ export interface ComposedChartSeries {
 }
 
 export interface ComposedChartProps {
-  data: any[];
+  data: object[];
   series: ComposedChartSeries[];
   xAxisKey: string;
   height?: number | string;

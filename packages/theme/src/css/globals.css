@@ -1,12 +1,14 @@
 /* Galyan Global Styles */
-html, body {
+html,
+body {
   font-family: var(--gy-font-sans);
   font-size: var(--gy-font-size-md);
   line-height: var(--gy-line-height-normal);
   color: var(--gy-text);
   background-color: var(--gy-background);
-  transition: background-color var(--gy-duration-normal) var(--gy-ease-in-out),
-              color var(--gy-duration-normal) var(--gy-ease-in-out);
+  transition:
+    background-color var(--gy-duration-normal) var(--gy-ease-in-out),
+    color var(--gy-duration-normal) var(--gy-ease-in-out);
 }
 
 ::selection {
@@ -87,7 +89,9 @@ html, body {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

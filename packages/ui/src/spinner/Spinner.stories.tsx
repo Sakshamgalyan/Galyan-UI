@@ -18,11 +18,11 @@ const meta: Meta<typeof Spinner> = {
     },
     color: {
       control: "select",
-      options: ["primary", "white", "muted"],
-      description: "Spinner stroke color theme",
+      options: ["default", "role", "primary", "neutral", "white"],
+      description: "Spinner stroke color theme (default uses active role base theme color)",
       table: {
-        type: { summary: "'primary' | 'white' | 'muted'" },
-        defaultValue: { summary: "'primary'" },
+        type: { summary: "'default' | 'role' | 'primary' | 'neutral' | 'white'" },
+        defaultValue: { summary: "'default'" },
       },
     },
     label: {
@@ -44,14 +44,14 @@ type Story = StoryObj<typeof Spinner>;
 export const Default: Story = {
   args: {
     size: "md",
-    color: "primary",
+    color: "default",
   },
 };
 
 export const WithLabel: Story = {
   args: {
     size: "md",
-    color: "primary",
+    color: "default",
     label: "Loading workspace details...",
   },
 };
@@ -64,6 +64,24 @@ export const Sizes: Story = {
       <Spinner size="md" />
       <Spinner size="lg" />
       <Spinner size="xl" />
+    </div>
+  ),
+};
+
+export const Colors: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+      <Spinner color="default" label="Default (Role Theme)" />
+      <Spinner color="neutral" label="Neutral" />
+      <div
+        style={{
+          background: "#0f172a",
+          padding: "1rem",
+          borderRadius: "0.5rem",
+        }}
+      >
+        <Spinner color="white" label="White" />
+      </div>
     </div>
   ),
 };

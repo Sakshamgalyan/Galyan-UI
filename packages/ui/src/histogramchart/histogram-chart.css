@@ -11,6 +11,18 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  animation: gy-histogram-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gy-histogram-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-histogramchart--compact {
@@ -48,11 +60,24 @@
   margin-bottom: 0.75rem;
   flex-wrap: wrap;
   gap: 8px;
+  animation: gy-histogram-header-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 40ms;
+}
+
+@keyframes gy-histogram-header-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-histogram-title {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--gy-font-weight-normal, 400);
   color: var(--gy-text, #0f172a);
 }
 
@@ -73,11 +98,21 @@
   padding: 2px 8px;
   font-size: 0.75rem;
   color: var(--gy-text-muted, #64748b);
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.gy-histogram-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .gy-histogram-badge strong {
   color: var(--gy-text, #0f172a);
-  font-weight: 600;
+  font-weight: var(--gy-font-weight-normal, 400);
 }
 
 .gy-histogram-badge--peak {
@@ -96,6 +131,29 @@
   height: 100%;
   flex: 1 1 auto;
   min-height: 0;
+}
+
+.gy-histogram-chart-area .recharts-cartesian-grid line {
+  transition: stroke-opacity 0.3s ease;
+}
+
+.gy-histogram-chart-area .recharts-xAxis,
+.gy-histogram-chart-area .recharts-yAxis {
+  animation: gy-histogram-axis-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 80ms;
+}
+
+@keyframes gy-histogram-axis-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gy-histogram-chart-area .recharts-bar-rectangles {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04));
 }
 
 /* ── Custom Tooltip ──────────────────────────────────────────────────────── */
@@ -210,4 +268,16 @@
 .gy-histogramchart.gy-histogramchart--compact .gy-histogram-badge {
   font-size: 0.6875rem;
   padding: 1px 6px;
+}
+
+/* ── Accessibility / Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gy-histogramchart,
+  .gy-histogram-header,
+  .gy-histogram-tooltip,
+  .gy-histogram-chart-area .recharts-xAxis,
+  .gy-histogram-chart-area .recharts-yAxis {
+    animation: none !important;
+    transition: none !important;
+  }
 }

@@ -1,8 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, createContext, useContext, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useMemo,
+} from "react";
 import { Tooltip } from "../tooltip/Tooltip";
 import "./sidebar.css";
+import { Typography } from "../typography";
 
 export type SidebarPosition = "left" | "right";
 export type SidebarVariant =
@@ -45,64 +52,65 @@ export interface SidebarCustomColorScheme {
 export type SidebarColorScheme = SidebarRolePreset | SidebarCustomColorScheme;
 
 /** Role-based color presets */
-const ROLE_COLOR_PRESETS: Record<SidebarRolePreset, SidebarCustomColorScheme> = {
-  admin: {
-    primary: "#dc2626",
-    surfaceLight: "#fef2f2",
-    surfaceDark: "#450a0a",
-    textLight: "#991b1b",
-    textDark: "#fca5a5",
-    border: "#fecaca",
-  },
-  owner: {
-    primary: "#7c3aed",
-    surfaceLight: "#f5f3ff",
-    surfaceDark: "#2e1065",
-    textLight: "#5b21b6",
-    textDark: "#c4b5fd",
-    border: "#ddd6fe",
-  },
-  editor: {
-    primary: "#2563eb",
-    surfaceLight: "#eff6ff",
-    surfaceDark: "#172554",
-    textLight: "#1d4ed8",
-    textDark: "#93c5fd",
-    border: "#bfdbfe",
-  },
-  moderator: {
-    primary: "#d97706",
-    surfaceLight: "#fffbeb",
-    surfaceDark: "#451a03",
-    textLight: "#b45309",
-    textDark: "#fcd34d",
-    border: "#fde68a",
-  },
-  viewer: {
-    primary: "#059669",
-    surfaceLight: "#ecfdf5",
-    surfaceDark: "#022c22",
-    textLight: "#047857",
-    textDark: "#6ee7b7",
-    border: "#a7f3d0",
-  },
-  support: {
-    primary: "#0891b2",
-    surfaceLight: "#ecfeff",
-    surfaceDark: "#083344",
-    textLight: "#0e7490",
-    textDark: "#67e8f9",
-    border: "#a5f3fc",
-  },
-  guest: {
-    primary: "#6b7280",
-    surfaceLight: "#f9fafb",
-    surfaceDark: "#1f2937",
-    textLight: "#4b5563",
-    textDark: "#d1d5db",
-    border: "#e5e7eb",
-  },
-};
+const ROLE_COLOR_PRESETS: Record<SidebarRolePreset, SidebarCustomColorScheme> =
+  {
+    admin: {
+      primary: "#dc2626",
+      surfaceLight: "#fef2f2",
+      surfaceDark: "#450a0a",
+      textLight: "#991b1b",
+      textDark: "#fca5a5",
+      border: "#fecaca",
+    },
+    owner: {
+      primary: "#7c3aed",
+      surfaceLight: "#f5f3ff",
+      surfaceDark: "#2e1065",
+      textLight: "#5b21b6",
+      textDark: "#c4b5fd",
+      border: "#ddd6fe",
+    },
+    editor: {
+      primary: "#2563eb",
+      surfaceLight: "#eff6ff",
+      surfaceDark: "#172554",
+      textLight: "#1d4ed8",
+      textDark: "#93c5fd",
+      border: "#bfdbfe",
+    },
+    moderator: {
+      primary: "#d97706",
+      surfaceLight: "#fffbeb",
+      surfaceDark: "#451a03",
+      textLight: "#b45309",
+      textDark: "#fcd34d",
+      border: "#fde68a",
+    },
+    viewer: {
+      primary: "#059669",
+      surfaceLight: "#ecfdf5",
+      surfaceDark: "#022c22",
+      textLight: "#047857",
+      textDark: "#6ee7b7",
+      border: "#a7f3d0",
+    },
+    support: {
+      primary: "#0891b2",
+      surfaceLight: "#ecfeff",
+      surfaceDark: "#083344",
+      textLight: "#0e7490",
+      textDark: "#67e8f9",
+      border: "#a5f3fc",
+    },
+    guest: {
+      primary: "#6b7280",
+      surfaceLight: "#f9fafb",
+      surfaceDark: "#1f2937",
+      textLight: "#4b5563",
+      textDark: "#d1d5db",
+      border: "#e5e7eb",
+    },
+  };
 
 /** Resolves a colorScheme to a concrete color object */
 function resolveColorScheme(
@@ -266,7 +274,10 @@ export function Sidebar({
   className = "",
   style,
 }: SidebarProps) {
-  const resolvedColors = useMemo(() => resolveColorScheme(colorScheme), [colorScheme]);
+  const resolvedColors = useMemo(
+    () => resolveColorScheme(colorScheme),
+    [colorScheme],
+  );
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -298,18 +309,20 @@ export function Sidebar({
   const isCollapsed = controlledCollapsed ?? internalCollapsed;
 
   // Track expanded state for nested accordion items
-  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(() => {
-    if (!items) return {};
-    const initial: Record<string, boolean> = {};
-    const initRecursive = (itemList: SidebarItemData[]) => {
-      itemList.forEach((it) => {
-        if (it.defaultExpanded) initial[it.id] = true;
-        if (it.children) initRecursive(it.children);
-      });
-    };
-    initRecursive(items);
-    return initial;
-  });
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
+    () => {
+      if (!items) return {};
+      const initial: Record<string, boolean> = {};
+      const initRecursive = (itemList: SidebarItemData[]) => {
+        itemList.forEach((it) => {
+          if (it.defaultExpanded) initial[it.id] = true;
+          if (it.children) initRecursive(it.children);
+        });
+      };
+      initRecursive(items);
+      return initial;
+    },
+  );
 
   const toggleItemExpand = (id: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -378,9 +391,11 @@ export function Sidebar({
     colorSchemeVars["--gy-sidebar-brand"] = resolvedColors.primary;
     colorSchemeVars["--gy-sidebar-cs-primary"] = resolvedColors.primary;
     if (resolvedColors.surfaceLight)
-      colorSchemeVars["--gy-sidebar-cs-surface-light"] = resolvedColors.surfaceLight;
+      colorSchemeVars["--gy-sidebar-cs-surface-light"] =
+        resolvedColors.surfaceLight;
     if (resolvedColors.surfaceDark)
-      colorSchemeVars["--gy-sidebar-cs-surface-dark"] = resolvedColors.surfaceDark;
+      colorSchemeVars["--gy-sidebar-cs-surface-dark"] =
+        resolvedColors.surfaceDark;
     if (resolvedColors.textLight)
       colorSchemeVars["--gy-sidebar-cs-text-light"] = resolvedColors.textLight;
     if (resolvedColors.textDark)
@@ -391,7 +406,7 @@ export function Sidebar({
 
   const customAccentStyle: React.CSSProperties = {
     ...(accentColor && !resolvedColors
-      ? ({ "--gy-sidebar-accent": accentColor } as any)
+      ? ({ "--gy-sidebar-accent": accentColor } as React.CSSProperties)
       : {}),
     ...colorSchemeVars,
     width: resolvedWidth,
@@ -410,7 +425,6 @@ export function Sidebar({
     const isDirectActive = activeItemId === item.id;
     const isChildActive =
       hasChildren && item.children!.some((c) => c.id === activeItemId);
-    const isActive = isDirectActive || isChildActive;
 
     const itemButton = (
       <button
@@ -421,7 +435,9 @@ export function Sidebar({
           "gy-sidebar-item",
           level > 0 ? "gy-sidebar-item--nested" : "",
           isDirectActive ? "gy-sidebar-item--active" : "",
-          isChildActive && !isDirectActive ? "gy-sidebar-item--child-active" : "",
+          isChildActive && !isDirectActive
+            ? "gy-sidebar-item--child-active"
+            : "",
           item.disabled ? "gy-sidebar-item--disabled" : "",
         ]
           .filter(Boolean)
@@ -436,17 +452,19 @@ export function Sidebar({
           }
         }}
       >
-        {item.icon && (
-          <span className="gy-sidebar-item-icon">{item.icon}</span>
-        )}
+        {item.icon && <span className="gy-sidebar-item-icon">{item.icon}</span>}
         {isCollapsed && item.badge && (
           <span
             className={`gy-sidebar-item-badge-dot gy-sidebar-item-badge-dot--${item.badgeColor ?? "danger"}`}
-            aria-label={typeof item.badge === "string" ? item.badge : "Notification"}
+            aria-label={
+              typeof item.badge === "string" ? item.badge : "Notification"
+            }
           />
         )}
         {!isCollapsed && (
-          <span className="gy-sidebar-item-label">{item.label}</span>
+          <Typography variant="span" className="gy-sidebar-item-label">
+            {item.label}
+          </Typography>
         )}
         {!isCollapsed && item.badge && (
           <span
@@ -541,13 +559,18 @@ export function Sidebar({
           {groupedItems &&
             Object.entries(groupedItems).map(([group, groupItems], idx) => (
               <div key={group} className="gy-sidebar-group">
-                {group !== "__default__" && (
-                  isCollapsed ? (
+                {group !== "__default__" &&
+                  (isCollapsed ? (
                     idx > 0 && <div className="gy-sidebar-group-divider" />
                   ) : (
-                    <div className="gy-sidebar-group-title">{group}</div>
-                  )
-                )}
+                    <Typography
+                      variant="span"
+                      as="div"
+                      className="gy-sidebar-group-title"
+                    >
+                      {group}
+                    </Typography>
+                  ))}
                 {groupItems.map((item) => renderItem(item, 0))}
               </div>
             ))}
@@ -568,9 +591,7 @@ export function SidebarHeader({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <div className={`gy-sidebar-header ${className}`}>{children}</div>
-  );
+  return <div className={`gy-sidebar-header ${className}`}>{children}</div>;
 }
 
 export function SidebarLogo({
@@ -614,9 +635,7 @@ export function SidebarFooter({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <div className={`gy-sidebar-footer ${className}`}>{children}</div>
-  );
+  return <div className={`gy-sidebar-footer ${className}`}>{children}</div>;
 }
 
 export function SidebarGroup({
@@ -632,7 +651,9 @@ export function SidebarGroup({
   return (
     <div className={`gy-sidebar-group ${className}`}>
       {title && !isCollapsed && (
-        <div className="gy-sidebar-group-title">{title}</div>
+        <Typography variant="span" as="div" className="gy-sidebar-group-title">
+          {title}
+        </Typography>
       )}
       {children}
     </div>
@@ -661,7 +682,7 @@ export function SidebarItem({
   className?: string;
 }) {
   const { isCollapsed, activeItemId, onItemClick, position } = useSidebar();
-  const isSelected = active ?? (activeItemId === id);
+  const isSelected = active ?? activeItemId === id;
 
   const btn = (
     <button
@@ -690,7 +711,9 @@ export function SidebarItem({
         />
       )}
       {!isCollapsed && (
-        <span className="gy-sidebar-item-label">{label}</span>
+        <Typography variant="span" className="gy-sidebar-item-label">
+          {label}
+        </Typography>
       )}
       {!isCollapsed && badge && (
         <span

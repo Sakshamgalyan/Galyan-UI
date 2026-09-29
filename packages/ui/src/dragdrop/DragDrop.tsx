@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import "./dragdrop.css";
+import { Typography } from "../typography";
 
 // ── Reorderable List ────────────────────────────────────────────────────────
 export interface ReorderListProps<T> {
@@ -164,7 +165,9 @@ export function KanbanBoard<T>({
         return;
       }
       onMove(data.key, data.colId, toCol, toIndex);
-    } catch (err) {}
+    } catch {
+      // Ignore drops whose payload is not valid JSON (e.g. from outside the board)
+    }
     setDragged(null);
   };
 
@@ -173,8 +176,12 @@ export function KanbanBoard<T>({
       {columns.map((col) => (
         <div key={col.id} className="gy-kanban-column">
           <div className="gy-kanban-column-header">
-            <span className="gy-kanban-column-title">{col.title}</span>
-            <span className="gy-kanban-column-count">{col.items.length}</span>
+            <Typography variant="span" className="gy-kanban-column-title">
+              {col.title}
+            </Typography>
+            <Typography variant="span" className="gy-kanban-column-count">
+              {col.items.length}
+            </Typography>
           </div>
           <div
             className={`gy-kanban-drop-zone ${overCol === col.id ? "gy-kanban-drop-zone--over" : ""}`}

@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import "./chips.css";
+import { Typography } from "../typography";
 
 export type ChipVariant =
   | "solid"
@@ -70,7 +71,9 @@ export function Chip({
           {icon}
         </span>
       )}
-      <span className="gy-chip__label">{children}</span>
+      <Typography variant="span" className="gy-chip__label">
+        {children}
+      </Typography>
       {removable && (
         <button
           type="button"

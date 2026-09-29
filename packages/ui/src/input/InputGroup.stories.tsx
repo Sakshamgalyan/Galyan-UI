@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { InputGroup, DropdownGroup } from "./InputGroup";
+import {
+  InputGroup,
+  DropdownGroup,
+  type InputGroupVariant,
+} from "./InputGroup";
 import { Input } from "./Input";
 import { Button } from "../button/Button";
 import { Dropdown } from "../dropdown/Dropdown";
@@ -22,6 +26,10 @@ const meta: Meta<typeof InputGroup> = {
   ],
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
+    variant: {
+      control: "select",
+      options: ["default", "filled", "glassmorphic"],
+    },
     fullWidth: { control: "boolean" },
     leftAddon: { control: "text" },
     rightAddon: { control: "text" },
@@ -35,6 +43,7 @@ export const Default: Story = {
   args: {
     label: "Website Domain",
     size: "md",
+    variant: "default",
     fullWidth: true,
     leftAddon: "https://",
     rightAddon: ".com",
@@ -48,7 +57,7 @@ export const Default: Story = {
 };
 
 export const PhoneCodeDropdownGroup: Story = {
-  render: () => {
+  render: function Render() {
     const [countryCode, setCountryCode] = useState("+1");
     const [phone, setPhone] = useState("");
 
@@ -80,8 +89,170 @@ export const PhoneCodeDropdownGroup: Story = {
   },
 };
 
+export const FilledDropdownGroup: Story = {
+  render: function Render() {
+    const [countryCode, setCountryCode] = useState("+91");
+    const [phone, setPhone] = useState("");
+
+    return (
+      <DropdownGroup
+        label="Phone Number (Filled Variant)"
+        variant="filled"
+        dropdownPosition="left"
+        dropdown={
+          <Dropdown
+            options={[
+              { value: "+1", label: "🇺🇸 +1" },
+              { value: "+44", label: "🇬🇧 +44" },
+              { value: "+91", label: "🇮🇳 +91" },
+              { value: "+49", label: "🇩🇪 +49" },
+            ]}
+            value={countryCode}
+            onChange={setCountryCode}
+          />
+        }
+        helperText="Dropdown and input automatically inherit the filled variant"
+      >
+        <Input
+          placeholder="(555) 000-0000"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </DropdownGroup>
+    );
+  },
+};
+
+export const GlassmorphicDropdownGroup: Story = {
+  render: function Render() {
+    const [currency, setCurrency] = useState("USD");
+    const [amount, setAmount] = useState("2500");
+
+    return (
+      <div
+        style={{
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          padding: "2rem",
+          borderRadius: "1rem",
+        }}
+      >
+        <DropdownGroup
+          label={
+            <span style={{ color: "#ffffff", fontWeight: 600 }}>
+              Payment Amount (Glassmorphic)
+            </span>
+          }
+          variant="glassmorphic"
+          dropdownPosition="right"
+          leftAddon={
+            <span style={{ color: "#ffffff", fontWeight: 600 }}>$</span>
+          }
+          dropdown={
+            <Dropdown
+              options={[
+                { value: "USD", label: "USD" },
+                { value: "EUR", label: "EUR" },
+                { value: "GBP", label: "GBP" },
+              ]}
+              value={currency}
+              onChange={setCurrency}
+            />
+          }
+          helperText="Glassmorphic theme adapts both dropdown and inputs"
+        >
+          <Input
+            placeholder="0.00"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            style={{ color: "#ffffff" }}
+          />
+        </DropdownGroup>
+      </div>
+    );
+  },
+};
+
+export const InteractiveVariantSwitcher: Story = {
+  render: function Render() {
+    const [variant, setVariant] = useState<InputGroupVariant>("default");
+    const [category, setCategory] = useState("docs");
+    const [query, setQuery] = useState("");
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <span
+            style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#64748b" }}
+          >
+            Select Variant:
+          </span>
+          {(["default", "filled", "glassmorphic"] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setVariant(v)}
+              style={{
+                padding: "4px 12px",
+                borderRadius: "6px",
+                border: "1px solid",
+                borderColor: variant === v ? "#3b82f6" : "#cbd5e1",
+                background: variant === v ? "#3b82f6" : "#ffffff",
+                color: variant === v ? "#ffffff" : "#0f172a",
+                cursor: "pointer",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                textTransform: "capitalize",
+              }}
+            >
+              {v}
+            </button>
+          ))}
+        </div>
+
+        <div
+          style={{
+            padding: variant === "glassmorphic" ? "1.5rem" : "0",
+            borderRadius: "1rem",
+            background:
+              variant === "glassmorphic"
+                ? "linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)"
+                : "transparent",
+            transition: "all 0.3s ease",
+          }}
+        >
+          <DropdownGroup
+            label={`Search Knowledgebase (${variant} variant)`}
+            variant={variant}
+            dropdownPosition="left"
+            dropdown={
+              <Dropdown
+                options={[
+                  { value: "all", label: "All Items" },
+                  { value: "docs", label: "Documentation" },
+                  { value: "components", label: "Components" },
+                  { value: "articles", label: "Articles" },
+                ]}
+                value={category}
+                onChange={setCategory}
+              />
+            }
+            helperText={`Changing the group's variant automatically updates the Dropdown to "${variant}"`}
+          >
+            <Input
+              placeholder="Search docs, APIs, tokens..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </DropdownGroup>
+        </div>
+      </div>
+    );
+  },
+};
+
 export const CurrencyAmountDropdownGroup: Story = {
-  render: () => {
+  render: function Render() {
     const [currency, setCurrency] = useState("USD");
     const [amount, setAmount] = useState("1500");
 
@@ -117,7 +288,7 @@ export const CurrencyAmountDropdownGroup: Story = {
 };
 
 export const SearchCategoryDropdownGroup: Story = {
-  render: () => {
+  render: function Render() {
     const [category, setCategory] = useState("all");
     const [query, setQuery] = useState("");
 
@@ -163,7 +334,7 @@ export const WithButtonAddon: Story = {
     size: "md",
     fullWidth: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [email, setEmail] = useState("");
     return (
       <InputGroup

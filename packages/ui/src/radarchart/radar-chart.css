@@ -34,6 +34,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: gy-radarchart-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gy-radarchart-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Smooth Polygons & Grid Transitions ──────────────────────────────────── */
+.recharts-polar-grid {
+  animation: gy-radarchart-grid-enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: center;
+}
+
+@keyframes gy-radarchart-grid-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.recharts-radar-polygon {
+  transition:
+    fill-opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    stroke-width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    stroke 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.recharts-radar-dots circle {
+  transition:
+    r 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    fill 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Custom Tooltip ──────────────────────────────────────────────────────── */
@@ -130,6 +172,19 @@
   gap: 8px;
   padding-top: 10px;
   width: 100%;
+  animation: gy-radarchart-legend-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.15s;
+}
+
+@keyframes gy-radarchart-legend-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-radarchart-legend-item {
@@ -196,4 +251,19 @@
 .gy-radarchart.gy-radarchart--compact .gy-radarchart-legend-item {
   padding: 3px 8px;
   font-size: 0.6875rem;
+}
+
+/* ── Accessibility / Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gy-radarchart-chart-wrapper,
+  .recharts-polar-grid,
+  .gy-radarchart-legend,
+  .gy-radarchart-tooltip {
+    animation: none !important;
+    transition: none !important;
+  }
+  .recharts-radar-polygon,
+  .recharts-radar-dots circle {
+    transition: none !important;
+  }
 }

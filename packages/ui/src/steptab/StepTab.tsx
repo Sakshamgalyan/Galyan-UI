@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import "./steptab.css";
+import { Typography } from "../typography";
 
 export type StepTabSize = "sm" | "md" | "lg";
 
@@ -53,7 +54,8 @@ export function StepTab({
     onStepChange?.(id);
   };
 
-  const variantClass = variant && variant !== "default" ? `gy-steptab-timeline--${variant}` : "";
+  const variantClass =
+    variant && variant !== "default" ? `gy-steptab-timeline--${variant}` : "";
 
   const rootClasses = [
     "gy-steptab-timeline",
@@ -95,23 +97,35 @@ export function StepTab({
                       handleSelect(item.id);
                   }}
                 >
-                  <div className="gy-steptab-timeline__card-title">
+                  <Typography
+                    variant="span"
+                    as="div"
+                    className="gy-steptab-timeline__card-title"
+                  >
                     {item.title}
-                  </div>
+                  </Typography>
 
                   {item.timestamp && !isActive && (
-                    <div className="gy-steptab-timeline__card-time">
+                    <Typography
+                      variant="span"
+                      as="div"
+                      className="gy-steptab-timeline__card-time"
+                    >
                       {item.timestamp}
-                    </div>
+                    </Typography>
                   )}
 
                   {/* Expanded Content / Details inside active card */}
                   {isActive && (
                     <div className="gy-steptab-timeline__card-body">
                       {item.description && (
-                        <div className="gy-steptab-timeline__card-desc">
+                        <Typography
+                          variant="span"
+                          as="div"
+                          className="gy-steptab-timeline__card-desc"
+                        >
                           {item.description}
-                        </div>
+                        </Typography>
                       )}
 
                       {item.details && item.details.length > 0 && (
@@ -121,12 +135,18 @@ export function StepTab({
                               key={idx}
                               className="gy-steptab-timeline__detail-row"
                             >
-                              <span className="gy-steptab-timeline__detail-label">
+                              <Typography
+                                variant="span"
+                                className="gy-steptab-timeline__detail-label"
+                              >
                                 {detail.label}:
-                              </span>
-                              <span className="gy-steptab-timeline__detail-value">
+                              </Typography>
+                              <Typography
+                                variant="span"
+                                className="gy-steptab-timeline__detail-value"
+                              >
                                 {detail.value}
-                              </span>
+                              </Typography>
                             </div>
                           ))}
                         </div>
@@ -135,9 +155,13 @@ export function StepTab({
                       {item.content}
 
                       {item.timestamp && (
-                        <div className="gy-steptab-timeline__card-time gy-steptab-timeline__card-time--bottom">
+                        <Typography
+                          variant="span"
+                          as="div"
+                          className="gy-steptab-timeline__card-time gy-steptab-timeline__card-time--bottom"
+                        >
                           {item.timestamp}
-                        </div>
+                        </Typography>
                       )}
                     </div>
                   )}

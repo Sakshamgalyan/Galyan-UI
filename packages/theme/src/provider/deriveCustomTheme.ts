@@ -139,7 +139,7 @@ const LIGHTNESS_MAP: Record<number, number> = {
 };
 
 function generateRamp(hex: string): Record<number, string> {
-  const [h, s, l] = hexToHsl(hex);
+  const [h, s] = hexToHsl(hex);
   const ramp: Record<number, string> = {};
 
   for (const [step, targetL] of Object.entries(LIGHTNESS_MAP)) {

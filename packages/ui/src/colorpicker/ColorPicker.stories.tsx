@@ -121,7 +121,9 @@ export const WithAlpha: Story = {
     helperText: "Supports 8-digit HEX and RGBA alpha transparency",
   },
   render: function Render(args) {
-    const [color, setColor] = useState(args.defaultValue || "rgba(82, 35, 188, 0.75)");
+    const [color, setColor] = useState(
+      args.defaultValue || "rgba(82, 35, 188, 0.75)",
+    );
     return (
       <div style={{ width: 280 }}>
         <ColorPicker
@@ -149,24 +151,14 @@ export const Sizes: Story = {
           width: 280,
         }}
       >
-        <ColorPicker
-          size="sm"
-          label="Small (sm)"
-          value={c1}
-          onChange={setC1}
-        />
+        <ColorPicker size="sm" label="Small (sm)" value={c1} onChange={setC1} />
         <ColorPicker
           size="md"
           label="Medium (md)"
           value={c2}
           onChange={setC2}
         />
-        <ColorPicker
-          size="lg"
-          label="Large (lg)"
-          value={c3}
-          onChange={setC3}
-        />
+        <ColorPicker size="lg" label="Large (lg)" value={c3} onChange={setC3} />
       </div>
     );
   },

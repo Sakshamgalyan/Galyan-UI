@@ -33,6 +33,18 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  animation: gy-gauge-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gy-gauge-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .gy-gauge-svg {
@@ -51,8 +63,16 @@
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
 }
 
+.gy-gauge-needle-group {
+  will-change: transform;
+}
+
 .gy-gauge-needle-line {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: stroke 0.3s ease;
+}
+
+.gy-gauge-needle-pin {
+  transition: fill 0.3s ease;
 }
 
 /* ── Value & Status Text ─────────────────────────────────────────────────── */
@@ -63,6 +83,7 @@
   user-select: none;
   font-variant-numeric: tabular-nums;
   font-family: inherit;
+  transition: fill 0.2s ease;
 }
 
 .gy-gauge-value-subtext {
@@ -72,6 +93,7 @@
   letter-spacing: 0.05em;
   user-select: none;
   font-family: inherit;
+  transition: fill 0.3s ease;
 }
 
 /* ── Hitbox Overlay ──────────────────────────────────────────────────────── */
@@ -150,6 +172,19 @@
   gap: 6px;
   width: 100%;
   flex-shrink: 0;
+  animation: gy-gauge-legend-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.15s;
+}
+
+@keyframes gy-gauge-legend-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-gauge-legend-item {
@@ -221,4 +256,16 @@
 
 .gy-gaugechart-wrapper.gy-gaugechart--compact .gy-gauge-legend-range {
   display: none;
+}
+
+/* ── Accessibility / Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gy-gauge-svg-container,
+  .gy-gauge-needle-group,
+  .gy-gauge-needle-line,
+  .gy-gauge-segment-path,
+  .gy-gauge-legend {
+    animation: none !important;
+    transition: none !important;
+  }
 }

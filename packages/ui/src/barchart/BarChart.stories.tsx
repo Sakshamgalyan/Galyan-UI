@@ -58,11 +58,13 @@ const meta: Meta<typeof BarChart> = {
     },
     truncateCharacterAfter: {
       control: "number",
-      description: "Maximum character length before truncating labels with ellipsis.",
+      description:
+        "Maximum character length before truncating labels with ellipsis.",
     },
     responsive: {
       control: "boolean",
-      description: "Whether to automatically adjust bar sizes for mobile viewports.",
+      description:
+        "Whether to automatically adjust bar sizes for mobile viewports.",
     },
   },
 } satisfies Meta<typeof BarChart>;
@@ -109,7 +111,12 @@ const NetbankingBadge = () => (
       <circle cx="12" cy="5" r="2.8" stroke="#4C1D95" strokeWidth="1.8" />
       <circle cx="5" cy="18" r="2.8" stroke="#4C1D95" strokeWidth="1.8" />
       <circle cx="19" cy="18" r="2.8" stroke="#4C1D95" strokeWidth="1.8" />
-      <path d="M12 8v3.5m-5 3.5l3-2.5m4 0l3 2.5" stroke="#6D28D9" strokeWidth="1.6" strokeLinecap="round" />
+      <path
+        d="M12 8v3.5m-5 3.5l3-2.5m4 0l3 2.5"
+        stroke="#6D28D9"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
       <circle cx="12" cy="12.5" r="1.5" fill="#7C3AED" />
     </svg>
   </div>
@@ -130,10 +137,31 @@ const UpiBadge = () => (
     }}
   >
     <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <span style={{ fontSize: "9px", fontWeight: 800, color: "#475569", letterSpacing: "-0.5px" }}>UPI</span>
+      <span
+        style={{
+          fontSize: "9px",
+          fontWeight: 800,
+          color: "#475569",
+          letterSpacing: "-0.5px",
+        }}
+      >
+        UPI
+      </span>
       <svg width="7" height="10" viewBox="0 0 8 12" fill="none">
-        <path d="M1 1L7 6L1 11" stroke="#F97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M4 3.5L7 6L4 8.5" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M1 1L7 6L1 11"
+          stroke="#F97316"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M4 3.5L7 6L4 8.5"
+          stroke="#10B981"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   </div>
@@ -153,7 +181,14 @@ const QrisBadge = () => (
       boxShadow: "0 1px 3px rgba(3, 105, 161, 0.08)",
     }}
   >
-    <span style={{ fontSize: "11px", fontWeight: 800, color: "#0c4a6e", letterSpacing: "0.5px" }}>
+    <span
+      style={{
+        fontSize: "11px",
+        fontWeight: 800,
+        color: "#0c4a6e",
+        letterSpacing: "0.5px",
+      }}
+    >
       QR
     </span>
   </div>
@@ -464,9 +499,21 @@ export const CylindricalTruncatedLabels: Story = {
   args: {
     variant: "cylindrical",
     data: [
-      { label: "North America Operations", value: 85, icon: createIcon("#ffffff") },
-      { label: "European Union Headquarters", value: 62, icon: createIcon("#ffffff") },
-      { label: "Asia-Pacific Emerging", value: 78, icon: createIcon("#ffffff") },
+      {
+        label: "North America Operations",
+        value: 85,
+        icon: createIcon("#ffffff"),
+      },
+      {
+        label: "European Union Headquarters",
+        value: 62,
+        icon: createIcon("#ffffff"),
+      },
+      {
+        label: "Asia-Pacific Emerging",
+        value: 78,
+        icon: createIcon("#ffffff"),
+      },
       { label: "Latin America Hub", value: 43, icon: createIcon("#ffffff") },
       { label: "Middle East Division", value: 51, icon: createIcon("#ffffff") },
     ],
@@ -591,9 +638,17 @@ export const DashboardCardPreview: Story = {
           gap: "1rem",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div>
-            <div style={{ fontWeight: 700, fontSize: "1rem", color: "#0f172a" }}>
+            <div
+              style={{ fontWeight: 700, fontSize: "1rem", color: "#0f172a" }}
+            >
               Payment Methods Breakdown
             </div>
             <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
@@ -631,4 +686,3 @@ export const DashboardCardPreview: Story = {
     );
   },
 };
-

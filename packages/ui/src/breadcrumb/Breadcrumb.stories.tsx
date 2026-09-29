@@ -142,7 +142,7 @@ export const WithBackButtonAndLabel: Story = {
 };
 
 export const InteractiveCurrentPath: Story = {
-  render: () => {
+  render: function Render() {
     const [path, setPath] = useState<string[]>([
       "Home",
       "Reconciliation",
@@ -168,7 +168,8 @@ export const InteractiveCurrentPath: Story = {
             padding: "0.75rem 1rem",
             borderRadius: "var(--gy-radius-md, 0.375rem)",
             border: "1.5px solid var(--gy-primary, #6366f1)",
-            background: "color-mix(in srgb, var(--gy-primary, #6366f1) 5%, transparent)",
+            background:
+              "color-mix(in srgb, var(--gy-primary, #6366f1) 5%, transparent)",
             fontSize: "0.875rem",
             color: "var(--gy-text, #0f172a)",
           }}

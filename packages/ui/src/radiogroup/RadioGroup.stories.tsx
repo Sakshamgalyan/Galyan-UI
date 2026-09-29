@@ -46,7 +46,7 @@ export const Default: Story = {
     isRequired: false,
     isDisabled: false,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState("pro");
     return (
       <RadioGroup {...args} options={options} value={val} onChange={setVal} />
@@ -55,7 +55,7 @@ export const Default: Story = {
 };
 
 export const Horizontal: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("free");
     return (
       <RadioGroup

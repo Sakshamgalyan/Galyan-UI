@@ -49,7 +49,7 @@ function ToasterDemoInner() {
     toast.promise(fakeAsyncJob, {
       loading: "Uploading and compiling assets...",
       success: (data) => `Compiled successfully! Build ID: ${data.id}`,
-      error: (err) => `Upload failed: ${err.message}`,
+      error: (err) => `Upload failed: ${err instanceof Error ? err.message : String(err)}`,
     });
   };
 
@@ -294,33 +294,171 @@ export const AllVariantsShowcase: Story = {
       const { toast, dismissAll } = useToast();
 
       return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", maxWidth: 640 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.5rem",
+            maxWidth: 640,
+          }}
+        >
           <div>
-            <h4 style={{ margin: "0 0 0.5rem 0", fontWeight: 600 }}>Semantic Status Variants</h4>
+            <h4 style={{ margin: "0 0 0.5rem 0", fontWeight: 600 }}>
+              Semantic Status Variants
+            </h4>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <Button size="sm" variant="success" onClick={() => toast.success("Success Toast", { description: "Operation completed smoothly." })}>Success</Button>
-              <Button size="sm" variant="danger" onClick={() => toast.error("Error Toast", { description: "Something went wrong." })}>Error</Button>
-              <Button size="sm" variant="warning" onClick={() => toast.warning("Warning Toast", { description: "Please review before continuing." })}>Warning</Button>
-              <Button size="sm" variant="primary" onClick={() => toast.info("Info Toast", { description: "Helpful tip or informational message." })}>Info</Button>
-              <Button size="sm" variant="primary" onClick={() => toast.primary("Primary Toast", { description: "High-priority brand notification." })}>Primary</Button>
-              <Button size="sm" variant="secondary" onClick={() => toast.secondary("Secondary Toast", { description: "Low-key secondary status." })}>Secondary</Button>
-              <Button size="sm" variant="outline" onClick={() => toast.neutral("Neutral Toast", { description: "Clean general purpose notification." })}>Neutral</Button>
+              <Button
+                size="sm"
+                variant="success"
+                onClick={() =>
+                  toast.success("Success Toast", {
+                    description: "Operation completed smoothly.",
+                  })
+                }
+              >
+                Success
+              </Button>
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() =>
+                  toast.error("Error Toast", {
+                    description: "Something went wrong.",
+                  })
+                }
+              >
+                Error
+              </Button>
+              <Button
+                size="sm"
+                variant="warning"
+                onClick={() =>
+                  toast.warning("Warning Toast", {
+                    description: "Please review before continuing.",
+                  })
+                }
+              >
+                Warning
+              </Button>
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() =>
+                  toast.info("Info Toast", {
+                    description: "Helpful tip or informational message.",
+                  })
+                }
+              >
+                Info
+              </Button>
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() =>
+                  toast.primary("Primary Toast", {
+                    description: "High-priority brand notification.",
+                  })
+                }
+              >
+                Primary
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() =>
+                  toast.secondary("Secondary Toast", {
+                    description: "Low-key secondary status.",
+                  })
+                }
+              >
+                Secondary
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  toast.neutral("Neutral Toast", {
+                    description: "Clean general purpose notification.",
+                  })
+                }
+              >
+                Neutral
+              </Button>
             </div>
           </div>
 
           <div>
-            <h4 style={{ margin: "0 0 0.5rem 0", fontWeight: 600 }}>Visual Style Variants</h4>
+            <h4 style={{ margin: "0 0 0.5rem 0", fontWeight: 600 }}>
+              Visual Style Variants
+            </h4>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <Button size="sm" variant="glassmorphic" onClick={() => toast.glassmorphic("Glassmorphic Toast", { description: "Frosted blur glass backdrop with luminous edge." })}>Glassmorphic</Button>
-              <Button size="sm" variant="solid" onClick={() => toast.solid("Solid Toast", { variant: "success", description: "Bold full-bleed saturated background." })}>Solid (Success)</Button>
-              <Button size="sm" variant="danger" onClick={() => toast.solid("Solid Danger", { variant: "error", description: "High impact critical notice." })}>Solid (Danger)</Button>
-              <Button size="sm" variant="outline" onClick={() => toast.outline("Outline Toast", { variant: "primary", description: "Crisp colored border without tinted background." })}>Outline</Button>
-              <Button size="sm" variant="ghost" onClick={() => toast.minimal("Minimal Toast", { description: "Ultra clean card without accent bar." })}>Minimal</Button>
+              <Button
+                size="sm"
+                variant="glassmorphic"
+                onClick={() =>
+                  toast.glassmorphic("Glassmorphic Toast", {
+                    description:
+                      "Frosted blur glass backdrop with luminous edge.",
+                  })
+                }
+              >
+                Glassmorphic
+              </Button>
+              <Button
+                size="sm"
+                variant="solid"
+                onClick={() =>
+                  toast.solid("Solid Toast", {
+                    variant: "success",
+                    description: "Bold full-bleed saturated background.",
+                  })
+                }
+              >
+                Solid (Success)
+              </Button>
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() =>
+                  toast.solid("Solid Danger", {
+                    variant: "error",
+                    description: "High impact critical notice.",
+                  })
+                }
+              >
+                Solid (Danger)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  toast.outline("Outline Toast", {
+                    variant: "primary",
+                    description:
+                      "Crisp colored border without tinted background.",
+                  })
+                }
+              >
+                Outline
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() =>
+                  toast.minimal("Minimal Toast", {
+                    description: "Ultra clean card without accent bar.",
+                  })
+                }
+              >
+                Minimal
+              </Button>
             </div>
           </div>
 
           <div style={{ paddingTop: "0.5rem" }}>
-            <Button size="sm" variant="danger-soft" onClick={dismissAll}>Clear All</Button>
+            <Button size="sm" variant="danger-soft" onClick={dismissAll}>
+              Clear All
+            </Button>
           </div>
         </div>
       );
@@ -343,7 +481,8 @@ export const GlassmorphicToastShowcase: Story = {
         <div
           style={{
             padding: "2.5rem",
-            background: "linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)",
+            background:
+              "linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)",
             borderRadius: "1rem",
             color: "#ffffff",
             display: "flex",
@@ -352,9 +491,20 @@ export const GlassmorphicToastShowcase: Story = {
             gap: "1rem",
           }}
         >
-          <h4 style={{ margin: 0, fontWeight: 700 }}>Glassmorphic Toast Theme</h4>
-          <p style={{ margin: 0, opacity: 0.9, fontSize: "0.875rem", textAlign: "center", maxWidth: 380 }}>
-            Click to trigger frosted glass toasts that look stunning over vibrant or photo backgrounds.
+          <h4 style={{ margin: 0, fontWeight: 700 }}>
+            Glassmorphic Toast Theme
+          </h4>
+          <p
+            style={{
+              margin: 0,
+              opacity: 0.9,
+              fontSize: "0.875rem",
+              textAlign: "center",
+              maxWidth: 380,
+            }}
+          >
+            Click to trigger frosted glass toasts that look stunning over
+            vibrant or photo backgrounds.
           </p>
           <Button
             variant="glassmorphic"
@@ -377,4 +527,3 @@ export const GlassmorphicToastShowcase: Story = {
     );
   },
 };
-

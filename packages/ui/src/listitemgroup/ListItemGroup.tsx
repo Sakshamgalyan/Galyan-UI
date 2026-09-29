@@ -2,8 +2,13 @@
 
 import React, { createContext, useContext } from "react";
 import "./list-item-group.css";
+import { Typography } from "../typography";
 
-export type ListItemSelectedVariant = "accent-bar" | "subtle" | "pill" | "outline";
+export type ListItemSelectedVariant =
+  | "accent-bar"
+  | "subtle"
+  | "pill"
+  | "outline";
 export type ListItemGroupSize = "sm" | "md" | "lg";
 
 export interface ListItemData {
@@ -18,7 +23,7 @@ export interface ListItemData {
   disabled?: boolean;
   color?: string;
   onClick?: () => void;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ListItemGroupContextValue {
@@ -30,7 +35,9 @@ interface ListItemGroupContextValue {
   multiple?: boolean;
 }
 
-const ListItemGroupContext = createContext<ListItemGroupContextValue | null>(null);
+const ListItemGroupContext = createContext<ListItemGroupContextValue | null>(
+  null,
+);
 
 export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string | number;
@@ -71,7 +78,7 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       onClick,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useContext(ListItemGroupContext);
 
@@ -84,7 +91,8 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       return context.selectedValue === value;
     })();
 
-    const effectiveVariant = selectedVariant ?? context?.selectedVariant ?? "accent-bar";
+    const effectiveVariant =
+      selectedVariant ?? context?.selectedVariant ?? "accent-bar";
     const effectiveSize = size ?? context?.size ?? "md";
     const effectiveAccent = accentColor ?? context?.accentColor;
 
@@ -130,7 +138,8 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
           if (disabled) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleClick(e as any);
+            // Dispatch a real click so onClick receives a proper MouseEvent
+            e.currentTarget.click();
           }
         }}
         {...props}
@@ -147,7 +156,13 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
         <div className="gy-list-item-content">
           <div className="gy-list-item-label">{children ?? label}</div>
           {description && (
-            <div className="gy-list-item-description">{description}</div>
+            <Typography
+              variant="span"
+              as="div"
+              className="gy-list-item-description"
+            >
+              {description}
+            </Typography>
           )}
         </div>
 
@@ -161,21 +176,30 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
             />
           )}
           {badge && <span className="gy-list-item-badge">{badge}</span>}
-          {suffix && <span className="gy-list-item-suffix">{suffix}</span>}
+          {suffix && (
+            <Typography variant="span" className="gy-list-item-suffix">
+              {suffix}
+            </Typography>
+          )}
         </div>
       </div>
     );
-  }
+  },
 );
 
 ListItem.displayName = "ListItem";
 
-export interface ListItemGroupProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+export interface ListItemGroupProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onChange" | "defaultValue"
+> {
   items?: ListItemData[];
   value?: string | number | (string | number)[];
   defaultValue?: string | number | (string | number)[];
-  onChange?: (value: any, item?: ListItemData) => void;
+  onChange?(
+    value: string | number | (string | number)[],
+    item?: ListItemData,
+  ): void;
   multiple?: boolean;
   selectedVariant?: ListItemSelectedVariant;
   size?: ListItemGroupSize;

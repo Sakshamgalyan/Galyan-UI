@@ -87,7 +87,7 @@ export const Default: Story = {
     orientation: "horizontal",
     size: "md",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState(args.activeStep ?? 1);
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -121,7 +121,7 @@ export const Default: Story = {
 };
 
 export const WithCustomIcons: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState(1);
     const iconSteps = [
       {
@@ -226,7 +226,7 @@ export const Sizes: Story = {
 };
 
 export const Vertical: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState(1);
     return (
       <div style={{ maxWidth: 360 }}>
@@ -242,7 +242,7 @@ export const Vertical: Story = {
 };
 
 export const WithStepContent: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState(0);
     const contentSteps = [
       {

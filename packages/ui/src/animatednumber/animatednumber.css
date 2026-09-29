@@ -188,7 +188,7 @@
   border-radius: 6px 6px 0 0;
   z-index: 1;
   border-bottom: none;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
 .gy-animated-number__flip-upper .gy-animated-number__flip-digit-inner,
@@ -202,7 +202,7 @@
   height: 50%;
   border-radius: 0 0 6px 6px;
   z-index: 1;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .gy-animated-number__flip-lower .gy-animated-number__flip-digit-inner,
@@ -219,7 +219,7 @@
   transform-origin: bottom center;
   animation-name: gy-flip-fold-down;
   animation-fill-mode: forwards;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* ── Animated fold: new lower unfolds UP ─────────────── */
@@ -232,7 +232,7 @@
   transform: rotateX(90deg);
   animation-name: gy-flip-fold-up;
   animation-fill-mode: forwards;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Center divider line ─────────────────────────────── */
@@ -242,7 +242,7 @@
   right: 0;
   top: 50%;
   height: 1px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 5;
   pointer-events: none;
   transform: translateY(-0.5px);
@@ -286,25 +286,25 @@
 .dark .gy-animated-number__flip-fold-lower {
   background: #1a1a2e;
   color: #f1f5f9;
-  border-color: rgba(255,255,255,0.06);
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 [data-color-mode="dark"] .gy-animated-number__flip-divider,
 [data-theme="dark"] .gy-animated-number__flip-divider,
 .dark .gy-animated-number__flip-divider {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 [data-color-mode="dark"] .gy-animated-number__flip-fold-upper,
 [data-theme="dark"] .gy-animated-number__flip-fold-upper,
 .dark .gy-animated-number__flip-fold-upper {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 [data-color-mode="dark"] .gy-animated-number__flip-fold-lower,
 [data-theme="dark"] .gy-animated-number__flip-fold-lower,
 .dark .gy-animated-number__flip-fold-lower {
-  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Column Entrance Expansion ── */

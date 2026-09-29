@@ -8,16 +8,35 @@ import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Sector,
+  type TooltipProps,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
+import type { CategoricalChartState } from "recharts/types/chart/types";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./donut-chart.css";
+import { Typography } from "../typography";
 
 export interface DonutChartItem {
   name: string;
   value: number;
   color?: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+/** Sector props Recharts passes to `activeShape` (the subset used here). */
+interface ActiveSectorShapeProps {
+  cx?: number;
+  cy?: number;
+  innerRadius?: number;
+  outerRadius?: number;
+  startAngle?: number;
+  endAngle?: number;
+  fill?: string;
+  payload?: DonutChartItem;
 }
 
 export interface DonutChartTooltipConfig {
@@ -51,6 +70,10 @@ export interface DonutChartProps {
   tooltipConfig?: DonutChartTooltipConfig;
   tokens?: Record<string, string>;
   onItemClick?: (item: DonutChartItem, index: number) => void;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  animationBegin?: number;
 }
 
 const DEFAULT_COLORS = [
@@ -71,12 +94,12 @@ export function DonutChart({
   showLegend = true,
   innerRadius,
   outerRadius,
-  paddingAngle = 3,
-  cornerRadius = 4,
+  paddingAngle = 4,
+  cornerRadius = 6,
   startAngle: customStartAngle,
   endAngle: customEndAngle,
-  stroke,
-  strokeWidth,
+  stroke = "var(--gy-surface, #ffffff)",
+  strokeWidth = 2,
   loading = false,
   borderless = false,
   className = "",
@@ -86,11 +109,16 @@ export function DonutChart({
   tooltipConfig = { show: true },
   tokens,
   onItemClick,
+  animate = true,
+  animationDuration = 1000,
+  animationEasing = "ease-out",
+  animationBegin = 0,
 }: DonutChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [isCompact, setIsCompact] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const handleResetActive = () => {
     setActiveIndex(null);
@@ -98,15 +126,30 @@ export function DonutChart({
 
   // ResizeObserver for responsive observation of width & height
   useEffect(() => {
-    if (!responsive) return;
+    if (!responsive) {
+      setIsReady(true);
+      return;
+    }
     const el = containerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
+    if (!el || typeof ResizeObserver === "undefined") {
+      setIsReady(true);
+      return;
+    }
+
+    if (el.clientWidth > 0 && el.clientHeight > 0) {
+      setContainerSize({ width: el.clientWidth, height: el.clientHeight });
+      setIsCompact(el.clientWidth < 440);
+      setIsReady(true);
+    }
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width: w, height: h } = entry.contentRect;
-        setContainerSize({ width: w, height: h });
-        setIsCompact(w > 0 && w < 440);
+        if (w > 0 && h > 0) {
+          setContainerSize({ width: w, height: h });
+          setIsCompact(w < 440);
+          setIsReady(true);
+        }
       }
     });
 
@@ -124,8 +167,10 @@ export function DonutChart({
   const cy = isSemi ? "80%" : "50%";
 
   // Determine available chart area height and width dynamically
-  const measuredW = containerSize.width || (typeof width === "number" ? width : 320);
-  const measuredH = containerSize.height || (typeof height === "number" ? height : 320);
+  const measuredW =
+    containerSize.width || (typeof width === "number" ? width : 320);
+  const measuredH =
+    containerSize.height || (typeof height === "number" ? height : 320);
 
   const isSmall = isCompact || (measuredW > 0 && measuredW < 440);
 
@@ -151,8 +196,14 @@ export function DonutChart({
 
   // Maximum safe outer radius that guarantees NO clipping on hover, stroke, or shadows
   const maxSafeOuter = isSemi
-    ? Math.max(25, Math.floor(Math.min(availableChartW / 2, availableChartH) - 10))
-    : Math.max(25, Math.floor(Math.min(availableChartW, availableChartH) / 2) - 10);
+    ? Math.max(
+        25,
+        Math.floor(Math.min(availableChartW / 2, availableChartH) - 10),
+      )
+    : Math.max(
+        25,
+        Math.floor(Math.min(availableChartW, availableChartH) / 2) - 10,
+      );
 
   const { effectiveInnerRadius, effectiveOuterRadius } = useMemo(() => {
     let outRad: number | string;
@@ -185,21 +236,25 @@ export function DonutChart({
     return { effectiveInnerRadius: inRad, effectiveOuterRadius: outRad };
   }, [outerRadius, innerRadius, maxSafeOuter, isCompact]);
 
-  // Elevated Active Sector shape on hover
-  const renderActiveShape = (props: any) => {
-    const {
-      cx,
-      cy: activeCy,
-      innerRadius: inRad,
-      outerRadius: outRad,
-      startAngle: sAngle,
-      endAngle: eAngle,
-      fill,
-    } = props;
+  const effectiveStroke =
+    stroke ??
+    (strokeWidth && strokeWidth > 0 ? "var(--gy-surface, #ffffff)" : "none");
+  const effectiveStrokeWidth =
+    strokeWidth ?? (stroke && stroke !== "none" ? 1 : 0);
 
+  // Elevated Active Sector shape on hover
+  const renderActiveShape = ({
+    cx,
+    cy: activeCy,
+    innerRadius: inRad,
+    outerRadius: outRad,
+    startAngle: sAngle,
+    endAngle: eAngle,
+    fill,
+    payload,
+  }: ActiveSectorShapeProps) => {
     const hoverExpansion = isCompact ? 4 : 6;
-    const numInRad =
-      typeof inRad === "number" ? Math.max(0, inRad - 1) : inRad;
+    const numInRad = typeof inRad === "number" ? Math.max(0, inRad - 1) : inRad;
     const numOutRad =
       typeof outRad === "number" ? outRad + hoverExpansion : outRad;
 
@@ -216,11 +271,13 @@ export function DonutChart({
           startAngle={sAngle}
           endAngle={eAngle}
           fill={fill}
-          stroke={stroke ?? "var(--gy-surface, #ffffff)"}
-          strokeWidth={strokeWidth ?? (paddingAngle === 0 ? 1 : 2)}
+          stroke={effectiveStroke}
+          strokeWidth={effectiveStrokeWidth}
           cornerRadius={cornerRadius}
           onMouseLeave={handleResetActive}
-          onClick={(entry) => onItemClick?.(props.payload ?? entry, activeIndex ?? 0)}
+          onClick={() => {
+            if (payload) onItemClick?.(payload, activeIndex ?? 0);
+          }}
           style={{
             filter: "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.16))",
             cursor: "pointer",
@@ -230,7 +287,10 @@ export function DonutChart({
     );
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -241,10 +301,10 @@ export function DonutChart({
     }
 
     const current = payload[0];
+    if (!current) return null;
     const itemData = current.payload as DonutChartItem;
     const val = Number(current.value) || 0;
-    const percentage =
-      total > 0 ? Math.round((val / total) * 100) : 0;
+    const percentage = total > 0 ? Math.round((val / total) * 100) : 0;
     const formattedVal = tooltipConfig?.formatter
       ? tooltipConfig.formatter(val)
       : val.toLocaleString();
@@ -262,13 +322,20 @@ export function DonutChart({
             className="gy-donutchart-tooltip-badge"
             style={{ backgroundColor: itemColor }}
           />
-          <span className="gy-donutchart-tooltip-title">{itemData.name}</span>
+          <Typography variant="span" className="gy-donutchart-tooltip-title">
+            {itemData.name}
+          </Typography>
         </div>
         <div className="gy-donutchart-tooltip-row">
-          <span className="gy-donutchart-tooltip-value">{formattedVal}</span>
-          <span className="gy-donutchart-tooltip-percentage">
+          <Typography variant="span" className="gy-donutchart-tooltip-value">
+            {formattedVal}
+          </Typography>
+          <Typography
+            variant="span"
+            className="gy-donutchart-tooltip-percentage"
+          >
             ({percentage}%)
-          </span>
+          </Typography>
         </div>
       </div>
     );
@@ -315,9 +382,7 @@ export function DonutChart({
     }
 
     if (data.length === 0) {
-      return (
-        <EmptyState size="sm" variant="subtle" />
-      );
+      return <EmptyState size="sm" variant="subtle" />;
     }
 
     const hoveredPct =
@@ -327,10 +392,13 @@ export function DonutChart({
 
     return (
       <div className="gy-donutchart-body" onMouseLeave={handleResetActive}>
-        <div className="gy-donutchart-chart-wrapper" onMouseLeave={handleResetActive}>
+        <div
+          className="gy-donutchart-chart-wrapper"
+          onMouseLeave={handleResetActive}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <ReChartsPieChart
-              onMouseMove={(state: any) => {
+              onMouseMove={(state: CategoricalChartState) => {
                 if (
                   !state ||
                   state.isTooltipActive === false ||
@@ -348,10 +416,15 @@ export function DonutChart({
                 <RechartsTooltip
                   content={<CustomTooltip />}
                   allowEscapeViewBox={{ x: true, y: true }}
-                  wrapperStyle={{ outline: "none", zIndex: 100, pointerEvents: "none" }}
+                  wrapperStyle={{
+                    outline: "none",
+                    zIndex: 100,
+                    pointerEvents: "none",
+                  }}
                 />
               )}
               <Pie
+                key={isReady ? "donutchart-ready" : "donutchart-init"}
                 activeIndex={activeIndex !== null ? activeIndex : undefined}
                 activeShape={renderActiveShape}
                 data={data}
@@ -363,10 +436,14 @@ export function DonutChart({
                 endAngle={endAngle}
                 innerRadius={effectiveInnerRadius}
                 outerRadius={effectiveOuterRadius}
-                stroke={stroke ?? "var(--gy-surface, #ffffff)"}
-                strokeWidth={strokeWidth ?? (paddingAngle === 0 ? 1 : 2)}
+                stroke={effectiveStroke}
+                strokeWidth={effectiveStrokeWidth}
                 paddingAngle={paddingAngle}
                 cornerRadius={cornerRadius}
+                isAnimationActive={animate}
+                animationDuration={animationDuration}
+                animationEasing={animationEasing}
+                animationBegin={animationBegin}
                 onMouseEnter={(_, index) => setActiveIndex(index)}
                 onMouseLeave={handleResetActive}
                 onClick={(entry, index) => onItemClick?.(entry, index)}
@@ -399,21 +476,21 @@ export function DonutChart({
               className="gy-donutchart-center-metric"
               onMouseEnter={handleResetActive}
             >
-              <span className="gy-donutchart-center-value">
+              <Typography variant="span" className="gy-donutchart-center-value">
                 {hoveredItem
                   ? tooltipConfig?.formatter
                     ? tooltipConfig.formatter(hoveredItem.value)
                     : hoveredItem.value.toLocaleString()
-                  : centerMetric?.value ??
+                  : (centerMetric?.value ??
                     (tooltipConfig?.formatter
                       ? tooltipConfig.formatter(total)
-                      : total.toLocaleString())}
-              </span>
-              <span className="gy-donutchart-center-label">
+                      : total.toLocaleString()))}
+              </Typography>
+              <Typography variant="span" className="gy-donutchart-center-label">
                 {hoveredItem
                   ? `${hoveredItem.name}${hoveredPct !== null ? ` (${hoveredPct}%)` : ""}`
-                  : centerMetric?.label ?? "Total"}
-              </span>
+                  : (centerMetric?.label ?? "Total")}
+              </Typography>
             </div>
           )}
 
@@ -422,28 +499,31 @@ export function DonutChart({
               className="gy-donutchart-center-metric gy-donutchart-center-metric--semi"
               onMouseEnter={handleResetActive}
             >
-              <span className="gy-donutchart-center-value">
+              <Typography variant="span" className="gy-donutchart-center-value">
                 {hoveredItem
                   ? tooltipConfig?.formatter
                     ? tooltipConfig.formatter(hoveredItem.value)
                     : hoveredItem.value.toLocaleString()
-                  : centerMetric?.value ??
+                  : (centerMetric?.value ??
                     (tooltipConfig?.formatter
                       ? tooltipConfig.formatter(total)
-                      : total.toLocaleString())}
-              </span>
-              <span className="gy-donutchart-center-label">
+                      : total.toLocaleString()))}
+              </Typography>
+              <Typography variant="span" className="gy-donutchart-center-label">
                 {hoveredItem
                   ? `${hoveredItem.name}${hoveredPct !== null ? ` (${hoveredPct}%)` : ""}`
-                  : centerMetric?.label ?? "Total"}
-              </span>
+                  : (centerMetric?.label ?? "Total")}
+              </Typography>
             </div>
           )}
         </div>
 
         {/* Responsive Interactive Legend */}
         {showLegend && data.length > 0 && (
-          <div className="gy-donutchart-legend" onMouseLeave={handleResetActive}>
+          <div
+            className="gy-donutchart-legend"
+            onMouseLeave={handleResetActive}
+          >
             {data.map((entry, index) => {
               const itemColor =
                 entry.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length];
@@ -470,12 +550,19 @@ export function DonutChart({
                     className="gy-donutchart-legend-dot"
                     style={{ backgroundColor: itemColor }}
                   />
-                  <span className="gy-donutchart-legend-label" title={entry.name}>
+                  <Typography
+                    variant="span"
+                    className="gy-donutchart-legend-label"
+                    title={entry.name}
+                  >
                     {entry.name}
-                  </span>
-                  <span className="gy-donutchart-legend-percentage">
+                  </Typography>
+                  <Typography
+                    variant="span"
+                    className="gy-donutchart-legend-percentage"
+                  >
                     {percentage}%
-                  </span>
+                  </Typography>
                 </button>
               );
             })}

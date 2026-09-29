@@ -41,6 +41,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: gy-piechart-enter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gy-piechart-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ── Active Hover Slice Elevation ────────────────────────────────────────── */
@@ -129,6 +141,19 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   flex-shrink: 0;
+  animation: gy-piechart-legend-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes gy-piechart-legend-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-piechart-legend::-webkit-scrollbar {
@@ -214,4 +239,14 @@
 .gy-piechart.gy-piechart--compact .gy-piechart-legend-item {
   padding: 3px 8px;
   font-size: 0.6875rem;
+}
+
+/* ── Accessibility / Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gy-piechart-chart-wrapper,
+  .gy-piechart-legend,
+  .gy-piechart-tooltip {
+    animation: none !important;
+    transition: none !important;
+  }
 }

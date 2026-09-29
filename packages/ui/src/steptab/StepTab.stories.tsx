@@ -67,7 +67,7 @@ export const Default: Story = {
     header: "Timeline",
     size: "md",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [active, setActive] = useState("step4");
     return (
       <StepTab

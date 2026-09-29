@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./stepper.css";
+import { Typography } from "../typography";
 
 export type StepStatus = "upcoming" | "active" | "completed" | "error";
 export type StepperSize = "sm" | "md" | "lg";
@@ -59,6 +60,14 @@ export function Stepper({
   const [internalStep, setInternalStep] = useState(defaultStep);
   const current = controlledStep ?? internalStep;
 
+  // Fire onComplete once the active step moves past the last step
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+  const isComplete = steps.length > 0 && current >= steps.length;
+  useEffect(() => {
+    if (isComplete) onCompleteRef.current?.();
+  }, [isComplete]);
+
   const goTo = (idx: number) => {
     if (idx < 0 || idx >= steps.length) return;
     setInternalStep(idx);
@@ -72,7 +81,8 @@ export function Stepper({
     return "upcoming";
   };
 
-  const variantClass = variant && variant !== "default" ? `gy-stepper--${variant}` : "";
+  const variantClass =
+    variant && variant !== "default" ? `gy-stepper--${variant}` : "";
 
   const rootClasses = [
     "gy-stepper",
@@ -113,18 +123,30 @@ export function Stepper({
                   )}
                 </button>
                 <div className="gy-stepper__text">
-                  <div
+                  <Typography
+                    variant="span"
+                    as="div"
                     className={`gy-stepper__label gy-stepper__label--${status}`}
                   >
                     {step.label}
-                  </div>
+                  </Typography>
                   {step.description && (
-                    <div className="gy-stepper__description">
+                    <Typography
+                      variant="span"
+                      as="div"
+                      className="gy-stepper__description"
+                    >
                       {step.description}
-                    </div>
+                    </Typography>
                   )}
                   {step.optional && !step.description && (
-                    <div className="gy-stepper__description">Optional</div>
+                    <Typography
+                      variant="span"
+                      as="div"
+                      className="gy-stepper__description"
+                    >
+                      Optional
+                    </Typography>
                   )}
                 </div>
               </div>

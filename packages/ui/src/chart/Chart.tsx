@@ -18,9 +18,19 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { ChoroplethMap, type MapRegionItem } from "../choroplethmap/ChoroplethMap";
+import {
+  ChoroplethMap,
+  type MapRegionItem,
+} from "../choroplethmap/ChoroplethMap";
 
-export type ChartType = "line" | "bar" | "area" | "pie" | "donut" | "region" | "choropleth";
+export type ChartType =
+  | "line"
+  | "bar"
+  | "area"
+  | "pie"
+  | "donut"
+  | "region"
+  | "choropleth";
 
 export interface ChartSeries {
   key: string;
@@ -30,7 +40,7 @@ export interface ChartSeries {
 
 export interface ChartProps {
   type: ChartType;
-  data: any[];
+  data: object[];
   xAxisKey?: string;
   series?: ChartSeries[]; // for line, bar, area
   nameKey?: string; // for pie
@@ -43,7 +53,12 @@ export interface ChartProps {
   animationDuration?: number;
   animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
   selectedRegion?: string | null;
-  onRegionClick?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => void;
+  onRegionClick?: (region: {
+    id: string;
+    name: string;
+    value?: number;
+    item?: MapRegionItem;
+  }) => void;
   colorScale?: string[];
   highlightColor?: string;
   activeColor?: string;
@@ -268,7 +283,8 @@ export function Chart({
                 <Cell
                   key={`cell-${index}`}
                   fill={
-                    entry.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length]
+                    (entry as { color?: string }).color ??
+                    DEFAULT_COLORS[index % DEFAULT_COLORS.length]
                   }
                 />
               ))}
@@ -286,4 +302,3 @@ export function Chart({
     </div>
   );
 }
-

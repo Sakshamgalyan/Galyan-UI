@@ -136,9 +136,9 @@ export function WaterfallChart({
           {/* Custom tooltip to show original raw changes */}
           <Tooltip
             {...commonTooltipProps}
-            formatter={(value: any, name: any, props: any) => {
+            formatter={(_value, name, item) => {
               if (name === "val") {
-                return [props.payload.raw.toLocaleString(), "Change"];
+                return [item.payload.raw.toLocaleString(), "Change"];
               }
               return null;
             }}

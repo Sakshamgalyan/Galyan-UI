@@ -1,6 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { PieChart } from "./PieChart";
+import type { PieChartItem } from "./PieChart";
 
 const meta: Meta<typeof PieChart> = {
   title: "Galyan UI/PieChart",
@@ -17,6 +18,16 @@ const meta: Meta<typeof PieChart> = {
     loading: { control: "boolean" },
     responsive: { control: "boolean" },
     paddingAngle: { control: "number" },
+    cornerRadius: { control: "number" },
+    startAngle: { control: "number" },
+    endAngle: { control: "number" },
+    strokeWidth: { control: "number" },
+    animate: { control: "boolean" },
+    animationDuration: { control: "number" },
+    animationEasing: {
+      control: "select",
+      options: ["ease", "ease-in", "ease-out", "ease-in-out", "linear"],
+    },
   },
 } satisfies Meta<typeof PieChart>;
 
@@ -40,10 +51,27 @@ export const Standard: Story = {
   },
 };
 
+export const SeamlessContiguous: Story = {
+  args: {
+    ...Standard.args,
+    paddingAngle: 0,
+    cornerRadius: 0,
+    strokeWidth: 0,
+  },
+};
+
 export const Segmented: Story = {
   args: {
     ...Standard.args,
     variant: "segmented",
+  },
+};
+
+export const SegmentedWithGaps: Story = {
+  args: {
+    ...Standard.args,
+    paddingAngle: 3,
+    cornerRadius: 4,
   },
 };
 
@@ -154,4 +182,127 @@ export const DashboardCardBorderless: Story = {
       </div>
     </div>
   ),
+};
+
+export const InteractiveAnimation: Story = {
+  render: function Render() {
+    const sets: PieChartItem[][] = [
+      [
+        { name: "Direct", value: 4500, color: "var(--gy-primary, #3b82f6)" },
+        {
+          name: "Organic Search",
+          value: 2500,
+          color: "var(--gy-success, #10b981)",
+        },
+        { name: "Referral", value: 1500, color: "var(--gy-warning, #f59e0b)" },
+        { name: "Social Media", value: 1500, color: "var(--gy-info, #06b6d4)" },
+      ],
+      [
+        { name: "Direct", value: 2000, color: "var(--gy-primary, #3b82f6)" },
+        {
+          name: "Organic Search",
+          value: 4500,
+          color: "var(--gy-success, #10b981)",
+        },
+        { name: "Referral", value: 3000, color: "var(--gy-warning, #f59e0b)" },
+        { name: "Social Media", value: 500, color: "var(--gy-info, #06b6d4)" },
+      ],
+      [
+        { name: "Direct", value: 1200, color: "var(--gy-primary, #3b82f6)" },
+        {
+          name: "Organic Search",
+          value: 1800,
+          color: "var(--gy-success, #10b981)",
+        },
+        { name: "Referral", value: 4500, color: "var(--gy-warning, #f59e0b)" },
+        { name: "Social Media", value: 2500, color: "var(--gy-info, #06b6d4)" },
+      ],
+    ];
+
+    const [currentSet, setCurrentSet] = React.useState(0);
+    const [key, setKey] = React.useState(0);
+    const [gap, setGap] = React.useState(0);
+    const activeData: PieChartItem[] =
+      sets[currentSet] ?? sets[0] ?? sampleData;
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setCurrentSet((prev) => (prev + 1) % sets.length)}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Smooth Morph Data
+          </button>
+          <button
+            type="button"
+            onClick={() => setKey((k) => k + 1)}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Replay Sweep Entrance
+          </button>
+          <button
+            type="button"
+            onClick={() => setGap((g) => (g === 0 ? 3 : 0))}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: gap === 0 ? "#f1f5f9" : "#3b82f6",
+              color: gap === 0 ? "#0f172a" : "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            {gap === 0 ? "Add Slice Gaps (3px)" : "Remove Gaps (Seamless)"}
+          </button>
+        </div>
+        <div style={{ width: 360, height: 350 }}>
+          <PieChart
+            key={key}
+            data={activeData}
+            variant="standard"
+            height={350}
+            paddingAngle={gap}
+            cornerRadius={gap > 0 ? 4 : 0}
+            animate={true}
+            animationDuration={1000}
+            animationEasing="ease-out"
+          />
+        </div>
+      </div>
+    );
+  },
 };

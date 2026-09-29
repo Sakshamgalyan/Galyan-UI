@@ -21,7 +21,7 @@
 }
 
 .gy-textarea-label--required::after {
-  content: '*';
+  content: "*";
   color: var(--gy-danger, #ef4444);
   margin-left: 2px;
 }
@@ -82,6 +82,18 @@
 .gy-textarea:focus {
   border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
   box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+}
+
+/* ── Hover State (mirrors Dropdown hover) ── */
+.gy-textarea:hover:not(:focus):not(:disabled):not(.gy-textarea--error):not(
+    .gy-textarea--disabled
+  ) {
+  border-color: var(--gy-primary, #22c55e);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #22c55e) 6%,
+    var(--gy-surface, #ffffff)
+  );
 }
 
 .gy-textarea--focused {

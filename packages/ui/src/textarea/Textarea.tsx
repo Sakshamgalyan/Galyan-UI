@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import "./textarea.css";
+import { Typography } from "../typography";
 
 export type TextareaSize = "sm" | "md" | "lg";
 export type TextareaVariant =
@@ -19,8 +20,7 @@ export type TextareaVariant =
   | "success"
   | "disabled";
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   /** Label text displayed above the textarea */
   label?: string;
   /** Helper text displayed below the textarea */
@@ -228,12 +228,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={`gy-textarea-root ${fullWidth ? "" : "gy-textarea-root--inline"} ${className}`}
       >
         {label && (
-          <label
+          <Typography
+            variant="span"
+            as="label"
             className={`gy-textarea-label ${required ? "gy-textarea-label--required" : ""}`}
             htmlFor={inputId}
           >
             {label}
-          </label>
+          </Typography>
         )}
 
         <textarea
@@ -305,11 +307,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             )}
 
             {maxCharCount !== undefined && (
-              <span
+              <Typography
+                variant="span"
                 className={`gy-textarea-count ${isOver ? "gy-textarea-count--over" : ""}`}
               >
                 {charCount}/{maxCharCount}
-              </span>
+              </Typography>
             )}
           </div>
         ) : null}

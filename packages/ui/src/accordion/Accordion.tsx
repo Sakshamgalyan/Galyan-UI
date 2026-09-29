@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { Typography } from "../typography";
 import "./accordion.css";
 
 export type AccordionSize = "sm" | "md" | "lg";
@@ -176,7 +177,9 @@ export function Accordion({
               disabled={disabled || item.disabled}
               expandIconPosition={item.expandIconPosition || expandIconPosition}
               expandIcon={item.expandIcon || expandIcon}
-              rotateIcon={item.rotateIcon !== undefined ? item.rotateIcon : rotateIcon}
+              rotateIcon={
+                item.rotateIcon !== undefined ? item.rotateIcon : rotateIcon
+              }
               icon={item.icon}
               actions={item.actions}
               title={item.title}
@@ -249,8 +252,14 @@ export function Accordion({
         )}
         {icon && <span className="gy-accordion__leading-icon">{icon}</span>}
         <div className="gy-accordion__header-content">
-          <span className="gy-accordion__title">{title}</span>
-          {sub && <span className="gy-accordion__subtitle">{sub}</span>}
+          <Typography variant="label" className="gy-accordion__title">
+            {title}
+          </Typography>
+          {sub && (
+            <Typography variant="small" className="gy-accordion__subtitle">
+              {sub}
+            </Typography>
+          )}
         </div>
         {actions && (
           <div

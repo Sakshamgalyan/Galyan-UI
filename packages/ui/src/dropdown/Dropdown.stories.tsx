@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Dropdown } from "./Dropdown";
+import { Dropdown, type DropdownOption } from "./Dropdown";
 import { Button } from "../button/Button";
 
 /**
@@ -20,7 +20,10 @@ const meta: Meta<typeof Dropdown> = {
   ],
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
-    variant: { control: "inline-radio", options: ["default", "filled", "glassmorphic"] },
+    variant: {
+      control: "inline-radio",
+      options: ["default", "filled", "glassmorphic"],
+    },
     label: { control: "text" },
     placeholder: { control: "text" },
     helperText: { control: "text" },
@@ -72,7 +75,7 @@ export const Default: Story = {
     required: false,
     multiple: false,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState("");
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
@@ -87,14 +90,14 @@ export const FilledVariant: Story = {
     size: "md",
     clearable: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState("");
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
 };
 
 export const AsyncLoadingShowcase: Story = {
-  render: () => {
+  render: function Render() {
     const [isLoading, setIsLoading] = useState(true);
     const [val, setVal] = useState("");
 
@@ -139,8 +142,16 @@ const frameworkOptions = [
 ];
 
 const languageOptions = [
-  { value: "javascript", label: "JavaScript", description: "Programming Language" },
-  { value: "typescript", label: "TypeScript", description: "Programming Language" },
+  {
+    value: "javascript",
+    label: "JavaScript",
+    description: "Programming Language",
+  },
+  {
+    value: "typescript",
+    label: "TypeScript",
+    description: "Programming Language",
+  },
   { value: "react", label: "React", description: "UI Library" },
   { value: "vue", label: "Vue", description: "Progressive Framework" },
   { value: "angular", label: "Angular", description: "Web Framework" },
@@ -159,7 +170,7 @@ export const SelectAllStatesDemo: Story = {
     searchPlaceholder: "Search...",
     clearable: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState<string[]>(["javascript", "react"]);
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
@@ -176,7 +187,7 @@ export const MultiSelectWithSelectAll: Story = {
     searchPlaceholder: "Search...",
     clearable: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState<string[]>(["react", "angular", "node"]);
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
@@ -190,7 +201,7 @@ export const MultiSelectWithTagRemoval: Story = {
     clearable: true,
     maxTagCount: 3,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState<string[]>([
       "react",
       "vue",
@@ -202,7 +213,7 @@ export const MultiSelectWithTagRemoval: Story = {
 };
 
 export const CountryLanguagePicker: Story = {
-  render: () => {
+  render: function Render() {
     const [country, setCountry] = useState("us");
     const countries = [
       { value: "us", label: "🇺🇸 United States (USD)", group: "Americas" },
@@ -248,7 +259,7 @@ export const FoodItemsMultiSelect: Story = {
     searchPlaceholder: "Search...",
     clearable: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState<string[]>([]);
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
@@ -264,14 +275,14 @@ export const CategorizedSearchable: Story = {
     groupBy: "group",
     clearable: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState("");
     return <Dropdown {...args} value={val} onChange={setVal} />;
   },
 };
 
 export const SizesShowcase: Story = {
-  render: () => {
+  render: function Render() {
     const [v1, setV1] = useState("react");
     const [v2, setV2] = useState("node");
     const [v3, setV3] = useState("python");
@@ -326,14 +337,23 @@ export const DisabledAndErrorStates: Story = {
 };
 
 export const WithIcons: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("database");
     const serviceOptions = [
       {
         value: "database",
         label: "PostgreSQL Database",
         icon: (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <ellipse cx="12" cy="5" rx="9" ry="3" />
             <path d="M3 5V19A9 3 0 0 0 21 19V5" />
             <path d="M3 12A9 3 0 0 0 21 12" />
@@ -344,7 +364,16 @@ export const WithIcons: Story = {
         value: "cloud",
         label: "AWS Cloud Storage",
         icon: (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
           </svg>
         ),
@@ -353,7 +382,16 @@ export const WithIcons: Story = {
         value: "server",
         label: "Kubernetes Cluster",
         icon: (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
             <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
             <line x1="6" x2="6.01" y1="6" y2="6" />
@@ -365,7 +403,16 @@ export const WithIcons: Story = {
         value: "security",
         label: "OAuth2 & SSO Gateway",
         icon: (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
           </svg>
         ),
@@ -376,7 +423,16 @@ export const WithIcons: Story = {
       <Dropdown
         label="Infrastructure Service"
         leftIcon={
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <rect width="18" height="18" x="3" y="3" rx="2" />
             <path d="M3 9h18" />
             <path d="M9 21V9" />
@@ -392,7 +448,7 @@ export const WithIcons: Story = {
 };
 
 export const CustomUserProfilePicker: Story = {
-  render: () => {
+  render: function Render() {
     const [user, setUser] = useState("alex");
     const users = [
       {
@@ -433,14 +489,21 @@ export const CustomUserProfilePicker: Story = {
         options={users}
         value={user}
         onChange={setUser}
-        renderOption={(opt: any) => (
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+        renderOption={(opt: DropdownOption) => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              width: "100%",
+            }}
+          >
             <div
               style={{
                 width: "28px",
                 height: "28px",
                 borderRadius: "50%",
-                background: opt.color,
+                background: String(opt.color),
                 color: "#ffffff",
                 display: "flex",
                 alignItems: "center",
@@ -450,11 +513,30 @@ export const CustomUserProfilePicker: Story = {
                 flexShrink: 0,
               }}
             >
-              {opt.label.charAt(0)}
+              {String(opt.label).charAt(0)}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
-              <span style={{ fontWeight: 500, fontSize: "0.875rem", color: "var(--gy-text)" }}>{opt.label}</span>
-              <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>{opt.role} • {opt.email}</span>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                flex: 1,
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: 500,
+                  fontSize: "0.875rem",
+                  color: "var(--gy-text)",
+                }}
+              >
+                {opt.label}
+              </span>
+              <span
+                style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}
+              >
+                {String(opt.role)} • {String(opt.email)}
+              </span>
             </div>
           </div>
         )}
@@ -462,7 +544,9 @@ export const CustomUserProfilePicker: Story = {
           const u = users.find((item) => item.value === selectedVal);
           if (!u) return <span>Select reviewer</span>;
           return (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
               <div
                 style={{
                   width: "20px",
@@ -480,7 +564,11 @@ export const CustomUserProfilePicker: Story = {
                 {u.label.charAt(0)}
               </div>
               <span>{u.label}</span>
-              <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>({u.role})</span>
+              <span
+                style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}
+              >
+                ({u.role})
+              </span>
             </div>
           );
         }}
@@ -490,7 +578,7 @@ export const CustomUserProfilePicker: Story = {
 };
 
 export const PriorityStatusPicker: Story = {
-  render: () => {
+  render: function Render() {
     const [priority, setPriority] = useState("high");
     const priorityOptions = [
       { value: "critical", label: "P0 - Critical Blocker", color: "#EF4444" },
@@ -505,15 +593,15 @@ export const PriorityStatusPicker: Story = {
         options={priorityOptions}
         value={priority}
         onChange={setPriority}
-        renderOption={(opt: any) => (
+        renderOption={(opt: DropdownOption) => (
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span
               style={{
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                background: opt.color,
-                boxShadow: `0 0 6px ${opt.color}`,
+                background: String(opt.color),
+                boxShadow: `0 0 6px ${String(opt.color)}`,
               }}
             />
             <span style={{ fontWeight: 500 }}>{opt.label}</span>
@@ -522,7 +610,9 @@ export const PriorityStatusPicker: Story = {
         renderValue={(val) => {
           const opt = priorityOptions.find((o) => o.value === val);
           return (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
               <span
                 style={{
                   width: "8px",
@@ -553,7 +643,7 @@ export const SuccessState: Story = {
 };
 
 export const TopPlacement: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("");
     const countriesWithSubtitles = [
       { value: "us", label: "United States", description: "North America" },
@@ -581,7 +671,7 @@ export const TopPlacement: Story = {
 };
 
 export const DarkModeShowcase: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("react");
     const [tags, setTags] = useState(["react", "node", "python"]);
 
@@ -600,7 +690,14 @@ export const DarkModeShowcase: Story = {
         data-color-mode="dark"
       >
         <div style={{ textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 0.25rem", color: "#f8fafc", fontSize: "1rem", fontWeight: 600 }}>
+          <h4
+            style={{
+              margin: "0 0 0.25rem",
+              color: "#f8fafc",
+              fontSize: "1rem",
+              fontWeight: 600,
+            }}
+          >
             Dark Mode Dropdown
           </h4>
           <span style={{ fontSize: "0.8125rem", color: "#94a3b8" }}>
@@ -643,16 +740,29 @@ export const Glassmorphic: Story = {
           flexDirection: "column",
           gap: "1.5rem",
           padding: "2rem",
-          background: "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%)",
+          background:
+            "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%)",
           borderRadius: "1.25rem",
           boxShadow: "0 20px 40px -10px rgba(0,0,0,0.2)",
         }}
       >
         <div style={{ textAlign: "center" }}>
-          <h4 style={{ margin: "0 0 0.25rem", color: "#ffffff", fontSize: "1rem", fontWeight: 600 }}>
+          <h4
+            style={{
+              margin: "0 0 0.25rem",
+              color: "#ffffff",
+              fontSize: "1rem",
+              fontWeight: 600,
+            }}
+          >
             Glassmorphic Dropdown
           </h4>
-          <span style={{ fontSize: "0.8125rem", color: "rgba(255, 255, 255, 0.85)" }}>
+          <span
+            style={{
+              fontSize: "0.8125rem",
+              color: "rgba(255, 255, 255, 0.85)",
+            }}
+          >
             Frosted translucent trigger and floating popover menu
           </span>
         </div>
@@ -683,7 +793,7 @@ export const Glassmorphic: Story = {
 };
 
 export const CustomWidth: Story = {
-  render: () => {
+  render: function Render() {
     const [val1, setVal1] = useState("production");
     const [val2, setVal2] = useState("staging");
 
@@ -706,9 +816,22 @@ export const CustomWidth: Story = {
     ];
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+          width: "100%",
+        }}
+      >
         <div>
-          <p style={{ margin: "0 0 0.5rem", fontSize: "0.875rem", color: "var(--gy-text-muted, #64748b)" }}>
+          <p
+            style={{
+              margin: "0 0 0.5rem",
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted, #64748b)",
+            }}
+          >
             <strong>Default:</strong> Menu matches the trigger width precisely:
           </p>
           <div style={{ width: 280 }}>
@@ -722,8 +845,15 @@ export const CustomWidth: Story = {
         </div>
 
         <div>
-          <p style={{ margin: "0 0 0.5rem", fontSize: "0.875rem", color: "var(--gy-text-muted, #64748b)" }}>
-            <strong>Custom Width:</strong> Custom menu width (e.g. <code>customWidth="420px"</code>):
+          <p
+            style={{
+              margin: "0 0 0.5rem",
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted, #64748b)",
+            }}
+          >
+            <strong>Custom Width:</strong> Custom menu width (e.g.{" "}
+            <code>customWidth=&quot;420px&quot;</code>):
           </p>
           <div style={{ width: 280 }}>
             <Dropdown
@@ -740,5 +870,42 @@ export const CustomWidth: Story = {
   },
 };
 
+export const EllipsisTooltipOptions: Story = {
+  render: function Render() {
+    const [selected, setSelected] = useState("docs");
 
+    const longOptions = [
+      { value: "all", label: "All Items in Global Catalog" },
+      { value: "docs", label: "Documentation & API Reference Guides" },
+      { value: "components", label: "Components & Interactive Design Tokens" },
+      { value: "articles", label: "Articles" },
+    ];
 
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: 140,
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            fontSize: "0.8125rem",
+            color: "var(--gy-text-muted, #64748b)",
+          }}
+        >
+          Hover options with ellipsis to see the full tooltip:
+        </p>
+        <Dropdown
+          options={longOptions}
+          value={selected}
+          onChange={setSelected}
+          dropdownWidth="140px"
+        />
+      </div>
+    );
+  },
+};

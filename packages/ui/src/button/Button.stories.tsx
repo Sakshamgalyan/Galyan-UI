@@ -395,7 +395,7 @@ export const CustomStylingWithClassName: Story = {
       `}</style>
       <Button {...args} />
       <span style={{ fontSize: "0.85rem", color: "#64748b" }}>
-        Custom styled using: <code>className="custom-btn-example"</code>
+        Custom styled using: <code>className=&quot;custom-btn-example&quot;</code>
       </span>
     </div>
   ),

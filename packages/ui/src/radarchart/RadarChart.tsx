@@ -9,10 +9,13 @@ import {
   Radar,
   ResponsiveContainer,
   Tooltip as RechartsTooltip,
+  type TooltipProps,
 } from "recharts";
+import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./radar-chart.css";
+import { Typography } from "../typography";
 
 export interface RadarChartSeries {
   key: string;
@@ -26,7 +29,7 @@ export interface RadarChartTooltipConfig {
 }
 
 export interface RadarChartProps {
-  data: any[];
+  data: object[];
   series: RadarChartSeries[];
   angleKey: string;
   variant?: "standard" | "filled" | "dots";
@@ -41,6 +44,10 @@ export interface RadarChartProps {
   tooltipConfig?: RadarChartTooltipConfig;
   tokens?: Record<string, string>;
   onSeriesClick?: (series: RadarChartSeries, index: number) => void;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  animationBegin?: number;
 }
 
 const DEFAULT_COLORS = [
@@ -69,21 +76,41 @@ export function RadarChart({
   tooltipConfig = { show: true },
   tokens,
   onSeriesClick,
+  animate = true,
+  animationDuration = 1000,
+  animationEasing = "ease-out",
+  animationBegin,
 }: RadarChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeSeriesKey, setActiveSeriesKey] = useState<string | null>(null);
   const [isCompact, setIsCompact] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  // ResizeObserver for responsive observation
+  // ResizeObserver for responsive observation and reliable animation mount
   useEffect(() => {
-    if (!responsive) return;
+    if (!responsive) {
+      setIsReady(true);
+      return;
+    }
     const el = containerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
+    if (!el || typeof ResizeObserver === "undefined") {
+      setIsReady(true);
+      return;
+    }
+
+    if (el.clientWidth > 0 && el.clientHeight > 0) {
+      setIsCompact(el.clientWidth < 440);
+      setIsReady(true);
+    }
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const w = entry.contentRect.width;
-        setIsCompact(w > 0 && w < 440);
+        const h = entry.contentRect.height;
+        if (w > 0 && h > 0) {
+          setIsCompact(w < 440);
+          setIsReady(true);
+        }
       }
     });
 
@@ -93,7 +120,11 @@ export function RadarChart({
 
   const effectiveOuterRadius = isCompact ? "70%" : "78%";
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: TooltipProps<ValueType, string>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -106,10 +137,12 @@ export function RadarChart({
     return (
       <div className="gy-radarchart-tooltip">
         <div className="gy-radarchart-tooltip-header">
-          <span className="gy-radarchart-tooltip-title">{label}</span>
+          <Typography variant="span" className="gy-radarchart-tooltip-title">
+            {label}
+          </Typography>
         </div>
         <div className="gy-radarchart-tooltip-body">
-          {payload.map((entry: any, i: number) => {
+          {payload.map((entry, i) => {
             const val = Number(entry.value) || 0;
             const formattedVal = tooltipConfig?.formatter
               ? tooltipConfig.formatter(val, entry.name)
@@ -129,13 +162,19 @@ export function RadarChart({
                     className="gy-radarchart-tooltip-badge"
                     style={{ backgroundColor: seriesColor }}
                   />
-                  <span className="gy-radarchart-tooltip-name">
+                  <Typography
+                    variant="span"
+                    className="gy-radarchart-tooltip-name"
+                  >
                     {entry.name}
-                  </span>
+                  </Typography>
                 </div>
-                <span className="gy-radarchart-tooltip-val">
+                <Typography
+                  variant="span"
+                  className="gy-radarchart-tooltip-val"
+                >
                   {formattedVal}
-                </span>
+                </Typography>
               </div>
             );
           })}
@@ -174,9 +213,7 @@ export function RadarChart({
     }
 
     if (data.length === 0) {
-      return (
-        <EmptyState size="sm" variant="subtle" />
-      );
+      return <EmptyState size="sm" variant="subtle" />;
     }
 
     return (
@@ -224,8 +261,7 @@ export function RadarChart({
                 const color =
                   s.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];
                 const isHovered = activeSeriesKey === s.key;
-                const isDimmed =
-                  activeSeriesKey !== null && !isHovered;
+                const isDimmed = activeSeriesKey !== null && !isHovered;
 
                 const strokeWidth = isHovered ? 3.5 : 2;
                 const fillOpacity =
@@ -239,13 +275,19 @@ export function RadarChart({
 
                 return (
                   <Radar
-                    key={s.key}
+                    key={
+                      isReady ? `radar-${s.key}-ready` : `radar-${s.key}-init`
+                    }
                     name={s.name ?? s.key}
                     dataKey={s.key}
                     stroke={color}
                     fill={color}
                     strokeWidth={strokeWidth}
                     fillOpacity={fillOpacity}
+                    isAnimationActive={animate}
+                    animationDuration={animationDuration}
+                    animationEasing={animationEasing}
+                    animationBegin={animationBegin ?? i * 150}
                     dot={
                       variant === "dots" || isHovered
                         ? {
@@ -257,7 +299,7 @@ export function RadarChart({
                         : false
                     }
                     style={{
-                      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+                      transition: "opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                       opacity: isDimmed ? 0.35 : 1,
                       cursor: "pointer",
                       filter: isHovered
@@ -301,9 +343,12 @@ export function RadarChart({
                     className="gy-radarchart-legend-dot"
                     style={{ backgroundColor: itemColor }}
                   />
-                  <span className="gy-radarchart-legend-label">
+                  <Typography
+                    variant="span"
+                    className="gy-radarchart-legend-label"
+                  >
                     {s.name ?? s.key}
-                  </span>
+                  </Typography>
                 </button>
               );
             })}

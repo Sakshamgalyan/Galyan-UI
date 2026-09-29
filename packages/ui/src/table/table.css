@@ -139,7 +139,9 @@
 
 .gy-table-th--sortable {
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .gy-table-th--sortable:hover {
@@ -156,7 +158,9 @@
 
 .gy-table-sort-icon {
   color: var(--gy-text-subtle, #94a3b8);
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .gy-table-sort-icon--active {
@@ -188,18 +192,32 @@
 }
 
 /* Hoverable state */
-.gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected) td {
+.gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected)
+  td {
   background: var(--gy-background-subtle, #f8fafc);
 }
 
 /* Selection state (Brand Theme Driven) */
 .gy-table-tr--selected td {
-  background: color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface, #ffffff)) !important;
-  border-bottom-color: color-mix(in srgb, var(--gy-primary) 20%, var(--gy-border, #e2e8f0));
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 8%,
+    var(--gy-surface, #ffffff)
+  ) !important;
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--gy-primary) 20%,
+    var(--gy-border, #e2e8f0)
+  );
 }
 
 .gy-table--hoverable .gy-table-tr--selected:hover td {
-  background: color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface, #ffffff)) !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 12%,
+    var(--gy-surface, #ffffff)
+  ) !important;
 }
 
 /* Column sizes */
@@ -265,7 +283,10 @@
 
 /* ── Table Variants ─────────────────────────────────────────────────────── */
 /* Striped Variant */
-.gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) td {
+.gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  td {
   background: var(--gy-background-subtle, #f8fafc);
 }
 
@@ -289,11 +310,19 @@
 /* Brand role color variants */
 .gy-table--variant-primary .gy-table-header,
 .gy-table--variant-primary .gy-table-th {
-  background: color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface, #ffffff));
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 8%,
+    var(--gy-surface, #ffffff)
+  );
 }
 .gy-table--variant-primary .gy-table-th {
   color: var(--gy-primary);
-  border-bottom-color: color-mix(in srgb, var(--gy-primary) 25%, var(--gy-border, #e2e8f0));
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--gy-primary) 25%,
+    var(--gy-border, #e2e8f0)
+  );
 }
 
 .gy-table--variant-secondary .gy-table-header,
@@ -358,24 +387,42 @@
 }
 
 /* Striped variant backgrounds for fixed columns */
-.gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-right {
+.gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right {
   background: var(--gy-background-subtle, #f8fafc);
 }
 
 .gy-table-tr--selected .gy-table-td--fixed-left,
 .gy-table-tr--selected .gy-table-td--fixed-right {
-  background: color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface, #ffffff)) !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 8%,
+    var(--gy-surface, #ffffff)
+  ) !important;
 }
 
-.gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-right {
+.gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right {
   background: var(--gy-background-subtle, #f8fafc);
 }
 
 .gy-table--hoverable .gy-table-tr--selected:hover .gy-table-td--fixed-left,
 .gy-table--hoverable .gy-table-tr--selected:hover .gy-table-td--fixed-right {
-  background: color-mix(in srgb, var(--gy-primary) 12%, var(--gy-surface, #ffffff)) !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 12%,
+    var(--gy-surface, #ffffff)
+  ) !important;
 }
 
 /* ── Tree/Nested Collapsible Rows ────────────────────────────────────────── */
@@ -438,7 +485,10 @@
   border-radius: var(--gy-radius-sm, 0.25rem);
   padding: 0;
   margin: 0;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 1;
 }
@@ -551,7 +601,11 @@
 }
 
 .gy-table-tr--nested td {
-  background: color-mix(in srgb, var(--gy-primary) 2%, var(--gy-surface, #ffffff));
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 2%,
+    var(--gy-surface, #ffffff)
+  );
 }
 
 /* ── Empty State ────────────────────────────────────────────────────────── */
@@ -672,7 +726,11 @@
 .gy-table-pagination-btn:hover:not(:disabled) {
   background: var(--gy-background-muted, #f1f5f9);
   color: var(--gy-primary);
-  border-color: color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border, #e2e8f0));
+  border-color: color-mix(
+    in srgb,
+    var(--gy-primary) 30%,
+    var(--gy-border, #e2e8f0)
+  );
 }
 
 .gy-table-pagination-btn--active {
@@ -772,24 +830,45 @@
   background: var(--gy-surface, #1e293b);
 }
 
-.gy-dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected) td,
-[data-color-mode="dark"] .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected) td,
-.dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected) td {
+.gy-dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected)
+  td,
+[data-color-mode="dark"]
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected)
+  td,
+.dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--skeleton):not(.gy-table-tr--selected)
+  td {
   background: var(--gy-background-muted, rgba(255, 255, 255, 0.04));
 }
 
 .gy-dark .gy-table-tr--selected td,
 [data-color-mode="dark"] .gy-table-tr--selected td,
 .dark .gy-table-tr--selected td {
-  background: color-mix(in srgb, var(--gy-primary) 18%, var(--gy-surface, #1e293b)) !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 18%,
+    var(--gy-surface, #1e293b)
+  ) !important;
   color: var(--gy-text, #f8fafc) !important;
-  border-bottom-color: color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border, #334155));
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--gy-primary) 30%,
+    var(--gy-border, #334155)
+  );
 }
 
 .gy-dark .gy-table-tr--selected:hover td,
 [data-color-mode="dark"] .gy-table-tr--selected:hover td,
 .dark .gy-table-tr--selected:hover td {
-  background: color-mix(in srgb, var(--gy-primary) 24%, var(--gy-surface, #1e293b)) !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 24%,
+    var(--gy-surface, #1e293b)
+  ) !important;
 }
 
 .gy-dark .gy-table-th--fixed-left,
@@ -832,8 +911,12 @@
 
 .gy-dark .gy-table-wrapper--scroll-left .gy-table-th--fixed-left-last,
 .gy-dark .gy-table-wrapper--scroll-left .gy-table-td--fixed-left-last,
-[data-color-mode="dark"] .gy-table-wrapper--scroll-left .gy-table-th--fixed-left-last,
-[data-color-mode="dark"] .gy-table-wrapper--scroll-left .gy-table-td--fixed-left-last,
+[data-color-mode="dark"]
+  .gy-table-wrapper--scroll-left
+  .gy-table-th--fixed-left-last,
+[data-color-mode="dark"]
+  .gy-table-wrapper--scroll-left
+  .gy-table-td--fixed-left-last,
 .dark .gy-table-wrapper--scroll-left .gy-table-th--fixed-left-last,
 .dark .gy-table-wrapper--scroll-left .gy-table-td--fixed-left-last {
   box-shadow: 4px 0 16px -2px rgba(0, 0, 0, 0.6);
@@ -841,28 +924,74 @@
 
 .gy-dark .gy-table-wrapper--scroll-right .gy-table-th--fixed-right-first,
 .gy-dark .gy-table-wrapper--scroll-right .gy-table-td--fixed-right-first,
-[data-color-mode="dark"] .gy-table-wrapper--scroll-right .gy-table-th--fixed-right-first,
-[data-color-mode="dark"] .gy-table-wrapper--scroll-right .gy-table-td--fixed-right-first,
+[data-color-mode="dark"]
+  .gy-table-wrapper--scroll-right
+  .gy-table-th--fixed-right-first,
+[data-color-mode="dark"]
+  .gy-table-wrapper--scroll-right
+  .gy-table-td--fixed-right-first,
 .dark .gy-table-wrapper--scroll-right .gy-table-th--fixed-right-first,
 .dark .gy-table-wrapper--scroll-right .gy-table-td--fixed-right-first {
   box-shadow: -4px 0 16px -2px rgba(0, 0, 0, 0.6);
 }
 
-.gy-dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.gy-dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-right,
-[data-color-mode="dark"] .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-[data-color-mode="dark"] .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-right,
-.dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.dark .gy-table--hoverable .gy-table-tr:hover:not(.gy-table-tr--selected) .gy-table-td--fixed-right {
+.gy-dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.gy-dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right,
+[data-color-mode="dark"]
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+[data-color-mode="dark"]
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right,
+.dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.dark
+  .gy-table--hoverable
+  .gy-table-tr:hover:not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right {
   background: var(--gy-background-muted, rgba(255, 255, 255, 0.05));
 }
 
-.gy-dark .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.gy-dark .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-right,
-[data-color-mode="dark"] .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-[data-color-mode="dark"] .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-right,
-.dark .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-left,
-.dark .gy-table--variant-striped tbody tr:nth-child(even):not(.gy-table-tr--selected) .gy-table-td--fixed-right {
+.gy-dark
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.gy-dark
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right,
+[data-color-mode="dark"]
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+[data-color-mode="dark"]
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right,
+.dark
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-left,
+.dark
+  .gy-table--variant-striped
+  tbody
+  tr:nth-child(even):not(.gy-table-tr--selected)
+  .gy-table-td--fixed-right {
   background: var(--gy-background-subtle, #0f172a);
 }
 
@@ -872,9 +1001,17 @@
 [data-color-mode="dark"] .gy-table--variant-primary .gy-table-th,
 .dark .gy-table--variant-primary .gy-table-header,
 .dark .gy-table--variant-primary .gy-table-th {
-  background: color-mix(in srgb, var(--gy-primary) 15%, var(--gy-surface, #0f172a));
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 15%,
+    var(--gy-surface, #0f172a)
+  );
   color: var(--gy-primary);
-  border-bottom-color: color-mix(in srgb, var(--gy-primary) 30%, var(--gy-border, #334155));
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--gy-primary) 30%,
+    var(--gy-border, #334155)
+  );
 }
 
 .gy-dark .gy-table-pagination,
@@ -1070,19 +1207,33 @@
     padding: 0.875rem 1rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     gap: 0.35rem;
-    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    transition:
+      box-shadow 0.15s ease,
+      border-color 0.15s ease;
   }
 
   .gy-table-wrapper--responsive-stack .gy-table-tr:hover,
   .gy-table-wrapper--stacked .gy-table-tr:hover {
-    border-color: color-mix(in srgb, var(--gy-primary) 35%, var(--gy-border, #e2e8f0));
+    border-color: color-mix(
+      in srgb,
+      var(--gy-primary) 35%,
+      var(--gy-border, #e2e8f0)
+    );
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 
   .gy-table-wrapper--responsive-stack .gy-table-tr--selected,
   .gy-table-wrapper--stacked .gy-table-tr--selected {
-    border-color: color-mix(in srgb, var(--gy-primary) 50%, var(--gy-border, #e2e8f0));
-    background: color-mix(in srgb, var(--gy-primary) 6%, var(--gy-surface, #ffffff)) !important;
+    border-color: color-mix(
+      in srgb,
+      var(--gy-primary) 50%,
+      var(--gy-border, #e2e8f0)
+    );
+    background: color-mix(
+      in srgb,
+      var(--gy-primary) 6%,
+      var(--gy-surface, #ffffff)
+    ) !important;
   }
 
   .gy-table-wrapper--responsive-stack .gy-table-td,
@@ -1093,7 +1244,8 @@
     --gy-table-cell-py: 0.4rem;
     --gy-table-cell-px: 0rem;
     padding: 0.4rem 0;
-    border-bottom: 1px dashed color-mix(in srgb, var(--gy-border, #e2e8f0) 70%, transparent);
+    border-bottom: 1px dashed
+      color-mix(in srgb, var(--gy-border, #e2e8f0) 70%, transparent);
     background: transparent !important;
     position: static !important;
     box-shadow: none !important;
@@ -1129,7 +1281,6 @@
     flex-shrink: 0;
   }
 
-
   .gy-table-wrapper--responsive-stack .gy-table-cell-first,
   .gy-table-wrapper--stacked .gy-table-cell-first {
     width: 100%;
@@ -1148,12 +1299,22 @@
 
   .gy-dark .gy-table-wrapper--responsive-stack .gy-table-tr--selected,
   .gy-dark .gy-table-wrapper--stacked .gy-table-tr--selected,
-  [data-color-mode="dark"] .gy-table-wrapper--responsive-stack .gy-table-tr--selected,
+  [data-color-mode="dark"]
+    .gy-table-wrapper--responsive-stack
+    .gy-table-tr--selected,
   [data-color-mode="dark"] .gy-table-wrapper--stacked .gy-table-tr--selected,
   .dark .gy-table-wrapper--responsive-stack .gy-table-tr--selected,
   .dark .gy-table-wrapper--stacked .gy-table-tr--selected {
-    border-color: color-mix(in srgb, var(--gy-primary) 60%, var(--gy-border, #334155));
-    background: color-mix(in srgb, var(--gy-primary) 15%, var(--gy-surface, #1e293b)) !important;
+    border-color: color-mix(
+      in srgb,
+      var(--gy-primary) 60%,
+      var(--gy-border, #334155)
+    );
+    background: color-mix(
+      in srgb,
+      var(--gy-primary) 15%,
+      var(--gy-surface, #1e293b)
+    ) !important;
   }
 
   .gy-dark .gy-table-wrapper--responsive-stack .gy-table-td,

@@ -3,6 +3,7 @@
 import React, { forwardRef, useCallback } from "react";
 import type { ThemeRole, ColorMode } from "@galyan/theme";
 import "./button.css";
+import { Typography } from "../typography";
 
 export type ButtonVariant =
   | "primary"
@@ -94,7 +95,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         onClick?.(e);
       },
-      [onClick],
+      [onClick, variant],
     );
 
     const isButtonDisabled = Boolean(disabled) || isLoading;
@@ -142,9 +143,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <>
             <span className="gy-btn__spinner" aria-hidden="true" />
             {loadingText ? (
-              <span className="gy-btn__loading-text">{loadingText}</span>
+              <Typography variant="span" className="gy-btn__loading-text">
+                {loadingText}
+              </Typography>
             ) : children ? (
-              <span className="gy-btn__loading-text">{children}</span>
+              <Typography variant="span" className="gy-btn__loading-text">
+                {children}
+              </Typography>
             ) : null}
           </>
         ) : (
@@ -157,7 +162,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 {leftIcon}
               </span>
             )}
-            {children && <span>{children}</span>}
+            {children && (
+              <Typography variant="span" className="gy-btn__text">
+                {children}
+              </Typography>
+            )}
             {rightIcon && (
               <span
                 className="gy-btn__icon gy-btn__icon--right"

@@ -141,8 +141,8 @@
   --gy-tooltip-bg: #ffffff;
   --gy-tooltip-color: #0f172a;
   --gy-tooltip-border: var(--gy-border, #e2e8f0);
-  --gy-tooltip-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.12),
-    0 4px 10px -2px rgba(0, 0, 0, 0.06);
+  --gy-tooltip-shadow:
+    0 10px 25px -3px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
   --gy-tooltip-kbd-bg: rgba(0, 0, 0, 0.05);
   --gy-tooltip-kbd-border: rgba(0, 0, 0, 0.09);
   --gy-tooltip-kbd-color: #0f172a;
@@ -153,8 +153,8 @@
   --gy-tooltip-bg: #ffffff;
   --gy-tooltip-color: #0f172a;
   --gy-tooltip-border: var(--gy-border, #e2e8f0);
-  --gy-tooltip-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.12),
-    0 4px 10px -2px rgba(0, 0, 0, 0.06);
+  --gy-tooltip-shadow:
+    0 10px 25px -3px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
   --gy-tooltip-kbd-bg: rgba(0, 0, 0, 0.05);
   --gy-tooltip-kbd-border: rgba(0, 0, 0, 0.09);
   --gy-tooltip-kbd-color: #0f172a;
@@ -165,8 +165,8 @@
   --gy-tooltip-bg: #0f172a;
   --gy-tooltip-color: #f8fafc;
   --gy-tooltip-border: rgba(255, 255, 255, 0.14);
-  --gy-tooltip-shadow: 0 10px 28px -2px rgba(0, 0, 0, 0.55),
-    0 4px 12px -1px rgba(0, 0, 0, 0.3);
+  --gy-tooltip-shadow:
+    0 10px 28px -2px rgba(0, 0, 0, 0.55), 0 4px 12px -1px rgba(0, 0, 0, 0.3);
   --gy-tooltip-kbd-bg: rgba(255, 255, 255, 0.14);
   --gy-tooltip-kbd-border: rgba(255, 255, 255, 0.2);
   --gy-tooltip-kbd-color: #f8fafc;
@@ -177,7 +177,8 @@
   --gy-tooltip-bg: var(--gy-primary, #22c55e);
   --gy-tooltip-color: #ffffff;
   --gy-tooltip-border: transparent;
-  --gy-tooltip-shadow: 0 8px 24px -2px color-mix(in srgb, var(--gy-primary, #22c55e) 40%, transparent);
+  --gy-tooltip-shadow: 0 8px 24px -2px
+    color-mix(in srgb, var(--gy-primary, #22c55e) 40%, transparent);
   --gy-tooltip-kbd-bg: rgba(255, 255, 255, 0.2);
   --gy-tooltip-kbd-border: rgba(255, 255, 255, 0.3);
   --gy-tooltip-kbd-color: #ffffff;
@@ -225,8 +226,8 @@
   --gy-tooltip-bg: var(--gy-surface, #1e293b);
   --gy-tooltip-color: var(--gy-text, #f8fafc);
   --gy-tooltip-border: var(--gy-border, #334155);
-  --gy-tooltip-shadow: 0 10px 28px -2px rgba(0, 0, 0, 0.55),
-    0 4px 12px -1px rgba(0, 0, 0, 0.35);
+  --gy-tooltip-shadow:
+    0 10px 28px -2px rgba(0, 0, 0, 0.55), 0 4px 12px -1px rgba(0, 0, 0, 0.35);
   --gy-tooltip-kbd-bg: rgba(255, 255, 255, 0.12);
   --gy-tooltip-kbd-border: rgba(255, 255, 255, 0.18);
   --gy-tooltip-kbd-color: var(--gy-text, #f8fafc);
@@ -240,6 +241,6 @@
   --gy-tooltip-bg: #0f172a;
   --gy-tooltip-color: #f8fafc;
   --gy-tooltip-border: rgba(255, 255, 255, 0.16);
-  --gy-tooltip-shadow: 0 10px 30px -2px rgba(0, 0, 0, 0.65),
-    0 4px 14px -1px rgba(0, 0, 0, 0.45);
+  --gy-tooltip-shadow:
+    0 10px 30px -2px rgba(0, 0, 0, 0.65), 0 4px 14px -1px rgba(0, 0, 0, 0.45);
 }

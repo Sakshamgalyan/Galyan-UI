@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useId, useMemo, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useId,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
 import {
   useFloating,
   autoUpdate,
@@ -19,6 +26,7 @@ import { Input, InputVariant } from "../input/Input";
 import { Button } from "../button/Button";
 import { ClearButton } from "../clearbutton/ClearButton";
 import "./datepicker.css";
+import { Typography } from "../typography";
 
 export type DatePickerSingleValue = Date | number | string | null;
 export type DatePickerRangeValue =
@@ -32,14 +40,40 @@ export interface DatePickerChangeContext {
   formatted: string;
 }
 
+export type DatePickerMode = "single" | "range" | "datetime";
+export type DatePickerValueFormat = "date" | "epoch" | "iso" | "string";
+
+type DatePickerSingleOutput<F extends DatePickerValueFormat> = F extends "epoch"
+  ? number | null
+  : F extends "iso" | "string"
+    ? string | null
+    : Date | null;
+
+type DatePickerRangeOutput<F extends DatePickerValueFormat> = F extends "epoch"
+  ? [number | null, number | "present" | null] | null
+  : F extends "iso"
+    ? [string | null, string | "present" | null] | null
+    : F extends "string"
+      ? [string, string] | null
+      : [Date | null, Date | "present" | null] | null;
+
+/** Value passed to onChange/onApply, derived from `mode` and `valueFormat` */
+export type DatePickerOutputValue<
+  M extends DatePickerMode = DatePickerMode,
+  F extends DatePickerValueFormat = DatePickerValueFormat,
+> = M extends "range" ? DatePickerRangeOutput<F> : DatePickerSingleOutput<F>;
+
 export interface DatePickerPreset {
   label: string;
   getValue: () => DatePickerValue;
 }
 
-export interface DatePickerProps {
+export interface DatePickerProps<
+  M extends DatePickerMode = DatePickerMode,
+  F extends DatePickerValueFormat = DatePickerValueFormat,
+> {
   /** Mode: "single" date, "range" of dates, or "datetime" (date + exact time) */
-  mode?: "single" | "range" | "datetime";
+  mode?: M;
   /** Whether to enable exact time selection. (Equivalent to mode="datetime" when mode="single") */
   showTime?: boolean;
   /** Whether to enable exact time selection (alias for showTime) */
@@ -63,8 +97,11 @@ export interface DatePickerProps {
     | "success"
     | "disabled"
     | "glassmorphic"
-    | "glass";
+    | "glass"
+    | "range";
   value?: DatePickerValue;
+  /** Default value for uncontrolled component */
+  defaultValue?: DatePickerValue;
   /**
    * Output value format for onChange and onApply:
    * - "date": Date object (default)
@@ -72,8 +109,11 @@ export interface DatePickerProps {
    * - "iso": ISO-8601 string
    * - "string": Formatted string according to dateFormat
    */
-  valueFormat?: "date" | "epoch" | "iso" | "string";
-  onChange?: (val: any, context?: DatePickerChangeContext) => void;
+  valueFormat?: F;
+  onChange?: (
+    val: DatePickerOutputValue<M, F>,
+    context?: DatePickerChangeContext,
+  ) => void;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   minDate?: Date | number | string;
@@ -81,7 +121,10 @@ export interface DatePickerProps {
   onOpen?: () => void;
   onClose?: () => void;
   onCancel?: () => void;
-  onApply?: (val: any, context?: DatePickerChangeContext) => void;
+  onApply?: (
+    val: DatePickerOutputValue<M, F>,
+    context?: DatePickerChangeContext,
+  ) => void;
   onClear?: () => void;
   /** Date format string, supports tokens like YYYY, MM, DD, HH, hh, mm, ss, A, or "epoch" */
   dateFormat?: string;
@@ -168,7 +211,7 @@ const ClockIcon = () => (
 );
 
 /** Parses Date instance, epoch timestamp (number), or date string safely */
-export function parseDateValue(val: any): Date | null {
+export function parseDateValue(val: unknown): Date | null {
   if (!val && val !== 0) return null;
   if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
   if (typeof val === "number") {
@@ -180,7 +223,12 @@ export function parseDateValue(val: any): Date | null {
   if (typeof val === "string") {
     const trimmed = val.trim();
     const num = Number(trimmed);
-    if (!isNaN(num) && trimmed.length >= 10 && !trimmed.includes("-") && !trimmed.includes("/")) {
+    if (
+      !isNaN(num) &&
+      trimmed.length >= 10 &&
+      !trimmed.includes("-") &&
+      !trimmed.includes("/")
+    ) {
       const ms = num < 100000000000 ? num * 1000 : num;
       const d = new Date(ms);
       return isNaN(d.getTime()) ? null : d;
@@ -212,12 +260,32 @@ export function formatDateWithTokens(d: Date, format: string): string {
   const isPM = hours24 >= 12;
 
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   const monthShort = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -247,8 +315,11 @@ export function formatDateWithTokens(d: Date, format: string): string {
   return format.replace(regex, (match) => tokens[match] ?? match);
 }
 
-export function DatePicker({
-  mode = "single",
+export function DatePicker<
+  M extends DatePickerMode = "single",
+  F extends DatePickerValueFormat = "date",
+>({
+  mode = "single" as M,
   showTime = false,
   enableTime = false,
   timeFormat,
@@ -259,7 +330,8 @@ export function DatePicker({
   placeholder,
   variant = "default",
   value,
-  valueFormat = "date",
+  defaultValue,
+  valueFormat = "date" as F,
   onChange,
   leftIcon,
   rightIcon,
@@ -291,10 +363,31 @@ export function DatePicker({
   showEpoch = false,
   presets,
   className = "",
-}: DatePickerProps) {
+}: DatePickerProps<M, F>) {
   const uid = useId();
+  const isControlled = value !== undefined;
   const [open, setOpen] = useState(false);
-  const [timeDropdownOpen, setTimeDropdownOpen] = useState(defaultTimeDropdownOpen);
+  const [timeDropdownOpen, setTimeDropdownOpen] = useState(
+    defaultTimeDropdownOpen,
+  );
+  const [timePlacement, setTimePlacement] = useState<"top" | "bottom">("top");
+  const timePanelRef = useRef<HTMLDivElement>(null);
+
+  const resolveTimePlacement = useCallback(() => {
+    if (!timePanelRef.current) return;
+    const panelRect = timePanelRef.current.getBoundingClientRect();
+    const dropdownHeight = 220; // Height of time dropdown menu with header and footer
+    const spaceBelow = window.innerHeight - panelRect.bottom;
+
+    // When smartPosition is true (default):
+    // If space below the time panel in the viewport is less than dropdownHeight,
+    // smartly flip upwards to overlay the calendar.
+    if (smartPosition && spaceBelow < dropdownHeight) {
+      setTimePlacement("top");
+    } else {
+      setTimePlacement("bottom");
+    }
+  }, [smartPosition]);
 
   useEffect(() => {
     if (!open) {
@@ -302,13 +395,44 @@ export function DatePicker({
     }
   }, [open, defaultTimeDropdownOpen]);
 
-  const isDateTime = mode === "datetime" || showTime === true || enableTime === true;
-  const calendarMode: "single" | "range" = mode === "range" ? "range" : "single";
+  useEffect(() => {
+    if (!timeDropdownOpen) return;
+    resolveTimePlacement();
+    window.addEventListener("resize", resolveTimePlacement);
+    window.addEventListener("scroll", resolveTimePlacement, true);
+    return () => {
+      window.removeEventListener("resize", resolveTimePlacement);
+      window.removeEventListener("scroll", resolveTimePlacement, true);
+    };
+  }, [timeDropdownOpen, resolveTimePlacement]);
+
+  // Click outside time panel to close time dropdown
+  useEffect(() => {
+    if (!timeDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        timePanelRef.current &&
+        !timePanelRef.current.contains(e.target as Node)
+      ) {
+        setTimeDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [timeDropdownOpen]);
+
+  const isDateTime =
+    mode === "datetime" || showTime === true || enableTime === true;
+  const calendarMode: "single" | "range" =
+    mode === "range" || (variant as string) === "range" ? "range" : "single";
 
   // Auto-detect time format & seconds if not explicitly provided
   const effectiveTimeFormat: "12h" | "24h" = useMemo(() => {
     if (timeFormat) return timeFormat;
-    if (dateFormat && (dateFormat.includes("HH") || dateFormat.includes("H:"))) {
+    if (
+      dateFormat &&
+      (dateFormat.includes("HH") || dateFormat.includes("H:"))
+    ) {
       return "24h";
     }
     return "12h";
@@ -316,7 +440,12 @@ export function DatePicker({
 
   const effectiveShowSeconds: boolean = useMemo(() => {
     if (showSeconds !== undefined) return showSeconds;
-    if (dateFormat && (dateFormat.includes(":ss") || dateFormat.includes(":s") || dateFormat.includes("ss"))) {
+    if (
+      dateFormat &&
+      (dateFormat.includes(":ss") ||
+        dateFormat.includes(":s") ||
+        dateFormat.includes("ss"))
+    ) {
       return true;
     }
     return false;
@@ -326,9 +455,13 @@ export function DatePicker({
     if (dateFormat) return dateFormat;
     if (isDateTime) {
       if (effectiveTimeFormat === "24h") {
-        return effectiveShowSeconds ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD HH:mm";
+        return effectiveShowSeconds
+          ? "YYYY-MM-DD HH:mm:ss"
+          : "YYYY-MM-DD HH:mm";
       }
-      return effectiveShowSeconds ? "YYYY-MM-DD hh:mm:ss A" : "YYYY-MM-DD hh:mm A";
+      return effectiveShowSeconds
+        ? "YYYY-MM-DD hh:mm:ss A"
+        : "YYYY-MM-DD hh:mm A";
     }
     return "YYYY-MM-DD";
   }, [dateFormat, isDateTime, effectiveTimeFormat, effectiveShowSeconds]);
@@ -345,8 +478,22 @@ export function DatePicker({
     return parseDateValue(val);
   };
 
+  const [internalValue, setInternalValue] = useState<DatePickerValue>(() =>
+    normalizeExternalValue(
+      value !== undefined ? value : (defaultValue ?? null),
+    ),
+  );
+
+  useEffect(() => {
+    if (isControlled) {
+      setInternalValue(normalizeExternalValue(value ?? null));
+    }
+  }, [isControlled, value]);
+
   const [tempValue, setTempValue] = useState<DatePickerValue>(() =>
-    normalizeExternalValue(value ?? null)
+    normalizeExternalValue(
+      value !== undefined ? value : (defaultValue ?? null),
+    ),
   );
 
   const desiredPlacement: FloatingPlacement =
@@ -387,7 +534,7 @@ export function DatePicker({
       shift({ padding: 8 }),
       floatingSize({
         apply({ rects, elements }) {
-          const minW = isDateTime ? 320 : 280;
+          const minW = isDateTime ? 320 : calendarMode === "range" ? 312 : 280;
           const w = `${Math.max(rects.reference.width, minW)}px`;
           elements.floating.style.setProperty("--gy-trigger-width", w);
           Object.assign(elements.floating.style, {
@@ -406,9 +553,18 @@ export function DatePicker({
     role,
   ]);
 
+  // Latest uncontrolled value, read when the popover opens without re-syncing on every change
+  const internalValueRef = useRef(internalValue);
   useEffect(() => {
-    setTempValue(normalizeExternalValue(value ?? null));
-  }, [value, open]);
+    internalValueRef.current = internalValue;
+  }, [internalValue]);
+
+  useEffect(() => {
+    if (open) {
+      const active = isControlled ? value : internalValueRef.current;
+      setTempValue(normalizeExternalValue(active ?? null));
+    }
+  }, [open, isControlled, value]);
 
   useEffect(() => {
     if (open) onOpen?.();
@@ -439,11 +595,18 @@ export function DatePicker({
   };
 
   const getInputValue = () => {
-    return getInputValueFor(value ?? null);
+    if (open) {
+      return getInputValueFor(tempValue);
+    }
+    const committed = isControlled ? (value ?? null) : internalValue;
+    return getInputValueFor(committed);
   };
 
   // Convert raw value to output format (Date, epoch, ISO, or string)
-  const getOutputValue = (val: DatePickerValue) => {
+  const getOutputValue = (val: DatePickerValue): DatePickerOutputValue<M, F> =>
+    toOutputValue(val) as DatePickerOutputValue<M, F>;
+
+  const toOutputValue = (val: DatePickerValue): DatePickerValue => {
     if (!val) return null;
     if (Array.isArray(val)) {
       const [start, end] = val;
@@ -453,19 +616,31 @@ export function DatePicker({
       if (valueFormat === "epoch") {
         return [
           startD ? startD.getTime() : null,
-          endD === "present" ? "present" : (endD instanceof Date ? endD.getTime() : null),
+          endD === "present"
+            ? "present"
+            : endD instanceof Date
+              ? endD.getTime()
+              : null,
         ];
       }
       if (valueFormat === "iso") {
         return [
           startD ? startD.toISOString() : null,
-          endD === "present" ? "present" : (endD instanceof Date ? endD.toISOString() : null),
+          endD === "present"
+            ? "present"
+            : endD instanceof Date
+              ? endD.toISOString()
+              : null,
         ];
       }
       if (valueFormat === "string") {
         return [
           startD ? formatDateStr(startD) : "",
-          endD === "present" ? "Present" : (endD instanceof Date ? formatDateStr(endD) : ""),
+          endD === "present"
+            ? "Present"
+            : endD instanceof Date
+              ? formatDateStr(endD)
+              : "",
         ];
       }
       return [startD, endD];
@@ -491,7 +666,11 @@ export function DatePicker({
         date: [startD, endD],
         epoch: [
           startD ? startD.getTime() : null,
-          endD === "present" ? null : (endD instanceof Date ? endD.getTime() : null),
+          endD === "present"
+            ? null
+            : endD instanceof Date
+              ? endD.getTime()
+              : null,
         ],
         formatted: getInputValueFor(val),
       };
@@ -518,13 +697,13 @@ export function DatePicker({
 
   const currentPeriod: "AM" | "PM" = currentHours >= 12 ? "PM" : "AM";
   const displayHours =
-    effectiveTimeFormat === "12h"
-      ? (currentHours % 12 || 12)
-      : currentHours;
+    effectiveTimeFormat === "12h" ? currentHours % 12 || 12 : currentHours;
 
   const currentEpoch = useMemo(() => {
     if (!tempValue) return null;
-    const d = Array.isArray(tempValue) ? parseDateValue(tempValue[0]) : parseDateValue(tempValue);
+    const d = Array.isArray(tempValue)
+      ? parseDateValue(tempValue[0])
+      : parseDateValue(tempValue);
     return d ? d.getTime() : null;
   }, [tempValue]);
 
@@ -536,37 +715,16 @@ export function DatePicker({
       const next: DatePickerRangeValue = [base, tempValue[1]];
       setTempValue(next);
       if (!showActions && !onApply) {
+        setInternalValue(next);
         onChange?.(getOutputValue(next), getChangeContext(next));
       }
     } else {
       setTempValue(base);
       if (!showActions && !onApply) {
+        setInternalValue(base);
         onChange?.(getOutputValue(base), getChangeContext(base));
       }
     }
-  };
-
-  const stepHour = (delta: number) => {
-    let nextH: number;
-    if (effectiveTimeFormat === "12h") {
-      let h12 = (currentHours % 12 || 12) + delta * hourStep;
-      if (h12 > 12) h12 = 1;
-      if (h12 < 1) h12 = 12;
-      nextH = currentPeriod === "PM" ? (h12 === 12 ? 12 : h12 + 12) : (h12 === 12 ? 0 : h12);
-    } else {
-      nextH = (currentHours + delta * hourStep + 24) % 24;
-    }
-    updateTime(nextH, currentMinutes, currentSeconds);
-  };
-
-  const stepMinute = (delta: number) => {
-    const nextM = (currentMinutes + delta * minuteStep + 60) % 60;
-    updateTime(currentHours, nextM, currentSeconds);
-  };
-
-  const stepSecond = (delta: number) => {
-    const nextS = (currentSeconds + delta * secondStep + 60) % 60;
-    updateTime(currentHours, currentMinutes, nextS);
   };
 
   const togglePeriod = (p: "AM" | "PM") => {
@@ -581,6 +739,7 @@ export function DatePicker({
     const now = new Date();
     setTempValue(now);
     if (!showActions && !onApply) {
+      setInternalValue(now);
       onChange?.(getOutputValue(now), getChangeContext(now));
     }
   };
@@ -591,23 +750,37 @@ export function DatePicker({
 
   const hoursList = useMemo(() => {
     return effectiveTimeFormat === "12h"
-      ? Array.from({ length: Math.floor(12 / hourStep) }, (_, i) => (i + 1) * hourStep)
-      : Array.from({ length: Math.floor(24 / hourStep) }, (_, i) => i * hourStep);
+      ? Array.from(
+          { length: Math.floor(12 / hourStep) },
+          (_, i) => (i + 1) * hourStep,
+        )
+      : Array.from(
+          { length: Math.floor(24 / hourStep) },
+          (_, i) => i * hourStep,
+        );
   }, [effectiveTimeFormat, hourStep]);
 
   const minutesList = useMemo(() => {
-    return Array.from({ length: Math.floor(60 / minuteStep) }, (_, i) => i * minuteStep);
+    return Array.from(
+      { length: Math.floor(60 / minuteStep) },
+      (_, i) => i * minuteStep,
+    );
   }, [minuteStep]);
 
   const secondsList = useMemo(() => {
     return effectiveShowSeconds
-      ? Array.from({ length: Math.floor(60 / secondStep) }, (_, i) => i * secondStep)
+      ? Array.from(
+          { length: Math.floor(60 / secondStep) },
+          (_, i) => i * secondStep,
+        )
       : [];
   }, [effectiveShowSeconds, secondStep]);
 
   const scrollToSelected = (container: HTMLDivElement | null) => {
     if (!container) return;
-    const selected = container.querySelector<HTMLElement>('[data-selected="true"]');
+    const selected = container.querySelector<HTMLElement>(
+      '[data-selected="true"]',
+    );
     if (selected) {
       const top =
         selected.offsetTop -
@@ -627,7 +800,13 @@ export function DatePicker({
       }, 40);
       return () => clearTimeout(timer);
     }
-  }, [timeDropdownOpen, isDateTime, displayHours, currentMinutes, currentSeconds]);
+  }, [
+    timeDropdownOpen,
+    isDateTime,
+    displayHours,
+    currentMinutes,
+    currentSeconds,
+  ]);
 
   const handleSelectDate = (val: CalendarValue) => {
     if (Array.isArray(val)) {
@@ -636,6 +815,7 @@ export function DatePicker({
       const nextRange: DatePickerRangeValue = [parsedStart, parsedEnd];
       setTempValue(nextRange);
       if (!showActions && !onApply && parsedStart && parsedEnd) {
+        setInternalValue(nextRange);
         onChange?.(getOutputValue(nextRange), getChangeContext(nextRange));
         setOpen(false);
       }
@@ -648,12 +828,19 @@ export function DatePicker({
         }
         setTempValue(parsed);
         // Only auto-close if time selection is not enabled and actions are hidden
-        if (!isDateTime && !showActions && !onApply) {
+        if (!showActions && !onApply) {
+          setInternalValue(parsed);
           onChange?.(getOutputValue(parsed), getChangeContext(parsed));
-          setOpen(false);
+          if (!isDateTime) {
+            setOpen(false);
+          }
         }
       } else {
         setTempValue(null);
+        if (!showActions && !onApply) {
+          setInternalValue(null);
+          onChange?.(getOutputValue(null), { date: null, epoch: null, formatted: "" });
+        }
       }
     }
   };
@@ -661,13 +848,15 @@ export function DatePicker({
   const handleApplyClick = () => {
     const out = getOutputValue(tempValue);
     const ctx = getChangeContext(tempValue);
+    setInternalValue(tempValue);
     onChange?.(out, ctx);
     onApply?.(out, ctx);
     setOpen(false);
   };
 
   const handleCancelClick = () => {
-    setTempValue(normalizeExternalValue(value ?? null));
+    const orig = isControlled ? (value ?? null) : internalValue;
+    setTempValue(normalizeExternalValue(orig));
     onCancel?.();
     setOpen(false);
   };
@@ -676,7 +865,8 @@ export function DatePicker({
     setTempValue(null);
     onClear?.();
     if (!showActions && !onApply) {
-      onChange?.(null, { date: null, epoch: null, formatted: "" });
+      setInternalValue(null);
+      onChange?.(getOutputValue(null), { date: null, epoch: null, formatted: "" });
       setOpen(false);
     }
   };
@@ -684,8 +874,9 @@ export function DatePicker({
   const handleTriggerClear = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setTempValue(null);
+    setInternalValue(null);
     onClear?.();
-    onChange?.(null, { date: null, epoch: null, formatted: "" });
+    onChange?.(getOutputValue(null), { date: null, epoch: null, formatted: "" });
     if (open) setOpen(false);
   };
 
@@ -696,6 +887,7 @@ export function DatePicker({
         const nextVal: DatePickerRangeValue = [tempValue[0], "present"];
         setTempValue(nextVal);
         if (!showActions && !onApply) {
+          setInternalValue(nextVal);
           onChange?.(getOutputValue(nextVal), getChangeContext(nextVal));
           setOpen(false);
         }
@@ -703,6 +895,7 @@ export function DatePicker({
         const nextVal: DatePickerRangeValue = [today, "present"];
         setTempValue(nextVal);
         if (!showActions && !onApply) {
+          setInternalValue(nextVal);
           onChange?.(getOutputValue(nextVal), getChangeContext(nextVal));
           setOpen(false);
         }
@@ -710,6 +903,7 @@ export function DatePicker({
     } else {
       setTempValue(today);
       if (!showActions && !onApply) {
+        setInternalValue(today);
         onChange?.(getOutputValue(today), getChangeContext(today));
         setOpen(false);
       }
@@ -731,7 +925,8 @@ export function DatePicker({
       const [start, end] = tempValue;
       const startD = parseDateValue(start);
       if (!startD) return undefined;
-      const endResolved = end === "present" ? new Date() : (parseDateValue(end) ?? undefined);
+      const endResolved =
+        end === "present" ? new Date() : (parseDateValue(end) ?? undefined);
       return [startD, endResolved];
     }
     const singleD = parseDateValue(tempValue);
@@ -745,8 +940,12 @@ export function DatePicker({
   const defaultPlaceholder =
     placeholder ??
     (isDateTime
-      ? (effectiveDateFormat === "epoch" ? "Select timestamp (epoch)" : "Select date & time")
-      : (calendarMode === "range" ? "Select date range" : "Select date"));
+      ? effectiveDateFormat === "epoch"
+        ? "Select timestamp (epoch)"
+        : "Select date & time"
+      : calendarMode === "range"
+        ? "Select date range"
+        : "Select date");
 
   const isGlass = variant === "glassmorphic" || variant === "glass";
 
@@ -766,12 +965,20 @@ export function DatePicker({
     const mStr = pad(currentMinutes);
     const sStr = effectiveShowSeconds ? `:${pad(currentSeconds)}` : "";
     return `${hStr}:${mStr}${sStr}`;
-  }, [displayHours, currentHours, currentMinutes, currentSeconds, currentPeriod, effectiveTimeFormat, effectiveShowSeconds]);
+  }, [
+    displayHours,
+    currentHours,
+    currentMinutes,
+    currentSeconds,
+    currentPeriod,
+    effectiveTimeFormat,
+    effectiveShowSeconds,
+  ]);
 
   const popoverContent = (
     <div
       ref={refs.setFloating}
-      className={`gy-datepicker-popover ${isPositioned ? "gy-datepicker-popover--positioned" : ""} ${isGlass ? `gy-datepicker-popover--${variant}` : ""}`.trim()}
+      className={`gy-datepicker-popover ${isPositioned ? "gy-datepicker-popover--positioned" : ""} ${calendarMode === "range" ? "gy-datepicker-popover--range" : ""} ${isGlass ? `gy-datepicker-popover--${variant}` : ""}`.trim()}
       style={{
         ...floatingStyles,
         zIndex,
@@ -792,6 +999,7 @@ export function DatePicker({
                 const val = normalizeExternalValue(p.getValue());
                 setTempValue(val);
                 if (!showActions && !onApply) {
+                  setInternalValue(val);
                   onChange?.(getOutputValue(val), getChangeContext(val));
                   setOpen(false);
                 }
@@ -815,23 +1023,31 @@ export function DatePicker({
 
       {/* Integrated Time Section with Scrollable Dropdown */}
       {isDateTime && (
-        <div className="gy-datepicker-time-panel">
+        <div className="gy-datepicker-time-panel" ref={timePanelRef}>
           <div className="gy-datepicker-time-row">
             <div className="gy-datepicker-time-label">
               <ClockIcon />
-              <span>Time</span>
+              <Typography variant="span">Time</Typography>
             </div>
 
             <button
               type="button"
               className={`gy-datepicker-time-dropdown-btn ${timeDropdownOpen ? "gy-datepicker-time-dropdown-btn--open" : ""}`}
-              onClick={() => setTimeDropdownOpen((prev) => !prev)}
+              onClick={() => {
+                if (!timeDropdownOpen) {
+                  resolveTimePlacement();
+                }
+                setTimeDropdownOpen((prev) => !prev);
+              }}
               aria-expanded={timeDropdownOpen}
               title="Click to scroll & select time"
             >
-              <span className="gy-datepicker-time-dropdown-display">
+              <Typography
+                variant="span"
+                className="gy-datepicker-time-dropdown-display"
+              >
                 {selectedTimePreview}
-              </span>
+              </Typography>
               <svg
                 className={`gy-datepicker-time-dropdown-chevron ${timeDropdownOpen ? "gy-datepicker-time-dropdown-chevron--open" : ""}`}
                 width="12"
@@ -859,15 +1075,70 @@ export function DatePicker({
 
           {/* Scrollable Time Dropdown Columns */}
           {timeDropdownOpen && (
-            <div className="gy-datepicker-time-dropdown-menu">
+            <div
+              className={`gy-datepicker-time-dropdown-menu gy-datepicker-time-dropdown-menu--${timePlacement}`}
+            >
+              <div className="gy-datepicker-time-menu-header">
+                <div className="gy-datepicker-time-menu-title-wrap">
+                  <ClockIcon />
+                  <Typography
+                    variant="span"
+                    className="gy-datepicker-time-menu-title"
+                  >
+                    Select Time
+                  </Typography>
+                </div>
+                <button
+                  type="button"
+                  className="gy-datepicker-time-menu-close"
+                  onClick={() => setTimeDropdownOpen(false)}
+                  aria-label="Close time selector"
+                  title="Close"
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+
               <div className="gy-datepicker-time-cols-header">
-                <span className="gy-datepicker-time-col-head">Hour</span>
-                <span className="gy-datepicker-time-col-head">Min</span>
+                <Typography
+                  variant="span"
+                  className="gy-datepicker-time-col-head"
+                >
+                  Hour
+                </Typography>
+                <Typography
+                  variant="span"
+                  className="gy-datepicker-time-col-head"
+                >
+                  Min
+                </Typography>
                 {effectiveShowSeconds && (
-                  <span className="gy-datepicker-time-col-head">Sec</span>
+                  <Typography
+                    variant="span"
+                    className="gy-datepicker-time-col-head"
+                  >
+                    Sec
+                  </Typography>
                 )}
                 {effectiveTimeFormat === "12h" && (
-                  <span className="gy-datepicker-time-col-head">Period</span>
+                  <Typography
+                    variant="span"
+                    className="gy-datepicker-time-col-head"
+                  >
+                    Period
+                  </Typography>
                 )}
               </div>
 
@@ -889,7 +1160,14 @@ export function DatePicker({
                         onClick={() => {
                           let nextH: number;
                           if (effectiveTimeFormat === "12h") {
-                            nextH = currentPeriod === "PM" ? (h === 12 ? 12 : h + 12) : (h === 12 ? 0 : h);
+                            nextH =
+                              currentPeriod === "PM"
+                                ? h === 12
+                                  ? 12
+                                  : h + 12
+                                : h === 12
+                                  ? 0
+                                  : h;
                           } else {
                             nextH = h;
                           }
@@ -916,7 +1194,9 @@ export function DatePicker({
                         type="button"
                         data-selected={isSelected ? "true" : undefined}
                         className={`gy-datepicker-time-item ${isSelected ? "gy-datepicker-time-item--selected" : ""}`}
-                        onClick={() => updateTime(currentHours, m, currentSeconds)}
+                        onClick={() =>
+                          updateTime(currentHours, m, currentSeconds)
+                        }
                       >
                         {pad(m)}
                       </button>
@@ -939,7 +1219,9 @@ export function DatePicker({
                           type="button"
                           data-selected={isSelected ? "true" : undefined}
                           className={`gy-datepicker-time-item ${isSelected ? "gy-datepicker-time-item--selected" : ""}`}
-                          onClick={() => updateTime(currentHours, currentMinutes, s)}
+                          onClick={() =>
+                            updateTime(currentHours, currentMinutes, s)
+                          }
                         >
                           {pad(s)}
                         </button>
@@ -950,10 +1232,15 @@ export function DatePicker({
 
                 {/* Period column (AM/PM) */}
                 {effectiveTimeFormat === "12h" && (
-                  <div className="gy-datepicker-time-col gy-datepicker-time-col--period" aria-label="Select period">
+                  <div
+                    className="gy-datepicker-time-col gy-datepicker-time-col--period"
+                    aria-label="Select period"
+                  >
                     <button
                       type="button"
-                      data-selected={currentPeriod === "AM" ? "true" : undefined}
+                      data-selected={
+                        currentPeriod === "AM" ? "true" : undefined
+                      }
                       className={`gy-datepicker-time-item ${currentPeriod === "AM" ? "gy-datepicker-time-item--selected" : ""}`}
                       onClick={() => togglePeriod("AM")}
                     >
@@ -961,7 +1248,9 @@ export function DatePicker({
                     </button>
                     <button
                       type="button"
-                      data-selected={currentPeriod === "PM" ? "true" : undefined}
+                      data-selected={
+                        currentPeriod === "PM" ? "true" : undefined
+                      }
                       className={`gy-datepicker-time-item ${currentPeriod === "PM" ? "gy-datepicker-time-item--selected" : ""}`}
                       onClick={() => togglePeriod("PM")}
                     >
@@ -970,16 +1259,39 @@ export function DatePicker({
                   </div>
                 )}
               </div>
+
+              <div className="gy-datepicker-time-menu-footer">
+                <Typography
+                  variant="span"
+                  className="gy-datepicker-time-preview-chip"
+                >
+                  {selectedTimePreview}
+                </Typography>
+                <button
+                  type="button"
+                  className="gy-datepicker-time-done-btn"
+                  onClick={() => setTimeDropdownOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
             </div>
           )}
 
           {/* Optional Epoch Pill - hidden by default unless showEpoch is true */}
           {showEpoch && currentEpoch !== null && (
             <div className="gy-datepicker-epoch-row">
-              <span className="gy-datepicker-epoch-chip" title="Unix Epoch timestamp (milliseconds)">
+              <span
+                className="gy-datepicker-epoch-chip"
+                title="Unix Epoch timestamp (milliseconds)"
+              >
                 <span className="gy-datepicker-epoch-dot" />
-                <span className="gy-datepicker-epoch-tag">Epoch:</span>
-                <span className="gy-datepicker-epoch-val">{currentEpoch}</span>
+                <Typography variant="span" className="gy-datepicker-epoch-tag">
+                  Epoch:
+                </Typography>
+                <Typography variant="span" className="gy-datepicker-epoch-val">
+                  {currentEpoch}
+                </Typography>
               </span>
             </div>
           )}
@@ -1022,20 +1334,23 @@ export function DatePicker({
 
   return (
     <div
-      className={`gy-datepicker ${isGlass ? `gy-datepicker--${variant}` : ""} ${className}`.trim()}
+      className={`gy-datepicker ${calendarMode === "range" ? "gy-datepicker--range" : ""} ${isGlass ? `gy-datepicker--${variant}` : ""} ${className}`.trim()}
     >
       {label && (
-        <label
+        <Typography
+          variant="span"
+          as="label"
           className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
           htmlFor={`gy-datepicker-${uid}`}
         >
           {label}
-        </label>
+        </Typography>
       )}
 
       <div
         ref={refs.setReference}
         style={{ width: "100%" }}
+        className={`gy-datepicker-trigger ${open ? "gy-datepicker-trigger--open" : ""} ${disabled ? "gy-datepicker-trigger--disabled" : ""}`}
         {...getReferenceProps({
           onClick: () => !disabled && setOpen((o) => !o),
         })}
@@ -1050,10 +1365,20 @@ export function DatePicker({
           disabled={disabled}
           required={required}
           hasError={hasError}
-          variant={isGlass ? "default" : (variant as InputVariant)}
+          variant={
+            variant === "range" || isGlass
+              ? "default"
+              : (variant as InputVariant)
+          }
           leftIcon={leftIcon}
           rightIcon={
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.375rem",
+              }}
+            >
               {clearable && getInputValue() && !disabled && (
                 <ClearButton
                   size="sm"
@@ -1070,12 +1395,22 @@ export function DatePicker({
       </div>
 
       {helperText && (
-        <div className={`gy-input-helper ${hasError ? "gy-input-helper--error" : ""}`}>
+        <Typography
+          variant="span"
+          as="div"
+          className={`gy-input-helper ${hasError ? "gy-input-helper--error" : ""}`}
+        >
           {helperText}
-        </div>
+        </Typography>
       )}
 
-      {open && !disabled && (usePortal ? <FloatingPortal>{popoverContent}</FloatingPortal> : popoverContent)}
+      {open &&
+        !disabled &&
+        (usePortal ? (
+          <FloatingPortal>{popoverContent}</FloatingPortal>
+        ) : (
+          popoverContent
+        ))}
     </div>
   );
 }

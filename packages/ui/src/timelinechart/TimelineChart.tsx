@@ -10,10 +10,16 @@ import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Cell,
+  type TooltipProps,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./timeline-chart.css";
+import { Typography } from "../typography";
 
 export interface TimelineItem {
   label: string;
@@ -21,7 +27,7 @@ export interface TimelineItem {
   end: number;
   color?: string;
   progress?: number; // optional 0-100%
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TimelineTooltipConfig {
@@ -30,7 +36,7 @@ export interface TimelineTooltipConfig {
   formatter?: (
     start: number,
     end: number,
-    item: TimelineItem
+    item: TimelineItem,
   ) => React.ReactNode;
 }
 
@@ -96,7 +102,7 @@ export function TimelineChart({
     return () => observer.disconnect();
   }, [responsive]);
 
-  const { minStart, maxEnd, totalSpan } = useMemo(() => {
+  const { totalSpan } = useMemo(() => {
     if (data.length === 0) return { minStart: 0, maxEnd: 0, totalSpan: 0 };
     const starts = data.map((d) => d.start);
     const ends = data.map((d) => d.end);
@@ -118,7 +124,10 @@ export function TimelineChart({
     });
   }, [data]);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -129,6 +138,8 @@ export function TimelineChart({
     }
 
     const current = payload[0];
+
+    if (!current) return null;
     const itemData = current.payload as TimelineItem & { duration: number };
     const start = itemData.start;
     const end = itemData.end;
@@ -142,9 +153,9 @@ export function TimelineChart({
 
     if (tooltipConfig?.formatter) {
       return (
-        <div className="gy-timeline-tooltip">
+        <Typography variant="span" as="div" className="gy-timeline-tooltip">
           {tooltipConfig.formatter(start, end, itemData)}
-        </div>
+        </Typography>
       );
     }
 
@@ -155,33 +166,43 @@ export function TimelineChart({
             className="gy-timeline-tooltip-badge"
             style={{ backgroundColor: itemColor }}
           />
-          <span className="gy-timeline-tooltip-title">{itemData.label}</span>
+          <Typography variant="span" className="gy-timeline-tooltip-title">
+            {itemData.label}
+          </Typography>
         </div>
         <div className="gy-timeline-tooltip-body">
           <div className="gy-timeline-tooltip-row">
-            <span className="gy-timeline-tooltip-label">Start:</span>
-            <span className="gy-timeline-tooltip-val">
+            <Typography variant="span" className="gy-timeline-tooltip-label">
+              Start:
+            </Typography>
+            <Typography variant="span" className="gy-timeline-tooltip-val">
               {unit ? `${unit} ${start}` : start}
-            </span>
+            </Typography>
           </div>
           <div className="gy-timeline-tooltip-row">
-            <span className="gy-timeline-tooltip-label">End:</span>
-            <span className="gy-timeline-tooltip-val">
+            <Typography variant="span" className="gy-timeline-tooltip-label">
+              End:
+            </Typography>
+            <Typography variant="span" className="gy-timeline-tooltip-val">
               {unit ? `${unit} ${end}` : end}
-            </span>
+            </Typography>
           </div>
           <div className="gy-timeline-tooltip-row gy-timeline-tooltip-row--highlight">
-            <span className="gy-timeline-tooltip-label">Duration:</span>
-            <span className="gy-timeline-tooltip-val">
+            <Typography variant="span" className="gy-timeline-tooltip-label">
+              Duration:
+            </Typography>
+            <Typography variant="span" className="gy-timeline-tooltip-val">
               {duration} {duration === 1 ? unit : `${unit}s`}
-            </span>
+            </Typography>
           </div>
           {itemData.progress !== undefined && (
             <div className="gy-timeline-tooltip-row">
-              <span className="gy-timeline-tooltip-label">Progress:</span>
-              <span className="gy-timeline-tooltip-val">
+              <Typography variant="span" className="gy-timeline-tooltip-label">
+                Progress:
+              </Typography>
+              <Typography variant="span" className="gy-timeline-tooltip-val">
                 {itemData.progress}%
-              </span>
+              </Typography>
             </div>
           )}
         </div>
@@ -260,7 +281,9 @@ export function TimelineChart({
       <div className="gy-timeline-body">
         {showSummaryHeader && (
           <div className="gy-timeline-header">
-            <span className="gy-timeline-title">{summaryTitle}</span>
+            <Typography variant="span" className="gy-timeline-title">
+              {summaryTitle}
+            </Typography>
             <div className="gy-timeline-badges">
               <span className="gy-timeline-badge">
                 Tasks: <strong>{data.length}</strong>
@@ -345,9 +368,7 @@ export function TimelineChart({
                 maxBarSize={isCompact ? 18 : 22}
                 onMouseEnter={(_, index) => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                onClick={(entry, index) =>
-                  onItemClick?.(data[index]!, index)
-                }
+                onClick={(entry, index) => onItemClick?.(data[index]!, index)}
               >
                 {formattedData.map((entry, index) => {
                   const isHovered = hoveredIndex === index;
@@ -357,19 +378,12 @@ export function TimelineChart({
                       key={`cell-${index}`}
                       fill={entry.color}
                       fillOpacity={
-                        hoveredIndex === null
-                          ? 0.92
-                          : isHovered
-                            ? 1
-                            : 0.45
+                        hoveredIndex === null ? 0.92 : isHovered ? 1 : 0.45
                       }
-                      stroke={
-                        isHovered ? "var(--gy-text, #0f172a)" : "none"
-                      }
+                      stroke={isHovered ? "var(--gy-text, #0f172a)" : "none"}
                       strokeWidth={isHovered ? 1.5 : 0}
                       style={{
-                        transition:
-                          "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+                        transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                         cursor: "pointer",
                         filter: isHovered
                           ? "drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18))"

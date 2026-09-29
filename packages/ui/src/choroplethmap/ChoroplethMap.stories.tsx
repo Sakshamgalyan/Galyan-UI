@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ChoroplethMap, type MapRegionItem } from "./ChoroplethMap";
 
@@ -10,11 +9,15 @@ const meta: Meta<typeof ChoroplethMap> = {
     variant: {
       control: "select",
       options: ["world", "tiles"],
-      description: "Map presentation variant: vector world map or US state grid tiles.",
+      description:
+        "Map presentation variant: vector world map or US state grid tiles.",
     },
     height: { control: "number" },
     loading: { control: "boolean" },
     showZoomControls: { control: "boolean" },
+    showBeacons: { control: "boolean" },
+    showGraticule: { control: "boolean" },
+    animate: { control: "boolean" },
     highlightColor: { control: "color" },
     activeColor: { control: "color" },
     baseColor: { control: "color" },
@@ -106,6 +109,24 @@ export const USTileGridMap: Story = {
   },
 };
 
+export const AnimatedRealWorldMap: Story = {
+  name: "Animated Real Map with Radar Beacons",
+  args: {
+    variant: "world",
+    data: sampleGlobalMarketData,
+    selectedRegion: "US",
+    showBeacons: true,
+    showGraticule: true,
+    animate: true,
+    activeColor: "#bfdbfe",
+    highlightColor: "#3b82f6",
+    baseColor: "#f1f5f9",
+    borderColor: "#cbd5e1",
+    height: 520,
+    showZoomControls: true,
+  },
+};
+
 export const LoadingState: Story = {
   args: {
     variant: "world",
@@ -114,3 +135,4 @@ export const LoadingState: Story = {
     height: 420,
   },
 };
+

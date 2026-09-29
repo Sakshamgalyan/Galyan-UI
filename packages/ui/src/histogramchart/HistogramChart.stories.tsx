@@ -14,6 +14,13 @@ const meta: Meta<typeof HistogramChart> = {
     showSummaryHeader: { control: "boolean" },
     loading: { control: "boolean" },
     responsive: { control: "boolean" },
+    animate: { control: "boolean" },
+    animationDuration: { control: "number" },
+    animationEasing: {
+      control: "select",
+      options: ["ease", "ease-in", "ease-out", "ease-in-out", "linear"],
+    },
+    animationBegin: { control: "number" },
   },
 } satisfies Meta<typeof HistogramChart>;
 
@@ -90,6 +97,127 @@ export const CustomColorAndFormatter: Story = {
     tooltipConfig: {
       formatter: (v: number) => `${v.toLocaleString()} requests`,
     },
+  },
+};
+
+export const InteractiveAnimation: Story = {
+  render: function Render() {
+    const initialBins = [
+      { bin: "0-10", frequency: 15 },
+      { bin: "10-20", frequency: 32 },
+      { bin: "20-30", frequency: 56 },
+      { bin: "30-40", frequency: 41 },
+      { bin: "40-50", frequency: 23 },
+      { bin: "50-60", frequency: 8 },
+    ];
+
+    const [data, setData] = React.useState(initialBins);
+    const [key, setKey] = React.useState(0);
+
+    const handleRandomize = () => {
+      setData((prev) =>
+        prev.map((item) => ({
+          ...item,
+          frequency: Math.floor(Math.random() * 85) + 5,
+        })),
+      );
+    };
+
+    const handleReplay = () => {
+      setKey((k) => k + 1);
+    };
+
+    const handleToggleOutlier = () => {
+      setData((prev) => {
+        const hasOutlier = prev.some((d) => d.bin === "60-70+");
+        if (hasOutlier) {
+          return prev.filter((d) => d.bin !== "60-70+");
+        }
+        return [
+          ...prev,
+          { bin: "60-70+", frequency: 68, color: "var(--gy-warning, #f59e0b)" },
+        ];
+      });
+    };
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          maxWidth: 640,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          <button
+            type="button"
+            onClick={handleRandomize}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#3b82f6",
+              color: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Smooth Morph Frequencies
+          </button>
+          <button
+            type="button"
+            onClick={handleReplay}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              color: "#0f172a",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Replay Rise Animation
+          </button>
+          <button
+            type="button"
+            onClick={handleToggleOutlier}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              color: "#0f172a",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Toggle Outlier Bin
+          </button>
+        </div>
+        <HistogramChart
+          key={key}
+          data={data}
+          height={340}
+          width="100%"
+          animate={true}
+          animationDuration={800}
+          animationEasing="ease-out"
+          summaryTitle="Dynamic Distribution Morphing"
+        />
+      </div>
+    );
   },
 };
 

@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Tooltip } from "../tooltip/Tooltip";
 import "./fileupload.css";
+import { Typography } from "../typography";
 
 export interface UploadedFileItem {
   id?: string;
@@ -149,10 +150,15 @@ export function FileUpload({
     }
   };
 
-  const variantClass = variant && variant !== "default" ? `gy-fileupload--${variant}` : "";
+  const variantClass =
+    variant && variant !== "default" ? `gy-fileupload--${variant}` : "";
 
   return (
-    <div className={["gy-fileupload", variantClass, className].filter(Boolean).join(" ")}>
+    <div
+      className={["gy-fileupload", variantClass, className]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div
         className={[
           "gy-fileupload-zone",
@@ -192,11 +198,13 @@ export function FileUpload({
             <line x1="12" y1="3" x2="12" y2="15"></line>
           </svg>
         </div>
-        <div className="gy-fileupload-text">{label}</div>
+        <Typography variant="span" as="div" className="gy-fileupload-text">
+          {label}
+        </Typography>
         {(helperText || maxSize) && (
-          <div className="gy-fileupload-subtext">
+          <Typography variant="span" as="div" className="gy-fileupload-subtext">
             {helperText} {maxSize && `(Max ${formatSize(maxSize)})`}
-          </div>
+          </Typography>
         )}
       </div>
 
@@ -233,9 +241,12 @@ export function FileUpload({
                 <div className="gy-fileupload-item-info">
                   <div className="gy-fileupload-item-top">
                     <Tooltip content={fileName} position="top" maxWidth={300}>
-                      <span className="gy-fileupload-item-name">
+                      <Typography
+                        variant="span"
+                        className="gy-fileupload-item-name"
+                      >
                         {fileName}
-                      </span>
+                      </Typography>
                     </Tooltip>
                   </div>
 
@@ -251,9 +262,12 @@ export function FileUpload({
                         <span className="gy-fileupload-item-size">
                           {formatSize(fileSize)}
                         </span>
-                        <span className="gy-fileupload-item-progress-text">
+                        <Typography
+                          variant="span"
+                          className="gy-fileupload-item-progress-text"
+                        >
                           {progress}%
-                        </span>
+                        </Typography>
                       </div>
                     </div>
                   ) : (
@@ -267,19 +281,28 @@ export function FileUpload({
 
                 <div className="gy-fileupload-item-actions">
                   {status === "completed" && (
-                    <span className="gy-fileupload-status-badge gy-fileupload-status-badge--success">
+                    <Typography
+                      variant="span"
+                      className="gy-fileupload-status-badge gy-fileupload-status-badge--success"
+                    >
                       ✓ Uploaded
-                    </span>
+                    </Typography>
                   )}
                   {status === "uploading" && (
-                    <span className="gy-fileupload-status-badge gy-fileupload-status-badge--uploading">
+                    <Typography
+                      variant="span"
+                      className="gy-fileupload-status-badge gy-fileupload-status-badge--uploading"
+                    >
                       {progress}%
-                    </span>
+                    </Typography>
                   )}
                   {status === "error" && (
-                    <span className="gy-fileupload-status-badge gy-fileupload-status-badge--error">
+                    <Typography
+                      variant="span"
+                      className="gy-fileupload-status-badge gy-fileupload-status-badge--error"
+                    >
                       Failed
-                    </span>
+                    </Typography>
                   )}
 
                   {status === "error" && (
@@ -306,7 +329,7 @@ export function FileUpload({
                           <polyline points="23 4 23 10 17 10"></polyline>
                           <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
                         </svg>
-                        <span>Retry</span>
+                        <Typography variant="span">Retry</Typography>
                       </button>
                     </Tooltip>
                   )}

@@ -23,7 +23,9 @@
 
 .gy-triangular-dot {
   cursor: pointer;
-  transition: r var(--gy-duration-fast), fill var(--gy-duration-fast);
+  transition:
+    r var(--gy-duration-fast),
+    fill var(--gy-duration-fast);
 }
 
 .gy-triangular-dot:hover {
@@ -45,7 +47,9 @@
   transform: translate(-50%, -100%);
   margin-top: -8px;
   white-space: nowrap;
-  transition: opacity var(--gy-duration-fast), transform var(--gy-duration-fast);
+  transition:
+    opacity var(--gy-duration-fast),
+    transform var(--gy-duration-fast);
 }
 
 .gy-triangular-tooltip-title {

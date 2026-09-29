@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from "react";
 import "./checkbox.css";
+import { Typography } from "../typography";
 
 export interface CheckboxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -116,9 +117,15 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </div>
         {(label || description) && (
           <div className="gy-checkbox__label-group">
-            {label && <span className="gy-checkbox__label">{label}</span>}
+            {label && (
+              <Typography variant="span" className="gy-checkbox__label">
+                {label}
+              </Typography>
+            )}
             {description && (
-              <span className="gy-checkbox__description">{description}</span>
+              <Typography variant="span" className="gy-checkbox__description">
+                {description}
+              </Typography>
             )}
           </div>
         )}

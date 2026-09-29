@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: var(--gy-font-sans, system-ui, sans-serif);
   background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
   border-radius: var(--gy-radius-xl, 0.75rem);
   padding: 1rem;
   display: flex;
@@ -11,10 +12,15 @@
   align-items: center;
   overflow: hidden;
   user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .gy-choropleth-wrapper--world {
-  padding: 0.5rem;
+  padding: 0.75rem;
 }
 
 /* ── SVG World Map Container ────────────────────────────────────────────── */
@@ -33,28 +39,98 @@
   height: 100%;
   max-height: 100%;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.02));
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.03));
 }
 
+/* ── Ocean Sphere & Graticule Lines ─────────────────────────────────────── */
+.gy-choropleth-sphere {
+  fill: var(--gy-map-ocean, rgba(241, 245, 249, 0.45));
+  stroke: var(--gy-border, #e2e8f0);
+  stroke-width: 0.75px;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.gy-choropleth-graticule {
+  fill: none;
+  stroke: var(--gy-border, #cbd5e1);
+  stroke-width: 0.5px;
+  stroke-dasharray: 2 4;
+  opacity: 0.55;
+  pointer-events: none;
+  transition: stroke 0.3s ease, opacity 0.3s ease;
+}
+
+/* ── Real Country Vector Paths ──────────────────────────────────────────── */
 .gy-choropleth-country {
   cursor: pointer;
-  transition: fill 0.2s ease, stroke 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  transition:
+    fill 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    stroke 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    stroke-width 0.2s ease,
+    filter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   vector-effect: non-scaling-stroke;
+}
+
+/* Entrance Animation */
+.gy-choropleth-wrapper--animated .gy-choropleth-country {
+  animation: gy-map-path-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .gy-choropleth-country:hover,
 .gy-choropleth-country--hovered {
-  filter: brightness(0.95) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
-  stroke: var(--gy-primary, #3b82f6) !important;
+  filter: brightness(0.94) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.12));
+  stroke: var(--gy-primary, #4338ca) !important;
   stroke-width: 1.5px !important;
+  z-index: 10;
+}
+
+.gy-choropleth-country--active {
+  cursor: pointer;
 }
 
 .gy-choropleth-country--selected {
-  filter: drop-shadow(0 3px 8px rgba(67, 56, 202, 0.35));
-  stroke-width: 1.5px !important;
+  filter: drop-shadow(0 4px 12px rgba(67, 56, 202, 0.4));
+  stroke: var(--gy-primary, #4338ca) !important;
+  stroke-width: 1.85px !important;
 }
 
-/* ── Zoom Controls (Bottom Right - matching screenshot) ──────────────────── */
+/* ── Animated Pulsing Radar Beacons ─────────────────────────────────────── */
+.gy-choropleth-beacons {
+  pointer-events: none;
+}
+
+.gy-choropleth-beacon {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.gy-choropleth-beacon-ring {
+  fill: none;
+  stroke-width: 1.5px;
+  animation: gy-beacon-pulse 2.2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+  transform-origin: center center;
+}
+
+.gy-choropleth-beacon-ring--delay {
+  animation-delay: 1.1s;
+}
+
+.gy-choropleth-beacon-dot {
+  filter: drop-shadow(0 0 4px rgba(67, 56, 202, 0.6));
+  animation: gy-beacon-dot-glow 2.2s ease-in-out infinite;
+}
+
+.gy-choropleth-beacon--selected .gy-choropleth-beacon-ring {
+  stroke-width: 2px;
+  animation-duration: 1.8s;
+}
+
+.gy-choropleth-beacon--selected .gy-choropleth-beacon-dot {
+  r: 4.5px;
+  filter: drop-shadow(0 0 8px rgba(67, 56, 202, 0.85));
+}
+
+/* ── Zoom Controls (Bottom Right) ────────────────────────────────────────── */
 .gy-choropleth-zoom-controls {
   position: absolute;
   bottom: 1.25rem;
@@ -63,11 +139,12 @@
   flex-direction: column;
   align-items: center;
   background: var(--gy-surface, #ffffff);
-  border: 1.5px solid var(--gy-text, #0f172a);
+  border: 1px solid var(--gy-border, #cbd5e1);
   border-radius: var(--gy-radius-md, 0.5rem);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   z-index: 10;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gy-choropleth-zoom-btn {
@@ -80,7 +157,10 @@
   border: none;
   color: var(--gy-text, #0f172a);
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease;
   padding: 0;
 }
 
@@ -98,6 +178,10 @@
   cursor: not-allowed;
 }
 
+.gy-choropleth-zoom-btn--reset {
+  color: var(--gy-primary, #4338ca);
+}
+
 .gy-choropleth-zoom-divider {
   width: 100%;
   height: 1px;
@@ -109,11 +193,12 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  gap: 6px;
+  gap: 8px;
   width: 100%;
   height: 100%;
-  max-width: 600px;
-  max-height: 350px;
+  max-width: 680px;
+  max-height: 400px;
+  padding: 0.5rem;
 }
 
 .gy-choropleth-tile {
@@ -122,15 +207,25 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--gy-shadow-xs, 0 1px 2px rgba(0, 0, 0, 0.05));
-  transition: transform 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.2s ease,
+    box-shadow 0.2s ease;
   border: 1px solid var(--gy-border, #e2e8f0);
 }
 
 .gy-choropleth-tile:hover {
-  transform: scale(1.1);
-  filter: brightness(1.08);
+  transform: translateY(-2px) scale(1.08);
+  filter: brightness(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   z-index: 5;
+}
+
+.gy-choropleth-tile--selected {
+  filter: drop-shadow(0 4px 10px rgba(67, 56, 202, 0.35));
+  border-color: var(--gy-primary, #4338ca) !important;
+  transform: scale(1.06);
 }
 
 .gy-choropleth-tile-text {
@@ -141,61 +236,236 @@
 }
 
 .gy-choropleth-tile-text--active {
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  color: var(--gy-text, #0f172a);
 }
 
 /* ── Interactive Floating Tooltip ────────────────────────────────────────── */
 .gy-choropleth-tooltip {
   position: absolute;
-  z-index: var(--gy-z-tooltip, 1000);
-  background: var(--gy-surface, #ffffff);
-  border: 1px solid var(--gy-border, #e2e8f0);
-  border-radius: var(--gy-radius-lg, 0.5rem);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  padding: 0.5rem 0.75rem;
   pointer-events: none;
-  font-size: var(--gy-font-size-xs, 0.75rem);
-  color: var(--gy-text, #0f172a);
-  transform: translate(-50%, -120%);
+  transform: translate(-50%, -125%);
+  background: var(--gy-surface, rgba(255, 255, 255, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  border-radius: var(--gy-radius-md, 0.5rem);
+  padding: 0.625rem 0.875rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12),
+              0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  z-index: 100;
   white-space: nowrap;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  backdrop-filter: blur(8px);
+  animation: gy-map-tooltip-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.gy-choropleth-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.gy-choropleth-tooltip-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--gy-surface-hover, #f1f5f9);
+  color: var(--gy-text-muted, #475569);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--gy-border, #e2e8f0);
 }
 
 .gy-choropleth-tooltip-title {
+  font-size: var(--gy-font-size-sm, 0.875rem);
   font-weight: 600;
-  margin-bottom: 2px;
   color: var(--gy-text, #0f172a);
 }
 
+.gy-choropleth-tooltip-body {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
 .gy-choropleth-tooltip-value {
-  color: var(--gy-primary, #4338ca);
+  font-size: var(--gy-font-size-md, 1rem);
   font-weight: 700;
+  color: var(--gy-primary, #4338ca);
 }
 
-/* ── Dark Mode ──────────────────────────────────────────────────────────── */
+.gy-choropleth-tooltip-share {
+  font-size: 0.75rem;
+  color: var(--gy-text-muted, #64748b);
+}
+
+/* ── Dark Mode ───────────────────────────────────────────────────────────── */
+.gy-dark .gy-choropleth-wrapper,
+[data-color-mode="dark"] .gy-choropleth-wrapper,
+.dark .gy-choropleth-wrapper,
 [data-theme="dark"] .gy-choropleth-wrapper,
-.gy-dark .gy-choropleth-wrapper {
-  background: var(--gy-surface, #0f172a);
-  --gy-map-base: #1e293b;
-  --gy-map-border: #334155;
-  --gy-map-active: rgba(99, 102, 241, 0.35);
-  --gy-map-highlight: #6366f1;
+[data-theme="samantrix"] .gy-choropleth-wrapper {
+  background: var(--gy-surface, #1e293b);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+.gy-dark .gy-choropleth-sphere,
+[data-color-mode="dark"] .gy-choropleth-sphere,
+.dark .gy-choropleth-sphere,
+[data-theme="dark"] .gy-choropleth-sphere,
+[data-theme="samantrix"] .gy-choropleth-sphere {
+  fill: rgba(15, 23, 42, 0.55);
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.gy-dark .gy-choropleth-graticule,
+[data-color-mode="dark"] .gy-choropleth-graticule,
+.dark .gy-choropleth-graticule,
+[data-theme="dark"] .gy-choropleth-graticule,
+[data-theme="samantrix"] .gy-choropleth-graticule {
+  stroke: rgba(255, 255, 255, 0.08);
+  opacity: 0.75;
+}
+
+.gy-dark .gy-choropleth-country,
+[data-color-mode="dark"] .gy-choropleth-country,
+.dark .gy-choropleth-country,
+[data-theme="dark"] .gy-choropleth-country,
+[data-theme="samantrix"] .gy-choropleth-country {
+  stroke: rgba(255, 255, 255, 0.14);
+}
+
+.gy-dark .gy-choropleth-country:hover,
+[data-color-mode="dark"] .gy-choropleth-country:hover,
+.dark .gy-choropleth-country:hover,
+[data-theme="dark"] .gy-choropleth-country:hover,
+[data-theme="samantrix"] .gy-choropleth-country:hover {
+  filter: brightness(1.15) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  stroke: var(--gy-primary, #6366f1) !important;
+}
+
+.gy-dark .gy-choropleth-zoom-controls,
+[data-color-mode="dark"] .gy-choropleth-zoom-controls,
+.dark .gy-choropleth-zoom-controls,
 [data-theme="dark"] .gy-choropleth-zoom-controls,
-.gy-dark .gy-choropleth-zoom-controls {
-  background: #1e293b;
-  border-color: #475569;
+[data-theme="samantrix"] .gy-choropleth-zoom-controls {
+  background: var(--gy-surface-raised, #334155);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
+.gy-dark .gy-choropleth-zoom-btn,
+[data-color-mode="dark"] .gy-choropleth-zoom-btn,
+.dark .gy-choropleth-zoom-btn,
 [data-theme="dark"] .gy-choropleth-zoom-btn,
-.gy-dark .gy-choropleth-zoom-btn {
-  color: #f8fafc;
+[data-theme="samantrix"] .gy-choropleth-zoom-btn {
+  color: var(--gy-text, #f8fafc);
 }
 
-[data-theme="dark"] .gy-choropleth-zoom-divider,
-.gy-dark .gy-choropleth-zoom-divider {
-  background-color: #334155;
+.gy-dark .gy-choropleth-zoom-btn:hover:not(:disabled),
+[data-color-mode="dark"] .gy-choropleth-zoom-btn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--gy-primary, #818cf8);
+}
+
+.gy-dark .gy-choropleth-zoom-divider,
+[data-color-mode="dark"] .gy-choropleth-zoom-divider {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.gy-dark .gy-choropleth-tooltip,
+[data-color-mode="dark"] .gy-choropleth-tooltip,
+.dark .gy-choropleth-tooltip,
+[data-theme="dark"] .gy-choropleth-tooltip,
+[data-theme="samantrix"] .gy-choropleth-tooltip {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.gy-dark .gy-choropleth-tooltip-badge,
+[data-color-mode="dark"] .gy-choropleth-tooltip-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gy-text-muted, #cbd5e1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.gy-dark .gy-choropleth-tooltip-title,
+[data-color-mode="dark"] .gy-choropleth-tooltip-title {
+  color: #ffffff;
+}
+
+.gy-dark .gy-choropleth-tooltip-value,
+[data-color-mode="dark"] .gy-choropleth-tooltip-value {
+  color: var(--gy-primary, #818cf8);
+}
+
+.gy-dark .gy-choropleth-tooltip-share,
+[data-color-mode="dark"] .gy-choropleth-tooltip-share {
+  color: #94a3b8;
+}
+
+/* ── Keyframe Animations ─────────────────────────────────────────────────── */
+@keyframes gy-map-path-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gy-beacon-pulse {
+  0% {
+    r: 3px;
+    opacity: 0.9;
+    stroke-width: 2px;
+  }
+  65% {
+    r: 13px;
+    opacity: 0.35;
+    stroke-width: 1px;
+  }
+  100% {
+    r: 18px;
+    opacity: 0;
+    stroke-width: 0.5px;
+  }
+}
+
+@keyframes gy-beacon-dot-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes gy-map-tooltip-pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -115%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -125%) scale(1);
+  }
+}
+
+/* Accessibility / Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .gy-choropleth-wrapper--animated .gy-choropleth-country,
+  .gy-choropleth-beacon-ring,
+  .gy-choropleth-beacon-dot,
+  .gy-choropleth-tooltip {
+    animation: none !important;
+    transition: none !important;
+  }
 }

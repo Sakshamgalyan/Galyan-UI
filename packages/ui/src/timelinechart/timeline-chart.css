@@ -34,7 +34,7 @@
 
 .gy-timeline-title {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--gy-font-weight-normal, 400);
   color: var(--gy-text, #0f172a);
 }
 
@@ -59,7 +59,7 @@
 
 .gy-timeline-badge strong {
   color: var(--gy-text, #0f172a);
-  font-weight: 600;
+  font-weight: var(--gy-font-weight-normal, 400);
 }
 
 .gy-timeline-badge--span {

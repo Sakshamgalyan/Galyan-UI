@@ -64,7 +64,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Wrapper for interactive states in Storybook
-const InteractiveCheckbox = (args: any) => {
+const InteractiveCheckbox = (args: React.ComponentProps<typeof Checkbox>) => {
   const [checked, setChecked] = useState(args.checked || false);
   return (
     <Checkbox
@@ -181,7 +181,7 @@ export const ColorsAndVariants: Story = {
 };
 
 export const SelectAllGroup: Story = {
-  render: () => {
+  render: function Render() {
     const [items, setItems] = useState([
       { id: "1", label: "easyLife Customer App", checked: true },
       { id: "2", label: "metalixia Dashboard", checked: false },

@@ -1,0 +1,19 @@
+# Normalize all text files to LF in the repository and in the working tree.
+* text=auto eol=lf
+
+# Keep lockfiles out of diffs and merges
+pnpm-lock.yaml -diff linguist-generated
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.pdf binary

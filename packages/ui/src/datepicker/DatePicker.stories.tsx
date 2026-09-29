@@ -4,6 +4,7 @@ import {
   DatePicker,
   DatePickerValue,
   DatePickerRangeValue,
+  DatePickerChangeContext,
 } from "./DatePicker";
 
 /**
@@ -60,14 +61,72 @@ export const Default: Story = {
     showPresent: true,
     showClear: true,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [date, setDate] = useState<DatePickerValue>(new Date());
     return <DatePicker {...args} value={date} onChange={setDate} />;
   },
 };
 
+export const RangeMode: Story = {
+  args: {
+    mode: "range",
+    label: "Date Range Selection",
+    placeholder: "Select date range",
+    firstDayOfWeek: 0,
+    showClear: true,
+  },
+  render: function Render(args) {
+    // Initial value: July 10, 2026 to July 20, 2026 (matching Calendar reference)
+    const [range, setRange] = useState<DatePickerRangeValue>([
+      new Date(2026, 6, 10),
+      new Date(2026, 6, 20),
+    ]);
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <DatePicker
+          {...args}
+          value={range}
+          onChange={(v) => setRange(v as DatePickerRangeValue)}
+          helperText="Seamless connected capsule ribbon range selection matching Calendar"
+        />
+        <div style={{ fontSize: "0.85rem", color: "var(--gy-text-muted)" }}>
+          Selected:{" "}
+          <code>
+            {Array.isArray(range) && range[0] instanceof Date
+              ? range[0].toLocaleDateString()
+              : "none"}{" "}
+            –{" "}
+            {Array.isArray(range) && range[1] instanceof Date
+              ? range[1].toLocaleDateString()
+              : "none"}
+          </code>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const RangeVariant: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<DatePickerRangeValue>([
+      new Date(2026, 6, 10),
+      new Date(2026, 6, 20),
+    ]);
+    return (
+      <DatePicker
+        variant="range"
+        label="Range Variant (variant='range')"
+        placeholder="Pick date range"
+        value={range}
+        onChange={(v) => setRange(v as DatePickerRangeValue)}
+        showClear
+      />
+    );
+  },
+};
+
 export const RangeWithPresentFeature: Story = {
-  render: () => {
+  render: function Render() {
     // Initial value: Start date Jan 15, 2022 to Present
     const [range, setRange] = useState<DatePickerRangeValue>([
       new Date(2022, 0, 15),
@@ -81,7 +140,7 @@ export const RangeWithPresentFeature: Story = {
           label="Employment Period (Supports 'Present')"
           placeholder="Select start and end date"
           value={range}
-          onChange={setRange}
+          onChange={(v) => setRange(v as DatePickerRangeValue)}
           showPresent
           showClear
           helperText="Click 'Present' in the popover to indicate currently active role"
@@ -95,7 +154,7 @@ export const RangeWithPresentFeature: Story = {
 };
 
 export const HotelBookingRange: Story = {
-  render: () => {
+  render: function Render() {
     const today = new Date();
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 5);
@@ -109,7 +168,7 @@ export const HotelBookingRange: Story = {
         placeholder="Select check-in & check-out dates"
         value={range}
         minDate={today}
-        onChange={setRange}
+        onChange={(v) => setRange(v as DatePickerRangeValue)}
         helperText="Past dates are disabled for booking"
       />
     );
@@ -117,7 +176,7 @@ export const HotelBookingRange: Story = {
 };
 
 export const WithQuickPresets: Story = {
-  render: () => {
+  render: function Render() {
     const [date, setDate] = useState<DatePickerValue>(null);
 
     const presets = [
@@ -165,7 +224,7 @@ export const WithQuickPresets: Story = {
 };
 
 export const MinAndMaxConstraints: Story = {
-  render: () => {
+  render: function Render() {
     const now = new Date();
     const minDate = new Date(now.getFullYear(), now.getMonth(), 5);
     const maxDate = new Date(now.getFullYear(), now.getMonth(), 25);
@@ -188,7 +247,7 @@ export const MinAndMaxConstraints: Story = {
 };
 
 export const MondayFirstDayOfWeek: Story = {
-  render: () => {
+  render: function Render() {
     const [date, setDate] = useState<DatePickerValue>(new Date());
     return (
       <DatePicker
@@ -204,7 +263,7 @@ export const MondayFirstDayOfWeek: Story = {
 };
 
 export const CustomFormats: Story = {
-  render: () => {
+  render: function Render() {
     const [d1, setD1] = useState<DatePickerValue>(new Date());
     const [d2, setD2] = useState<DatePickerValue>(new Date());
     return (
@@ -231,8 +290,8 @@ export const WithApplyCancelActions: Story = {
     label: "Event Start Date",
     placeholder: "Select starting date",
   },
-  render: (args) => {
-    const [date, setDate] = useState<DatePickerValue>(new Date());
+  render: function Render(args) {
+    const [date] = useState<DatePickerValue>(new Date());
     return (
       <DatePicker
         {...args}
@@ -250,7 +309,7 @@ export const DisableFutureDates: Story = {
     disableFutureDates: true,
     placeholder: "Pick a past date",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [date, setDate] = useState<DatePickerValue>(new Date());
     return <DatePicker {...args} value={date} onChange={setDate} />;
   },
@@ -277,7 +336,7 @@ export const DisabledAndErrorStates: Story = {
 };
 
 export const DateTimeSelector: Story = {
-  render: () => {
+  render: function Render() {
     const [dateTime, setDateTime] = useState<DatePickerValue>(new Date());
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -298,7 +357,7 @@ export const DateTimeSelector: Story = {
 };
 
 export const DateTimeWithSeconds24h: Story = {
-  render: () => {
+  render: function Render() {
     const [dateTime, setDateTime] = useState<DatePickerValue>(new Date());
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -322,10 +381,10 @@ export const DateTimeWithSeconds24h: Story = {
 };
 
 export const EpochTimestampSelection: Story = {
-  render: () => {
+  render: function Render() {
     // Initial value given as a numeric unix epoch timestamp (ms)
     const [epochValue, setEpochValue] = useState<number | null>(Date.now());
-    const [contextInfo, setContextInfo] = useState<any>(null);
+    const [contextInfo, setContextInfo] = useState<DatePickerChangeContext | null>(null);
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -336,8 +395,8 @@ export const EpochTimestampSelection: Story = {
           placeholder="Pick date & exact time"
           value={epochValue}
           onChange={(val, ctx) => {
-            setEpochValue(val);
-            setContextInfo(ctx);
+            setEpochValue(val as number | null);
+            setContextInfo(ctx ?? null);
           }}
           helperText="Select exact date & time; returns value as a Unix epoch timestamp (milliseconds)"
         />
@@ -356,17 +415,24 @@ export const EpochTimestampSelection: Story = {
         >
           <div>
             <strong>Epoch Timestamp (ms):</strong>{" "}
-            <code style={{ color: "var(--gy-primary, #6366f1)", fontWeight: 700 }}>
+            <code
+              style={{ color: "var(--gy-primary, #6366f1)", fontWeight: 700 }}
+            >
               {epochValue ?? "null"}
             </code>
           </div>
           <div>
             <strong>Readable ISO:</strong>{" "}
-            <code>{epochValue ? new Date(epochValue).toISOString() : "null"}</code>
+            <code>
+              {epochValue ? new Date(epochValue).toISOString() : "null"}
+            </code>
           </div>
           <div>
             <strong>Context Formatted:</strong>{" "}
-            <code>{contextInfo?.formatted || (epochValue ? new Date(epochValue).toLocaleString() : "")}</code>
+            <code>
+              {contextInfo?.formatted ||
+                (epochValue ? new Date(epochValue).toLocaleString() : "")}
+            </code>
           </div>
         </div>
       </div>
@@ -375,7 +441,7 @@ export const EpochTimestampSelection: Story = {
 };
 
 export const CustomDateFormatWithTime: Story = {
-  render: () => {
+  render: function Render() {
     const [d1, setD1] = useState<DatePickerValue>(new Date());
     const [d2, setD2] = useState<DatePickerValue>(new Date());
     const [d3, setD3] = useState<DatePickerValue>(Date.now());
@@ -409,4 +475,3 @@ export const CustomDateFormatWithTime: Story = {
     );
   },
 };
-

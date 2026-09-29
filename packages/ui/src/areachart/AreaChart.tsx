@@ -22,7 +22,7 @@ export interface AreaChartSeries {
 }
 
 export interface AreaChartProps {
-  data: any[];
+  data: object[];
   series: AreaChartSeries[];
   xAxisKey: string;
   variant?: "gradient" | "solid";

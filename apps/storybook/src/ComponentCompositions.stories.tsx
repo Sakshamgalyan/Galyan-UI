@@ -66,7 +66,13 @@ export const AppointmentSchedulerCard: Story = {
       },
     ];
 
-    const availableTags = ["Executive", "Confidential", "Recorded", "Remote", "VIP"];
+    const availableTags = [
+      "Executive",
+      "Confidential",
+      "Recorded",
+      "Remote",
+      "VIP",
+    ];
 
     const toggleTag = (tag: string) => {
       setSelectedTags((prev) =>
@@ -92,7 +98,10 @@ export const AppointmentSchedulerCard: Story = {
                 </Typography>
                 <Typography
                   variant="small"
-                  style={{ color: "var(--gy-text-muted)", marginTop: "0.25rem" }}
+                  style={{
+                    color: "var(--gy-text-muted)",
+                    marginTop: "0.25rem",
+                  }}
                 >
                   Book time with our specialist engineering squad.
                 </Typography>
@@ -140,7 +149,11 @@ export const AppointmentSchedulerCard: Story = {
                   gap: "1rem",
                 }}
               >
-                <DatePicker label="Meeting Date" value={date} onChange={setDate} />
+                <DatePicker
+                  label="Meeting Date"
+                  value={date}
+                  onChange={setDate}
+                />
                 <TimePicker
                   label="Start Window"
                   value={startTime}
@@ -167,7 +180,9 @@ export const AppointmentSchedulerCard: Story = {
                 >
                   Session Tags
                 </Typography>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+                >
                   {availableTags.map((tag) => {
                     const active = selectedTags.includes(tag);
                     return (
@@ -275,12 +290,29 @@ export const SettingsAccordionWorkflow: Story = {
         title: "Operational Hours & Availability",
         subtitle: "Define working hours, shift windows, and lunch breaks",
         content: (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "0.5rem 0" }}>
-            <Typography variant="p" style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-              These operational windows automatically adjust SLA escalation timers and engineer on-call rotations.
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              padding: "0.5rem 0",
+            }}
+          >
+            <Typography
+              variant="p"
+              style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}
+            >
+              These operational windows automatically adjust SLA escalation
+              timers and engineer on-call rotations.
             </Typography>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "1rem",
+              }}
+            >
               <TimePicker
                 label="Shift Start"
                 value={workStart}
@@ -295,7 +327,13 @@ export const SettingsAccordionWorkflow: Story = {
               />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "1rem",
+              }}
+            >
               <TimePicker
                 label="Lunch Break Start"
                 value={lunchStart}
@@ -310,9 +348,15 @@ export const SettingsAccordionWorkflow: Story = {
               />
             </div>
 
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-              <Chip variant="success" size="sm">9 Hours Shift</Chip>
-              <Chip variant="neutral" size="sm">1 Hour Break</Chip>
+            <div
+              style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}
+            >
+              <Chip variant="success" size="sm">
+                9 Hours Shift
+              </Chip>
+              <Chip variant="neutral" size="sm">
+                1 Hour Break
+              </Chip>
             </div>
           </div>
         ),
@@ -322,7 +366,14 @@ export const SettingsAccordionWorkflow: Story = {
         title: "Subscription Tier & Cloud Quota",
         subtitle: "Manage billing tier, resource scaling, and compute ceilings",
         content: (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "0.5rem 0" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              padding: "0.5rem 0",
+            }}
+          >
             <RadioGroup
               name="accordion-tier"
               label="Select Service Tier"
@@ -350,9 +401,17 @@ export const SettingsAccordionWorkflow: Story = {
       {
         id: "governance",
         title: "Governance & Deployment Pipelines",
-        subtitle: "Continuous integration flags and automated rollback safeguards",
+        subtitle:
+          "Continuous integration flags and automated rollback safeguards",
         content: (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "0.5rem 0" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              padding: "0.5rem 0",
+            }}
+          >
             <Toggle
               label="Enable automated zero-downtime Canary deployments"
               checked={autoDeploy}
@@ -365,7 +424,13 @@ export const SettingsAccordionWorkflow: Story = {
               withIcon
               onChange={(e) => setTelemetry(e.target.checked)}
             />
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "0.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "0.5rem",
+              }}
+            >
               <Button variant="primary" size="sm">
                 Save Governance Policy
               </Button>
@@ -377,14 +442,23 @@ export const SettingsAccordionWorkflow: Story = {
 
     return (
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        <Typography variant="h4" weight="bold" style={{ marginBottom: "0.25rem" }}>
+        <Typography
+          variant="h4"
+          weight="bold"
+          style={{ marginBottom: "0.25rem" }}
+        >
           Workspace Preferences
         </Typography>
         <Typography
           variant="small"
-          style={{ color: "var(--gy-text-muted)", marginBottom: "1.25rem", display: "block" }}
+          style={{
+            color: "var(--gy-text-muted)",
+            marginBottom: "1.25rem",
+            display: "block",
+          }}
         >
-          Accordion panels embedding TimePickers, RadioGroups, ProgressBars, and Toggles.
+          Accordion panels embedding TimePickers, RadioGroups, ProgressBars, and
+          Toggles.
         </Typography>
 
         <Accordion items={accordionItems} defaultExpandedIds={["hours"]} />

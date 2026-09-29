@@ -10,6 +10,7 @@ import React, {
 import { createPortal } from "react-dom";
 import { Spinner } from "../spinner/Spinner";
 import "./toaster.css";
+import { Typography } from "../typography";
 
 export type ToastVariant =
   | "default"
@@ -85,7 +86,7 @@ export interface ToastMethods {
     msgs: {
       loading: React.ReactNode;
       success: React.ReactNode | ((data: T) => React.ReactNode);
-      error: React.ReactNode | ((err: any) => React.ReactNode);
+      error: React.ReactNode | ((err: unknown) => React.ReactNode);
     },
     options?: ToastOptions,
   ) => Promise<T>;
@@ -464,7 +465,7 @@ export function ToasterProvider({
       msgs: {
         loading: React.ReactNode;
         success: React.ReactNode | ((data: T) => React.ReactNode);
-        error: React.ReactNode | ((err: any) => React.ReactNode);
+        error: React.ReactNode | ((err: unknown) => React.ReactNode);
       },
       options?: ToastOptions,
     ) => {
@@ -520,17 +521,15 @@ export function ToasterProvider({
           (toastVariant === "glassmorphic" || toastVariant === "glass"
             ? "glassmorphic"
             : toastVariant === "solid"
-            ? "solid"
-            : toastVariant === "outline"
-            ? "outline"
-            : toastVariant === "minimal"
-            ? "minimal"
-            : defaultStyle);
+              ? "solid"
+              : toastVariant === "outline"
+                ? "outline"
+                : toastVariant === "minimal"
+                  ? "minimal"
+                  : defaultStyle);
         const toastSize = t.size ?? "md";
         const toastIcon =
-          t.icon ??
-          defaultIcons[toastVariant] ??
-          defaultIcons.info;
+          t.icon ?? defaultIcons[toastVariant] ?? defaultIcons.info;
 
         return (
           <div
@@ -554,9 +553,17 @@ export function ToasterProvider({
             <div className="gy-toast-accent" />
             <span className="gy-toast-icon">{toastIcon}</span>
             <div className="gy-toast-content">
-              <div className="gy-toast-title">{t.title}</div>
+              <Typography variant="span" as="div" className="gy-toast-title">
+                {t.title}
+              </Typography>
               {t.description && (
-                <div className="gy-toast-description">{t.description}</div>
+                <Typography
+                  variant="span"
+                  as="div"
+                  className="gy-toast-description"
+                >
+                  {t.description}
+                </Typography>
               )}
               {t.actions && <div className="gy-toast-actions">{t.actions}</div>}
             </div>

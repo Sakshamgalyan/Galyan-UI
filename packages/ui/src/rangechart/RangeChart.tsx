@@ -14,7 +14,7 @@ import { Skeleton } from "../skeleton/Skeleton";
 import "./range-chart.css";
 
 export interface RangeChartProps {
-  data: any[];
+  data: object[];
   xAxisKey: string;
   lowKey: string;
   highKey: string;
@@ -60,10 +60,10 @@ export function RangeChart({
 
   // Convert low and high to range array for Recharts Area
   const rangeData = React.useMemo(() => {
-    return data.map((d) => ({
-      ...d,
-      __range: [d[lowKey], d[highKey]],
-    }));
+    return data.map((d) => {
+      const row = d as Record<string, unknown>;
+      return { ...row, __range: [row[lowKey], row[highKey]] };
+    });
   }, [data, lowKey, highKey]);
 
   const renderContent = () => {

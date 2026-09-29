@@ -44,7 +44,7 @@ export const Default: Story = {
     required: false,
     hasError: false,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
       month: 6,
@@ -54,7 +54,7 @@ export const Default: Story = {
 };
 
 export const MinAndMaxMonthConstraints: Story = {
-  render: () => {
+  render: function Render() {
     // Only allow April 2026 (index 3) to August 2026 (index 7)
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
@@ -81,7 +81,7 @@ export const MinAndMaxMonthConstraints: Story = {
 };
 
 export const FutureMonthsOnly: Story = {
-  render: () => {
+  render: function Render() {
     const now = new Date();
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: now.getFullYear(),
@@ -103,7 +103,7 @@ export const FutureMonthsOnly: Story = {
 };
 
 export const HistoricalArchiveOnly: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2024,
       month: 5,
@@ -128,7 +128,7 @@ export const WithApplyCancelActions: Story = {
     label: "Report Period",
     placeholder: "Choose period",
   },
-  render: (args) => {
+  render: function Render(args) {
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
       month: 0,
@@ -170,7 +170,7 @@ export const DisabledAndErrorStates: Story = {
 };
 
 export const InlineBorderless: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthPickerValue | null>({
       year: 2026,
       month: 6,
@@ -193,6 +193,40 @@ export const InlineBorderless: Story = {
           value={month}
           onChange={setMonth}
           maxMonth={{ year: 2026, month: 8 }}
+        />
+      </div>
+    );
+  },
+};
+
+export const ClearableMonthPicker: Story = {
+  render: function Render() {
+    const [m1, setM1] = useState<MonthPickerValue | null>({
+      year: 2026,
+      month: 4,
+    });
+    const [m2, setM2] = useState<MonthPickerValue | null>({
+      year: 2026,
+      month: 8,
+    });
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <MonthPicker
+          label="Clearable MonthPicker (default: clearable=true)"
+          placeholder="Select month"
+          value={m1}
+          onChange={setM1}
+          clearable
+          helperText="Click the × button on the right to clear the selected month"
+        />
+        <MonthPicker
+          label="Non-Clearable MonthPicker (clearable=false)"
+          placeholder="Select month"
+          value={m2}
+          onChange={setM2}
+          clearable={false}
+          helperText="No clear icon is displayed"
         />
       </div>
     );

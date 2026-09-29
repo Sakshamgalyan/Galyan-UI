@@ -3,6 +3,7 @@
 import React from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import "./card.css";
+import { Typography } from "../typography";
 
 export type CardVariant =
   | "default"
@@ -177,18 +178,23 @@ export function CardInfo({
   return (
     <div className={`gy-card-info ${className}`} style={style} {...props}>
       <div className="gy-card-info__header">
-        <span className="gy-card-info__title">{title}</span>
+        <Typography variant="span" className="gy-card-info__title">
+          {title}
+        </Typography>
         {icon && <span className="gy-card-info__icon">{icon}</span>}
       </div>
-      <div className="gy-card-info__value">{value}</div>
+      <Typography variant="span" as="div" className="gy-card-info__value">
+        {value}
+      </Typography>
       {trend && (
         <div>
-          <span
+          <Typography
+            variant="span"
             className={`gy-card-info__trend gy-card-info__trend--${isUp ? "up" : "down"}`}
           >
             {isUp ? "↑" : "↓"} {Math.abs(trend.value)}%
             {trend.label && ` ${trend.label}`}
-          </span>
+          </Typography>
         </div>
       )}
       {footer && <div className="gy-card-info__footer">{footer}</div>}

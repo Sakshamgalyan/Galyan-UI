@@ -1,11 +1,18 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./table.css";
+import { Typography } from "../typography";
 
 export type SortDirection = "asc" | "desc";
 export type TableResponsiveMode = "scroll" | "stack" | "cards" | boolean;
@@ -268,7 +275,9 @@ export function Table<T>({
     if (!el) return;
     updateScrollIndicators();
     el.addEventListener("scroll", updateScrollIndicators, { passive: true });
-    window.addEventListener("resize", updateScrollIndicators, { passive: true });
+    window.addEventListener("resize", updateScrollIndicators, {
+      passive: true,
+    });
     return () => {
       el.removeEventListener("scroll", updateScrollIndicators);
       window.removeEventListener("resize", updateScrollIndicators);
@@ -338,8 +347,7 @@ export function Table<T>({
       const col = columns[idx];
       if (!col) continue;
       const isRight =
-        col.fixed === "right" ||
-        (fixedRightmost && idx === columns.length - 1);
+        col.fixed === "right" || (fixedRightmost && idx === columns.length - 1);
       isFixedRightList[idx] = isRight;
       if (isRight) {
         rightOffsets[idx] = currentRight;
@@ -365,30 +373,39 @@ export function Table<T>({
   const isCheckboxFixed = fixedLeftmost || hasFixedLeft;
 
   // Helper to extract row key
-  const getRowKey = (row: T, index: number): string => {
-    if (rowKey) return rowKey(row);
-    // Try accessing id property if exists
-    if (row && typeof row === "object" && "id" in row)
-      return String((row as any).id);
-    return String(index);
-  };
+  const getRowKey = useCallback(
+    (row: T, index: number): string => {
+      if (rowKey) return rowKey(row);
+      // Try accessing id property if exists
+      if (row && typeof row === "object" && "id" in row)
+        return String((row as { id: unknown }).id);
+      return String(index);
+    },
+    [rowKey],
+  );
 
   // Nested children accessor helper
-  const getNestedChildren = (row: T): T[] | undefined => {
-    if (!nestedChildrenAccessor) return undefined;
-    if (typeof nestedChildrenAccessor === "function") {
-      return nestedChildrenAccessor(row);
-    }
-    return row[nestedChildrenAccessor] as unknown as T[] | undefined;
-  };
+  const getNestedChildren = useCallback(
+    (row: T): T[] | undefined => {
+      if (!nestedChildrenAccessor) return undefined;
+      if (typeof nestedChildrenAccessor === "function") {
+        return nestedChildrenAccessor(row);
+      }
+      return row[nestedChildrenAccessor] as unknown as T[] | undefined;
+    },
+    [nestedChildrenAccessor],
+  );
 
   // Check if row is expanded
-  const isRowExpanded = (key: string): boolean => {
-    if (expandedRows[key] !== undefined) {
-      return expandedRows[key];
-    }
-    return !!nestedDefaultExpanded;
-  };
+  const isRowExpanded = useCallback(
+    (key: string): boolean => {
+      if (expandedRows[key] !== undefined) {
+        return expandedRows[key];
+      }
+      return !!nestedDefaultExpanded;
+    },
+    [expandedRows, nestedDefaultExpanded],
+  );
 
   const toggleRowExpansion = (key: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -532,7 +549,7 @@ export function Table<T>({
       process(item, 0, idx === paginatedRootRows.length - 1, []),
     );
     return visible;
-  }, [paginatedRootRows, expandedRows, nestedDefaultExpanded]);
+  }, [paginatedRootRows, getRowKey, getNestedChildren, isRowExpanded]);
 
   // Selection states
   const allPageKeys = useMemo(
@@ -564,14 +581,17 @@ export function Table<T>({
     handleSelectionChange(next);
   };
 
-  const handlePageClick = (page: number) => {
-    if (paginationDisabled) return;
-    if (isPaginationControlled) {
-      onPageChange?.(page);
-    } else {
-      setLocalPage(page);
-    }
-  };
+  const handlePageClick = useCallback(
+    (page: number) => {
+      if (paginationDisabled) return;
+      if (isPaginationControlled) {
+        onPageChange?.(page);
+      } else {
+        setLocalPage(page);
+      }
+    },
+    [paginationDisabled, isPaginationControlled, onPageChange],
+  );
 
   // Rendering empty state helper
   const renderEmptyState = () => {
@@ -737,7 +757,12 @@ export function Table<T>({
         {visiblePages.map((p, i, arr) => (
           <React.Fragment key={p}>
             {i > 0 && arr[i - 1] !== p - 1 && (
-              <span className="gy-table-pagination-ellipsis">…</span>
+              <Typography
+                variant="span"
+                className="gy-table-pagination-ellipsis"
+              >
+                …
+              </Typography>
             )}
             <button
               type="button"
@@ -773,6 +798,7 @@ export function Table<T>({
     paginationDisabled,
     isLoading,
     paginationVariant,
+    handlePageClick,
   ]);
 
   const activeSortKey =
@@ -805,10 +831,14 @@ export function Table<T>({
     .join(" ");
 
   const wrapperStyle: React.CSSProperties | undefined =
-    borderRadius !== undefined || style !== undefined || treeLineColor !== undefined
+    borderRadius !== undefined ||
+    style !== undefined ||
+    treeLineColor !== undefined
       ? {
           ...(borderRadius !== undefined ? { borderRadius } : {}),
-          ...(treeLineColor !== undefined ? ({ "--gy-tree-line-color": treeLineColor } as any) : {}),
+          ...(treeLineColor !== undefined
+            ? ({ "--gy-tree-line-color": treeLineColor } as React.CSSProperties)
+            : {}),
           ...style,
         }
       : undefined;
@@ -844,7 +874,9 @@ export function Table<T>({
         <table
           className={tableClasses}
           aria-label={ariaLabel || "Data table"}
-          style={{ minWidth: tableMinWidth > 0 ? `${tableMinWidth}px` : undefined }}
+          style={{
+            minWidth: tableMinWidth > 0 ? `${tableMinWidth}px` : undefined,
+          }}
         >
           {showHeader && (
             <thead
@@ -1029,7 +1061,7 @@ export function Table<T>({
                           ? (e) => {
                               if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
-                                onRowClick(row, e as any);
+                                onRowClick(row, e as unknown as React.MouseEvent);
                               }
                             }
                           : undefined
@@ -1050,7 +1082,12 @@ export function Table<T>({
                           }}
                           onClick={(e) => e.stopPropagation()} // Stop triggering row clicks
                         >
-                          <span className="gy-table-cell-mobile-label">Select</span>
+                          <Typography
+                            variant="span"
+                            className="gy-table-cell-mobile-label"
+                          >
+                            Select
+                          </Typography>
                           <Checkbox
                             checked={isSelected}
                             onChange={() => toggleRowSelection(key)}
@@ -1072,7 +1109,8 @@ export function Table<T>({
                           typeof cellValue === "string" ||
                           typeof cellValue === "number";
                         const rawText = isText ? String(cellValue) : undefined;
-                        const shouldEllipsis = isText && (col.ellipsis ?? ellipsis);
+                        const shouldEllipsis =
+                          isText && (col.ellipsis ?? ellipsis);
 
                         const cellNode = shouldEllipsis ? (
                           <TableCellEllipsis
@@ -1101,7 +1139,9 @@ export function Table<T>({
                             key={col.key}
                             className={classes}
                             data-label={
-                              typeof col.header === "string" ? col.header : undefined
+                              typeof col.header === "string"
+                                ? col.header
+                                : undefined
                             }
                             style={{
                               width: col.width,
@@ -1115,8 +1155,7 @@ export function Table<T>({
                                 rightOffset !== undefined
                                   ? `${rightOffset}px`
                                   : undefined,
-                              zIndex:
-                                isLeft || isRight ? 2 : undefined,
+                              zIndex: isLeft || isRight ? 2 : undefined,
                             }}
                           >
                             <span className="gy-table-cell-mobile-label">

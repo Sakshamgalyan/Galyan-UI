@@ -30,6 +30,10 @@
   white-space: nowrap;
   box-sizing: border-box;
   user-select: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .gy-input-group__addon--left {
@@ -44,7 +48,7 @@
   border-bottom-right-radius: var(--gy-radius-lg, 0.5rem);
 }
 
-/* Seamless Dropdown inside Addon */
+/* ── Seamless Dropdown inside Addon ───────────────────────────────────────── */
 .gy-input-group__addon--dropdown {
   padding: 0 !important;
   background: transparent !important;
@@ -65,24 +69,42 @@
   width: max-content !important;
 }
 
-.gy-input-group__addon--dropdown.gy-input-group__addon--left .gy-dropdown-trigger {
+.gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-top-left-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-bottom-left-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-right: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
-  background: var(--gy-background-muted, #f8fafc);
 }
 
-.gy-input-group__addon--dropdown.gy-input-group__addon--right .gy-dropdown-trigger {
+.gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-top-right-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
   border-left: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
+}
+
+/* Default variant dropdown trigger inside addon */
+.gy-input-group:not(.gy-input-group--filled):not(
+    .gy-input-group--glassmorphic
+  ):not(.gy-input-group--glass)
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger:not(.gy-dropdown-trigger--filled):not(
+    .gy-dropdown-trigger--glassmorphic
+  ):not(.gy-dropdown-trigger--glass) {
   background: var(--gy-background-muted, #f8fafc);
+}
+
+/* Focus and open state elevation */
+.gy-input-group__addon--dropdown .gy-dropdown-trigger:focus-visible,
+.gy-input-group__addon--dropdown .gy-dropdown-trigger--open {
+  position: relative;
+  z-index: 2;
 }
 
 /* ── Seamless Button inside Addon ────────────────────────────────────────── */
@@ -135,6 +157,7 @@
   border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
 }
 
+/* ── Control Area ────────────────────────────────────────────────────────── */
 .gy-input-group__control {
   flex: 1;
   min-width: 0;
@@ -162,9 +185,15 @@
   border-bottom-right-radius: 0 !important;
 }
 
-.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input,
-.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-container,
-.gy-input-group--has-left.gy-input-group--has-right .gy-input-group__control .gy-input-wrapper {
+.gy-input-group--has-left.gy-input-group--has-right
+  .gy-input-group__control
+  .gy-input,
+.gy-input-group--has-left.gy-input-group--has-right
+  .gy-input-group__control
+  .gy-input-container,
+.gy-input-group--has-left.gy-input-group--has-right
+  .gy-input-group__control
+  .gy-input-wrapper {
   border-radius: 0 !important;
 }
 
@@ -181,12 +210,149 @@
   z-index: 2;
 }
 
-/* Sizes */
-.gy-input-group--sm .gy-input-group__addon { padding: 0 0.625rem; font-size: 0.75rem; }
-.gy-input-group--md .gy-input-group__addon { padding: 0 0.875rem; font-size: 0.875rem; }
-.gy-input-group--lg .gy-input-group__addon { padding: 0 1.125rem; font-size: 1rem; }
+/* ── Variant: Filled ─────────────────────────────────────────────────────── */
+.gy-input-group--filled .gy-input-group__addon {
+  background: var(--gy-background-muted, #f1f5f9);
+  border-color: transparent;
+}
 
-/* ── Dark Mode Overrides ── */
+.gy-input-group--filled
+  .gy-input-group__addon--left:not(.gy-input-group__addon--dropdown) {
+  border-right: 1px solid var(--gy-border, #e2e8f0);
+}
+
+.gy-input-group--filled
+  .gy-input-group__addon--right:not(.gy-input-group__addon--dropdown) {
+  border-left: 1px solid var(--gy-border, #e2e8f0);
+}
+
+.gy-input-group--filled .gy-input-group__addon--dropdown .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown .gy-dropdown-trigger--filled {
+  background: var(--gy-background-muted, #f1f5f9) !important;
+  border-color: transparent !important;
+}
+
+.gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger--filled {
+  border-right: 1px solid var(--gy-border, #e2e8f0) !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
+}
+
+.gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger--filled {
+  border-left: 1px solid var(--gy-border, #e2e8f0) !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-right-color: transparent !important;
+}
+
+.gy-input-group--filled
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
+.gy-input-group__addon--dropdown
+  .gy-dropdown-trigger--filled:hover:not(:disabled):not(
+    .gy-dropdown-trigger--loading
+  ) {
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #10b981) 12%,
+    var(--gy-surface, #ffffff)
+  ) !important;
+  border-color: var(--gy-primary, #10b981) !important;
+}
+
+.gy-input-group--filled
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger--open,
+.gy-input-group__addon--dropdown
+  .gy-dropdown-trigger--filled.gy-dropdown-trigger--open {
+  background: var(--gy-surface, #ffffff) !important;
+  border-color: var(--gy-primary, #10b981) !important;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--gy-primary, #10b981) 20%, transparent) !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Variant: Glassmorphic & Glass ───────────────────────────────────────── */
+.gy-input-group--glassmorphic .gy-input-group__addon,
+.gy-input-group--glass .gy-input-group__addon {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+.gy-input-group--glass .gy-input-group__addon--dropdown .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown .gy-dropdown-trigger--glassmorphic,
+.gy-input-group__addon--dropdown .gy-dropdown-trigger--glass {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger,
+.gy-input-group--glass
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger--glassmorphic,
+.gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger--glass {
+  border-right: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+.gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger,
+.gy-input-group--glass
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger,
+.gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger--glassmorphic,
+.gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger--glass {
+  border-left: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+.gy-input-group--glassmorphic .gy-input-wrapper,
+.gy-input-group--glass .gy-input-wrapper {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.07);
+}
+
+/* ── Sizes ───────────────────────────────────────────────────────────────── */
+.gy-input-group--sm .gy-input-group__addon {
+  padding: 0 0.625rem;
+  font-size: 0.75rem;
+}
+.gy-input-group--md .gy-input-group__addon {
+  padding: 0 0.875rem;
+  font-size: 0.875rem;
+}
+.gy-input-group--lg .gy-input-group__addon {
+  padding: 0 1.125rem;
+  font-size: 1rem;
+}
+
+/* ── Dark Mode Overrides ─────────────────────────────────────────────────── */
 .gy-dark .gy-input-group__addon,
 [data-color-mode="dark"] .gy-input-group__addon,
 .dark .gy-input-group__addon {
@@ -201,4 +367,106 @@
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, #334155);
   color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-input-group--filled .gy-input-group__addon,
+[data-color-mode="dark"] .gy-input-group--filled .gy-input-group__addon,
+.dark .gy-input-group--filled .gy-input-group__addon {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger,
+[data-color-mode="dark"]
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger,
+.dark
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--left
+  .gy-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-right: 1px solid var(--gy-border, #334155) !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger,
+[data-color-mode="dark"]
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger,
+.dark
+  .gy-input-group--filled
+  .gy-input-group__addon--dropdown.gy-input-group__addon--right
+  .gy-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-left: 1px solid var(--gy-border, #334155) !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-right-color: transparent !important;
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-input-group--glassmorphic .gy-input-group__addon,
+[data-color-mode="dark"] .gy-input-group--glassmorphic .gy-input-group__addon,
+.dark .gy-input-group--glassmorphic .gy-input-group__addon,
+.gy-dark .gy-input-group--glass .gy-input-group__addon,
+[data-color-mode="dark"] .gy-input-group--glass .gy-input-group__addon,
+.dark .gy-input-group--glass .gy-input-group__addon {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark
+  .gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+[data-color-mode="dark"]
+  .gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+.dark
+  .gy-input-group--glassmorphic
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+.gy-dark
+  .gy-input-group--glass
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+[data-color-mode="dark"]
+  .gy-input-group--glass
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger,
+.dark
+  .gy-input-group--glass
+  .gy-input-group__addon--dropdown
+  .gy-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--gy-text, #f8fafc);
+}
+
+.gy-dark .gy-input-group--glassmorphic .gy-input-wrapper,
+[data-color-mode="dark"] .gy-input-group--glassmorphic .gy-input-wrapper,
+.dark .gy-input-group--glassmorphic .gy-input-wrapper,
+.gy-dark .gy-input-group--glass .gy-input-wrapper,
+[data-color-mode="dark"] .gy-input-group--glass .gy-input-wrapper,
+.dark .gy-input-group--glass .gy-input-wrapper {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
 }

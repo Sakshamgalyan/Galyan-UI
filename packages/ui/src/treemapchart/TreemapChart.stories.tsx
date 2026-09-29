@@ -21,7 +21,11 @@ type Story = StoryObj<typeof TreemapChart>;
 const treemapData = [
   { name: "Electronics", value: 45000, color: "var(--gy-primary, #3b82f6)" },
   { name: "Home & Garden", value: 32000, color: "var(--gy-success, #10b981)" },
-  { name: "Fashion Apparel", value: 24000, color: "var(--gy-warning, #f59e0b)" },
+  {
+    name: "Fashion Apparel",
+    value: 24000,
+    color: "var(--gy-warning, #f59e0b)",
+  },
   { name: "Automotive", value: 18000, color: "var(--gy-danger, #ef4444)" },
   { name: "Sports & Outdoors", value: 14000, color: "var(--gy-info, #06b6d4)" },
   { name: "Beauty & Health", value: 9500, color: "#8b5cf6" },

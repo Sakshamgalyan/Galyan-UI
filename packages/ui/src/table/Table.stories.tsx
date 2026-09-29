@@ -3,12 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import {
   Table,
   type Column,
-  type SortDirection,
   type TableProps,
 } from "./Table";
 import { Button } from "../button/Button";
 
-const meta: Meta<TableProps<any>> = {
+const meta: Meta<TableProps<User>> = {
   title: "Galyan UI/Table",
   component: Table,
   tags: ["autodocs"],
@@ -291,7 +290,7 @@ export const PaginationInternal: Story = {
 };
 
 export const ControlledServerPagination: Story = {
-  render: () => {
+  render: function Render() {
     const [page, setPage] = useState(1);
     const pageSize = 4;
     const totalItems = sampleData.length;
@@ -343,7 +342,7 @@ export const ControlledServerPagination: Story = {
 };
 
 export const RowSelectionWithBulkActions: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = useState<string[]>(["1", "3"]);
 
     return (
@@ -424,7 +423,7 @@ const MoreVerticalIcon = () => (
 );
 
 export const StickyHeaderAndFixedColumns: Story = {
-  render: () => {
+  render: function Render() {
     const wideColumns: Column<User>[] = [
       { key: "id", header: "ID", accessor: (r) => `#${r.id}`, width: "70px" },
       {
@@ -550,7 +549,7 @@ const BuildingIcon = () => (
 );
 
 export const EnterpriseCompanyDirectory: Story = {
-  render: () => {
+  render: function Render() {
     interface CompanyRecord {
       id: string;
       name: string;
@@ -740,7 +739,7 @@ export const EnterpriseCompanyDirectory: Story = {
 };
 
 export const FixedColumnsByColumnProp: Story = {
-  render: () => {
+  render: function Render() {
     const multiFixedColumns: Column<User>[] = [
       {
         key: "id",
@@ -844,7 +843,10 @@ export const FixedColumnsByColumnProp: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          Table with multiple left fixed columns (<strong>ID</strong>, <strong>Name</strong>) and right fixed columns (<strong>Status</strong>, <strong>Actions</strong>) configured via <code>column.fixed</code>:
+          Table with multiple left fixed columns (<strong>ID</strong>,{" "}
+          <strong>Name</strong>) and right fixed columns (
+          <strong>Status</strong>, <strong>Actions</strong>) configured via{" "}
+          <code>column.fixed</code>:
         </div>
         <div style={{ maxWidth: 640, overflowX: "auto" }}>
           <Table
@@ -1011,9 +1013,7 @@ const bankSettlementColumns: Column<BankSettlementItem>[] = [
     key: "name",
     header: "Bank / MID Name",
     accessor: (row) => (
-      <span style={{ fontWeight: row.subRows ? 600 : 500 }}>
-        {row.name}
-      </span>
+      <span style={{ fontWeight: row.subRows ? 600 : 500 }}>{row.name}</span>
     ),
     sortable: true,
     width: "280px",
@@ -1130,9 +1130,9 @@ const bankSettlementData: BankSettlementItem[] = [
   },
 ];
 
-export const BankSettlementTreeTable: StoryObj<any> = {
+export const BankSettlementTreeTable: StoryObj<TableProps<BankSettlementItem>> = {
   name: "Bank Settlement Tree Table (Screenshot Match)",
-  render: () => {
+  render: function Render() {
     return (
       <Table
         columns={bankSettlementColumns}
@@ -1157,7 +1157,7 @@ export const LoadingSkeletonState: Story = {
 };
 
 export const EllipsisWithTooltipOnOverflow: Story = {
-  render: () => {
+  render: function Render() {
     const mixedLengthData = [
       {
         id: "1",
@@ -1193,7 +1193,7 @@ export const EllipsisWithTooltipOnOverflow: Story = {
       },
     ];
 
-    const ellipsisColumns: Column<any>[] = [
+    const ellipsisColumns: Column<(typeof mixedLengthData)[number]>[] = [
       {
         key: "name",
         header: "Name (Width 150px)",
@@ -1224,7 +1224,12 @@ export const EllipsisWithTooltipOnOverflow: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          Tooltips are <strong>smart and overflow-aware</strong>: Hovering over short text (e.g. <em>Sophia</em>, <em>Mia</em>) will <strong>not</strong> trigger a tooltip because it fits comfortably. Hovering over truncated text with ellipsis (e.g. <em>Alexander Bartholomew Wellington III</em>) will automatically pop up the <strong>Tooltip</strong> showing the full text.
+          Tooltips are <strong>smart and overflow-aware</strong>: Hovering over
+          short text (e.g. <em>Sophia</em>, <em>Mia</em>) will{" "}
+          <strong>not</strong> trigger a tooltip because it fits comfortably.
+          Hovering over truncated text with ellipsis (e.g.{" "}
+          <em>Alexander Bartholomew Wellington III</em>) will automatically pop
+          up the <strong>Tooltip</strong> showing the full text.
         </div>
         <Table
           columns={ellipsisColumns}
@@ -1261,11 +1266,13 @@ export const CustomEmptyState: Story = {
 };
 
 export const ResponsiveMobileStackedCards: Story = {
-  render: () => {
+  render: function Render() {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          With <code>responsive="stack"</code>, table rows automatically transform into clean mobile-friendly cards with field badges on small screens (<strong>&le; 640px</strong>):
+          With <code>responsive=&quot;stack&quot;</code>, table rows automatically
+          transform into clean mobile-friendly cards with field badges on small
+          screens (<strong>&le; 640px</strong>):
         </div>
 
         {/* Simulated Mobile Viewport Container */}
@@ -1315,7 +1322,8 @@ export const ResponsiveMobileStackedCards: Story = {
               marginBottom: "0.5rem",
             }}
           >
-            Full-Width Responsive Table (Resize browser to &le; 640px to see card transformation)
+            Full-Width Responsive Table (Resize browser to &le; 640px to see
+            card transformation)
           </div>
           <Table
             columns={columns}
@@ -1332,23 +1340,72 @@ export const ResponsiveMobileStackedCards: Story = {
 };
 
 export const ResponsiveHorizontalScrollWithHints: Story = {
-  render: () => {
+  render: function Render() {
     const detailedColumns: Column<User>[] = [
-      { key: "id", header: "User ID", accessor: (r) => `#${r.id}`, width: "90px" },
-      { key: "name", header: "Full Name", accessor: (r) => r.name, width: "180px", sortable: true },
-      { key: "email", header: "Email Address", accessor: (r) => r.email ?? "-", width: "200px" },
-      { key: "department", header: "Department", accessor: (r) => r.department ?? "-", width: "150px" },
-      { key: "role", header: "Role Title", accessor: (r) => r.role, width: "180px" },
-      { key: "status", header: "Status", accessor: (r) => r.status, width: "110px", align: "center" },
-      { key: "revenue", header: "Annual Revenue", accessor: (r) => `$${r.revenue.toLocaleString()}`, width: "140px", align: "right", sortable: true },
+      {
+        key: "id",
+        header: "User ID",
+        accessor: (r) => `#${r.id}`,
+        width: "90px",
+      },
+      {
+        key: "name",
+        header: "Full Name",
+        accessor: (r) => r.name,
+        width: "180px",
+        sortable: true,
+      },
+      {
+        key: "email",
+        header: "Email Address",
+        accessor: (r) => r.email ?? "-",
+        width: "200px",
+      },
+      {
+        key: "department",
+        header: "Department",
+        accessor: (r) => r.department ?? "-",
+        width: "150px",
+      },
+      {
+        key: "role",
+        header: "Role Title",
+        accessor: (r) => r.role,
+        width: "180px",
+      },
+      {
+        key: "status",
+        header: "Status",
+        accessor: (r) => r.status,
+        width: "110px",
+        align: "center",
+      },
+      {
+        key: "revenue",
+        header: "Annual Revenue",
+        accessor: (r) => `$${r.revenue.toLocaleString()}`,
+        width: "140px",
+        align: "right",
+        sortable: true,
+      },
     ];
 
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div style={{ fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-          With <code>responsive="scroll"</code> (default), tables provide fluid touch scrolling on mobile & tablets, with <strong>automatic left & right scroll edge shadow cues</strong> when content overflows:
+          With <code>responsive=&quot;scroll&quot;</code> (default), tables provide fluid
+          touch scrolling on mobile & tablets, with{" "}
+          <strong>automatic left & right scroll edge shadow cues</strong> when
+          content overflows:
         </div>
-        <div style={{ maxWidth: 520, border: "2px dashed var(--gy-border)", borderRadius: "1rem", padding: "0.75rem" }}>
+        <div
+          style={{
+            maxWidth: 520,
+            border: "2px dashed var(--gy-border)",
+            borderRadius: "1rem",
+            padding: "0.75rem",
+          }}
+        >
           <Table
             columns={detailedColumns}
             data={sampleData.slice(0, 6)}
@@ -1367,24 +1424,84 @@ export const ResponsiveHorizontalScrollWithHints: Story = {
 };
 
 export const KeyboardTabAccessibilityShowcase: Story = {
-  render: () => {
+  render: function Render() {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div
           style={{
             padding: "0.75rem 1rem",
-            background: "color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface))",
-            border: "1px solid color-mix(in srgb, var(--gy-primary) 25%, transparent)",
+            background:
+              "color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface))",
+            border:
+              "1px solid color-mix(in srgb, var(--gy-primary) 25%, transparent)",
             borderRadius: "0.5rem",
             fontSize: "0.85rem",
             color: "var(--gy-text)",
           }}
         >
           <strong>Keyboard Accessibility (Tab-Friendly):</strong>
-          <ul style={{ margin: "0.35rem 0 0 1.25rem", padding: 0, fontSize: "0.8125rem", lineHeight: 1.6 }}>
-            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Tab</kbd> to focus through sortable headers, checkboxes, and pagination buttons.</li>
-            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Enter</kbd> or <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Space</kbd> on a focused header to toggle sorting direction.</li>
-            <li>Press <kbd style={{ padding: "2px 5px", background: "var(--gy-surface)", border: "1px solid var(--gy-border)", borderRadius: "4px" }}>Left/Right Arrow</kbd> when focused on the scrollable table region to scroll smoothly.</li>
+          <ul
+            style={{
+              margin: "0.35rem 0 0 1.25rem",
+              padding: 0,
+              fontSize: "0.8125rem",
+              lineHeight: 1.6,
+            }}
+          >
+            <li>
+              Press{" "}
+              <kbd
+                style={{
+                  padding: "2px 5px",
+                  background: "var(--gy-surface)",
+                  border: "1px solid var(--gy-border)",
+                  borderRadius: "4px",
+                }}
+              >
+                Tab
+              </kbd>{" "}
+              to focus through sortable headers, checkboxes, and pagination
+              buttons.
+            </li>
+            <li>
+              Press{" "}
+              <kbd
+                style={{
+                  padding: "2px 5px",
+                  background: "var(--gy-surface)",
+                  border: "1px solid var(--gy-border)",
+                  borderRadius: "4px",
+                }}
+              >
+                Enter
+              </kbd>{" "}
+              or{" "}
+              <kbd
+                style={{
+                  padding: "2px 5px",
+                  background: "var(--gy-surface)",
+                  border: "1px solid var(--gy-border)",
+                  borderRadius: "4px",
+                }}
+              >
+                Space
+              </kbd>{" "}
+              on a focused header to toggle sorting direction.
+            </li>
+            <li>
+              Press{" "}
+              <kbd
+                style={{
+                  padding: "2px 5px",
+                  background: "var(--gy-surface)",
+                  border: "1px solid var(--gy-border)",
+                  borderRadius: "4px",
+                }}
+              >
+                Left/Right Arrow
+              </kbd>{" "}
+              when focused on the scrollable table region to scroll smoothly.
+            </li>
           </ul>
         </div>
         <Table
@@ -1403,11 +1520,17 @@ export const KeyboardTabAccessibilityShowcase: Story = {
 };
 
 export const SharpBorderAndRoundingOptions: Story = {
-  render: () => {
+  render: function Render() {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
         <div>
-          <div style={{ fontWeight: 600, marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              fontSize: "0.875rem",
+            }}
+          >
             Default Sharp Border (0px Radius):
           </div>
           <Table
@@ -1421,8 +1544,14 @@ export const SharpBorderAndRoundingOptions: Story = {
           />
         </div>
         <div>
-          <div style={{ fontWeight: 600, marginBottom: "0.5rem", fontSize: "0.875rem" }}>
-            Rounded Variant (rounded="lg"):
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              fontSize: "0.875rem",
+            }}
+          >
+            Rounded Variant (rounded=&quot;lg&quot;):
           </div>
           <Table
             columns={columns}

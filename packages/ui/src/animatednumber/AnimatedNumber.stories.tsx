@@ -126,7 +126,7 @@ export const FlipClock3D: Story = {
 };
 
 export const TransitionModesShowcase: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState(62840);
 
     return (
@@ -141,7 +141,14 @@ export const TransitionModesShowcase: Story = {
           maxWidth: 680,
         }}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+            justifyContent: "center",
+          }}
+        >
           <button
             style={{
               padding: "0.5rem 1rem",
@@ -218,7 +225,16 @@ export const TransitionModesShowcase: Story = {
               boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748b", marginBottom: "0.5rem" }}>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "#64748b",
+                marginBottom: "0.5rem",
+              }}
+            >
               Multi-Revolution Roller
             </div>
             <AnimatedNumber
@@ -245,7 +261,16 @@ export const TransitionModesShowcase: Story = {
               boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748b", marginBottom: "0.5rem" }}>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "#64748b",
+                marginBottom: "0.5rem",
+              }}
+            >
               Vertical Slide Ticker
             </div>
             <AnimatedNumber
@@ -270,7 +295,16 @@ export const TransitionModesShowcase: Story = {
               boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748b", marginBottom: "0.5rem" }}>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "#64748b",
+                marginBottom: "0.5rem",
+              }}
+            >
               3D Split-Flap Flip
             </div>
             <AnimatedNumber
@@ -294,7 +328,16 @@ export const TransitionModesShowcase: Story = {
               boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748b", marginBottom: "0.5rem" }}>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "#64748b",
+                marginBottom: "0.5rem",
+              }}
+            >
               Interpolating Counter
             </div>
             <AnimatedNumber
@@ -315,7 +358,7 @@ export const TransitionModesShowcase: Story = {
 };
 
 export const InteractiveValueToggle: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState(12450);
     return (
       <div
@@ -384,7 +427,7 @@ export const InteractiveValueToggle: Story = {
 };
 
 export const RollingOdometerInteractive: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [val, setVal] = useState(48291);
     return (
       <div
@@ -444,11 +487,18 @@ export const RollingOdometerInteractive: Story = {
 };
 
 export const StatsDashboardCards: Story = {
-  render: () => {
+  render: function Render() {
     const [metricMultiplier, setMetricMultiplier] = useState(1);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          alignItems: "center",
+        }}
+      >
         <button
           style={{
             padding: "0.4rem 0.875rem",
@@ -459,12 +509,21 @@ export const StatsDashboardCards: Story = {
             fontWeight: 600,
             cursor: "pointer",
           }}
-          onClick={() => setMetricMultiplier((m) => (m === 1 ? 1.45 : m === 1.45 ? 0.8 : 1))}
+          onClick={() =>
+            setMetricMultiplier((m) => (m === 1 ? 1.45 : m === 1.45 ? 0.8 : 1))
+          }
         >
           Toggle Live Inflow Surge
         </button>
 
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <div
             style={{
               padding: "1.25rem 1.5rem",

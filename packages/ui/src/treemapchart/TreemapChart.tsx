@@ -5,17 +5,23 @@ import {
   Treemap,
   ResponsiveContainer,
   Tooltip as RechartsTooltip,
+  type TooltipProps,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import { Skeleton } from "../skeleton/Skeleton";
 import { EmptyState } from "../emptystate/EmptyState";
 import "./treemap-chart.css";
+import { Typography } from "../typography";
 
 export interface TreemapChartItem {
   name: string;
   value: number;
   color?: string;
   children?: TreemapChartItem[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TreemapChartTooltipConfig {
@@ -59,7 +65,7 @@ interface CustomContentProps {
   name?: string;
   value?: number;
   color?: string;
-  payload?: any;
+  payload?: TreemapChartItem;
   colors?: string[];
   hoveredIndex?: number | null;
   onHover?: (index: number | null) => void;
@@ -83,8 +89,7 @@ function CustomTreemapTile({
   onClick,
   totalValue = 0,
 }: CustomContentProps) {
-  const itemColor =
-    color ?? payload?.color ?? colors[index % colors.length];
+  const itemColor = color ?? payload?.color ?? colors[index % colors.length];
   const isHovered = hoveredIndex === index;
   const isDimmed = hoveredIndex !== null && !isHovered;
 
@@ -104,7 +109,9 @@ function CustomTreemapTile({
       className="gy-treemap-tile"
       onMouseEnter={() => onHover?.(index)}
       onMouseLeave={() => onHover?.(null)}
-      onClick={() => onClick?.(payload || { name, value, color: itemColor }, index)}
+      onClick={() =>
+        onClick?.(payload || { name, value, color: itemColor }, index)
+      }
       style={{ cursor: "pointer" }}
     >
       <rect
@@ -131,11 +138,12 @@ function CustomTreemapTile({
           y={tileY + 18}
           fill="#ffffff"
           fontSize={tileW < 80 ? 10 : 12}
-          fontWeight="600"
+          fontWeight="normal"
+          stroke="none"
           style={{
             userSelect: "none",
             pointerEvents: "none",
-            textShadow: "0 1px 2px rgba(0,0,0,0.4)",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
           }}
         >
           {name.length > Math.floor(tileW / 8)
@@ -149,11 +157,12 @@ function CustomTreemapTile({
           y={tileY + 34}
           fill="rgba(255, 255, 255, 0.9)"
           fontSize={11}
-          fontWeight="500"
+          fontWeight="normal"
+          stroke="none"
           style={{
             userSelect: "none",
             pointerEvents: "none",
-            textShadow: "0 1px 2px rgba(0,0,0,0.4)",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
           }}
         >
           {value.toLocaleString()} ({percentage}%)
@@ -208,11 +217,14 @@ export function TreemapChart({
     if (!data || data.length === 0) return null;
     return data.reduce(
       (max, d) => (!max || d.value > max.value ? d : max),
-      data[0]
+      data[0],
     );
   }, [data]);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (
       tooltipConfig?.show === false ||
       !active ||
@@ -223,6 +235,8 @@ export function TreemapChart({
     }
 
     const current = payload[0];
+
+    if (!current) return null;
     const itemData = current.payload as TreemapChartItem;
     const val = Number(itemData.value) || 0;
     const percentage =
@@ -246,15 +260,21 @@ export function TreemapChart({
             className="gy-treemap-tooltip-badge"
             style={{ backgroundColor: itemColor }}
           />
-          <span className="gy-treemap-tooltip-title">{itemData.name}</span>
+          <Typography variant="span" className="gy-treemap-tooltip-title">
+            {itemData.name}
+          </Typography>
         </div>
         <div className="gy-treemap-tooltip-body">
           <div className="gy-treemap-tooltip-row">
-            <span className="gy-treemap-tooltip-label">Value:</span>
+            <Typography variant="span" className="gy-treemap-tooltip-label">
+              Value:
+            </Typography>
             <span className="gy-treemap-tooltip-val">{formattedVal}</span>
           </div>
           <div className="gy-treemap-tooltip-row gy-treemap-tooltip-row--highlight">
-            <span className="gy-treemap-tooltip-label">Share:</span>
+            <Typography variant="span" className="gy-treemap-tooltip-label">
+              Share:
+            </Typography>
             <span className="gy-treemap-tooltip-val">{percentage}%</span>
           </div>
         </div>
@@ -339,7 +359,9 @@ export function TreemapChart({
       <div className="gy-treemap-body">
         {showSummaryHeader && (
           <div className="gy-treemap-header">
-            <span className="gy-treemap-title">{summaryTitle}</span>
+            <Typography variant="span" weight="normal" className="gy-treemap-title">
+              {summaryTitle}
+            </Typography>
             <div className="gy-treemap-badges">
               <span className="gy-treemap-badge">
                 Total:{" "}

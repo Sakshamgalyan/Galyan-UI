@@ -3,6 +3,7 @@
 import React, { forwardRef, useId, useState } from "react";
 import { ClearButton } from "../clearbutton/ClearButton";
 import "./input.css";
+import { Typography } from "../typography";
 
 export type InputSize = "sm" | "md" | "lg";
 export type InputVariant =
@@ -221,12 +222,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       className={`gy-input-root ${fullWidth ? "" : "gy-input-root--inline"} ${className}`}
     >
       {label && (
-        <label
+        <Typography
+          variant="span"
+          as="label"
           className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
           htmlFor={inputId}
         >
           {label}
-        </label>
+        </Typography>
       )}
 
       <div className={wrapperClasses} style={wrapperStyle}>
@@ -332,3 +335,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     </div>
   );
 });
+
+Input.displayName = "Input";

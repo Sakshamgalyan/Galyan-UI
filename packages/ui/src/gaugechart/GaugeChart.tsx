@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import { Tooltip } from "../tooltip/Tooltip";
 import "./gauge-chart.css";
+import { Typography } from "../typography";
 
 export interface GaugeSegment {
   value: number; // upper limit of segment
@@ -34,6 +35,15 @@ export interface GaugeChartProps {
   tooltipConfig?: GaugeChartTooltipConfig;
   tokens?: Record<string, string>;
   onSegmentClick?: (segment: GaugeSegment, index: number) => void;
+  animate?: boolean;
+  animationDuration?: number;
+  animationEasing?:
+    | "ease"
+    | "ease-in"
+    | "ease-out"
+    | "ease-in-out"
+    | "linear"
+    | "spring";
 }
 
 const DEFAULT_SEGMENTS: GaugeSegment[] = [
@@ -41,6 +51,15 @@ const DEFAULT_SEGMENTS: GaugeSegment[] = [
   { value: 66, color: "var(--gy-warning, #f59e0b)", label: "Medium" },
   { value: 100, color: "var(--gy-danger, #ef4444)", label: "High" },
 ];
+
+const EASING_MAP: Record<string, string> = {
+  ease: "ease",
+  "ease-in": "cubic-bezier(0.4, 0, 1, 1)",
+  "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+  "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
+  linear: "linear",
+  spring: "cubic-bezier(0.34, 1.45, 0.64, 1)",
+};
 
 export function GaugeChart({
   value = 0,
@@ -59,15 +78,81 @@ export function GaugeChart({
   tooltipConfig = { show: true },
   tokens,
   onSegmentClick,
+  animate = true,
+  animationDuration = 1000,
+  animationEasing = "ease-out",
 }: GaugeChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(
-    typeof width === "number" ? width : 300
+    typeof width === "number" ? width : 300,
   );
   const [containerHeight, setContainerHeight] = useState<number>(
-    typeof height === "number" ? height : 220
+    typeof height === "number" ? height : 220,
   );
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Normalized value (min to max)
+  const normValue = Math.max(min, Math.min(max, value));
+  const [displayValue, setDisplayValue] = useState<number>(
+    animate ? min : normValue,
+  );
+  const prevValueRef = useRef<number>(animate ? min : normValue);
+
+  // Mount effect to trigger needle sweep
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setIsMounted(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // Animated counter for value
+  useEffect(() => {
+    if (!animate) {
+      setDisplayValue(normValue);
+      prevValueRef.current = normValue;
+      return;
+    }
+
+    const startVal = prevValueRef.current;
+    const endVal = normValue;
+    if (startVal === endVal) {
+      setDisplayValue(endVal);
+      return;
+    }
+
+    const startTime = performance.now();
+    let frameId: number;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / animationDuration);
+      const eased =
+        animationEasing === "linear"
+          ? progress
+          : animationEasing === "ease-in"
+            ? progress * progress * progress
+            : animationEasing === "ease-in-out"
+              ? progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 3) / 2
+              : 1 - Math.pow(1 - progress, 3);
+
+      const current = Math.round(startVal + (endVal - startVal) * eased);
+      setDisplayValue(current);
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick);
+      } else {
+        prevValueRef.current = endVal;
+        setDisplayValue(endVal);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [normValue, animate, animationDuration, animationEasing]);
 
   // ResizeObserver for responsive width & height calculation
   useEffect(() => {
@@ -94,7 +179,10 @@ export function GaugeChart({
 
   // Available vertical space inside wrapper (accounting for wrapper padding: 1rem or 0.75rem)
   const wrapperPaddingY = isCompact ? 24 : 32;
-  const availHeight = Math.max(100, (containerHeight > 0 ? containerHeight : numHeight - wrapperPaddingY));
+  const availHeight = Math.max(
+    100,
+    containerHeight > 0 ? containerHeight : numHeight - wrapperPaddingY,
+  );
 
   // Top clearance for arc stroke / hover elevation
   const topClearance = isCompact ? 8 : 12;
@@ -109,7 +197,10 @@ export function GaugeChart({
   // Radius calculation guaranteeing that arc, pivot, value, and legend all fit without overlap
   const maxRadiusByHeight = Math.max(
     30,
-    availHeight - topClearance - valueAreaHeight - (showLegend ? legendAreaHeight + 6 : 0)
+    availHeight -
+      topClearance -
+      valueAreaHeight -
+      (showLegend ? legendAreaHeight + 6 : 0),
   );
   const maxRadiusByWidth = Math.max(30, numWidth / 2 - (isCompact ? 16 : 24));
   const outerRadius = Math.min(maxRadiusByWidth, maxRadiusByHeight);
@@ -122,9 +213,6 @@ export function GaugeChart({
 
   // Dedicated SVG height containing the arc and the value label
   const svgHeight = cy + (showValue ? valueAreaHeight : 6);
-
-  // Normalized value (min to max)
-  const normValue = Math.max(min, Math.min(max, value));
   const maxRange = max - min || 1;
 
   // Math helper to convert polar to cartesian coordinates (0 deg = 9 o'clock, 180 deg = 3 o'clock)
@@ -132,7 +220,7 @@ export function GaugeChart({
     centerX: number,
     centerY: number,
     radius: number,
-    angleInDegrees: number
+    angleInDegrees: number,
   ) => {
     const angleInRadians = ((angleInDegrees - 180) * Math.PI) / 180.0;
     return {
@@ -146,7 +234,7 @@ export function GaugeChart({
     startAngle: number,
     endAngle: number,
     outRad: number,
-    inRad: number
+    inRad: number,
   ) => {
     const gap = segments.length > 1 ? 1 : 0;
     const sAngle = Math.min(startAngle + gap, endAngle);
@@ -168,6 +256,10 @@ export function GaugeChart({
     ].join(" ");
   };
 
+  const activeVal = animate ? displayValue : normValue;
+  const cssEasing =
+    EASING_MAP[animationEasing] || "cubic-bezier(0.16, 1, 0.3, 1)";
+
   const computedSegments = useMemo(() => {
     let prevVal = min;
     return segments.map((seg, idx) => {
@@ -180,7 +272,7 @@ export function GaugeChart({
       const midAngle = (startAngle + endAngle) / 2;
       const midRadius = (outerRadius + innerRadius) / 2;
       const hotspotPos = polarToCartesian(cx, cy, midRadius, midAngle);
-      const isCurrent = normValue >= startVal && normValue <= endVal;
+      const isCurrent = activeVal >= startVal && activeVal <= endVal;
 
       return {
         ...seg,
@@ -194,22 +286,23 @@ export function GaugeChart({
         idx,
       };
     });
-  }, [segments, min, maxRange, outerRadius, innerRadius, cx, cy, normValue]);
+  }, [segments, min, maxRange, outerRadius, innerRadius, cx, cy, activeVal]);
 
   const currentSegment = useMemo(() => {
     return (
-      computedSegments.find((s) => s.isCurrent) || computedSegments[0]
+      computedSegments.find((s) => s.isCurrent) ||
+      (activeVal > max
+        ? computedSegments[computedSegments.length - 1]
+        : computedSegments[0])
     );
-  }, [computedSegments]);
+  }, [computedSegments, activeVal, max]);
 
   const formatValue = (v: number) => {
     if (tooltipConfig?.formatter) return tooltipConfig.formatter(v);
     return `${v}${unit}`;
   };
 
-  const renderSegmentTooltip = (
-    seg: (typeof computedSegments)[0]
-  ) => {
+  const renderSegmentTooltip = (seg: (typeof computedSegments)[0]) => {
     return (
       <div className="gy-gauge-tooltip">
         <div className="gy-gauge-tooltip-header">
@@ -217,19 +310,19 @@ export function GaugeChart({
             className="gy-gauge-tooltip-badge"
             style={{ backgroundColor: seg.color }}
           />
-          <span className="gy-gauge-tooltip-title">
+          <Typography variant="span" className="gy-gauge-tooltip-title">
             {seg.label || `Segment ${seg.idx + 1}`}
-          </span>
+          </Typography>
         </div>
         <div className="gy-gauge-tooltip-range">
-          <span>Range:</span>
+          <Typography variant="span">Range:</Typography>
           <strong>
             {formatValue(seg.startVal)} – {formatValue(seg.endVal)}
           </strong>
         </div>
         {seg.isCurrent && (
           <div className="gy-gauge-tooltip-current">
-            <span>Current Value:</span>
+            <Typography variant="span">Current Value:</Typography>
             <strong>{formatValue(normValue)}</strong>
           </div>
         )}
@@ -269,7 +362,6 @@ export function GaugeChart({
     // Needle calculations
     const needleAngle = ((normValue - min) / maxRange) * 180;
     const needleLen = outerRadius - 6;
-    const needleTip = polarToCartesian(cx, cy, needleLen, needleAngle);
 
     return (
       <div className="gy-gauge-body">
@@ -282,7 +374,11 @@ export function GaugeChart({
             height={svgHeight}
             className="gy-gauge-svg"
             viewBox={`0 0 ${numWidth} ${svgHeight}`}
-            style={{ width: "100%", height: `${svgHeight}px`, maxWidth: "100%" }}
+            style={{
+              width: "100%",
+              height: `${svgHeight}px`,
+              maxWidth: "100%",
+            }}
           >
             <defs>
               <filter
@@ -310,9 +406,7 @@ export function GaugeChart({
             {/* Segment Arcs */}
             {computedSegments.map((seg) => {
               const isHovered = hoveredIndex === seg.idx;
-              const segOuter = isHovered
-                ? outerRadius + 8
-                : outerRadius;
+              const segOuter = isHovered ? outerRadius + 8 : outerRadius;
               const segInner = isHovered
                 ? Math.max(10, innerRadius - 2)
                 : innerRadius;
@@ -324,15 +418,11 @@ export function GaugeChart({
                     seg.startAngle,
                     seg.endAngle,
                     segOuter,
-                    segInner
+                    segInner,
                   )}
                   fill={seg.color}
                   fillOpacity={
-                    hoveredIndex === null
-                      ? 0.92
-                      : isHovered
-                        ? 1
-                        : 0.55
+                    hoveredIndex === null ? 0.92 : isHovered ? 1 : 0.55
                   }
                   stroke="var(--gy-surface, #ffffff)"
                   strokeWidth={isHovered ? 2.5 : 1.5}
@@ -347,12 +437,21 @@ export function GaugeChart({
 
             {/* Gauge Needle */}
             {needle && (
-              <g className="gy-gauge-needle-group">
+              <g
+                className="gy-gauge-needle-group"
+                style={{
+                  transform: `rotate(${isMounted || !animate ? needleAngle : 0}deg)`,
+                  transformOrigin: `${cx}px ${cy}px`,
+                  transition: animate
+                    ? `transform ${animationDuration}ms ${cssEasing}`
+                    : "none",
+                }}
+              >
                 <line
                   x1={cx}
                   y1={cy}
-                  x2={needleTip.x}
-                  y2={needleTip.y}
+                  x2={cx - needleLen}
+                  y2={cy}
                   stroke="var(--gy-text, #0f172a)"
                   strokeWidth={isCompact ? "2.5" : "3.5"}
                   strokeLinecap="round"
@@ -373,6 +472,7 @@ export function GaugeChart({
                   cy={cy}
                   r={isCompact ? 3 : 4}
                   fill={currentSegment?.color || "var(--gy-primary, #3b82f6)"}
+                  className="gy-gauge-needle-pin"
                 />
               </g>
             )}
@@ -386,7 +486,7 @@ export function GaugeChart({
                   textAnchor="middle"
                   className="gy-gauge-value-text"
                 >
-                  {formatValue(normValue)}
+                  {formatValue(animate ? displayValue : normValue)}
                 </text>
                 {currentSegment?.label && (
                   <text
@@ -463,12 +563,12 @@ export function GaugeChart({
                     className="gy-gauge-legend-dot"
                     style={{ backgroundColor: seg.color }}
                   />
-                  <span className="gy-gauge-legend-label">
+                  <Typography variant="span" className="gy-gauge-legend-label">
                     {seg.label || `Segment ${seg.idx + 1}`}
-                  </span>
-                  <span className="gy-gauge-legend-range">
+                  </Typography>
+                  <Typography variant="span" className="gy-gauge-legend-range">
                     ({formatValue(seg.startVal)}–{formatValue(seg.endVal)})
-                  </span>
+                  </Typography>
                 </button>
               );
             })}

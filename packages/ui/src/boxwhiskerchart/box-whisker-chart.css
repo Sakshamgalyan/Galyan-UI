@@ -38,7 +38,9 @@
 
 .gy-boxwhisker-label-text {
   cursor: pointer;
-  transition: fill 0.2s ease, font-weight 0.2s ease;
+  transition:
+    fill 0.2s ease,
+    font-weight 0.2s ease;
 }
 
 .gy-boxwhisker-label-text--hover {
@@ -49,7 +51,11 @@
 /* ── Chart Elements & Animations ─────────────────────────────────────────── */
 .gy-boxwhisker-rect {
   cursor: pointer;
-  transition: fill-opacity 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+  transition:
+    fill-opacity 0.2s ease,
+    stroke 0.2s ease,
+    stroke-width 0.2s ease,
+    filter 0.2s ease;
 }
 
 .gy-boxwhisker-rect--hovered {
@@ -59,7 +65,9 @@
 .gy-boxwhisker-whisker-line,
 .gy-boxwhisker-cap,
 .gy-boxwhisker-median-line {
-  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+  transition:
+    stroke 0.2s ease,
+    stroke-width 0.2s ease;
 }
 
 /* ── Overlay and Hitboxes ─────────────────────────────────────────────────── */

@@ -17,7 +17,9 @@ import {
 import { Checkbox } from "../checkbox/Checkbox";
 import { Spinner } from "../spinner/Spinner";
 import { ClearButton } from "../clearbutton/ClearButton";
+import { Tooltip } from "../tooltip/Tooltip";
 import "./dropdown.css";
+import { Typography } from "../typography";
 
 export interface DropdownOption {
   value: string;
@@ -26,14 +28,21 @@ export interface DropdownOption {
   disabled?: boolean;
   group?: string;
   icon?: React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
-export interface DropdownProps {
+export type DropdownValue = string | string[];
+
+/**
+ * `V` is inferred from `value` / `onChange`, so `onChange={setX}` works with a
+ * `useState<string>` (single) or `useState<string[]>` (multiple) setter.
+ */
+export interface DropdownProps<V extends DropdownValue = DropdownValue> {
   id?: string;
   options: DropdownOption[];
-  value?: string | string[];
-  onChange?: (val: any) => void;
+  value?: V;
+  /** Receives a `string` in single mode and a `string[]` when `multiple` is set */
+  onChange?: (val: V) => void;
   placeholder?: string;
   label?: string;
   size?: "sm" | "md" | "lg";
@@ -58,7 +67,7 @@ export interface DropdownProps {
   onSearch?: (query: string) => void;
   filterOption?: (option: DropdownOption, query: string) => boolean;
   renderOption?: (option: DropdownOption) => React.ReactNode;
-  renderValue?: (value: string | string[]) => React.ReactNode;
+  renderValue?: (value: V) => React.ReactNode;
   renderDropdown?: (options: DropdownOption[]) => React.ReactNode;
   maxTagCount?: number;
   placement?: "top" | "bottom";
@@ -77,12 +86,170 @@ export interface DropdownProps {
   zIndex?: number;
   expandedMenu?: boolean;
   usePortal?: boolean;
+  /**
+   * Whether to show a tooltip on hover when an option's text is truncated with ellipsis
+   * @default true
+   */
+  showOptionTooltips?: boolean;
 }
 
-export function Dropdown({
+interface DropdownOptionItemProps {
+  opt: DropdownOption;
+  selected: boolean;
+  multiple?: boolean;
+  renderOption?: (opt: DropdownOption) => React.ReactNode;
+  onSelect: (opt: DropdownOption) => void;
+  showTooltip?: boolean;
+}
+
+function DropdownOptionItem({
+  opt,
+  selected,
+  multiple,
+  renderOption,
+  onSelect,
+  showTooltip = true,
+}: DropdownOptionItemProps) {
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const [isEllipsis, setIsEllipsis] = useState(false);
+
+  const checkEllipsis = () => {
+    const el = labelRef.current;
+    if (el) {
+      const truncated = el.scrollWidth > el.clientWidth;
+      setIsEllipsis(truncated);
+    }
+  };
+
+  useEffect(() => {
+    checkEllipsis();
+    const el = labelRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => {
+      checkEllipsis();
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [opt.label, opt.description]);
+
+  const renderedContent = renderOption ? renderOption(opt) : opt.label;
+  const tooltipContent = opt.description ? (
+    <div className="gy-dropdown-option-tooltip">
+      <Typography
+        variant="span"
+        as="div"
+        className="gy-dropdown-option-tooltip-label"
+      >
+        {typeof opt.label === "string" ? opt.label : renderedContent}
+      </Typography>
+      <Typography
+        variant="span"
+        as="div"
+        className="gy-dropdown-option-tooltip-desc"
+      >
+        {opt.description}
+      </Typography>
+    </div>
+  ) : typeof opt.label === "string" ? (
+    opt.label
+  ) : (
+    renderedContent
+  );
+
+  const renderLabel = () => (
+    <Tooltip
+      content={tooltipContent}
+      disabled={!showTooltip || !isEllipsis}
+      placement="top"
+      size="xs"
+      delay={120}
+      className="gy-dropdown-ellipsis-tooltip"
+    >
+      <span ref={labelRef} className="gy-dropdown-option-label">
+        {renderedContent}
+      </span>
+    </Tooltip>
+  );
+
+  return (
+    <div
+      className={[
+        "gy-dropdown-option",
+        selected ? "gy-dropdown-option--selected" : "",
+        opt.disabled ? "gy-dropdown-option--disabled" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      role="option"
+      aria-selected={selected}
+      onClick={() => onSelect(opt)}
+      onMouseEnter={checkEllipsis}
+    >
+      {multiple ? (
+        <div className="gy-dropdown-option-checkbox-wrap">
+          <Checkbox
+            size="sm"
+            checked={selected}
+            isDisabled={opt.disabled}
+            onChange={() => {}}
+            label={
+              <div className="gy-dropdown-option-content">
+                {renderLabel()}
+                {opt.description && (
+                  <Typography
+                    variant="span"
+                    className="gy-dropdown-option-description"
+                  >
+                    {opt.description}
+                  </Typography>
+                )}
+              </div>
+            }
+          />
+        </div>
+      ) : (
+        <>
+          <div className="gy-dropdown-option-content">
+            <div className="gy-dropdown-option-header">
+              {opt.icon && (
+                <span className="gy-dropdown-option-icon">{opt.icon}</span>
+              )}
+              {renderLabel()}
+            </div>
+            {opt.description && (
+              <Typography
+                variant="span"
+                className="gy-dropdown-option-description"
+              >
+                {opt.description}
+              </Typography>
+            )}
+          </div>
+          {selected && (
+            <span className="gy-dropdown-check">
+              <svg
+                width="12"
+                height="10"
+                viewBox="0 0 12 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
+                <polyline points="1,5 4,8 11,1" />
+              </svg>
+            </span>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+export function Dropdown<V extends DropdownValue = DropdownValue>({
   id,
   options,
-  value,
+  value: valueProp,
   onChange,
   placeholder = "Select option",
   label,
@@ -121,7 +288,11 @@ export function Dropdown({
   zIndex = 10050,
   expandedMenu = false,
   usePortal = true,
-}: DropdownProps) {
+  showOptionTooltips = true,
+}: DropdownProps<V>) {
+  // The runtime shape follows `multiple`; callers pick V to match it.
+  const value: DropdownValue | undefined = valueProp;
+  const emit = (val: DropdownValue) => onChange?.(val as V);
   const effectiveDropdownWidth = customWidth ?? propDropdownWidth;
   const uid = useId();
   const inputId = id ?? uid;
@@ -228,7 +399,7 @@ export function Dropdown({
     Record<string, DropdownOption[]>
   >((acc, opt) => {
     const groupKey = groupBy
-      ? (opt[groupBy] ?? "__default__")
+      ? String(opt[groupBy] ?? "__default__")
       : (opt.group ?? "__default__");
     acc[groupKey] = [...(acc[groupKey] ?? []), opt];
     return acc;
@@ -247,9 +418,9 @@ export function Dropdown({
       const idx = current.indexOf(opt.value);
       if (idx > -1) current.splice(idx, 1);
       else current.push(opt.value);
-      onChange?.(current);
+      emit(current);
     } else {
-      onChange?.(opt.value);
+      emit(opt.value);
       if (!expandedMenu) setOpen(false);
     }
   };
@@ -263,26 +434,28 @@ export function Dropdown({
     const isAll = selectable.every((val) => current.includes(val));
 
     if (isAll) {
-      onChange?.(current.filter((val) => !selectable.includes(val)));
+      emit(current.filter((val) => !selectable.includes(val)));
     } else {
       const combined = Array.from(new Set([...current, ...selectable]));
-      onChange?.(combined);
+      emit(combined);
     }
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (loading || disabled) return;
-    onChange?.(multiple ? [] : "");
+    emit(multiple ? [] : "");
   };
 
   const renderTriggerContent = () => {
-    if (renderValue && value) return renderValue(value);
+    if (renderValue && value) return renderValue(value as V);
 
     if (multiple && Array.isArray(value) && value.length > 0) {
       const selectedOpts = options.filter((o) => value.includes(o.value));
       const hasCap = typeof maxTagCount === "number" && maxTagCount > 0;
-      const visibleTags = hasCap ? selectedOpts.slice(0, maxTagCount) : selectedOpts;
+      const visibleTags = hasCap
+        ? selectedOpts.slice(0, maxTagCount)
+        : selectedOpts;
       const remaining = hasCap ? selectedOpts.length - maxTagCount : 0;
 
       return (
@@ -326,13 +499,19 @@ export function Dropdown({
             {selOpt.icon && (
               <span className="gy-dropdown-value-icon">{selOpt.icon}</span>
             )}
-            <span className="gy-dropdown-value-text">{selOpt.label}</span>
+            <Typography variant="span" className="gy-dropdown-value-text">
+              {selOpt.label}
+            </Typography>
           </span>
         );
       }
     }
 
-    return <span className="gy-dropdown-placeholder">{placeholder}</span>;
+    return (
+      <Typography variant="span" className="gy-dropdown-placeholder">
+        {placeholder}
+      </Typography>
+    );
   };
 
   const isErrorState = hasError || Boolean(error || errorMessage);
@@ -411,9 +590,12 @@ export function Dropdown({
                 indeterminate={isIndet}
                 onChange={() => {}}
                 label={
-                  <span className="gy-dropdown-select-all-label">
+                  <Typography
+                    variant="span"
+                    className="gy-dropdown-select-all-label"
+                  >
                     Select All ({selectedCount}/{selectableOpts.length})
-                  </span>
+                  </Typography>
                 }
               />
             </div>
@@ -427,99 +609,37 @@ export function Dropdown({
           {loading ? (
             <div className="gy-dropdown-loading">
               <Spinner size="sm" />
-              <span>Loading options...</span>
+              <Typography variant="span">Loading options...</Typography>
             </div>
           ) : filteredOptions.length === 0 ? (
-            <div className="gy-dropdown-empty">No options available</div>
+            <Typography variant="span" as="div" className="gy-dropdown-empty">
+              No options available
+            </Typography>
           ) : (
             Object.entries(groupedOptions).map(([group, opts]) => (
-              <div key={group}>
+              <div key={group} className="gy-dropdown-group">
                 {group !== "__default__" && (
-                  <div className="gy-dropdown-group-header">{group}</div>
-                )}
-                {opts.map((opt) => {
-                  const selected = isSelected(opt.value);
-                  const optTitle =
-                    typeof opt.label === "string" ? opt.label : undefined;
-
-                  return (
-                    <div
-                      key={opt.value}
-                      className={[
-                        "gy-dropdown-option",
-                        selected ? "gy-dropdown-option--selected" : "",
-                        opt.disabled ? "gy-dropdown-option--disabled" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      role="option"
-                      aria-selected={selected}
-                      title={optTitle}
-                      onClick={() => handleOptionSelect(opt)}
+                  <div className="gy-dropdown-group-header">
+                    <span>{group}</span>
+                    <Typography
+                      variant="span"
+                      className="gy-dropdown-group-count"
                     >
-                      {multiple ? (
-                        <div className="gy-dropdown-option-checkbox-wrap">
-                          <Checkbox
-                            size="sm"
-                            checked={selected}
-                            isDisabled={opt.disabled}
-                            onChange={() => {}}
-                            label={
-                              <div className="gy-dropdown-option-content">
-                                <span className="gy-dropdown-option-label" title={optTitle}>
-                                  {renderOption ? renderOption(opt) : opt.label}
-                                </span>
-                                {opt.description && (
-                                  <span className="gy-dropdown-option-description">
-                                    {opt.description}
-                                  </span>
-                                )}
-                              </div>
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <>
-                          <div className="gy-dropdown-option-content">
-                            <div className="gy-dropdown-option-header">
-                              {opt.icon && (
-                                <span className="gy-dropdown-option-icon">
-                                  {opt.icon}
-                                </span>
-                              )}
-                              <span
-                                className="gy-dropdown-option-label"
-                                title={optTitle}
-                              >
-                                {renderOption ? renderOption(opt) : opt.label}
-                              </span>
-                            </div>
-                            {opt.description && (
-                              <span className="gy-dropdown-option-description">
-                                {opt.description}
-                              </span>
-                            )}
-                          </div>
-                          {selected && (
-                            <span className="gy-dropdown-check">
-                              <svg
-                                width="12"
-                                height="10"
-                                viewBox="0 0 12 10"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                              >
-                                <polyline points="1,5 4,8 11,1" />
-                              </svg>
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
+                      {opts.length}
+                    </Typography>
+                  </div>
+                )}
+                {opts.map((opt) => (
+                  <DropdownOptionItem
+                    key={opt.value}
+                    opt={opt}
+                    selected={isSelected(opt.value)}
+                    multiple={multiple}
+                    renderOption={renderOption}
+                    onSelect={handleOptionSelect}
+                    showTooltip={showOptionTooltips}
+                  />
+                ))}
               </div>
             ))
           )}
@@ -531,12 +651,14 @@ export function Dropdown({
   return (
     <div className={`gy-dropdown-root gy-dropdown-root--${size} ${className}`}>
       {label && (
-        <label
+        <Typography
+          variant="span"
+          as="label"
           className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
           htmlFor={inputId}
         >
           {label}
-        </label>
+        </Typography>
       )}
 
       <button
@@ -602,15 +724,20 @@ export function Dropdown({
         </div>
       </button>
 
-      {isMenuOpen && (usePortal ? <FloatingPortal>{menuNode}</FloatingPortal> : menuNode)}
+      {isMenuOpen &&
+        (usePortal ? <FloatingPortal>{menuNode}</FloatingPortal> : menuNode)}
 
       {(displayErrorMsg || helperText) && (
-        <div
+        <Typography
+          variant="span"
+          as="div"
           className={`gy-input-helper ${isErrorState ? "gy-input-helper--error" : ""}`}
         >
           {displayErrorMsg || helperText}
-        </div>
+        </Typography>
       )}
     </div>
   );
 }
+
+Dropdown.displayName = "Dropdown";

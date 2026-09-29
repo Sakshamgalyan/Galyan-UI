@@ -249,21 +249,40 @@ export const Glassmorphic: Story = {
       style={{
         padding: "2rem",
         borderRadius: "1.5rem",
-        background: "radial-gradient(circle at 20% 30%, #c7d2fe 0%, #fae8ff 50%, #fed7aa 100%)",
+        background:
+          "radial-gradient(circle at 20% 30%, #c7d2fe 0%, #fae8ff 50%, #fed7aa 100%)",
         display: "flex",
         justifyContent: "center",
       }}
     >
       <Card variant="glassmorphic" padding="lg" hoverEffect="lift">
         <CardHeader>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>Glassmorphic Container</h3>
-            <Chip size="sm" variant="soft">Frosted</Chip>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>
+              Glassmorphic Container
+            </h3>
+            <Chip size="sm" variant="soft">
+              Frosted
+            </Chip>
           </div>
         </CardHeader>
         <CardBody>
-          <p style={{ margin: "0.5rem 0 1rem", color: "#334155", lineHeight: 1.6, fontSize: "0.875rem" }}>
-            Ultra-modern frosted glass effect with high-refraction backdrop blur, specular inner bevels, and subtle gradient highlights.
+          <p
+            style={{
+              margin: "0.5rem 0 1rem",
+              color: "#334155",
+              lineHeight: 1.6,
+              fontSize: "0.875rem",
+            }}
+          >
+            Ultra-modern frosted glass effect with high-refraction backdrop
+            blur, specular inner bevels, and subtle gradient highlights.
           </p>
         </CardBody>
         <CardFooter>
@@ -278,10 +297,10 @@ export const Glassmorphic: Story = {
 
 /* ── Story: Card Composing Input, DatePicker, TimePicker, Dropdown, Toggle & ProgressBar ── */
 export const CardWithFormAndPickers: Story = {
-  render: () => {
+  render: function Render() {
     const [title, setTitle] = useState("Weekly Design Critique");
     const [priority, setPriority] = useState("high");
-    const [date, setDate] = useState<any>(new Date());
+    const [date, setDate] = useState<Date | null>(new Date());
     const [time, setTime] = useState("03:30 PM");
     const [notify, setNotify] = useState(true);
 
@@ -295,21 +314,39 @@ export const CardWithFormAndPickers: Story = {
       <div style={{ width: 460 }}>
         <Card variant="outlined" padding="lg">
           <CardHeader>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <div>
                 <Typography variant="h5" weight="semibold">
                   New Calendar Task
                 </Typography>
-                <Typography variant="small" style={{ color: "var(--gy-text-muted)" }}>
+                <Typography
+                  variant="small"
+                  style={{ color: "var(--gy-text-muted)" }}
+                >
                   Embedded form components inside Card container
                 </Typography>
               </div>
-              <Chip variant="warning" size="sm">Active Sprint</Chip>
+              <Chip variant="warning" size="sm">
+                Active Sprint
+              </Chip>
             </div>
           </CardHeader>
 
           <CardBody>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "0.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                marginTop: "0.5rem",
+              }}
+            >
               <Input
                 label="Task Name"
                 value={title}
@@ -323,12 +360,14 @@ export const CardWithFormAndPickers: Story = {
                 onChange={setPriority}
               />
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-                <DatePicker
-                  label="Date"
-                  value={date}
-                  onChange={setDate}
-                />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "0.75rem",
+                }}
+              >
+                <DatePicker label="Date" value={date} onChange={setDate} />
                 <TimePicker
                   label="Time Slot"
                   value={time}
@@ -354,7 +393,14 @@ export const CardWithFormAndPickers: Story = {
           </CardBody>
 
           <CardFooter>
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "0.5rem",
+                width: "100%",
+              }}
+            >
               <Button variant="outline" size="sm">
                 Cancel
               </Button>
@@ -375,7 +421,7 @@ export const CardWithFormAndPickers: Story = {
 
 /* ── Story: Card Composing Resource Monitoring With ProgressBars & Chips ── */
 export const CardWithResourceMonitor: Story = {
-  render: () => {
+  render: function Render() {
     const [cluster, setCluster] = useState("us-east");
 
     const clusterOptions = [
@@ -387,16 +433,31 @@ export const CardWithResourceMonitor: Story = {
       <div style={{ width: 460 }}>
         <Card variant="elevated" padding="lg">
           <CardHeader>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h5" weight="semibold">
                 Cluster Health
               </Typography>
-              <Chip variant="success" size="sm">All Systems Operational</Chip>
+              <Chip variant="success" size="sm">
+                All Systems Operational
+              </Chip>
             </div>
           </CardHeader>
 
           <CardBody>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "0.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                marginTop: "0.5rem",
+              }}
+            >
               <Dropdown
                 label="Active Region"
                 options={clusterOptions}
@@ -437,4 +498,3 @@ export const CardWithResourceMonitor: Story = {
     );
   },
 };
-

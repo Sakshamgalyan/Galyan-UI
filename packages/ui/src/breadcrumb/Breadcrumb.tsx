@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import "./breadcrumb.css";
+import { Typography } from "../typography";
 
 export type BreadcrumbSize = "sm" | "md" | "lg";
 export type BreadcrumbVariant = "default" | "subtle" | "ghost";
@@ -104,9 +105,9 @@ export function Breadcrumb({
             >
               <BackArrow />
               {backButtonLabel && (
-                <span className="gy-breadcrumb-back-label">
+                <Typography variant="span" className="gy-breadcrumb-back-label">
                   {backButtonLabel}
-                </span>
+                </Typography>
               )}
             </button>
           </li>

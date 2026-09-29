@@ -23,7 +23,7 @@ export const ClearButton = forwardRef<HTMLButtonElement, ClearButtonProps>(
       type = "button",
       ...rest
     },
-    ref
+    ref,
   ) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -68,7 +68,7 @@ export const ClearButton = forwardRef<HTMLButtonElement, ClearButtonProps>(
         </svg>
       </button>
     );
-  }
+  },
 );
 
 ClearButton.displayName = "ClearButton";

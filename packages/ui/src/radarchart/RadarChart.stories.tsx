@@ -21,6 +21,12 @@ const meta: Meta<typeof RadarChart> = {
     showLegend: { control: "boolean" },
     loading: { control: "boolean" },
     responsive: { control: "boolean" },
+    animate: { control: "boolean" },
+    animationDuration: { control: "number" },
+    animationEasing: {
+      control: "select",
+      options: ["ease", "ease-in", "ease-out", "ease-in-out", "linear"],
+    },
   },
 } satisfies Meta<typeof RadarChart>;
 
@@ -56,6 +62,102 @@ export const Standard: Story = {
   args: {
     ...Filled.args,
     variant: "standard",
+  },
+};
+
+export const InteractiveAnimation: Story = {
+  render: function InteractiveRadar() {
+    const dataSets = [
+      [
+        { subject: "Speed", playerA: 120, playerB: 110 },
+        { subject: "Shooting", playerA: 98, playerB: 130 },
+        { subject: "Passing", playerA: 86, playerB: 95 },
+        { subject: "Dribbling", playerA: 99, playerB: 90 },
+        { subject: "Defending", playerA: 85, playerB: 115 },
+        { subject: "Physical", playerA: 65, playerB: 85 },
+      ],
+      [
+        { subject: "Speed", playerA: 70, playerB: 140 },
+        { subject: "Shooting", playerA: 135, playerB: 85 },
+        { subject: "Passing", playerA: 115, playerB: 120 },
+        { subject: "Dribbling", playerA: 60, playerB: 130 },
+        { subject: "Defending", playerA: 130, playerB: 70 },
+        { subject: "Physical", playerA: 110, playerB: 65 },
+      ],
+      [
+        { subject: "Speed", playerA: 105, playerB: 100 },
+        { subject: "Shooting", playerA: 110, playerB: 115 },
+        { subject: "Passing", playerA: 125, playerB: 90 },
+        { subject: "Dribbling", playerA: 115, playerB: 105 },
+        { subject: "Defending", playerA: 95, playerB: 100 },
+        { subject: "Physical", playerA: 90, playerB: 110 },
+      ],
+    ];
+
+    const [datasetIndex, setDatasetIndex] = React.useState(0);
+    const [replayKey, setReplayKey] = React.useState(0);
+    const activeData = dataSets[datasetIndex] ?? radarData;
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button
+            type="button"
+            onClick={() =>
+              setDatasetIndex((prev) => (prev + 1) % dataSets.length)
+            }
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Smooth Morph Stats ({datasetIndex + 1}/{dataSets.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setReplayKey((k) => k + 1)}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Replay Entrance Animation
+          </button>
+        </div>
+        <div style={{ width: 400, height: 380 }}>
+          <RadarChart
+            key={replayKey}
+            variant="filled"
+            data={activeData}
+            angleKey="subject"
+            series={seriesConfig}
+            height={380}
+            width="100%"
+            animate={true}
+            animationDuration={1000}
+            animationEasing="ease-out"
+            showLegend
+          />
+        </div>
+      </div>
+    );
   },
 };
 

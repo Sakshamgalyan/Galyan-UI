@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import "./calendar.css";
+import { Typography } from "../typography";
 
 export type CalendarValue = Date | [Date, Date | undefined];
 export type CalendarVariant = "default" | "bordered" | "glassmorphic" | "glass";
@@ -226,7 +227,9 @@ export function Calendar({
           mode === "range" && isPicking ? setHoverDate(date) : null
         }
       >
-        <span className="gy-calendar-day__inner">{date.getDate()}</span>
+        <Typography variant="span" className="gy-calendar-day__inner">
+          {date.getDate()}
+        </Typography>
       </button>
     );
   };
@@ -329,11 +332,14 @@ export function Calendar({
   const currentYearNow = today.getFullYear();
   const currentMonthNow = today.getMonth();
 
-  const variantClass = variant && variant !== "default" ? `gy-calendar--${variant}` : "";
+  const variantClass =
+    variant && variant !== "default" ? `gy-calendar--${variant}` : "";
 
   return (
     <div
-      className={["gy-calendar", variantClass, className].filter(Boolean).join(" ")}
+      className={["gy-calendar", variantClass, className]
+        .filter(Boolean)
+        .join(" ")}
       style={style}
     >
       <div className="gy-calendar-header">
@@ -382,9 +388,14 @@ export function Calendar({
       {view === "days" && (
         <div className="gy-calendar-grid">
           {weekHeadings.map((h, i) => (
-            <div key={i} className="gy-calendar-weekday">
+            <Typography
+              variant="span"
+              as="div"
+              key={i}
+              className="gy-calendar-weekday"
+            >
               {h}
-            </div>
+            </Typography>
           ))}
           {renderDays()}
         </div>
@@ -394,7 +405,8 @@ export function Calendar({
         <div className="gy-calendar-picker-grid">
           {months.map((name, idx) => {
             const isSelected = idx === m;
-            const isCurrentMonth = y === currentYearNow && idx === currentMonthNow;
+            const isCurrentMonth =
+              y === currentYearNow && idx === currentMonthNow;
             const isDisabled = isMonthDisabled(y, idx);
 
             return (
@@ -405,7 +417,9 @@ export function Calendar({
                 className={[
                   "gy-calendar-picker-item",
                   isSelected ? "gy-calendar-picker-item--selected" : "",
-                  isCurrentMonth && !isSelected ? "gy-calendar-picker-item--current" : "",
+                  isCurrentMonth && !isSelected
+                    ? "gy-calendar-picker-item--current"
+                    : "",
                   isDisabled ? "gy-calendar-picker-item--disabled" : "",
                 ]
                   .filter(Boolean)
@@ -441,7 +455,9 @@ export function Calendar({
                 className={[
                   "gy-calendar-picker-item",
                   isSelected ? "gy-calendar-picker-item--selected" : "",
-                  isCurrentYear && !isSelected ? "gy-calendar-picker-item--current" : "",
+                  isCurrentYear && !isSelected
+                    ? "gy-calendar-picker-item--current"
+                    : "",
                   isDisabled ? "gy-calendar-picker-item--disabled" : "",
                 ]
                   .filter(Boolean)

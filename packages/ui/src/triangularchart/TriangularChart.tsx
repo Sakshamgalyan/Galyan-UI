@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
 import "./triangular-chart.css";
+import { Typography } from "../typography";
 
 export interface TriangularChartItem {
   a: number; // component A (e.g. Clay %)
@@ -209,9 +210,13 @@ export function TriangularChart({
             top: `${tooltipPos.y}px`,
           }}
         >
-          <div className="gy-triangular-tooltip-title">
+          <Typography
+            variant="span"
+            as="div"
+            className="gy-triangular-tooltip-title"
+          >
             {data[hoveredIndex].name}
-          </div>
+          </Typography>
           <div className="gy-triangular-tooltip-row">
             <span>{labelA}:</span>{" "}
             <strong>{data[hoveredIndex].a.toFixed(1)}%</strong>

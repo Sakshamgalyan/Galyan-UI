@@ -2,9 +2,10 @@
 
 import React from "react";
 import "./spinner.css";
+import { Typography } from "../typography";
 
 export type SpinnerSize = "xs" | "sm" | "md" | "lg" | "xl";
-export type SpinnerColor = "primary" | "white" | "neutral";
+export type SpinnerColor = "default" | "role" | "primary" | "white" | "neutral";
 
 export interface SpinnerProps {
   size?: SpinnerSize;
@@ -15,7 +16,7 @@ export interface SpinnerProps {
 
 export function Spinner({
   size = "md",
-  color = "primary",
+  color = "default",
   label,
   className = "",
 }: SpinnerProps) {
@@ -28,7 +29,11 @@ export function Spinner({
       >
         <span className="gy-spinner__circle" aria-hidden="true" />
       </span>
-      {label && <span className="gy-spinner__label">{label}</span>}
+      {label && (
+        <Typography variant="span" className="gy-spinner__label">
+          {label}
+        </Typography>
+      )}
     </div>
   );
 }

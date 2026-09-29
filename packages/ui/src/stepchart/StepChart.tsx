@@ -23,7 +23,7 @@ export interface StepChartSeries {
 }
 
 export interface StepChartProps {
-  data: any[];
+  data: object[];
   series: StepChartSeries[];
   xAxisKey: string;
   variant?: "line" | "area";

@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./empty-state.css";
+import { Typography } from "../typography";
 
 export interface EmptyStateProps {
   title?: React.ReactNode;
@@ -9,7 +10,14 @@ export interface EmptyStateProps {
   icon?: React.ReactNode | null;
   action?: React.ReactNode;
   size?: "sm" | "md" | "lg";
-  variant?: "default" | "subtle" | "card";
+  variant?:
+    | "default"
+    | "subtle"
+    | "card"
+    | "dashed"
+    | "gradient"
+    | "glass"
+    | "spotlight";
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -25,28 +33,19 @@ const DefaultEmptyIcon = () => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    {/* Dashed outer box representing empty container */}
-    <rect
-      x="3"
-      y="4"
-      width="18"
-      height="16"
-      rx="3"
-      strokeDasharray="3 2"
+    {/* Sloped tray walls */}
+    <path
+      d="M4 13.2 6.3 6.6A2.2 2.2 0 0 1 8.4 5.1h7.2a2.2 2.2 0 0 1 2.1 1.5l2.3 6.6"
       opacity="0.5"
     />
-    {/* Bar 1 */}
-    <path d="M8 14v-2" stroke="currentColor" strokeWidth="2" opacity="0.6" />
-    {/* Bar 2 (accent highlight) */}
+    {/* Tray body */}
+    <path d="M20 13.2v4.3a2.2 2.2 0 0 1-2.2 2.2H6.2A2.2 2.2 0 0 1 4 17.5v-4.3" />
+    {/* Intake slot (accent highlight) */}
     <path
-      d="M12 14v-5"
+      d="M4 13.2h3.7l1.1 2.1h6.4l1.1-2.1H20"
       stroke="var(--gy-primary, #3b82f6)"
-      strokeWidth="2"
+      strokeWidth="1.8"
     />
-    {/* Bar 3 */}
-    <path d="M16 14v-3" stroke="currentColor" strokeWidth="2" opacity="0.6" />
-    {/* Base line */}
-    <path d="M7 16h10" stroke="currentColor" opacity="0.4" />
   </svg>
 );
 
@@ -82,9 +81,19 @@ export function EmptyState({
   return (
     <div className={classes} style={style}>
       {renderedIcon}
-      {title && <div className="gy-empty-state-title">{title}</div>}
+      {title && (
+        <Typography variant="span" as="div" className="gy-empty-state-title">
+          {title}
+        </Typography>
+      )}
       {description && (
-        <div className="gy-empty-state-description">{description}</div>
+        <Typography
+          variant="span"
+          as="div"
+          className="gy-empty-state-description"
+        >
+          {description}
+        </Typography>
       )}
       {action && <div className="gy-empty-state-action">{action}</div>}
       {children && <div className="gy-empty-state-content">{children}</div>}

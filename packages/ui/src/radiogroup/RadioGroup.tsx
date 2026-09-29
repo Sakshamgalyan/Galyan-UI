@@ -2,6 +2,7 @@
 
 import React, { useId, useState } from "react";
 import "./radiogroup.css";
+import { Typography } from "../typography";
 
 export type RadioSize = "sm" | "md" | "lg";
 
@@ -63,11 +64,13 @@ export function RadioGroup({
         .join(" ")}
     >
       {label && (
-        <div
+        <Typography
+          variant="span"
+          as="div"
           className={`gy-radio-group__label ${isRequired ? "gy-radio-group__label--required" : ""}`}
         >
           {label}
-        </div>
+        </Typography>
       )}
       <div
         className={`gy-radio-group__options ${orientation === "horizontal" ? "gy-radio-group__options--horizontal" : ""}`}
@@ -81,35 +84,41 @@ export function RadioGroup({
               key={opt.value}
               className={`gy-radio ${optDisabled ? "gy-radio--disabled" : ""}`}
             >
-              <input
-                type="radio"
-                name={groupName}
-                value={opt.value}
-                checked={isChecked}
-                disabled={optDisabled}
-                required={isRequired}
-                className="gy-radio__input"
-                onChange={() => {
-                  if (!isControlled) setInternalValue(opt.value);
-                  onChange?.(opt.value);
-                }}
-              />
-              <span
-                className={`gy-radio__circle ${isChecked ? "gy-radio__circle--checked" : ""} ${hasError ? "gy-radio__circle--error" : ""}`}
-              >
-                {isChecked && <span className="gy-radio__dot" />}
+              <span className="gy-radio__control">
+                <input
+                  type="radio"
+                  name={groupName}
+                  value={opt.value}
+                  checked={isChecked}
+                  disabled={optDisabled}
+                  required={isRequired}
+                  className="gy-radio__input"
+                  onChange={() => {
+                    if (!isControlled) setInternalValue(opt.value);
+                    onChange?.(opt.value);
+                  }}
+                />
+                <span
+                  className={`gy-radio__circle ${isChecked ? "gy-radio__circle--checked" : ""} ${hasError ? "gy-radio__circle--error" : ""}`}
+                >
+                  {isChecked && <span className="gy-radio__dot" />}
+                </span>
               </span>
-              <span className="gy-radio__label">{opt.label}</span>
+              <Typography variant="span" className="gy-radio__label">
+                {opt.label}
+              </Typography>
             </label>
           );
         })}
       </div>
       {helperText && (
-        <div
+        <Typography
+          variant="span"
+          as="div"
           className={`gy-radio-group__helper ${hasError ? "gy-radio-group__helper--error" : ""}`}
         >
           {helperText}
-        </div>
+        </Typography>
       )}
     </div>
   );

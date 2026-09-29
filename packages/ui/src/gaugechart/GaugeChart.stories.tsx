@@ -16,6 +16,19 @@ const meta: Meta<typeof GaugeChart> = {
     loading: { control: "boolean" },
     responsive: { control: "boolean" },
     unit: { control: "text" },
+    animate: { control: "boolean" },
+    animationDuration: { control: "number" },
+    animationEasing: {
+      control: "select",
+      options: [
+        "ease",
+        "ease-in",
+        "ease-out",
+        "ease-in-out",
+        "linear",
+        "spring",
+      ],
+    },
   },
 } satisfies Meta<typeof GaugeChart>;
 
@@ -108,5 +121,81 @@ export const LoadingState: Story = {
   args: {
     ...Default.args,
     loading: true,
+  },
+};
+
+export const InteractiveAnimation: Story = {
+  render: function Render() {
+    const [val, setVal] = React.useState(75);
+    const [key, setKey] = React.useState(0);
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {[20, 50, 75, 95].map((target) => (
+            <button
+              key={target}
+              type="button"
+              onClick={() => setVal(target)}
+              style={{
+                padding: "6px 14px",
+                borderRadius: "8px",
+                border:
+                  val === target ? "2px solid #3b82f6" : "1px solid #cbd5e1",
+                background:
+                  val === target ? "rgba(59, 130, 246, 0.08)" : "#ffffff",
+                cursor: "pointer",
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                color: val === target ? "#1d4ed8" : "#0f172a",
+              }}
+            >
+              Set {target}%
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setKey((k) => k + 1)}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Replay Sweep
+          </button>
+        </div>
+        <div style={{ width: 340, height: 240 }}>
+          <GaugeChart
+            key={key}
+            value={val}
+            animate={true}
+            animationDuration={1000}
+            animationEasing="spring"
+            height={240}
+            showValue
+            showLegend
+          />
+        </div>
+      </div>
+    );
   },
 };

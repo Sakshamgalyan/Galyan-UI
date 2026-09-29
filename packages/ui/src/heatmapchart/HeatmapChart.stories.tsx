@@ -9,6 +9,13 @@ const meta: Meta<typeof HeatmapChart> = {
   argTypes: {
     height: { control: "number" },
     loading: { control: "boolean" },
+    animate: { control: "boolean" },
+    animationDuration: { control: "number" },
+    animationEasing: {
+      control: "select",
+      options: ["ease", "ease-in", "ease-out", "ease-in-out", "linear"],
+    },
+    stagger: { control: "boolean" },
   },
 } satisfies Meta<typeof HeatmapChart>;
 
@@ -47,6 +54,81 @@ export const Default: Story = {
     xAxisLabels: days,
     yAxisLabels: hours,
     height: 300,
+    animate: true,
+    animationDuration: 700,
+    stagger: true,
+  },
+};
+
+export const InteractiveAnimation: Story = {
+  render: function Render() {
+    const [multiplier, setMultiplier] = React.useState(1);
+    const [key, setKey] = React.useState(0);
+
+    const dynamicData = React.useMemo(() => {
+      return heatmapData.map((d, i) => ({
+        ...d,
+        value: Math.round(
+          ((d.value * multiplier * (1 + (i % 3) * 0.4)) % 120) + 5,
+        ),
+      }));
+    }, [multiplier]);
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button
+            type="button"
+            onClick={() => setMultiplier((m) => (m === 3 ? 1 : m + 1))}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Smooth Morph Intensity
+          </button>
+          <button
+            type="button"
+            onClick={() => setKey((k) => k + 1)}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              cursor: "pointer",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+            }}
+          >
+            Replay Ripple Wave
+          </button>
+        </div>
+        <div style={{ width: "100%", maxWidth: 600 }}>
+          <HeatmapChart
+            key={key}
+            data={dynamicData}
+            xAxisLabels={days}
+            yAxisLabels={hours}
+            height={300}
+            animate={true}
+            animationDuration={700}
+            stagger={true}
+          />
+        </div>
+      </div>
+    );
   },
 };
 

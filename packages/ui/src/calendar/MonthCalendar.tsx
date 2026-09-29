@@ -201,12 +201,26 @@ export function MonthCalendar({
 
   const isBorderless = borderless || variant === "borderless";
   const sizeClass = size ? `gy-month-calendar--${size}` : "";
-  const variantClass = variant && variant !== "default" && variant !== "borderless" ? `gy-calendar--${variant} gy-month-calendar--${variant}` : "";
-  const borderlessClass = isBorderless ? "gy-calendar--borderless gy-month-calendar--borderless" : "";
+  const variantClass =
+    variant && variant !== "default" && variant !== "borderless"
+      ? `gy-calendar--${variant} gy-month-calendar--${variant}`
+      : "";
+  const borderlessClass = isBorderless
+    ? "gy-calendar--borderless gy-month-calendar--borderless"
+    : "";
 
   return (
     <div
-      className={["gy-calendar", "gy-month-calendar", sizeClass, variantClass, borderlessClass, className].filter(Boolean).join(" ")}
+      className={[
+        "gy-calendar",
+        "gy-month-calendar",
+        sizeClass,
+        variantClass,
+        borderlessClass,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={style}
     >
       <div className="gy-calendar-header">
@@ -236,7 +250,9 @@ export function MonthCalendar({
           className="gy-calendar-title"
           onClick={() => setView(view === "months" ? "years" : "months")}
         >
-          {view === "months" ? currentYear : `${decadeStart} - ${decadeStart + 9}`}
+          {view === "months"
+            ? currentYear
+            : `${decadeStart} - ${decadeStart + 9}`}
         </button>
 
         <button

@@ -32,7 +32,9 @@
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
   border-radius: var(--gy-radius-md, 0.375rem);
   padding: 0.3rem 0.5rem;
 }
@@ -114,7 +116,10 @@
   font-weight: 500;
   cursor: pointer;
   line-height: 1;
-  transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .gy-breadcrumb-back-btn:hover {
@@ -172,17 +177,29 @@
 }
 
 /* ── Sizes ──────────────────────────────────────────────────────────────── */
-.gy-breadcrumb-nav--sm { font-size: 0.75rem; }
+.gy-breadcrumb-nav--sm {
+  font-size: 0.75rem;
+}
 .gy-breadcrumb-nav--sm .gy-breadcrumb-link,
-.gy-breadcrumb-nav--sm .gy-breadcrumb-current { padding: 0.2rem 0.375rem; }
+.gy-breadcrumb-nav--sm .gy-breadcrumb-current {
+  padding: 0.2rem 0.375rem;
+}
 
-.gy-breadcrumb-nav--md { font-size: 0.875rem; }
+.gy-breadcrumb-nav--md {
+  font-size: 0.875rem;
+}
 .gy-breadcrumb-nav--md .gy-breadcrumb-link,
-.gy-breadcrumb-nav--md .gy-breadcrumb-current { padding: 0.3rem 0.5rem; }
+.gy-breadcrumb-nav--md .gy-breadcrumb-current {
+  padding: 0.3rem 0.5rem;
+}
 
-.gy-breadcrumb-nav--lg { font-size: 1rem; }
+.gy-breadcrumb-nav--lg {
+  font-size: 1rem;
+}
 .gy-breadcrumb-nav--lg .gy-breadcrumb-link,
-.gy-breadcrumb-nav--lg .gy-breadcrumb-current { padding: 0.35rem 0.625rem; }
+.gy-breadcrumb-nav--lg .gy-breadcrumb-current {
+  padding: 0.35rem 0.625rem;
+}
 
 /* ── Variants ───────────────────────────────────────────────────────────── */
 
@@ -206,7 +223,8 @@
   transition: all 0.15s ease;
 }
 
-.gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
+.gy-breadcrumb-nav--subtle
+  .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
   background: var(--gy-surface-hover, #e2e8f0);
   color: var(--gy-text, #0f172a);
   border-color: var(--gy-border-strong, #cbd5e1);
@@ -240,7 +258,8 @@
   padding: 0.2rem 0.35rem;
 }
 
-.gy-breadcrumb-nav--ghost .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
+.gy-breadcrumb-nav--ghost
+  .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
   background: transparent;
   color: var(--gy-text, #0f172a);
   text-decoration: underline;
@@ -267,9 +286,15 @@
   color: #94a3b8;
 }
 
-.gy-dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
-[data-color-mode="dark"] .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
-.dark .gy-breadcrumb-nav--subtle .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
+.gy-dark
+  .gy-breadcrumb-nav--subtle
+  .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
+[data-color-mode="dark"]
+  .gy-breadcrumb-nav--subtle
+  .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled),
+.dark
+  .gy-breadcrumb-nav--subtle
+  .gy-breadcrumb-link:hover:not(.gy-breadcrumb-link--disabled) {
   background: rgba(255, 255, 255, 0.12);
   color: #f1f5f9;
 }

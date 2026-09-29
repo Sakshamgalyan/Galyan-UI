@@ -18,6 +18,7 @@ import { Input, InputVariant } from "../input/Input";
 import { Button } from "../button/Button";
 import { ClearButton } from "../clearbutton/ClearButton";
 import "./timepicker.css";
+import { Typography } from "../typography";
 
 export type TimeFormat = "12h" | "24h";
 export type TimePickerSize = "sm" | "md" | "lg";
@@ -214,7 +215,11 @@ function parseInputTime(
     } else {
       if (periodStr === "PM" && hours < 12) hours += 12;
       if (periodStr === "AM" && hours === 12) hours = 0;
-      return { hours: Math.min(23, Math.max(0, hours)), minutes: 0, seconds: 0 };
+      return {
+        hours: Math.min(23, Math.max(0, hours)),
+        minutes: 0,
+        seconds: 0,
+      };
     }
   }
 
@@ -311,25 +316,38 @@ export function TimePicker({
   // Create a stable primitive key for controlledValue
   const controlledKey = useMemo(() => {
     if (controlledValue === null || controlledValue === undefined) return "";
-    if (controlledValue instanceof Date) return String(controlledValue.getTime());
+    if (controlledValue instanceof Date)
+      return String(controlledValue.getTime());
     if (typeof controlledValue === "object") {
       return `${controlledValue.hours}:${controlledValue.minutes}:${controlledValue.seconds ?? 0}:${controlledValue.period ?? ""}`;
     }
     return String(controlledValue);
   }, [controlledValue]);
 
+  // Keep the controlled value reference stable until its content (controlledKey) changes,
+  // so inline object/Date values don’t re-trigger parsing and downstream effects every render
+  const [stableControlled, setStableControlled] = useState({
+    key: controlledKey,
+    value: controlledValue,
+  });
+  if (stableControlled.key !== controlledKey) {
+    setStableControlled({ key: controlledKey, value: controlledValue });
+  }
+  const stableControlledValue = stableControlled.value;
+
   // Memoized activeValue: only creates a new reference when the underlying value actually changes
   const activeValue = useMemo(() => {
     if (isControlled) {
-      return controlledValue
-        ? parseInputTime(controlledValue, format, showSeconds)
+      return stableControlledValue
+        ? parseInputTime(stableControlledValue, format, showSeconds)
         : null;
     }
     return internalValue;
-  }, [isControlled, controlledKey, format, showSeconds, internalValue]);
+  }, [isControlled, stableControlledValue, format, showSeconds, internalValue]);
 
-  const [tempValue, setTempValue] = useState<TimeValue>(() =>
-    activeValue ?? parseInputTime(defaultValue ?? null, format, showSeconds),
+  const [tempValue, setTempValue] = useState<TimeValue>(
+    () =>
+      activeValue ?? parseInputTime(defaultValue ?? null, format, showSeconds),
   );
 
   const prevOpenRef = useRef(false);
@@ -424,14 +442,13 @@ export function TimePicker({
       if (!prevOpenRef.current) {
         // Just opened: load current active value into tempValue
         isDirtyRef.current = false;
-        setTempValue(
-          activeValue ?? parseInputTime(null, format, showSeconds),
-        );
-      } else if (isControlled && controlledKey !== prevControlledKeyRef.current) {
+        setTempValue(activeValue ?? parseInputTime(null, format, showSeconds));
+      } else if (
+        isControlled &&
+        controlledKey !== prevControlledKeyRef.current
+      ) {
         // Controlled value changed externally while popover was open
-        setTempValue(
-          activeValue ?? parseInputTime(null, format, showSeconds),
-        );
+        setTempValue(activeValue ?? parseInputTime(null, format, showSeconds));
       }
     }
     prevOpenRef.current = open;
@@ -548,7 +565,10 @@ export function TimePicker({
   // Generate column data
   const hoursList =
     format === "12h"
-      ? Array.from({ length: Math.floor(12 / hourStep) }, (_, i) => (i + 1) * hourStep)
+      ? Array.from(
+          { length: Math.floor(12 / hourStep) },
+          (_, i) => (i + 1) * hourStep,
+        )
       : Array.from(
           { length: Math.floor(24 / hourStep) },
           (_, i) => i * hourStep,
@@ -569,7 +589,11 @@ export function TimePicker({
   const isGlass = variant === "glassmorphic" || variant === "glass";
   const defaultPlaceholder =
     placeholder ?? (format === "12h" ? "hh:mm aa" : "HH:mm");
-  const displayValue = formatTimeString(activeValue, format, showSeconds);
+  const displayValue = formatTimeString(
+    open && tempValue ? tempValue : activeValue,
+    format,
+    showSeconds,
+  );
 
   const popoverNode = (
     <div
@@ -590,8 +614,7 @@ export function TimePicker({
       {presets && presets.length > 0 && (
         <div className="gy-timepicker-presets">
           {presets.map((preset, idx) => {
-            const labelStr =
-              typeof preset === "string" ? preset : preset.label;
+            const labelStr = typeof preset === "string" ? preset : preset.label;
             const isPresetActive = isPresetMatching(
               preset,
               tempValue,
@@ -614,18 +637,44 @@ export function TimePicker({
 
       {/* Header Display */}
       <div className="gy-timepicker-header">
-        <span className="gy-timepicker-header-text">
+        <Typography variant="span" className="gy-timepicker-header-text">
           {formatTimeString(tempValue, format, showSeconds)}
-        </span>
+        </Typography>
       </div>
 
       {/* Column Headers Row (Fixed, not scrolling) */}
       <div className="gy-timepicker-column-headers">
-        <div className="gy-timepicker-column-head">Hour</div>
-        <div className="gy-timepicker-column-head">Min</div>
-        {showSeconds && <div className="gy-timepicker-column-head">Sec</div>}
+        <Typography
+          variant="span"
+          as="div"
+          className="gy-timepicker-column-head"
+        >
+          Hour
+        </Typography>
+        <Typography
+          variant="span"
+          as="div"
+          className="gy-timepicker-column-head"
+        >
+          Min
+        </Typography>
+        {showSeconds && (
+          <Typography
+            variant="span"
+            as="div"
+            className="gy-timepicker-column-head"
+          >
+            Sec
+          </Typography>
+        )}
         {format === "12h" && (
-          <div className="gy-timepicker-column-head">Period</div>
+          <Typography
+            variant="span"
+            as="div"
+            className="gy-timepicker-column-head"
+          >
+            Period
+          </Typography>
         )}
       </div>
 
@@ -763,18 +812,20 @@ export function TimePicker({
       style={{ ...(width ? { width } : {}) }}
     >
       {label && (
-        <label
+        <Typography
+          variant="span"
+          as="label"
           className={`gy-input-label ${required ? "gy-input-label--required" : ""}`}
           htmlFor={inputId}
         >
           {label}
-        </label>
+        </Typography>
       )}
 
       <div
         ref={refs.setReference}
         style={{ width: "100%" }}
-        className={`gy-timepicker-trigger ${disabled ? "gy-timepicker-trigger--disabled" : ""}`}
+        className={`gy-timepicker-trigger ${open ? "gy-timepicker-trigger--open" : ""} ${disabled ? "gy-timepicker-trigger--disabled" : ""}`}
         {...getReferenceProps({
           onClick: () => !disabled && setOpen((o) => !o),
         })}
@@ -809,16 +860,22 @@ export function TimePicker({
       </div>
 
       {(error || helperText) && (
-        <div
+        <Typography
+          variant="span"
+          as="div"
           className={`gy-input-helper ${hasError || Boolean(error) ? "gy-input-helper--error" : ""}`}
         >
           {error || helperText}
-        </div>
+        </Typography>
       )}
 
-      {open && !disabled && (
-        usePortal ? <FloatingPortal>{popoverNode}</FloatingPortal> : popoverNode
-      )}
+      {open &&
+        !disabled &&
+        (usePortal ? (
+          <FloatingPortal>{popoverNode}</FloatingPortal>
+        ) : (
+          popoverNode
+        ))}
     </div>
   );
 }

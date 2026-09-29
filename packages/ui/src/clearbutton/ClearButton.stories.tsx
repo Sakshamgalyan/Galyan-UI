@@ -53,15 +53,36 @@ export const Default: Story = {
 export const Sizing: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
         <ClearButton size="xs" />
         <span style={{ fontSize: "0.75rem", color: "#64748b" }}>xs (16px)</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
         <ClearButton size="sm" />
         <span style={{ fontSize: "0.75rem", color: "#64748b" }}>sm (20px)</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
         <ClearButton size="md" />
         <span style={{ fontSize: "0.75rem", color: "#64748b" }}>md (24px)</span>
       </div>
@@ -72,27 +93,64 @@ export const Sizing: Story = {
 export const Variants: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
         <ClearButton variant="subtle" size="md" />
-        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>Subtle (Ghost)</span>
+        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          Subtle (Ghost)
+        </span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
         <ClearButton variant="filled" size="md" />
-        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>Filled (Pill)</span>
+        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
+          Filled (Pill)
+        </span>
       </div>
     </div>
   ),
 };
 
 export const InComponentsEcosystem: Story = {
-  render: () => {
-    const [inputValue, setInputValue] = useState("Search query with clearable icon");
-    const [dropdownVal, setDropdownVal] = useState<string[]>(["react", "tailwind"]);
+  render: function Render() {
+    const [inputValue, setInputValue] = useState(
+      "Search query with clearable icon",
+    );
+    const [dropdownVal, setDropdownVal] = useState<string[]>([
+      "react",
+      "tailwind",
+    ]);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", maxWidth: "420px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+          maxWidth: "420px",
+        }}
+      >
         <div>
-          <label style={{ fontSize: "0.875rem", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>
+          <label
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              display: "block",
+              marginBottom: "0.5rem",
+            }}
+          >
             1. In TimePicker
           </label>
           <TimePicker
@@ -103,7 +161,14 @@ export const InComponentsEcosystem: Story = {
         </div>
 
         <div>
-          <label style={{ fontSize: "0.875rem", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>
+          <label
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              display: "block",
+              marginBottom: "0.5rem",
+            }}
+          >
             2. In Input
           </label>
           <Input
@@ -116,7 +181,14 @@ export const InComponentsEcosystem: Story = {
         </div>
 
         <div>
-          <label style={{ fontSize: "0.875rem", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>
+          <label
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              display: "block",
+              marginBottom: "0.5rem",
+            }}
+          >
             3. In Dropdown Multi-Select Tags & Trigger Clear
           </label>
           <Dropdown

@@ -4,7 +4,7 @@ import { TimePicker } from "./TimePicker";
 import { Card } from "../card/Card";
 import { Typography } from "../typography/Typography";
 import { Button } from "../button/Button";
-import { DatePicker } from "../datepicker/DatePicker";
+import { DatePicker, type DatePickerValue } from "../datepicker/DatePicker";
 import { Dropdown } from "../dropdown/Dropdown";
 
 const meta: Meta<typeof TimePicker> = {
@@ -37,7 +37,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("09:30 AM");
     return (
       <div style={{ width: 300 }}>
@@ -53,7 +53,7 @@ export const Default: Story = {
 };
 
 export const TwentyFourHour: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("14:45");
     return (
       <div style={{ width: 300 }}>
@@ -70,7 +70,7 @@ export const TwentyFourHour: Story = {
 };
 
 export const WithSeconds: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("08:15:30 AM");
     return (
       <div style={{ width: 320 }}>
@@ -88,7 +88,7 @@ export const WithSeconds: Story = {
 };
 
 export const FifteenMinuteSteps: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("10:00 AM");
     return (
       <div style={{ width: 300 }}>
@@ -105,7 +105,7 @@ export const FifteenMinuteSteps: Story = {
 };
 
 export const WithQuickPresets: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("12:00 PM");
     return (
       <div style={{ width: 320 }}>
@@ -122,7 +122,7 @@ export const WithQuickPresets: Story = {
 };
 
 export const Glassmorphic: Story = {
-  render: () => {
+  render: function Render() {
     const [time, setTime] = useState("03:15 PM");
     return (
       <div
@@ -146,29 +146,71 @@ export const Glassmorphic: Story = {
   },
 };
 
+export const GlassmorphicDarkMode: Story = {
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
+  render: function Render() {
+    const [time, setTime] = useState("09:45 PM");
+    return (
+      <div
+        className="gy-dark"
+        data-color-mode="dark"
+        style={{
+          padding: "2.5rem",
+          background:
+            "radial-gradient(ellipse at top left, #1e1b4b 0%, #0f172a 60%, #020617 100%)",
+          borderRadius: "1rem",
+          width: 360,
+        }}
+      >
+        <TimePicker
+          label="Night Shift Slot"
+          variant="glassmorphic"
+          value={time}
+          onChange={(formatted) => setTime(formatted)}
+          helperText="Dark frosted glassmorphic popover and trigger"
+          presets={["Now", "09:00 PM", "10:00 PM", "12:00 AM"]}
+        />
+      </div>
+    );
+  },
+};
+
 export const DateTimePickerComposition: Story = {
-  render: () => {
-    const [date, setDate] = useState<any>(new Date());
+  render: function Render() {
+    const [date, setDate] = useState<DatePickerValue>(new Date());
     const [time, setTime] = useState("02:00 PM");
 
     return (
       <Card variant="outlined" padding="lg" style={{ width: 440 }}>
-        <Typography variant="h5" weight="semibold" style={{ marginBottom: "0.25rem" }}>
+        <Typography
+          variant="h5"
+          weight="semibold"
+          style={{ marginBottom: "0.25rem" }}
+        >
           Schedule Event
         </Typography>
         <Typography
           variant="small"
-          style={{ color: "var(--gy-text-muted)", marginBottom: "1.25rem", display: "block" }}
+          style={{
+            color: "var(--gy-text-muted)",
+            marginBottom: "1.25rem",
+            display: "block",
+          }}
         >
           Select date and time for your team meeting.
         </Typography>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1.25rem" }}>
-          <DatePicker
-            label="Date"
-            value={date}
-            onChange={(d) => setDate(d)}
-          />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "1rem",
+            marginBottom: "1.25rem",
+          }}
+        >
+          <DatePicker label="Date" value={date} onChange={(d) => setDate(d)} />
           <TimePicker
             label="Time"
             value={time}
@@ -177,7 +219,9 @@ export const DateTimePickerComposition: Story = {
           />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}
+        >
           <Button variant="outline" size="sm">
             Cancel
           </Button>
@@ -186,7 +230,7 @@ export const DateTimePickerComposition: Story = {
             size="sm"
             onClick={() =>
               alert(
-                `Scheduled for: ${date ? date.toLocaleDateString() : ""} at ${time}`,
+                `Scheduled for: ${date instanceof Date ? date.toLocaleDateString() : ""} at ${time}`,
               )
             }
           >
@@ -199,24 +243,39 @@ export const DateTimePickerComposition: Story = {
 };
 
 export const PickersAndDropdownAlignment: Story = {
-  render: () => {
-    const [date, setDate] = useState<any>(new Date());
+  render: function Render() {
+    const [date, setDate] = useState<DatePickerValue>(new Date());
     const [time, setTime] = useState("09:30 AM");
     const [zone, setZone] = useState("utc");
 
     return (
       <Card variant="outlined" padding="lg" style={{ width: 680 }}>
-        <Typography variant="h5" weight="semibold" style={{ marginBottom: "0.25rem" }}>
+        <Typography
+          variant="h5"
+          weight="semibold"
+          style={{ marginBottom: "0.25rem" }}
+        >
           Consistent Alignment Showcase
         </Typography>
         <Typography
           variant="small"
-          style={{ color: "var(--gy-text-muted)", marginBottom: "1.25rem", display: "block" }}
+          style={{
+            color: "var(--gy-text-muted)",
+            marginBottom: "1.25rem",
+            display: "block",
+          }}
         >
-          DatePicker, TimePicker, and Dropdown sharing identical label/trigger/helper alignment and floating popover offset.
+          DatePicker, TimePicker, and Dropdown sharing identical
+          label/trigger/helper alignment and floating popover offset.
         </Typography>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "1rem",
+          }}
+        >
           <DatePicker
             label="Date"
             value={date}
@@ -232,7 +291,7 @@ export const PickersAndDropdownAlignment: Story = {
           <Dropdown
             label="Timezone"
             value={zone}
-            onChange={(val) => setZone(val)}
+            onChange={(val) => setZone(val as string)}
             options={[
               { value: "utc", label: "UTC (GMT+0)" },
               { value: "est", label: "New York (EST)" },
@@ -246,4 +305,3 @@ export const PickersAndDropdownAlignment: Story = {
     );
   },
 };
-

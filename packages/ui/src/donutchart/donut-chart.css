@@ -43,6 +43,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: gy-donutchart-enter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gy-donutchart-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ── Active Hover Slice Elevation ────────────────────────────────────────── */
@@ -64,9 +76,24 @@
   align-items: center;
   justify-content: center;
   user-select: none;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.15s ease;
   z-index: 10;
   padding: 0 4px;
+  animation: gy-donutchart-center-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.15s;
+}
+
+@keyframes gy-donutchart-center-enter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .gy-donutchart-center-metric--semi {
@@ -178,6 +205,19 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   flex-shrink: 0;
+  animation: gy-donutchart-legend-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes gy-donutchart-legend-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gy-donutchart-legend::-webkit-scrollbar {
@@ -275,4 +315,15 @@
 
 .gy-donutchart.gy-donutchart--compact .gy-donutchart-legend-label {
   max-width: 85px;
+}
+
+/* ── Accessibility / Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gy-donutchart-chart-wrapper,
+  .gy-donutchart-center-metric,
+  .gy-donutchart-legend,
+  .gy-donutchart-tooltip {
+    animation: none !important;
+    transition: none !important;
+  }
 }

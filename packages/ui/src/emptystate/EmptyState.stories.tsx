@@ -19,11 +19,20 @@ const meta: Meta<typeof EmptyState> = {
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
-      description: "Size scale (sm for compact charts, md for tables/standard, lg for full views).",
+      description:
+        "Size scale (sm for compact charts, md for tables/standard, lg for full views).",
     },
     variant: {
       control: "select",
-      options: ["default", "subtle", "card"],
+      options: [
+        "default",
+        "subtle",
+        "card",
+        "dashed",
+        "gradient",
+        "glass",
+        "spotlight",
+      ],
       description: "Visual appearance style.",
     },
   },
@@ -49,7 +58,8 @@ export const WithDescription: Story = {
 export const WithAction: Story = {
   args: {
     title: "No orders found",
-    description: "Try adjusting your filters or date range to find transactions.",
+    description:
+      "Try adjusting your filters or date range to find transactions.",
     size: "md",
     action: (
       <Button variant="primary" size="sm">
@@ -83,7 +93,8 @@ export const CompactForCharts: Story = {
 export const CardVariant: Story = {
   args: {
     title: "No metrics recorded",
-    description: "Telemetry will populate automatically once your service starts receiving traffic.",
+    description:
+      "Telemetry will populate automatically once your service starts receiving traffic.",
     variant: "card",
     size: "md",
   },
@@ -93,18 +104,44 @@ export const AllSizes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       <div>
-        <div style={{ fontSize: "0.75rem", color: "#64748b", marginBottom: "0.5rem" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            color: "#64748b",
+            marginBottom: "0.5rem",
+          }}
+        >
           Small (for compact charts & widgets):
         </div>
-        <div style={{ width: 300, height: 160, border: "1px solid #e2e8f0", borderRadius: "0.75rem" }}>
+        <div
+          style={{
+            width: 300,
+            height: 160,
+            border: "1px solid #e2e8f0",
+            borderRadius: "0.75rem",
+          }}
+        >
           <EmptyState size="sm" variant="subtle" title="No data available" />
         </div>
       </div>
       <div>
-        <div style={{ fontSize: "0.75rem", color: "#64748b", marginBottom: "0.5rem" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            color: "#64748b",
+            marginBottom: "0.5rem",
+          }}
+        >
           Medium (default for tables & standard charts):
         </div>
-        <div style={{ width: 450, height: 220, border: "1px solid #e2e8f0", borderRadius: "0.75rem" }}>
+        <div
+          style={{
+            width: 450,
+            height: 220,
+            border: "1px solid #e2e8f0",
+            borderRadius: "0.75rem",
+          }}
+        >
           <EmptyState
             size="md"
             title="No records found"
@@ -113,10 +150,23 @@ export const AllSizes: Story = {
         </div>
       </div>
       <div>
-        <div style={{ fontSize: "0.75rem", color: "#64748b", marginBottom: "0.5rem" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            color: "#64748b",
+            marginBottom: "0.5rem",
+          }}
+        >
           Large (for full-page or section empty views):
         </div>
-        <div style={{ width: 600, height: 320, border: "1px solid #e2e8f0", borderRadius: "0.75rem" }}>
+        <div
+          style={{
+            width: 600,
+            height: 320,
+            border: "1px solid #e2e8f0",
+            borderRadius: "0.75rem",
+          }}
+        >
           <EmptyState
             size="lg"
             title="No activity recorded yet"
@@ -125,6 +175,41 @@ export const AllSizes: Story = {
           />
         </div>
       </div>
+    </div>
+  ),
+};
+
+export const AllVariants: Story = {
+  name: "All Variants",
+  render: () => (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+        gap: "1.25rem",
+        padding: "1.5rem",
+        background:
+          "linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #ecfeff 100%)",
+      }}
+    >
+      {(
+        [
+          "default",
+          "subtle",
+          "card",
+          "dashed",
+          "gradient",
+          "glass",
+          "spotlight",
+        ] as const
+      ).map((v) => (
+        <EmptyState
+          key={v}
+          variant={v}
+          title={v.charAt(0).toUpperCase() + v.slice(1)}
+          description="No records match the current filters."
+        />
+      ))}
     </div>
   ),
 };

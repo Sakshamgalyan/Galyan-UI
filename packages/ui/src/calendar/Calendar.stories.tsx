@@ -29,9 +29,7 @@ export const Default: Story = {
     showTodayButton: true,
   },
   render: function Render(args) {
-    const [date, setDate] = useState<CalendarValue>(
-      new Date(2026, 6, 15),
-    );
+    const [date, setDate] = useState<CalendarValue>(new Date(2026, 6, 15));
     return (
       <div
         style={{
@@ -87,9 +85,7 @@ export const RangeMode: Story = {
 
 export const DarkModeSingle: Story = {
   render: function Render() {
-    const [date, setDate] = useState<CalendarValue>(
-      new Date(2026, 6, 15),
-    );
+    const [date, setDate] = useState<CalendarValue>(new Date(2026, 6, 15));
     return (
       <div
         style={{
@@ -346,4 +342,3 @@ export const Glassmorphic: Story = {
     );
   },
 };
-

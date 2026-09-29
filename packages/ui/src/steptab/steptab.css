@@ -137,11 +137,19 @@
 }
 
 /* Sizes */
-.gy-steptab-timeline--sm .gy-steptab-timeline__card { padding: 0.75rem 1rem; }
-.gy-steptab-timeline--sm .gy-steptab-timeline__card-title { font-size: 0.875rem; }
+.gy-steptab-timeline--sm .gy-steptab-timeline__card {
+  padding: 0.75rem 1rem;
+}
+.gy-steptab-timeline--sm .gy-steptab-timeline__card-title {
+  font-size: 0.875rem;
+}
 
-.gy-steptab-timeline--lg .gy-steptab-timeline__card { padding: 1.25rem 1.5rem; }
-.gy-steptab-timeline--lg .gy-steptab-timeline__card-title { font-size: 1.0625rem; }
+.gy-steptab-timeline--lg .gy-steptab-timeline__card {
+  padding: 1.25rem 1.5rem;
+}
+.gy-steptab-timeline--lg .gy-steptab-timeline__card-title {
+  font-size: 1.0625rem;
+}
 
 /* ── Dark Mode Overrides ── */
 .gy-dark .gy-steptab-timeline__header,
@@ -194,7 +202,9 @@
 }
 
 .gy-dark .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-[data-color-mode="dark"] .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
+[data-color-mode="dark"]
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
 .dark .gy-steptab-timeline__item--active .gy-steptab-timeline__card {
   background: rgba(168, 85, 247, 0.15);
   border-color: var(--gy-primary, #a855f7);
@@ -221,12 +231,21 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
 }
 
-.gy-steptab-timeline--glassmorphic .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-.gy-steptab-timeline--glass .gy-steptab-timeline__item--active .gy-steptab-timeline__card {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 18%, rgba(255, 255, 255, 0.75)) !important;
+.gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+.gy-steptab-timeline--glass
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card {
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 18%,
+    rgba(255, 255, 255, 0.75)
+  ) !important;
   border-color: var(--gy-primary, #6366f1) !important;
   box-shadow:
-    0 8px 24px -4px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent),
+    0 8px 24px -4px
+      color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent),
     inset 0 1px 1.5px rgba(255, 255, 255, 0.9) !important;
 }
 
@@ -239,9 +258,13 @@
 /* Glassmorphic StepTab Dark Mode */
 .gy-dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card,
 .gy-dark .gy-steptab-timeline--glass .gy-steptab-timeline__card,
-[data-color-mode="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card,
 [data-color-mode="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card,
-[data-theme="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card,
+[data-theme="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card,
 [data-theme="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card,
 .dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card,
 .dark .gy-steptab-timeline--glass .gy-steptab-timeline__card {
@@ -254,10 +277,18 @@
 
 .gy-dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card:hover,
 .gy-dark .gy-steptab-timeline--glass .gy-steptab-timeline__card:hover,
-[data-color-mode="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card:hover,
-[data-color-mode="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card:hover,
-[data-theme="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card:hover,
-[data-theme="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card:hover,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card:hover,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__card:hover,
+[data-theme="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card:hover,
+[data-theme="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__card:hover,
 .dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card:hover,
 .dark .gy-steptab-timeline--glass .gy-steptab-timeline__card:hover {
   background: rgba(30, 41, 59, 0.8) !important;
@@ -267,31 +298,66 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
 }
 
-.gy-dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-.gy-dark .gy-steptab-timeline--glass .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-[data-color-mode="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-[data-color-mode="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-[data-theme="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-[data-theme="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-.dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__item--active .gy-steptab-timeline__card,
-.dark .gy-steptab-timeline--glass .gy-steptab-timeline__item--active .gy-steptab-timeline__card {
-  background: color-mix(in srgb, var(--gy-primary, #a855f7) 22%, rgba(15, 23, 42, 0.8)) !important;
+.gy-dark
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+.gy-dark
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+[data-theme="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+[data-theme="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+.dark
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card,
+.dark
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__item--active
+  .gy-steptab-timeline__card {
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #a855f7) 22%,
+    rgba(15, 23, 42, 0.8)
+  ) !important;
   border-color: var(--gy-primary, #a855f7) !important;
   box-shadow:
-    0 8px 24px -4px color-mix(in srgb, var(--gy-primary, #a855f7) 35%, transparent),
+    0 8px 24px -4px
+      color-mix(in srgb, var(--gy-primary, #a855f7) 35%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
 }
 
 .gy-dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card-details,
 .gy-dark .gy-steptab-timeline--glass .gy-steptab-timeline__card-details,
-[data-color-mode="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card-details,
-[data-color-mode="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card-details,
-[data-theme="dark"] .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card-details,
-[data-theme="dark"] .gy-steptab-timeline--glass .gy-steptab-timeline__card-details,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card-details,
+[data-color-mode="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__card-details,
+[data-theme="dark"]
+  .gy-steptab-timeline--glassmorphic
+  .gy-steptab-timeline__card-details,
+[data-theme="dark"]
+  .gy-steptab-timeline--glass
+  .gy-steptab-timeline__card-details,
 .dark .gy-steptab-timeline--glassmorphic .gy-steptab-timeline__card-details,
 .dark .gy-steptab-timeline--glass .gy-steptab-timeline__card-details {
   background: rgba(255, 255, 255, 0.04) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
-
-

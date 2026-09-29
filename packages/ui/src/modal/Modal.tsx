@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "../button/Button";
 import "./modal.css";
+import { Typography } from "../typography";
 
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 export type ModalPosition = "center" | "top";
@@ -202,8 +203,24 @@ export function Modal({
             <div className="gy-modal__header-content">
               {icon && <div className="gy-modal__icon">{icon}</div>}
               <div className="gy-modal__titles">
-                {title && <h2 className="gy-modal__title">{title}</h2>}
-                {subtitle && <p className="gy-modal__subtitle">{subtitle}</p>}
+                {title && (
+                  <Typography
+                    variant="span"
+                    as="h2"
+                    className="gy-modal__title"
+                  >
+                    {title}
+                  </Typography>
+                )}
+                {subtitle && (
+                  <Typography
+                    variant="span"
+                    as="p"
+                    className="gy-modal__subtitle"
+                  >
+                    {subtitle}
+                  </Typography>
+                )}
               </div>
             </div>
             {showCloseButton && closable && (

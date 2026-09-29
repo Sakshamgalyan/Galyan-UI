@@ -1,4 +1,4 @@
-name: 'Chromatic Storybook Publish'
+name: "Chromatic Storybook Publish"
 
 on:
   push:
@@ -36,6 +36,6 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          configFile: 'apps/storybook/chromatic.config.json'
+          configFile: "apps/storybook/chromatic.config.json"
           autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
           exitZeroOnChanges: true

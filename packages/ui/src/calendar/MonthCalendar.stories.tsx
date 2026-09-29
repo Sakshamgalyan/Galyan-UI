@@ -27,14 +27,24 @@ export const Default: Story = {
     minYear: 1970,
     maxYear: 2050,
   },
-  render: (args) => {
+  render: function Render(args) {
     const [month, setMonth] = useState<MonthCalendarValue>({
       year: 2026,
       month: 6,
     });
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     return (
       <div
@@ -55,7 +65,7 @@ export const Default: Story = {
 };
 
 export const MinMaxConstraints: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthCalendarValue>({
       year: 2026,
       month: 4,
@@ -85,7 +95,7 @@ export const MinMaxConstraints: Story = {
 };
 
 export const DecadeYearView: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthCalendarValue>({
       year: 2026,
       month: 0,
@@ -102,14 +112,24 @@ export const DecadeYearView: Story = {
 };
 
 export const DarkMode: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthCalendarValue>({
       year: 2026,
       month: 8,
     });
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     return (
       <div
@@ -150,7 +170,7 @@ export const DarkMode: Story = {
 };
 
 export const Borderless: Story = {
-  render: () => {
+  render: function Render() {
     const [month, setMonth] = useState<MonthCalendarValue>({
       year: 2026,
       month: 6, // July (Jul in screenshot)

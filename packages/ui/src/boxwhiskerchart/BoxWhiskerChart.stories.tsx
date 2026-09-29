@@ -125,12 +125,7 @@ export const ResponsiveMobile: Story = {
       >
         Mobile Container Preview (320px)
       </div>
-      <BoxWhiskerChart
-        data={boxPlotData}
-        height={300}
-        width="100%"
-        showGrid
-      />
+      <BoxWhiskerChart data={boxPlotData} height={300} width="100%" showGrid />
     </div>
   ),
 };

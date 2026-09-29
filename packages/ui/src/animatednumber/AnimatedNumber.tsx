@@ -109,27 +109,30 @@ export const cssEasingMap: Record<AnimatedNumberEasing, string> = {
 };
 
 // ── 1. Roller Digit (Multi-Revolution Odometer Reel) ─────────────────────────
-function RollerDigit({
-  char,
-  duration,
-  delay = 0,
-  revolutions = 2,
-  timingFunction = "cubic-bezier(0.16, 1, 0.3, 1)",
-  hasMounted,
-}: {
+type RollerDigitProps = {
   char: string;
   duration: number;
   delay?: number;
   revolutions?: number;
   timingFunction?: string;
   hasMounted: boolean;
-}) {
-  const isDigit = /^[0-9]$/.test(char);
+};
 
-  if (!isDigit) {
-    return <span className="gy-animated-number__symbol">{char}</span>;
+function RollerDigit(props: RollerDigitProps) {
+  if (!/^[0-9]$/.test(props.char)) {
+    return <span className="gy-animated-number__symbol">{props.char}</span>;
   }
+  return <RollerReel {...props} />;
+}
 
+function RollerReel({
+  char,
+  duration,
+  delay = 0,
+  revolutions = 2,
+  timingFunction = "cubic-bezier(0.16, 1, 0.3, 1)",
+  hasMounted,
+}: RollerDigitProps) {
   const digit = parseInt(char, 10);
   const prevDigitRef = useRef(hasMounted ? digit : 0);
   const targetIndexRef = useRef(hasMounted ? digit : 0);
@@ -209,33 +212,37 @@ function SlideDigit({
 }
 
 // ── 3. Flip Digit (True Split-Flap Mechanical Display) ────────────────────────
-function FlipDigit({
-  char,
-  duration,
-  delay = 0,
-  timingFunction = "cubic-bezier(0.3, 1.4, 0.4, 1)",
-  hasMounted,
-}: {
+type FlipDigitProps = {
   char: string;
   duration: number;
   delay?: number;
   timingFunction?: string;
-  hasMounted: boolean;
-}) {
-  const isDigit = /^[0-9]$/.test(char);
+};
 
-  if (!isDigit) {
-    return <span className="gy-animated-number__symbol">{char}</span>;
+function FlipDigit(props: FlipDigitProps) {
+  if (!/^[0-9]$/.test(props.char)) {
+    return <span className="gy-animated-number__symbol">{props.char}</span>;
   }
+  return <FlipCard {...props} />;
+}
 
+function FlipCard({
+  char,
+  duration,
+  delay = 0,
+  timingFunction = "cubic-bezier(0.3, 1.4, 0.4, 1)",
+}: FlipDigitProps) {
   const [currentDigit, setCurrentDigit] = useState(char);
   const [previousDigit, setPreviousDigit] = useState(char);
   const [isFlipping, setIsFlipping] = useState(false);
   const flipKeyRef = useRef(0);
+  const lastCharRef = useRef(char);
 
   useEffect(() => {
-    if (char !== currentDigit) {
-      setPreviousDigit(currentDigit);
+    const lastChar = lastCharRef.current;
+    if (char !== lastChar) {
+      lastCharRef.current = char;
+      setPreviousDigit(lastChar);
       setCurrentDigit(char);
       setIsFlipping(true);
       flipKeyRef.current += 1;
@@ -255,7 +262,9 @@ function FlipDigit({
     >
       {/* Static upper half — shows NEW digit */}
       <span className="gy-animated-number__flip-upper">
-        <span className="gy-animated-number__flip-digit-inner">{currentDigit}</span>
+        <span className="gy-animated-number__flip-digit-inner">
+          {currentDigit}
+        </span>
       </span>
 
       {/* Static lower half — shows OLD digit (behind flip) then NEW */}
@@ -276,7 +285,9 @@ function FlipDigit({
             animationTimingFunction: timingFunction,
           }}
         >
-          <span className="gy-animated-number__flip-digit-inner">{previousDigit}</span>
+          <span className="gy-animated-number__flip-digit-inner">
+            {previousDigit}
+          </span>
         </span>
       )}
 
@@ -291,7 +302,9 @@ function FlipDigit({
             animationTimingFunction: timingFunction,
           }}
         >
-          <span className="gy-animated-number__flip-digit-inner">{currentDigit}</span>
+          <span className="gy-animated-number__flip-digit-inner">
+            {currentDigit}
+          </span>
         </span>
       )}
 
@@ -411,14 +424,12 @@ export function AnimatedNumber({
     light: "light",
   };
 
-  const Component = variant.startsWith("h")
-    ? (variant as any)
-    : variant === "p"
-      ? "p"
-      : "span";
+  const Component: React.ElementType = variant;
 
   const effectiveTimingFunction =
-    customTimingFunction ?? cssEasingMap[easing] ?? "cubic-bezier(0.16, 1, 0.3, 1)";
+    customTimingFunction ??
+    cssEasingMap[easing] ??
+    "cubic-bezier(0.16, 1, 0.3, 1)";
 
   const inlineStyles: React.CSSProperties = {
     ...(color ? { color } : {}),
@@ -434,9 +445,7 @@ export function AnimatedNumber({
     return (
       <Typography
         as={Component}
-        variant={
-          variant === "p" ? "p" : variant === "span" ? "span" : (variant as any)
-        }
+        variant={variant}
         weight={weightMap[weight]}
         className={`gy-animated-number gy-animated-number--roller ${
           showGradientMask ? "gy-animated-number--masked" : ""
@@ -476,9 +485,7 @@ export function AnimatedNumber({
     return (
       <Typography
         as={Component}
-        variant={
-          variant === "p" ? "p" : variant === "span" ? "span" : (variant as any)
-        }
+        variant={variant}
         weight={weightMap[weight]}
         className={`gy-animated-number gy-animated-number--slide ${
           showGradientMask ? "gy-animated-number--masked" : ""
@@ -516,9 +523,7 @@ export function AnimatedNumber({
     return (
       <Typography
         as={Component}
-        variant={
-          variant === "p" ? "p" : variant === "span" ? "span" : (variant as any)
-        }
+        variant={variant}
         weight={weightMap[weight]}
         className={`gy-animated-number gy-animated-number--flip ${className}`.trim()}
         style={inlineStyles}
@@ -537,7 +542,6 @@ export function AnimatedNumber({
               duration={duration}
               delay={delay}
               timingFunction={effectiveTimingFunction}
-              hasMounted={hasMounted}
             />
           );
         })}
@@ -552,9 +556,7 @@ export function AnimatedNumber({
   return (
     <Typography
       as={Component}
-      variant={
-        variant === "p" ? "p" : variant === "span" ? "span" : (variant as any)
-      }
+      variant={variant}
       weight={weightMap[weight]}
       className={`gy-animated-number ${
         isPulsing ? "gy-animated-number--pulsing" : ""

@@ -332,7 +332,7 @@ export const SuccessState: Story = {
 };
 
 export const ClearableDemo: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("Type to search...");
     return (
       <Input
@@ -385,7 +385,7 @@ export const RequiredField: Story = {
 };
 
 export const FilledVariant: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("");
     return (
       <Input

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import "./banner.css";
+import { Typography } from "../typography";
 
 export type BannerVariant =
   | "info"
@@ -171,9 +172,19 @@ export function Banner({
             {icon ?? defaultIcons[variant]}
           </span>
           <div className="gy-banner__content">
-            {title && <div className="gy-banner__title">{title}</div>}
+            {title && (
+              <Typography variant="span" as="div" className="gy-banner__title">
+                {title}
+              </Typography>
+            )}
             {bodyContent && (
-              <div className="gy-banner__description">{bodyContent}</div>
+              <Typography
+                variant="span"
+                as="div"
+                className="gy-banner__description"
+              >
+                {bodyContent}
+              </Typography>
             )}
           </div>
           {button && <div className="gy-banner__action">{button}</div>}

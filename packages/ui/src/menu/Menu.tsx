@@ -5,6 +5,7 @@ import "./menu.css";
 
 // Re-export Tooltip for backwards compat
 import { Tooltip } from "../tooltip/Tooltip";
+import { Typography } from "../typography";
 export type { TooltipProps, TooltipPosition } from "../tooltip/Tooltip";
 export { Tooltip };
 
@@ -60,7 +61,11 @@ export function Menu({
   const rootRef = useRef<HTMLElement>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
     const expanded = new Set<string>();
-    if (!defaultCollapsed && orientation === "vertical" && Array.isArray(items)) {
+    if (
+      !defaultCollapsed &&
+      orientation === "vertical" &&
+      Array.isArray(items)
+    ) {
       // Expand parents of active item or first level collapsible by default in vertical
       items.forEach((item) => {
         if (item?.children) expanded.add(item.id);
@@ -81,22 +86,6 @@ export function Menu({
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [orientation, expandedIds.size]);
-
-  const toggleExpand = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpandedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else {
-        if (orientation === "horizontal") {
-          // Open one dropdown at a time in horizontal mode
-          return new Set([id]);
-        }
-        next.add(id);
-      }
-      return next;
-    });
-  };
 
   const rootClasses = [
     "gy-nav-menu",
@@ -138,7 +127,7 @@ export function Menu({
       .filter(Boolean)
       .join(" ");
 
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = () => {
       if (readOnly || item.disabled) return;
       if (hasChildren && collapsible) {
         setExpandedIds((prev) => {
@@ -175,7 +164,9 @@ export function Menu({
           aria-expanded={hasChildren ? isExpanded : undefined}
         >
           {item.icon && <span className="gy-nav-menu__icon">{item.icon}</span>}
-          <span className="gy-nav-menu__label">{item.label}</span>
+          <Typography variant="span" className="gy-nav-menu__label">
+            {item.label}
+          </Typography>
           {item.badge && (
             <span className="gy-nav-menu__badge">{item.badge}</span>
           )}

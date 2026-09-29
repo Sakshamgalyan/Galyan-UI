@@ -65,6 +65,10 @@
   box-sizing: border-box;
 }
 
+.gy-barchart--cylindrical::after {
+  display: none !important;
+}
+
 .gy-barchart-col--cylindrical {
   display: flex;
   flex-direction: column;
@@ -75,7 +79,8 @@
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+  transition:
+    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0 4px;
 }
@@ -126,7 +131,7 @@
   --gy-cyl-track: var(--gy-cylinder-track, #e5e0f8);
   --gy-cyl-fill: var(--gy-cylinder-fill, #7c3aed);
   --gy-cyl-cap-h: 14px;
-  
+
   position: relative;
   height: 100%;
   max-height: 100%;
@@ -136,7 +141,9 @@
   flex-direction: column;
   justify-content: flex-end;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.25s ease;
 }
 
 /* Cylinder Glass Body */
@@ -235,7 +242,9 @@
     #a78bfa 58%,
     #7c3aed 100%
   );
-  transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+  transition:
+    height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.2s ease;
   z-index: 2;
 }
 
@@ -249,7 +258,9 @@
   border-radius: 50%;
   background: linear-gradient(180deg, #9d75f7 0%, #7c3aed 100%);
   border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.15);
   z-index: 3;
 }
 
@@ -264,11 +275,24 @@
   flex-shrink: 0;
 }
 
-/* Category Label below icon */
+/* Category Label below cylinder or icon */
 .gy-barchart-label-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 0.375rem;
+}
+
+.gy-barchart-col--cylindrical .gy-barchart-label-wrapper {
+  margin-top: 0.75rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+}
+
+.gy-barchart-col--cylindrical
+  .gy-barchart-icon-slot--cylindrical
+  + .gy-barchart-label-wrapper {
   margin-top: 0.375rem;
 }
 
@@ -309,10 +333,22 @@
   margin-top: 0.5rem;
 }
 
+.gy-barchart-wrapper.gy-barchart--compact
+  .gy-barchart-col--cylindrical
+  .gy-barchart-label-wrapper {
+  margin-top: 0.5rem;
+}
+
+.gy-barchart-wrapper.gy-barchart--compact
+  .gy-barchart-col--cylindrical
+  .gy-barchart-icon-slot--cylindrical
+  + .gy-barchart-label-wrapper {
+  margin-top: 0.25rem;
+}
+
 .gy-barchart-wrapper.gy-barchart--compact .gy-barchart-label--cylindrical {
   font-size: 0.6875rem;
 }
-
 
 /* ── Variant: Filled ────────────────────────────────────────────────────── */
 .gy-barchart--filled {
@@ -345,7 +381,8 @@
   position: relative;
   padding-bottom: 32px;
   box-sizing: border-box;
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+  transition:
+    opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -413,7 +450,9 @@
 .gy-barchart-bar--filled {
   width: 100%;
   border-radius: var(--gy-radius-full, 9999px);
-  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+  transition:
+    height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.15s ease;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
@@ -495,7 +534,8 @@
   flex-shrink: 0;
   padding: 6px 8px;
   border-radius: var(--gy-radius-lg, 0.5rem);
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+  transition:
+    opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     background-color 0.2s ease;
   cursor: pointer;
@@ -511,11 +551,13 @@
   opacity: 1;
 }
 
-.gy-barchart-row--horizontal.gy-barchart-row--active .gy-barchart-label--horizontal {
+.gy-barchart-row--horizontal.gy-barchart-row--active
+  .gy-barchart-label--horizontal {
   color: var(--gy-primary, #3b82f6);
 }
 
-.gy-barchart-row--horizontal.gy-barchart-row--active .gy-barchart-bar--horizontal {
+.gy-barchart-row--horizontal.gy-barchart-row--active
+  .gy-barchart-bar--horizontal {
   filter: brightness(1.08) drop-shadow(0 2px 6px rgba(124, 58, 237, 0.2));
 }
 
@@ -556,14 +598,11 @@
 .gy-barchart-bar--horizontal.gy-barchart-bar--inline {
   height: 100%;
   border-radius: 6px 0 0 6px;
-  background: linear-gradient(
-    180deg,
-    #9f82f2 0%,
-    #7d57d9 50%,
-    #6940c7 100%
-  );
+  background: linear-gradient(180deg, #9f82f2 0%, #7d57d9 50%, #6940c7 100%);
   box-shadow: 0 1px 3px rgba(109, 40, 217, 0.2);
-  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+  transition:
+    width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.2s ease;
 }
 
 .gy-barchart-row--inline .gy-barchart-value--horizontal {
@@ -655,7 +694,9 @@
 .gy-barchart-bar--horizontal {
   height: 100%;
   border-radius: var(--gy-radius-full, 9999px);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+  transition:
+    width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.15s ease;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
@@ -716,19 +757,22 @@
 
 /* ── Entrance Animations ─────────────────────────────────────────────────── */
 .gy-barchart--animate .gy-barchart-cylinder-fill {
-  animation: gy-cyl-fill-rise var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: gy-cyl-fill-rise var(--gy-bar-duration, 900ms)
+    var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
   animation-delay: calc(var(--gy-bar-index, 0) * 80ms);
   transform-origin: bottom;
 }
 
 .gy-barchart--animate .gy-barchart-bar--filled {
-  animation: gy-bar-filled-rise var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: gy-bar-filled-rise var(--gy-bar-duration, 900ms)
+    var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
   animation-delay: calc(var(--gy-bar-index, 0) * 80ms);
   transform-origin: bottom;
 }
 
 .gy-barchart--animate .gy-barchart-bar--horizontal {
-  animation: gy-bar-horiz-grow var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: gy-bar-horiz-grow var(--gy-bar-duration, 900ms)
+    var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
   animation-delay: calc(var(--gy-bar-index, 0) * 75ms);
   transform-origin: left;
 }
@@ -736,14 +780,16 @@
 .gy-barchart--animate .gy-barchart-bar-value--cylindrical,
 .gy-barchart--animate .gy-barchart-bar-value--filled,
 .gy-barchart--animate .gy-barchart-value--horizontal {
-  animation: gy-bar-value-fade-in var(--gy-bar-duration, 900ms) var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: gy-bar-value-fade-in var(--gy-bar-duration, 900ms)
+    var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
   animation-delay: calc(var(--gy-bar-index, 0) * 80ms + 120ms);
 }
 
 .gy-barchart--animate .gy-barchart-icon-slot--cylindrical,
 .gy-barchart--animate .gy-barchart-bar-icon--filled,
 .gy-barchart--animate .gy-barchart-icon-square--horizontal {
-  animation: gy-bar-icon-pop 600ms var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: gy-bar-icon-pop 600ms
+    var(--gy-bar-easing, cubic-bezier(0.16, 1, 0.3, 1)) both;
   animation-delay: calc(var(--gy-bar-index, 0) * 75ms + 60ms);
 }
 
@@ -816,4 +862,3 @@
     transition: none !important;
   }
 }
-

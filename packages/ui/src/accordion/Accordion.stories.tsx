@@ -7,7 +7,10 @@ import { Toggle } from "../toggle/Toggle";
 import { Input } from "../input/Input";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Dropdown } from "../dropdown/Dropdown";
-import { DatePicker } from "../datepicker/DatePicker";
+import {
+  DatePicker,
+  type DatePickerValue,
+} from "../datepicker/DatePicker";
 import { TimePicker } from "../timepicker/TimePicker";
 import { RadioGroup } from "../radiogroup/RadioGroup";
 import { ProgressBar } from "../progressbar/ProgressBar";
@@ -43,23 +46,6 @@ const ShieldIcon = () => (
     strokeLinejoin="round"
   >
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
-
-const QuestionIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <line x1="12" y1="17" x2="12.01" y2="17" />
   </svg>
 );
 
@@ -274,18 +260,46 @@ export const Playground: Story = {
   },
   render: (args) => (
     <Accordion {...args}>
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}
+      >
         <p style={{ margin: 0, color: "var(--gy-text-muted)" }}>
           Update your public profile details and communication settings below.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "0.75rem",
+          }}
+        >
           <div>
-            <strong style={{ fontSize: "0.8125rem", color: "var(--gy-text)" }}>Full Name</strong>
-            <div style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", marginTop: 2 }}>Saksham Galyan</div>
+            <strong style={{ fontSize: "0.8125rem", color: "var(--gy-text)" }}>
+              Full Name
+            </strong>
+            <div
+              style={{
+                color: "var(--gy-text-muted)",
+                fontSize: "0.875rem",
+                marginTop: 2,
+              }}
+            >
+              Saksham Galyan
+            </div>
           </div>
           <div>
-            <strong style={{ fontSize: "0.8125rem", color: "var(--gy-text)" }}>Email Address</strong>
-            <div style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", marginTop: 2 }}>saksham@samantrix.com</div>
+            <strong style={{ fontSize: "0.8125rem", color: "var(--gy-text)" }}>
+              Email Address
+            </strong>
+            <div
+              style={{
+                color: "var(--gy-text-muted)",
+                fontSize: "0.875rem",
+                marginTop: 2,
+              }}
+            >
+              saksham@samantrix.com
+            </div>
           </div>
         </div>
       </div>
@@ -308,12 +322,15 @@ export const Default: Story = {
     <Accordion {...args}>
       <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
         <p style={{ margin: 0 }}>
-          Credit card information including card number, expiry date, CVV, and cardholder details.
+          Credit card information including card number, expiry date, CVV, and
+          cardholder details.
         </p>
         <p style={{ margin: 0, fontWeight: 600 }}>
           Use the controls below to change the accordion properties!
         </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}
+        >
           <span>Card Number</span>
           <span>Expiry Date</span>
           <span>CVV</span>
@@ -466,8 +483,8 @@ export const WithIcon: Story = {
 
 export const WithActions: Story = {
   name: "With Actions",
-  render: () => {
-    const [pipelineActive, setPipelineActive] = useState(true);
+  render: function Render() {
+    const [pipelineActive] = useState(true);
     const [fraudGuardActive, setFraudGuardActive] = useState(true);
 
     return (
@@ -584,7 +601,7 @@ export const WithActions: Story = {
 
 export const Controlled: Story = {
   name: "Controlled",
-  render: () => {
+  render: function Render() {
     const [expandedIds, setExpandedIds] = useState<string[]>(["item-1"]);
 
     const allIds = ["item-1", "item-2", "item-3"];
@@ -683,7 +700,7 @@ export const Controlled: Story = {
 
 export const AllowMultiple: Story = {
   name: "Allow Multiple",
-  render: () => {
+  render: function Render() {
     const [allowMultiple, setAllowMultiple] = useState(true);
 
     return (
@@ -955,7 +972,7 @@ export const UnmountOnExit: Story = {
 
 export const ComplexContent: Story = {
   name: "Complex Content",
-  render: () => {
+  render: function Render() {
     const [email, setEmail] = useState("admin@samantrix.com");
     const [webhookUrl, setWebhookUrl] = useState(
       "https://api.merchant.com/v1/webhooks",
@@ -1336,7 +1353,7 @@ export const MixedPositions: Story = {
 
 export const RulesManagement: Story = {
   name: "Rules Management",
-  render: () => {
+  render: function Render() {
     const [rules, setRules] = useState([
       {
         id: "rule-1",
@@ -1584,9 +1601,9 @@ export const RulesManagement: Story = {
 
 export const EnterpriseSettingsComposition: Story = {
   name: "Multi-Component: Enterprise Workflow",
-  render: () => {
+  render: function Render() {
     // Schedule state
-    const [meetingDate, setMeetingDate] = useState<any>(new Date());
+    const [meetingDate, setMeetingDate] = useState<DatePickerValue>(new Date());
     const [startTime, setStartTime] = useState("09:00 AM");
     const [endTime, setEndTime] = useState("05:30 PM");
     const [timezone, setTimezone] = useState("utc");
@@ -1602,7 +1619,9 @@ export const EnterpriseSettingsComposition: Story = {
     // Notifications state
     const [channels, setChannels] = useState<string[]>(["slack", "pagerduty"]);
     const [priority, setPriority] = useState("high");
-    const [webhookUrl, setWebhookUrl] = useState("https://hooks.samantrix.io/alerts/prod");
+    const [webhookUrl, setWebhookUrl] = useState(
+      "https://hooks.samantrix.io/alerts/prod",
+    );
     const [sendDigest, setSendDigest] = useState(true);
 
     const timezoneOptions = [
@@ -1635,13 +1654,34 @@ export const EnterpriseSettingsComposition: Story = {
     ];
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
         <div>
-          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--gy-text)",
+            }}
+          >
             Organization Enterprise Configuration
           </h3>
-          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-            Accordion composing DatePicker, TimePicker, Dropdown, Toggle, Input, ColorPicker, ProgressBar & RadioGroup.
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
+            Accordion composing DatePicker, TimePicker, Dropdown, Toggle, Input,
+            ColorPicker, ProgressBar & RadioGroup.
           </p>
         </div>
 
@@ -1654,10 +1694,24 @@ export const EnterpriseSettingsComposition: Story = {
               id: "schedule",
               icon: <ZapIcon />,
               title: "On-Call Shift & Meeting Scheduling",
-              subtitle: "Configure coverage windows, local timezone, and calendar intervals",
+              subtitle:
+                "Configure coverage windows, local timezone, and calendar intervals",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(170px, 1fr))",
+                      gap: "0.75rem",
+                    }}
+                  >
                     <DatePicker
                       label="Shift Effective Date"
                       value={meetingDate}
@@ -1679,7 +1733,14 @@ export const EnterpriseSettingsComposition: Story = {
                     />
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1rem", alignItems: "flex-end" }}>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr auto",
+                      gap: "1rem",
+                      alignItems: "flex-end",
+                    }}
+                  >
                     <Dropdown
                       label="Regional Operations Timezone"
                       options={timezoneOptions}
@@ -1695,11 +1756,31 @@ export const EnterpriseSettingsComposition: Story = {
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
-                    <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
-                      Active Window: <strong>{startTime}</strong> – <strong>{endTime}</strong> ({timezone.toUpperCase()})
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingTop: "0.5rem",
+                      borderTop: "1px solid var(--gy-border, #e2e8f0)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.75rem",
+                        color: "var(--gy-text-muted)",
+                      }}
+                    >
+                      Active Window: <strong>{startTime}</strong> –{" "}
+                      <strong>{endTime}</strong> ({timezone.toUpperCase()})
                     </span>
-                    <Button size="sm" variant="primary" onClick={() => alert(`Saved schedule: ${startTime} - ${endTime}`)}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() =>
+                        alert(`Saved schedule: ${startTime} - ${endTime}`)
+                      }
+                    >
                       Save Shift Schedule
                     </Button>
                   </div>
@@ -1710,9 +1791,16 @@ export const EnterpriseSettingsComposition: Story = {
               id: "security",
               icon: <ShieldIcon />,
               title: "Security, Session & Auth Policy",
-              subtitle: "MFA enforcement, IP whitelist, brand tint, and session boundaries",
+              subtitle:
+                "MFA enforcement, IP whitelist, brand tint, and session boundaries",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.25rem",
+                  }}
+                >
                   <ProgressBar
                     label="Compliance Hardening Score"
                     progress={88}
@@ -1721,16 +1809,37 @@ export const EnterpriseSettingsComposition: Story = {
                     showValue
                   />
 
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(240px, 1fr))",
+                      gap: "1rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.75rem",
+                      }}
+                    >
                       <div>
                         <Toggle
                           label="Mandatory Hardware Security Keys (FIDO2)"
                           checked={mfa}
                           onChange={(e) => setMfa(e.target.checked)}
                         />
-                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
-                          Require physical YubiKey or TouchID hardware authentication.
+                        <div
+                          style={{
+                            fontSize: "0.75rem",
+                            color: "var(--gy-text-muted)",
+                            marginLeft: "2.75rem",
+                            marginTop: "0.125rem",
+                          }}
+                        >
+                          Require physical YubiKey or TouchID hardware
+                          authentication.
                         </div>
                       </div>
                       <div>
@@ -1739,13 +1848,27 @@ export const EnterpriseSettingsComposition: Story = {
                           checked={biometrics}
                           onChange={(e) => setBiometrics(e.target.checked)}
                         />
-                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
-                          Authenticate headless browser workers with encrypted client certificates.
+                        <div
+                          style={{
+                            fontSize: "0.75rem",
+                            color: "var(--gy-text-muted)",
+                            marginLeft: "2.75rem",
+                            marginTop: "0.125rem",
+                          }}
+                        >
+                          Authenticate headless browser workers with encrypted
+                          client certificates.
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.75rem",
+                      }}
+                    >
                       <Dropdown
                         label="Session Inactivity Expiration"
                         options={timeoutOptions}
@@ -1763,7 +1886,15 @@ export const EnterpriseSettingsComposition: Story = {
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: "1rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1rem",
+                      paddingTop: "0.5rem",
+                      borderTop: "1px solid var(--gy-border, #e2e8f0)",
+                    }}
+                  >
                     <div style={{ flex: 1 }}>
                       <ColorPicker
                         label="Compliance Badge Accent Color"
@@ -1772,7 +1903,11 @@ export const EnterpriseSettingsComposition: Story = {
                         showAlpha
                       />
                     </div>
-                    <Button size="sm" variant="outline" onClick={() => alert("Security policy updated")}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => alert("Security policy updated")}
+                    >
                       Apply Security Policy
                     </Button>
                   </div>
@@ -1783,9 +1918,16 @@ export const EnterpriseSettingsComposition: Story = {
               id: "notifications",
               icon: <BellIcon />,
               title: "Incident Response & Dispatch Channels",
-              subtitle: "Multi-select tag routing, priority levels, and webhook targets",
+              subtitle:
+                "Multi-select tag routing, priority levels, and webhook targets",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.25rem",
+                  }}
+                >
                   <Dropdown
                     label="Dispatch Alert Channels (Multi-Select with Clearable Tags)"
                     options={channelOptions}
@@ -1796,9 +1938,24 @@ export const EnterpriseSettingsComposition: Story = {
                     placeholder="Select dispatch targets..."
                   />
 
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(220px, 1fr))",
+                      gap: "1rem",
+                    }}
+                  >
                     <div>
-                      <label style={{ fontSize: "0.8125rem", fontWeight: 600, display: "block", marginBottom: "0.5rem", color: "var(--gy-text)" }}>
+                      <label
+                        style={{
+                          fontSize: "0.8125rem",
+                          fontWeight: 600,
+                          display: "block",
+                          marginBottom: "0.5rem",
+                          color: "var(--gy-text)",
+                        }}
+                      >
                         Incident Trigger Threshold
                       </label>
                       <RadioGroup
@@ -1810,7 +1967,13 @@ export const EnterpriseSettingsComposition: Story = {
                       />
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.75rem",
+                      }}
+                    >
                       <Input
                         label="Primary Webhook Endpoint"
                         value={webhookUrl}
@@ -1825,18 +1988,42 @@ export const EnterpriseSettingsComposition: Story = {
                           checked={sendDigest}
                           onChange={(e) => setSendDigest(e.target.checked)}
                         />
-                        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
-                          Email daily consolidated incident overview to leadership.
+                        <div
+                          style={{
+                            fontSize: "0.75rem",
+                            color: "var(--gy-text-muted)",
+                            marginLeft: "2.75rem",
+                            marginTop: "0.125rem",
+                          }}
+                        >
+                          Email daily consolidated incident overview to
+                          leadership.
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
-                    <Button size="sm" variant="ghost" onClick={() => setChannels(["slack"])}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "0.5rem",
+                      paddingTop: "0.5rem",
+                      borderTop: "1px solid var(--gy-border, #e2e8f0)",
+                    }}
+                  >
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setChannels(["slack"])}
+                    >
                       Reset Defaults
                     </Button>
-                    <Button size="sm" variant="primary" onClick={() => alert("Notification routing saved")}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() => alert("Notification routing saved")}
+                    >
                       Save Dispatch Routing
                     </Button>
                   </div>
@@ -1854,8 +2041,8 @@ export const EnterpriseSettingsComposition: Story = {
 
 export const OrderCheckoutComposition: Story = {
   name: "Multi-Component: Checkout & Fulfillment",
-  render: () => {
-    const [deliveryDate, setDeliveryDate] = useState<any>(new Date());
+  render: function Render() {
+    const [deliveryDate, setDeliveryDate] = useState<DatePickerValue>(new Date());
     const [deliveryTime, setDeliveryTime] = useState("02:00 PM");
     const [address, setAddress] = useState("742 Evergreen Terrace, Sector 42");
     const [instructions, setInstructions] = useState("reception");
@@ -1866,13 +2053,34 @@ export const OrderCheckoutComposition: Story = {
     const [saveBilling, setSaveBilling] = useState(true);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
         <div>
-          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--gy-text)",
+            }}
+          >
             B2B Express Order Checkout
           </h3>
-          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-            Accordion composing DatePicker, TimePicker, Input, Dropdown, Checkbox, Chip & Button.
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
+            Accordion composing DatePicker, TimePicker, Input, Dropdown,
+            Checkbox, Chip & Button.
           </p>
         </div>
 
@@ -1885,10 +2093,23 @@ export const OrderCheckoutComposition: Story = {
               id: "shipping",
               icon: <SlidersIcon />,
               title: "1. Delivery Schedule & Location",
-              subtitle: "Select delivery date, precise drop-off time window, and address",
+              subtitle:
+                "Select delivery date, precise drop-off time window, and address",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.75rem",
+                    }}
+                  >
                     <DatePicker
                       label="Delivery Date"
                       value={deliveryDate}
@@ -1915,9 +2136,18 @@ export const OrderCheckoutComposition: Story = {
                   <Dropdown
                     label="Delivery Access Instructions"
                     options={[
-                      { value: "reception", label: "Deliver to Main Reception Desk" },
-                      { value: "loading", label: "Loading Dock Bay 3 (Freight)" },
-                      { value: "door", label: "Front Door Contactless Drop-off" },
+                      {
+                        value: "reception",
+                        label: "Deliver to Main Reception Desk",
+                      },
+                      {
+                        value: "loading",
+                        label: "Loading Dock Bay 3 (Freight)",
+                      },
+                      {
+                        value: "door",
+                        label: "Front Door Contactless Drop-off",
+                      },
                       { value: "call", label: "Call Recipient on Arrival" },
                     ]}
                     value={instructions}
@@ -1932,20 +2162,35 @@ export const OrderCheckoutComposition: Story = {
               title: "2. Payment Method & Invoicing",
               subtitle: "Corporate credit card, wire transfer, or credit line",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
                   <Dropdown
                     label="Select Payment Method"
                     options={[
                       { value: "card", label: "Corporate Credit / Debit Card" },
                       { value: "po", label: "Purchase Order (Net-30 Invoice)" },
-                      { value: "wire", label: "Direct Wire Transfer (ACH / SEPA)" },
+                      {
+                        value: "wire",
+                        label: "Direct Wire Transfer (ACH / SEPA)",
+                      },
                     ]}
                     value={paymentMethod}
                     onChange={(v) => setPaymentMethod(v as string)}
                   />
 
                   {paymentMethod === "card" && (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: "0.75rem",
+                      }}
+                    >
                       <Input
                         label="Name on Card"
                         value={cardName}
@@ -1961,16 +2206,28 @@ export const OrderCheckoutComposition: Story = {
                     </div>
                   )}
 
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <Checkbox
                       label="Save payment method for future automated dispatches"
                       checked={saveBilling}
                       onChange={(e) => setSaveBilling(e.target.checked)}
                     />
                     <div style={{ display: "flex", gap: "0.375rem" }}>
-                      <Chip size="sm" variant="solid">VISA</Chip>
-                      <Chip size="sm" variant="neutral">MC</Chip>
-                      <Chip size="sm" variant="soft">AMEX</Chip>
+                      <Chip size="sm" variant="solid">
+                        VISA
+                      </Chip>
+                      <Chip size="sm" variant="neutral">
+                        MC
+                      </Chip>
+                      <Chip size="sm" variant="soft">
+                        AMEX
+                      </Chip>
                     </div>
                   </div>
                 </div>
@@ -1982,7 +2239,13 @@ export const OrderCheckoutComposition: Story = {
               title: "3. Fulfillment Review & Final Authorization",
               subtitle: "Verify order parameters before locking shipment",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
                   <ProgressBar
                     label="Checkout Completion Status"
                     progress={92}
@@ -1991,22 +2254,64 @@ export const OrderCheckoutComposition: Story = {
                     showValue
                   />
 
-                  <div style={{ background: "var(--gy-background-muted, #f8fafc)", padding: "0.875rem", borderRadius: "0.5rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", fontSize: "0.8125rem" }}>
+                  <div
+                    style={{
+                      background: "var(--gy-background-muted, #f8fafc)",
+                      padding: "0.875rem",
+                      borderRadius: "0.5rem",
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.5rem",
+                      fontSize: "0.8125rem",
+                    }}
+                  >
                     <div>
-                      <span style={{ color: "var(--gy-text-muted)" }}>Target Window:</span>
-                      <div style={{ fontWeight: 600, color: "var(--gy-text)", marginTop: 2 }}>{deliveryTime}</div>
+                      <span style={{ color: "var(--gy-text-muted)" }}>
+                        Target Window:
+                      </span>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          color: "var(--gy-text)",
+                          marginTop: 2,
+                        }}
+                      >
+                        {deliveryTime}
+                      </div>
                     </div>
                     <div>
-                      <span style={{ color: "var(--gy-text-muted)" }}>Payment Status:</span>
-                      <div style={{ marginTop: 2 }}><Chip size="sm" variant="success">Authorized</Chip></div>
+                      <span style={{ color: "var(--gy-text-muted)" }}>
+                        Payment Status:
+                      </span>
+                      <div style={{ marginTop: 2 }}>
+                        <Chip size="sm" variant="success">
+                          Authorized
+                        </Chip>
+                      </div>
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
-                    <Button variant="outline" size="sm" onClick={() => alert("Order draft saved")}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => alert("Order draft saved")}
+                    >
                       Save Draft
                     </Button>
-                    <Button variant="primary" size="sm" onClick={() => alert(`Order confirmed for ${deliveryTime}!`)}>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() =>
+                        alert(`Order confirmed for ${deliveryTime}!`)
+                      }
+                    >
                       Confirm & Authorize Order
                     </Button>
                   </div>
@@ -2024,21 +2329,42 @@ export const OrderCheckoutComposition: Story = {
 
 export const ServerFleetComposition: Story = {
   name: "Multi-Component: Server Fleet & Telemetry",
-  render: () => {
-    const [maintenanceDate, setMaintenanceDate] = useState<any>(new Date());
+  render: function Render() {
+    const [maintenanceDate, setMaintenanceDate] = useState<DatePickerValue>(new Date());
     const [maintenanceTime, setMaintenanceTime] = useState("03:00 AM");
     const [region, setRegion] = useState("us-east");
     const [autoScale, setAutoScale] = useState(true);
     const [drainTraffic, setDrainTraffic] = useState(false);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
         <div>
-          <h3 style={{ margin: "0 0 0.25rem", fontSize: "1.125rem", fontWeight: 700, color: "var(--gy-text)" }}>
+          <h3
+            style={{
+              margin: "0 0 0.25rem",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--gy-text)",
+            }}
+          >
             Infrastructure Fleet Orchestration
           </h3>
-          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gy-text-muted)" }}>
-            Accordion composing real-time ProgressBar metrics, DatePicker, TimePicker, Dropdown, Toggle & Button.
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "var(--gy-text-muted)",
+            }}
+          >
+            Accordion composing real-time ProgressBar metrics, DatePicker,
+            TimePicker, Dropdown, Toggle & Button.
           </p>
         </div>
 
@@ -2051,10 +2377,21 @@ export const ServerFleetComposition: Story = {
               id: "telemetry",
               icon: <ZapIcon />,
               title: "Production Cluster Telemetry",
-              subtitle: "Live compute utilization, memory pressure, and worker autoscaling",
-              actions: <Chip size="sm" variant="success">Operational</Chip>,
+              subtitle:
+                "Live compute utilization, memory pressure, and worker autoscaling",
+              actions: (
+                <Chip size="sm" variant="success">
+                  Operational
+                </Chip>
+              ),
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
                   <ProgressBar
                     label="Cluster CPU Allocation"
                     progress={64}
@@ -2077,13 +2414,23 @@ export const ServerFleetComposition: Story = {
                     showValue
                   />
 
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      paddingTop: "0.5rem",
+                      borderTop: "1px solid var(--gy-border, #e2e8f0)",
+                    }}
+                  >
                     <Toggle
                       label="Dynamic Elastic Horizontal Autoscaling"
                       checked={autoScale}
                       onChange={(e) => setAutoScale(e.target.checked)}
                     />
-                    <Chip size="sm" variant="neutral">48 Nodes Active</Chip>
+                    <Chip size="sm" variant="neutral">
+                      48 Nodes Active
+                    </Chip>
                   </div>
                 </div>
               ),
@@ -2094,8 +2441,20 @@ export const ServerFleetComposition: Story = {
               title: "Schedule Maintenance & Kernel Patching",
               subtitle: "Zero-downtime rolling updates with traffic draining",
               content: (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.75rem",
+                    }}
+                  >
                     <DatePicker
                       label="Maintenance Window Date"
                       value={maintenanceDate}
@@ -2113,10 +2472,22 @@ export const ServerFleetComposition: Story = {
                   <Dropdown
                     label="Target AWS / Azure Region"
                     options={[
-                      { value: "us-east", label: "US East (N. Virginia) - Cluster Primary" },
-                      { value: "us-west", label: "US West (Oregon) - Disaster Recovery" },
-                      { value: "eu-central", label: "EU Central (Frankfurt) - Primary" },
-                      { value: "ap-south", label: "Asia Pacific (Mumbai) - Regional Hub" },
+                      {
+                        value: "us-east",
+                        label: "US East (N. Virginia) - Cluster Primary",
+                      },
+                      {
+                        value: "us-west",
+                        label: "US West (Oregon) - Disaster Recovery",
+                      },
+                      {
+                        value: "eu-central",
+                        label: "EU Central (Frankfurt) - Primary",
+                      },
+                      {
+                        value: "ap-south",
+                        label: "Asia Pacific (Mumbai) - Regional Hub",
+                      },
                     ]}
                     value={region}
                     onChange={(v) => setRegion(v as string)}
@@ -2128,16 +2499,44 @@ export const ServerFleetComposition: Story = {
                       checked={drainTraffic}
                       onChange={(e) => setDrainTraffic(e.target.checked)}
                     />
-                    <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)", marginLeft: "2.75rem", marginTop: "0.125rem" }}>
-                      Safely redirect active WebSocket and HTTP/2 connections to standby instances.
+                    <div
+                      style={{
+                        fontSize: "0.75rem",
+                        color: "var(--gy-text-muted)",
+                        marginLeft: "2.75rem",
+                        marginTop: "0.125rem",
+                      }}
+                    >
+                      Safely redirect active WebSocket and HTTP/2 connections to
+                      standby instances.
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", paddingTop: "0.5rem", borderTop: "1px solid var(--gy-border, #e2e8f0)" }}>
-                    <Button size="sm" variant="secondary" onClick={() => alert("Simulation executed with zero downtime")}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "0.5rem",
+                      paddingTop: "0.5rem",
+                      borderTop: "1px solid var(--gy-border, #e2e8f0)",
+                    }}
+                  >
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() =>
+                        alert("Simulation executed with zero downtime")
+                      }
+                    >
                       Simulate Rollout
                     </Button>
-                    <Button size="sm" variant="primary" onClick={() => alert(`Scheduled maintenance at ${maintenanceTime}`)}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() =>
+                        alert(`Scheduled maintenance at ${maintenanceTime}`)
+                      }
+                    >
                       Commit Maintenance Window
                     </Button>
                   </div>

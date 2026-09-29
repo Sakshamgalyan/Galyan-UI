@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Modal } from "./Modal";
+import {
+  Modal,
+  type ModalPosition,
+  type ModalSize,
+  type ModalVariant,
+} from "./Modal";
 import { Button } from "../button/Button";
 import { Input } from "../input/Input";
 import { Textarea } from "../textarea/Textarea";
@@ -17,7 +22,10 @@ import { Banner } from "../banner/Banner";
 import { Stepper, type Step } from "../stepper/Stepper";
 import { FileUpload } from "../fileupload/FileUpload";
 import { Tooltip } from "../tooltip/Tooltip";
-import { DatePicker } from "../datepicker/DatePicker";
+import {
+  DatePicker,
+  type DatePickerValue,
+} from "../datepicker/DatePicker";
 import { TimePicker } from "../timepicker/TimePicker";
 
 const ShieldAlertIcon = () => (
@@ -190,7 +198,12 @@ const ModalDemo = ({
   size = "md",
   position = "center",
   icon,
-}: any) => {
+}: {
+  variant?: ModalVariant;
+  size?: ModalSize;
+  position?: ModalPosition;
+  icon?: React.ReactNode;
+}) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -227,7 +240,7 @@ export const WithHeaderIcon: Story = {
 
 /* ── Story: Modal with Multiple Galyan UI Components ── */
 export const WithMultipleComponents: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [serviceName, setServiceName] = useState("api-gateway-service");
     const [environment, setEnvironment] = useState("production");
@@ -267,7 +280,10 @@ export const WithMultipleComponents: Story = {
     const visibilityOptions: RadioOption[] = [
       { value: "public", label: "Public API Gateway (Internet-facing)" },
       { value: "team", label: "Internal Team (VPC Mesh & VPN Only)" },
-      { value: "private", label: "Restricted (Admin & Invited Service Accounts)" },
+      {
+        value: "private",
+        label: "Restricted (Admin & Invited Service Accounts)",
+      },
     ];
 
     const availableTags = [
@@ -443,7 +459,9 @@ export const WithMultipleComponents: Story = {
                 paddingTop: "1rem",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
                 <Toggle
                   label="Enable Global Edge Caching"
                   checked={edgeCaching}
@@ -452,7 +470,9 @@ export const WithMultipleComponents: Story = {
                 />
                 <Tooltip content="Replicates assets across 300+ edge PoPs for sub-50ms latency" />
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
                 <Toggle
                   label="Enable DDoS Mitigation Shield"
                   checked={ddosProtection}
@@ -515,7 +535,7 @@ export const WithMultipleComponents: Story = {
 
 /* ── Story: Multi-Step Setup Wizard in Modal ── */
 export const MultiStepWizardModal: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [orgName, setOrgName] = useState("Acme Labs Inc.");
@@ -636,9 +656,12 @@ export const MultiStepWizardModal: Story = {
                   onChange={(val) => setRegion(val)}
                 />
                 <Card variant="outlined" padding="sm">
-                  <Typography variant="small" style={{ color: "var(--gy-text-muted)" }}>
-                    💡 Tip: Selecting a region closest to your core team minimizes
-                    latency for build runners and API testing tools.
+                  <Typography
+                    variant="small"
+                    style={{ color: "var(--gy-text-muted)" }}
+                  >
+                    💡 Tip: Selecting a region closest to your core team
+                    minimizes latency for build runners and API testing tools.
                   </Typography>
                 </Card>
               </div>
@@ -770,7 +793,7 @@ export const MultiStepWizardModal: Story = {
 
 /* ── Story: Tabbed Settings Dialog in Modal ── */
 export const TabbedSettingsModal: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("general");
     const [projectName, setProjectName] = useState("samantrix-ui-platform");
@@ -941,7 +964,7 @@ export const TabbedSettingsModal: Story = {
 
 /* ── Story: Asset Upload and Metadata Modal ── */
 export const AssetUploadModal: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [assetTitle, setAssetTitle] = useState("Hero Banner Light");
     const [category, setCategory] = useState("marketing");
@@ -957,8 +980,8 @@ export const AssetUploadModal: Story = {
     const handleUpload = () => {
       setIsUploading(true);
       setProgress(20);
-      const timer1 = setTimeout(() => setProgress(65), 400);
-      const timer2 = setTimeout(() => {
+      setTimeout(() => setProgress(65), 400);
+      setTimeout(() => {
         setProgress(100);
         setIsUploading(false);
         setOpen(false);
@@ -1041,7 +1064,7 @@ export const AssetUploadModal: Story = {
 };
 
 export const PromptFormModal: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [keyName, setKeyName] = useState("");
 
@@ -1081,7 +1104,7 @@ export const PromptFormModal: Story = {
 };
 
 export const DeleteConfirmationWithIcon: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>
@@ -1113,7 +1136,7 @@ export const DeleteConfirmationWithIcon: Story = {
 };
 
 export const SuccessConfirmationWithIcon: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>
@@ -1161,11 +1184,11 @@ export const TopPosition: Story = {
 
 /* ── Story: Schedule Meeting Modal with DatePicker & TimePicker ── */
 export const ScheduleMeetingModal: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState("Product Architecture Review");
     const [room, setRoom] = useState("zoom");
-    const [date, setDate] = useState<any>(new Date());
+    const [date, setDate] = useState<DatePickerValue>(new Date());
     const [startTime, setStartTime] = useState("10:00 AM");
     const [endTime, setEndTime] = useState("11:00 AM");
     const [sendInvites, setSendInvites] = useState(true);
@@ -1215,7 +1238,7 @@ export const ScheduleMeetingModal: Story = {
           confirmText="Send Invites & Confirm"
           onConfirm={() => {
             alert(
-              `Session booked: "${title}" on ${date ? date.toLocaleDateString() : ""} from ${startTime} to ${endTime}`,
+              `Session booked: "${title}" on ${date instanceof Date ? date.toLocaleDateString() : date ? String(date) : ""} from ${startTime} to ${endTime}`,
             );
             setOpen(false);
           }}
@@ -1319,5 +1342,3 @@ export const ScheduleMeetingModal: Story = {
     );
   },
 };
-
-

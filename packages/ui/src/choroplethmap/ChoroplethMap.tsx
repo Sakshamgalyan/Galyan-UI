@@ -1,17 +1,23 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import { Skeleton } from "../skeleton/Skeleton";
-import { WORLD_COUNTRIES, type WorldCountryPath } from "./world-map-data";
+import {
+  WORLD_COUNTRIES,
+  WORLD_GRATICULE_PATH,
+  WORLD_SPHERE_PATH,
+} from "./world-map-data";
 import "./choropleth-map.css";
+import { Typography } from "../typography";
 
 export interface MapRegionItem {
   id: string; // ISO 2 (e.g. "ZA"), ISO 3 (e.g. "ZAF"), or Country Name / State (e.g. "South Africa", "CA")
   name?: string;
   value?: number;
   color?: string; // Custom fill color override for this country
+  iso3?: string; // Optional ISO 3 code used as an extra lookup key
   tooltip?: React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export type MapVariant = "world" | "tiles";
@@ -21,8 +27,20 @@ export interface ChoroplethMapProps {
   data?: MapRegionItem[];
   selectedRegion?: string | null;
   defaultSelectedRegion?: string | null;
-  onRegionClick?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => void;
-  onRegionHover?: (region: { id: string; name: string; value?: number; item?: MapRegionItem } | null) => void;
+  onRegionClick?: (region: {
+    id: string;
+    name: string;
+    value?: number;
+    item?: MapRegionItem;
+  }) => void;
+  onRegionHover?: (
+    region: {
+      id: string;
+      name: string;
+      value?: number;
+      item?: MapRegionItem;
+    } | null,
+  ) => void;
   height?: number | string;
   width?: number | string;
   baseColor?: string;
@@ -34,9 +52,17 @@ export interface ChoroplethMapProps {
   allowPan?: boolean;
   loading?: boolean;
   className?: string;
+  showGraticule?: boolean;
+  showBeacons?: boolean;
+  animate?: boolean;
   tooltipConfig?: {
     show?: boolean;
-    formatter?: (region: { id: string; name: string; value?: number; item?: MapRegionItem }) => React.ReactNode;
+    formatter?: (region: {
+      id: string;
+      name: string;
+      value?: number;
+      item?: MapRegionItem;
+    }) => React.ReactNode;
   };
 }
 
@@ -107,23 +133,27 @@ export function ChoroplethMap({
   defaultSelectedRegion,
   onRegionClick,
   onRegionHover,
-  height = 420,
+  height = 480,
   width = "100%",
-  baseColor = "var(--gy-map-base, #ffffff)",
-  borderColor = "var(--gy-map-border, #e2e8f0)",
-  activeColor = "var(--gy-map-active, #dbeafe)",
+  baseColor = "var(--gy-map-base, #f8fafc)",
+  borderColor = "var(--gy-map-border, #cbd5e1)",
+  activeColor = "var(--gy-map-active, #c7d2fe)",
   highlightColor = "var(--gy-map-highlight, #4338ca)",
   colorScale,
   showZoomControls = true,
   allowPan = true,
   loading = false,
   className = "",
+  showGraticule = true,
+  showBeacons = true,
+  animate = true,
   tooltipConfig = { show: true },
 }: ChoroplethMapProps) {
   const [internalSelected, setInternalSelected] = useState<string | null>(
-    defaultSelectedRegion ?? null
+    defaultSelectedRegion ?? null,
   );
-  const activeSelected = selectedRegion !== undefined ? selectedRegion : internalSelected;
+  const activeSelected =
+    selectedRegion !== undefined ? selectedRegion : internalSelected;
 
   const [hoveredRegion, setHoveredRegion] = useState<{
     id: string;
@@ -142,7 +172,7 @@ export function ChoroplethMap({
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
 
-  // Map index for fast ID/ISO lookup
+  // Map index for fast ID/ISO/Name lookup
   const dataLookup = useMemo(() => {
     const map = new Map<string, MapRegionItem>();
     data.forEach((item) => {
@@ -154,14 +184,16 @@ export function ChoroplethMap({
   }, [data]);
 
   // Compute min/max values for color scale
-  const { minVal, maxVal } = useMemo(() => {
+  const { minVal, maxVal, totalVal } = useMemo(() => {
     const numericVals = data
       .map((d) => d.value)
       .filter((v): v is number => typeof v === "number" && !isNaN(v));
-    if (numericVals.length === 0) return { minVal: 0, maxVal: 100 };
+    if (numericVals.length === 0)
+      return { minVal: 0, maxVal: 100, totalVal: 0 };
     return {
       minVal: Math.min(...numericVals),
       maxVal: Math.max(...numericVals, 1),
+      totalVal: numericVals.reduce((a, b) => a + b, 0),
     };
   }, [data]);
 
@@ -176,30 +208,42 @@ export function ChoroplethMap({
       if (item.color) {
         return item.color;
       }
-      if (colorScale && colorScale.length > 0 && typeof item.value === "number") {
+      if (
+        colorScale &&
+        colorScale.length > 0 &&
+        typeof item.value === "number"
+      ) {
         const range = maxVal - minVal || 1;
-        const fraction = Math.max(0, Math.min(1, (item.value - minVal) / range));
+        const fraction = Math.max(
+          0,
+          Math.min(1, (item.value - minVal) / range),
+        );
         const index = Math.min(
           Math.floor(fraction * colorScale.length),
-          colorScale.length - 1
+          colorScale.length - 1,
         );
         return colorScale[index];
       }
       return activeColor;
     },
-    [baseColor, activeColor, highlightColor, colorScale, minVal, maxVal]
+    [baseColor, activeColor, highlightColor, colorScale, minVal, maxVal],
   );
 
   const handleZoomIn = () => {
-    setZoom((prev) => Math.min(prev + 0.5, 4));
+    setZoom((prev) => Math.min(Number((prev + 0.5).toFixed(1)), 4));
   };
 
   const handleZoomOut = () => {
     setZoom((prev) => {
-      const next = Math.max(prev - 0.5, 1);
+      const next = Math.max(Number((prev - 0.5).toFixed(1)), 1);
       if (next === 1) setPan({ x: 0, y: 0 });
       return next;
     });
+  };
+
+  const handleZoomReset = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -230,9 +274,8 @@ export function ChoroplethMap({
   };
 
   const handleCountryHover = (
-    country: WorldCountryPath,
+    country: { id: string; name: string },
     item: MapRegionItem | undefined,
-    e: React.MouseEvent
   ) => {
     const regionObj = {
       id: country.id,
@@ -250,8 +293,8 @@ export function ChoroplethMap({
   };
 
   const handleCountryClick = (
-    country: WorldCountryPath,
-    item: MapRegionItem | undefined
+    country: { id: string; name: string },
+    item: MapRegionItem | undefined,
   ) => {
     const nextId = activeSelected === country.id ? null : country.id;
     setInternalSelected(nextId);
@@ -263,14 +306,31 @@ export function ChoroplethMap({
     });
   };
 
-  const isSelected = (id: string, iso3?: string, name?: string): boolean => {
-    if (!activeSelected) return false;
-    const s = activeSelected.toUpperCase();
-    if (id.toUpperCase() === s) return true;
-    if (iso3 && iso3.toUpperCase() === s) return true;
-    if (name && name.toLowerCase() === activeSelected.toLowerCase()) return true;
-    return false;
-  };
+  const isSelected = useCallback(
+    (id: string, iso3?: string, name?: string): boolean => {
+      if (!activeSelected) return false;
+      const s = activeSelected.toUpperCase();
+      if (id.toUpperCase() === s) return true;
+      if (iso3 && iso3.toUpperCase() === s) return true;
+      if (name && name.toLowerCase() === activeSelected.toLowerCase())
+        return true;
+      return false;
+    },
+    [activeSelected],
+  );
+
+  // Identify active beacon countries (regions with data or selected)
+  const beaconCountries = useMemo(() => {
+    if (!showBeacons || variant !== "world") return [];
+    return WORLD_COUNTRIES.filter((country) => {
+      const item =
+        dataLookup.get(country.id.toUpperCase()) ??
+        dataLookup.get(country.iso3.toUpperCase()) ??
+        dataLookup.get(country.name.toLowerCase());
+      const highlighted = isSelected(country.id, country.iso3, country.name);
+      return (item && item.value !== undefined) || highlighted;
+    });
+  }, [showBeacons, variant, dataLookup, isSelected]);
 
   if (loading) {
     return (
@@ -295,8 +355,10 @@ export function ChoroplethMap({
     <div
       ref={containerRef}
       className={`gy-choropleth-wrapper ${
-        variant === "world" ? "gy-choropleth-wrapper--world" : "gy-choropleth-wrapper--tiles"
-      } ${className}`}
+        variant === "world"
+          ? "gy-choropleth-wrapper--world"
+          : "gy-choropleth-wrapper--tiles"
+      } ${animate ? "gy-choropleth-wrapper--animated" : ""} ${className}`}
       style={{
         width: typeof width === "number" ? `${width}px` : width,
         height: typeof height === "number" ? `${height}px` : height,
@@ -312,7 +374,9 @@ export function ChoroplethMap({
         <div
           className="gy-choropleth-svg-container"
           onMouseDown={handleMouseDown}
-          style={{ cursor: zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default" }}
+          style={{
+            cursor: zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default",
+          }}
         >
           <svg
             ref={svgRef}
@@ -321,16 +385,47 @@ export function ChoroplethMap({
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
               transformOrigin: "center center",
-              transition: isDragging ? "none" : "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+              transition: isDragging
+                ? "none"
+                : "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           >
+            <defs>
+              <filter
+                id="gy-map-glow"
+                x="-20%"
+                y="-20%"
+                width="140%"
+                height="140%"
+              >
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            {/* Globe Sphere Boundary */}
+            <path d={WORLD_SPHERE_PATH} className="gy-choropleth-sphere" />
+
+            {/* Geographic Graticule Grid Lines */}
+            {showGraticule && (
+              <path
+                d={WORLD_GRATICULE_PATH}
+                className="gy-choropleth-graticule"
+              />
+            )}
+
+            {/* Real World Country Vector Paths (d3-geo Natural Earth Projection) */}
             <g className="gy-choropleth-countries">
-              {WORLD_COUNTRIES.map((country) => {
+              {WORLD_COUNTRIES.map((country, idx) => {
                 const item =
                   dataLookup.get(country.id.toUpperCase()) ??
                   dataLookup.get(country.iso3.toUpperCase()) ??
                   dataLookup.get(country.name.toLowerCase());
-                const highlighted = isSelected(country.id, country.iso3, country.name);
+                const highlighted = isSelected(
+                  country.id,
+                  country.iso3,
+                  country.name,
+                );
                 const fillColor = getColorForValue(item, highlighted);
                 const isHovered = hoveredRegion?.id === country.id;
 
@@ -344,17 +439,69 @@ export function ChoroplethMap({
                     } ${item ? "gy-choropleth-country--active" : ""} ${
                       isHovered ? "gy-choropleth-country--hovered" : ""
                     }`}
+                    style={{
+                      animationDelay: animate
+                        ? `${(idx % 25) * 15}ms`
+                        : undefined,
+                    }}
                     fill={fillColor}
                     stroke={highlighted ? highlightColor : borderColor}
-                    strokeWidth={highlighted ? "1.5" : "0.75"}
+                    strokeWidth={highlighted ? "1.75" : "0.6"}
                     strokeLinejoin="round"
-                    onMouseEnter={(e) => handleCountryHover(country, item, e)}
+                    onMouseEnter={() => handleCountryHover(country, item)}
                     onMouseLeave={handleCountryLeave}
                     onClick={() => handleCountryClick(country, item)}
                   />
                 );
               })}
             </g>
+
+            {/* Animated Pulsing Radar Beacons on Active Data Points */}
+            {showBeacons && (
+              <g className="gy-choropleth-beacons">
+                {beaconCountries.map((c) => {
+                  const [cx, cy] = c.centroid;
+                  if (isNaN(cx) || isNaN(cy)) return null;
+                  const highlighted = isSelected(c.id, c.iso3, c.name);
+                  const beaconColor = highlighted
+                    ? highlightColor
+                    : activeColor;
+
+                  return (
+                    <g
+                      key={`beacon-${c.id}`}
+                      className={`gy-choropleth-beacon ${
+                        highlighted ? "gy-choropleth-beacon--selected" : ""
+                      }`}
+                      transform={`translate(${cx}, ${cy})`}
+                      onClick={() => {
+                        const item =
+                          dataLookup.get(c.id.toUpperCase()) ??
+                          dataLookup.get(c.iso3.toUpperCase()) ??
+                          dataLookup.get(c.name.toLowerCase());
+                        handleCountryClick(c, item);
+                      }}
+                    >
+                      <circle
+                        className="gy-choropleth-beacon-ring"
+                        r="6"
+                        stroke={beaconColor}
+                      />
+                      <circle
+                        className="gy-choropleth-beacon-ring gy-choropleth-beacon-ring--delay"
+                        r="12"
+                        stroke={beaconColor}
+                      />
+                      <circle
+                        className="gy-choropleth-beacon-dot"
+                        r="3.5"
+                        fill={beaconColor}
+                      />
+                    </g>
+                  );
+                })}
+              </g>
+            )}
           </svg>
         </div>
       ) : (
@@ -371,41 +518,49 @@ export function ChoroplethMap({
                 key={state.id}
                 className={`gy-choropleth-tile ${
                   highlighted ? "gy-choropleth-tile--selected" : ""
-                }`}
+                } ${hasValue ? "gy-choropleth-tile--active" : ""}`}
                 style={{
                   gridRow: state.row + 1,
                   gridColumn: state.col + 1,
                   backgroundColor: bg,
                 }}
-                onMouseEnter={(e) =>
+                onMouseEnter={() =>
                   handleCountryHover(
-                    { id: state.id, iso3: state.id, name: state.name, path: "" },
+                    {
+                      id: state.id,
+                      name: state.name,
+                    },
                     item,
-                    e
                   )
                 }
                 onMouseLeave={handleCountryLeave}
                 onClick={() =>
                   handleCountryClick(
-                    { id: state.id, iso3: state.id, name: state.name, path: "" },
-                    item
+                    {
+                      id: state.id,
+                      name: state.name,
+                    },
+                    item,
                   )
                 }
               >
-                <span
+                <Typography
+                  variant="span"
                   className={`gy-choropleth-tile-text ${
-                    hasValue || highlighted ? "gy-choropleth-tile-text--active" : ""
+                    hasValue || highlighted
+                      ? "gy-choropleth-tile-text--active"
+                      : ""
                   }`}
                 >
                   {state.id}
-                </span>
+                </Typography>
               </div>
             );
           })}
         </div>
       )}
 
-      {/* Floating Zoom Controls (Bottom Right) matching screenshot */}
+      {/* Floating Animated Zoom Controls (Bottom Right) */}
       {showZoomControls && variant === "world" && (
         <div className="gy-choropleth-zoom-controls">
           <button
@@ -415,7 +570,15 @@ export function ChoroplethMap({
             title="Zoom In"
             aria-label="Zoom in"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -429,14 +592,48 @@ export function ChoroplethMap({
             title="Zoom Out"
             aria-label="Zoom out"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
           </button>
+          {zoom > 1 && (
+            <>
+              <div className="gy-choropleth-zoom-divider" />
+              <button
+                type="button"
+                className="gy-choropleth-zoom-btn gy-choropleth-zoom-btn--reset"
+                onClick={handleZoomReset}
+                title="Reset View"
+                aria-label="Reset zoom and pan"
+              >
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
       )}
 
-      {/* Interactive Floating Hover Tooltip */}
+      {/* Interactive Floating Hover Tooltip with Animation */}
       {tooltipConfig?.show !== false && hoveredRegion && (
         <div
           className="gy-choropleth-tooltip"
@@ -449,13 +646,32 @@ export function ChoroplethMap({
             tooltipConfig.formatter(hoveredRegion)
           ) : (
             <>
-              <div className="gy-choropleth-tooltip-title">
-                {hoveredRegion.name} ({hoveredRegion.id})
+              <div className="gy-choropleth-tooltip-header">
+                <span className="gy-choropleth-tooltip-badge">
+                  {hoveredRegion.id}
+                </span>
+                <Typography
+                  variant="span"
+                  className="gy-choropleth-tooltip-title"
+                >
+                  {hoveredRegion.name}
+                </Typography>
               </div>
               {hoveredRegion.value !== undefined && (
-                <div className="gy-choropleth-tooltip-value">
-                  {hoveredRegion.value.toLocaleString()}{" "}
-                  {typeof hoveredRegion.value === "number" && hoveredRegion.value <= 100 ? "%" : ""}
+                <div className="gy-choropleth-tooltip-body">
+                  <div className="gy-choropleth-tooltip-value">
+                    {hoveredRegion.value.toLocaleString()}
+                    {typeof hoveredRegion.value === "number" &&
+                    hoveredRegion.value <= 100
+                      ? "%"
+                      : ""}
+                  </div>
+                  {totalVal > 0 && typeof hoveredRegion.value === "number" && (
+                    <span className="gy-choropleth-tooltip-share">
+                      {((hoveredRegion.value / totalVal) * 100).toFixed(1)}%
+                      share
+                    </span>
+                  )}
                 </div>
               )}
             </>

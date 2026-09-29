@@ -1,3 +1,12 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Unbounded:wght@200..900&display=swap");
+
+/* ── Galyan UI Global Font ────────────────────────────────────────────────── */
+[class*="gy-"] {
+  font-family:
+    "DM Sans", var(--gy-font-sans, system-ui, -apple-system, sans-serif);
+}
+
 /* ── Galyan UI Global Scrollbar Normalization ────────────────────────────────── */
 /* Hide default scrollbars across all Galyan UI components for clean aesthetics while preserving smooth scrolling */
 [class*="gy-"],

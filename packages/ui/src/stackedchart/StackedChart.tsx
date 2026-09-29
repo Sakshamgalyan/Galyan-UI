@@ -24,7 +24,7 @@ export interface StackedChartSeries {
 }
 
 export interface StackedChartProps {
-  data: any[];
+  data: object[];
   series: StackedChartSeries[];
   xAxisKey: string;
   variant?: "bar" | "area";

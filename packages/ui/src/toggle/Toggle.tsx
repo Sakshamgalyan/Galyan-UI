@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from "react";
 import "./toggle.css";
+import { Typography } from "../typography";
 
 export interface ToggleProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -126,7 +127,11 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
             </div>
           </div>
         </div>
-        {label && <span className="gy-toggle__label">{label}</span>}
+        {label && (
+          <Typography variant="span" className="gy-toggle__label">
+            {label}
+          </Typography>
+        )}
       </label>
     );
   },

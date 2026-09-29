@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Chart } from "./Chart";
 
@@ -129,4 +128,3 @@ export const RegionChartStory: Story = {
     showZoomControls: true,
   },
 };
-

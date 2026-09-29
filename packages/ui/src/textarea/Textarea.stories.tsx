@@ -245,7 +245,7 @@ export const RequiredField: Story = {
 };
 
 export const CharCounter: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState(
       "Galyan UI is an advanced enterprise design system crafted with precision.",
     );
@@ -271,7 +271,7 @@ export const CharCounter: Story = {
 };
 
 export const AutoResize: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState(
       "Line 1: Auto-resize automatically adjusts height based on content.\nLine 2: Type additional lines or press Enter...\nLine 3: Notice how the height expands smoothly without scrollbars.",
     );
@@ -330,7 +330,7 @@ export const SuccessState: Story = {
 };
 
 export const FilledVariant: Story = {
-  render: () => {
+  render: function Render() {
     const [val, setVal] = useState("");
     return (
       <Textarea

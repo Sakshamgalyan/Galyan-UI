@@ -167,7 +167,7 @@ export const CustomStyling: Story = {
         Custom Blue Text with Sky Blue Background
       </Typography>
       <Typography variant="p" as="div" weight="semibold" textColor="#10b981">
-        Rendered as HTML &lt;div&gt; element via <code>as="div"</code>
+        Rendered as HTML &lt;div&gt; element via <code>as=&quot;div&quot;</code>
       </Typography>
     </div>
   ),

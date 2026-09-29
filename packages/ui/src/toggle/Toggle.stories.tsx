@@ -38,7 +38,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Wrapper for interactive states in Storybook
-const InteractiveToggle = (args: any) => {
+const InteractiveToggle = (args: React.ComponentProps<typeof Toggle>) => {
   const [checked, setChecked] = useState(args.checked || false);
   return (
     <Toggle
@@ -58,27 +58,40 @@ export const Default: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => {
+  render: function Render() {
     const [states, setStates] = useState({ sm: true, md: true, lg: true });
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", alignItems: "flex-start" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.25rem",
+          alignItems: "flex-start",
+        }}
+      >
         <Toggle
           size="sm"
           label="Small toggle (sm)"
           checked={states.sm}
-          onChange={(e) => setStates((prev) => ({ ...prev, sm: e.target.checked }))}
+          onChange={(e) =>
+            setStates((prev) => ({ ...prev, sm: e.target.checked }))
+          }
         />
         <Toggle
           size="md"
           label="Medium toggle (md - default)"
           checked={states.md}
-          onChange={(e) => setStates((prev) => ({ ...prev, md: e.target.checked }))}
+          onChange={(e) =>
+            setStates((prev) => ({ ...prev, md: e.target.checked }))
+          }
         />
         <Toggle
           size="lg"
           label="Large toggle (lg)"
           checked={states.lg}
-          onChange={(e) => setStates((prev) => ({ ...prev, lg: e.target.checked }))}
+          onChange={(e) =>
+            setStates((prev) => ({ ...prev, lg: e.target.checked }))
+          }
         />
       </div>
     );

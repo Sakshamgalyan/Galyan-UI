@@ -337,7 +337,8 @@ export const WithPortal: Story = {
           color: "var(--gy-text-muted, #64748b)",
         }}
       >
-        Portal is enabled by default to ensure tooltips render smoothly above modals, dialogs, and tables.
+        Portal is enabled by default to ensure tooltips render smoothly above
+        modals, dialogs, and tables.
       </div>
     </div>
   ),
@@ -384,7 +385,9 @@ export const TriggerTypes: Story = {
           maxWidth: 500,
         }}
       >
-        Hover tooltips appear on mouse enter/leave. Click tooltips toggle on click and close on outside click or Escape. Both mode supports all interactions.
+        Hover tooltips appear on mouse enter/leave. Click tooltips toggle on
+        click and close on outside click or Escape. Both mode supports all
+        interactions.
       </div>
     </div>
   ),
@@ -461,11 +464,31 @@ export const LongContent: Story = {
           padding: "2rem",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
-          <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "1rem",
+              fontWeight: 600,
+              color: "var(--gy-text)",
+            }}
+          >
             Long Content with Different Max Widths
           </div>
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 24,
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
             <Tooltip
               content={longText}
               linebreak={true}
@@ -495,11 +518,31 @@ export const LongContent: Story = {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
-          <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "1rem",
+              fontWeight: 600,
+              color: "var(--gy-text)",
+            }}
+          >
             Very Long Content with Linebreak (Top & Bottom)
           </div>
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 24,
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
             <Tooltip
               content={veryLongText}
               linebreak={true}
@@ -520,8 +563,21 @@ export const LongContent: Story = {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
-          <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "1rem",
+              fontWeight: 600,
+              color: "var(--gy-text)",
+            }}
+          >
             Long Content with Rich Formatting
           </div>
           <Tooltip
@@ -530,16 +586,20 @@ export const LongContent: Story = {
                 <div style={{ fontWeight: 600, marginBottom: "8px" }}>
                   Detailed Feature Description
                 </div>
-                <div style={{ fontSize: "13px", lineHeight: "1.5" }}>{longText}</div>
+                <div style={{ fontSize: "13px", lineHeight: "1.5" }}>
+                  {longText}
+                </div>
                 <div
                   style={{
                     marginTop: "12px",
                     paddingTop: "12px",
-                    borderTop: "1px solid var(--gy-border, rgba(255,255,255,0.2))",
+                    borderTop:
+                      "1px solid var(--gy-border, rgba(255,255,255,0.2))",
                     fontSize: "12px",
                   }}
                 >
-                  <strong>Note:</strong> This tooltip demonstrates how long content with formatting can be displayed effectively.
+                  <strong>Note:</strong> This tooltip demonstrates how long
+                  content with formatting can be displayed effectively.
                 </div>
               </div>
             }

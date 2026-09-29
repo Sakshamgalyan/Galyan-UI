@@ -34,11 +34,21 @@
 }
 
 /* ── Radius Variants ─────────────────────────────────────────────────────── */
-.gy-chip--radius-none { border-radius: 0; }
-.gy-chip--radius-sm   { border-radius: var(--gy-radius-sm, 0.25rem); }
-.gy-chip--radius-md   { border-radius: var(--gy-radius-md, 0.375rem); }
-.gy-chip--radius-lg   { border-radius: var(--gy-radius-lg, 0.5rem); }
-.gy-chip--radius-full { border-radius: var(--gy-radius-full, 9999px); }
+.gy-chip--radius-none {
+  border-radius: 0;
+}
+.gy-chip--radius-sm {
+  border-radius: var(--gy-radius-sm, 0.25rem);
+}
+.gy-chip--radius-md {
+  border-radius: var(--gy-radius-md, 0.375rem);
+}
+.gy-chip--radius-lg {
+  border-radius: var(--gy-radius-lg, 0.5rem);
+}
+.gy-chip--radius-full {
+  border-radius: var(--gy-radius-full, 9999px);
+}
 
 /* ── Variants ─────────────────────────────────────────────────────────────── */
 .gy-chip--solid {
@@ -102,7 +112,8 @@
   background: var(--gy-primary) !important;
   color: var(--gy-primary-fg, #ffffff) !important;
   border-color: transparent !important;
-  box-shadow: 0 2px 5px -1px color-mix(in srgb, var(--gy-primary) 40%, transparent);
+  box-shadow: 0 2px 5px -1px
+    color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 /* ── Remove Button ───────────────────────────────────────────────────────── */
