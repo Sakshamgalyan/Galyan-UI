@@ -14,7 +14,7 @@ const rawBumpType = (positional[0] || "").toLowerCase();
 const isDryRun = flags.has("--dry-run");
 const skipBuild = flags.has("--no-build");
 const skipGit = flags.has("--no-git-commit") || flags.has("--no-git");
-const skipChromatic = flags.has("--no-chromatic");
+const withStorybook = flags.has("--with-storybook");
 const skipAuthCheck =
   flags.has("--skip-auth") || flags.has("--skip-auth-check") || isDryRun;
 
@@ -71,6 +71,7 @@ if (flags.has("--help") || flags.has("-h")) {
   pnpm publish:minor               \x1b[90m# Bump minor (1.0.4 -> 1.1.0) & publish to NPM\x1b[0m
   pnpm publish:major               \x1b[90m# Bump major (1.0.4 -> 2.0.0) & publish to NPM\x1b[0m
   pnpm publish:test                \x1b[90m# Publish snapshot test version with @test tag\x1b[0m
+  pnpm publish:all [bump]          \x1b[90m# Release to NPM, then publish Storybook to Chromatic\x1b[0m
 
 \x1b[33mOptions:\x1b[0m
   --dry-run                        \x1b[90m# Simulate versioning & build without uploading to NPM\x1b[0m
@@ -80,7 +81,7 @@ if (flags.has("--help") || flags.has("-h")) {
   --no-git-commit                  \x1b[90m# Skip automatic git commit and git push\x1b[0m
   --no-build                       \x1b[90m# Skip pre-flight build\x1b[0m
   --skip-auth                      \x1b[90m# Skip npm whoami authentication verification\x1b[0m
-  --no-chromatic                   \x1b[90m# Skip publishing Storybook to Chromatic after release\x1b[0m
+  --with-storybook                 \x1b[90m# Also publish Storybook to Chromatic (what publish:all does)\x1b[0m
 `);
   process.exit(0);
 }
@@ -154,6 +155,7 @@ if (!resolvedBumpType) {
   pnpm publish:minor               \x1b[90m# Bump minor (1.0.4 -> 1.1.0) & publish to NPM\x1b[0m
   pnpm publish:major               \x1b[90m# Bump major (1.0.4 -> 2.0.0) & publish to NPM\x1b[0m
   pnpm publish:test                \x1b[90m# Publish snapshot test version with @test tag\x1b[0m
+  pnpm publish:all [bump]          \x1b[90m# Release to NPM, then publish Storybook to Chromatic\x1b[0m
 
 \x1b[33mOptions:\x1b[0m
   --dry-run                        \x1b[90m# Simulate versioning & build without uploading to NPM\x1b[0m
@@ -163,7 +165,7 @@ if (!resolvedBumpType) {
   --no-git-commit                  \x1b[90m# Skip automatic git commit and git push\x1b[0m
   --no-build                       \x1b[90m# Skip pre-flight build\x1b[0m
   --skip-auth                      \x1b[90m# Skip npm whoami authentication verification\x1b[0m
-  --no-chromatic                   \x1b[90m# Skip publishing Storybook to Chromatic after release\x1b[0m
+  --with-storybook                 \x1b[90m# Also publish Storybook to Chromatic (what publish:all does)\x1b[0m
 `);
   process.exit(1);
 }
@@ -227,36 +229,21 @@ function checkNpmAuth() {
 }
 
 // ── Publish Storybook to Chromatic ───────────────────────────────────────────
-// Runs after a successful NPM release. The Chromatic CLI reads
-// CHROMATIC_PROJECT_TOKEN from the environment; a failure here never fails the
-// release itself, since the packages are already on NPM.
-function publishChromatic() {
-  if (skipChromatic) {
-    console.log(
-      "\n\x1b[90mSkipping Chromatic publish (--no-chromatic flag set)\x1b[0m",
-    );
-    return;
-  }
-  if (!process.env.CHROMATIC_PROJECT_TOKEN) {
-    console.log(
-      "\n\x1b[33m⚠ CHROMATIC_PROJECT_TOKEN is not set. Skipping Chromatic publish.\x1b[0m",
-    );
-    console.log(
-      "\x1b[90mSet it and run `pnpm chromatic` to publish Storybook manually.\x1b[0m",
-    );
-    return;
-  }
-  console.log("\n\x1b[1mPublishing Storybook to Chromatic...\x1b[0m");
+// With --with-storybook (pnpm publish:all), runs scripts/publish-storybook.mjs
+// after the NPM release. Packages were just built for the release, so they are
+// not rebuilt. Returns false if the Storybook publish failed.
+function publishStorybook() {
+  if (!withStorybook) return true;
+  let cmd = "node scripts/publish-storybook.mjs --no-build";
+  if (isDryRun) cmd += " --dry-run";
   try {
-    run(
-      "pnpm --filter storybook exec chromatic --config-file chromatic.config.json --auto-accept-changes",
-      { throwOnError: true },
-    );
-    console.log("\x1b[32m✔ Storybook published to Chromatic.\x1b[0m");
+    run(cmd, { throwOnError: true });
+    return true;
   } catch {
     console.error(
-      "\x1b[31m❌ Chromatic publish failed. The NPM release is unaffected; retry with `pnpm chromatic`.\x1b[0m",
+      "\x1b[31m❌ Storybook publish did not complete. The NPM release is unaffected; retry with `pnpm publish:storybook`.\x1b[0m",
     );
+    return false;
   }
 }
 
@@ -300,6 +287,17 @@ publicPackages.forEach((p) =>
 
 // Verify auth upfront before performing builds or bumping versions
 checkNpmAuth();
+
+if (withStorybook) {
+  if (bumpType === "test" || bumpType === "beta") {
+    console.log(
+      "\x1b[33m⚠ Storybook is only published with production releases. Skipping it for this snapshot.\x1b[0m",
+    );
+  } else if (!isDryRun) {
+    // Fail before anything reaches NPM if Chromatic can't be published to.
+    run("node scripts/publish-storybook.mjs --check");
+  }
+}
 
 // ── Pre-flight Checks ────────────────────────────────────────────────────────
 console.log("\n\x1b[1m[1/4] Running Type Check on packages...\x1b[0m");
@@ -452,6 +450,7 @@ ${releaseNote}
       "\x1b[90mReverting package.json and CHANGELOG.md changes because --dry-run was specified...\x1b[0m",
     );
     runQuiet("git checkout packages/*/package.json packages/*/CHANGELOG.md");
+    if (!publishStorybook()) process.exit(1);
   } else {
     try {
       console.log("\n\x1b[1mPublishing to NPM registry...\x1b[0m");
@@ -495,10 +494,11 @@ ${releaseNote}
       }
     }
 
-    publishChromatic();
+    const storybookOk = publishStorybook();
 
     console.log(
-      `\n\x1b[32m\x1b[1m🎉 Successfully published ${bumpType.toUpperCase()} release to NPM!\x1b[0m\n`,
+      `\n\x1b[32m\x1b[1m🎉 Successfully published ${bumpType.toUpperCase()} release to NPM${withStorybook && storybookOk ? " and Storybook to Chromatic" : ""}!\x1b[0m\n`,
     );
+    if (!storybookOk) process.exit(1);
   }
 }
