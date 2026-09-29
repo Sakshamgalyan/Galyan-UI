@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.7
+
+### Patch Changes
+
+- Release update (patch):
+  - 15b001c feat(ui): add comprehensive UI component library with styles and stories
+  - b8bb46f Fix: add animation and listitemgroup
+  - 9571ba7 feat: timepicker and optimize
+  - a2fe7aa chore(release): v1.0.6
+  - af55ccd fix: calender
+
 ## 1.0.6
 
 ### Patch Changes
