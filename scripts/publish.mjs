@@ -14,6 +14,7 @@ const rawBumpType = (positional[0] || "").toLowerCase();
 const isDryRun = flags.has("--dry-run");
 const skipBuild = flags.has("--no-build");
 const skipGit = flags.has("--no-git-commit") || flags.has("--no-git");
+const skipChromatic = flags.has("--no-chromatic");
 const skipAuthCheck =
   flags.has("--skip-auth") || flags.has("--skip-auth-check") || isDryRun;
 
@@ -79,6 +80,7 @@ if (flags.has("--help") || flags.has("-h")) {
   --no-git-commit                  \x1b[90m# Skip automatic git commit and git push\x1b[0m
   --no-build                       \x1b[90m# Skip pre-flight build\x1b[0m
   --skip-auth                      \x1b[90m# Skip npm whoami authentication verification\x1b[0m
+  --no-chromatic                   \x1b[90m# Skip publishing Storybook to Chromatic after release\x1b[0m
 `);
   process.exit(0);
 }
@@ -161,6 +163,7 @@ if (!resolvedBumpType) {
   --no-git-commit                  \x1b[90m# Skip automatic git commit and git push\x1b[0m
   --no-build                       \x1b[90m# Skip pre-flight build\x1b[0m
   --skip-auth                      \x1b[90m# Skip npm whoami authentication verification\x1b[0m
+  --no-chromatic                   \x1b[90m# Skip publishing Storybook to Chromatic after release\x1b[0m
 `);
   process.exit(1);
 }
@@ -220,6 +223,40 @@ function checkNpmAuth() {
       `\x1b[90m(Tip: To test building and versioning without publishing to NPM, use: pnpm run publish --dry-run)\x1b[0m\n`,
     );
     process.exit(1);
+  }
+}
+
+// ── Publish Storybook to Chromatic ───────────────────────────────────────────
+// Runs after a successful NPM release. The Chromatic CLI reads
+// CHROMATIC_PROJECT_TOKEN from the environment; a failure here never fails the
+// release itself, since the packages are already on NPM.
+function publishChromatic() {
+  if (skipChromatic) {
+    console.log(
+      "\n\x1b[90mSkipping Chromatic publish (--no-chromatic flag set)\x1b[0m",
+    );
+    return;
+  }
+  if (!process.env.CHROMATIC_PROJECT_TOKEN) {
+    console.log(
+      "\n\x1b[33m⚠ CHROMATIC_PROJECT_TOKEN is not set. Skipping Chromatic publish.\x1b[0m",
+    );
+    console.log(
+      "\x1b[90mSet it and run `pnpm chromatic` to publish Storybook manually.\x1b[0m",
+    );
+    return;
+  }
+  console.log("\n\x1b[1mPublishing Storybook to Chromatic...\x1b[0m");
+  try {
+    run(
+      "pnpm --filter storybook exec chromatic --config-file chromatic.config.json --auto-accept-changes",
+      { throwOnError: true },
+    );
+    console.log("\x1b[32m✔ Storybook published to Chromatic.\x1b[0m");
+  } catch {
+    console.error(
+      "\x1b[31m❌ Chromatic publish failed. The NPM release is unaffected; retry with `pnpm chromatic`.\x1b[0m",
+    );
   }
 }
 
@@ -457,6 +494,8 @@ ${releaseNote}
         );
       }
     }
+
+    publishChromatic();
 
     console.log(
       `\n\x1b[32m\x1b[1m🎉 Successfully published ${bumpType.toUpperCase()} release to NPM!\x1b[0m\n`,

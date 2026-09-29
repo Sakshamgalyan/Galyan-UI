@@ -85,24 +85,24 @@ Additional CSS entry points: `@galyan/theme/css/reset` and `@galyan/theme/css/fo
 
 ## 🛠️ CLI Commands
 
-| Command                | Description                                                                       |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `pnpm storybook`       | Starts the Storybook development server on port 6006                              |
-| `pnpm build-storybook` | Builds the static Storybook site                                                  |
-| `pnpm chromatic`       | Publishes Storybook to Chromatic for visual testing                               |
-| `pnpm dev`             | Runs `dev` tasks across the workspace via Turborepo                               |
-| `pnpm build`           | Builds all packages (`@galyan/theme`, `@galyan/ui`) and apps in dependency order  |
-| `pnpm check-types`     | Runs TypeScript type checking (`tsc --noEmit`) across the entire workspace        |
-| `pnpm lint`            | Runs ESLint across all apps and packages                                          |
-| `pnpm format`          | Formats the whole repo with Prettier                                              |
-| `pnpm format:check`    | Checks formatting with Prettier without writing changes                           |
-| `pnpm changeset`       | Creates a manual changeset for `@galyan/ui` or `@galyan/theme`                    |
-| `pnpm publish`         | Interactive release: prompts for the bump type, then versions and publishes       |
-| `pnpm publish:patch`   | Bumps patch version (e.g. `1.0.6` ➔ `1.0.7`) and publishes to NPM                 |
-| `pnpm publish:minor`   | Bumps minor version (e.g. `1.0.6` ➔ `1.1.0`) and publishes to NPM                 |
-| `pnpm publish:major`   | Bumps major version (e.g. `1.0.6` ➔ `2.0.0`) and publishes to NPM                 |
-| `pnpm publish:test`    | Publishes a snapshot test version under the `test` dist-tag                       |
-| `pnpm release`         | Alias for `pnpm publish`                                                          |
+| Command                | Description                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| `pnpm storybook`       | Starts the Storybook development server on port 6006                             |
+| `pnpm build-storybook` | Builds the static Storybook site                                                 |
+| `pnpm chromatic`       | Publishes Storybook to Chromatic for visual testing                              |
+| `pnpm dev`             | Runs `dev` tasks across the workspace via Turborepo                              |
+| `pnpm build`           | Builds all packages (`@galyan/theme`, `@galyan/ui`) and apps in dependency order |
+| `pnpm check-types`     | Runs TypeScript type checking (`tsc --noEmit`) across the entire workspace       |
+| `pnpm lint`            | Runs ESLint across all apps and packages                                         |
+| `pnpm format`          | Formats the whole repo with Prettier                                             |
+| `pnpm format:check`    | Checks formatting with Prettier without writing changes                          |
+| `pnpm changeset`       | Creates a manual changeset for `@galyan/ui` or `@galyan/theme`                   |
+| `pnpm publish`         | Interactive release: prompts for the bump type, then versions and publishes      |
+| `pnpm publish:patch`   | Bumps patch version (e.g. `1.0.6` ➔ `1.0.7`) and publishes to NPM                |
+| `pnpm publish:minor`   | Bumps minor version (e.g. `1.0.6` ➔ `1.1.0`) and publishes to NPM                |
+| `pnpm publish:major`   | Bumps major version (e.g. `1.0.6` ➔ `2.0.0`) and publishes to NPM                |
+| `pnpm publish:test`    | Publishes a snapshot test version under the `test` dist-tag                      |
+| `pnpm release`         | Alias for `pnpm publish`                                                         |
 
 ---
 
@@ -112,12 +112,12 @@ Theming works on two axes: a **brand** (the app/company palette) and a **role** 
 
 ### Brands
 
-| Brand       | Primary                        | Notes                                      |
-| ----------- | ------------------------------ | ------------------------------------------ |
-| `easylife`  | Green `#22c55e` (default)      | Slate neutrals, light canvas               |
-| `metalixia` | Lavender-blue `#707fdd`        | Slate neutrals, light canvas               |
-| `samantrix` | Violet `#7c5cff`               | Ink neutrals, always-dark canvas           |
-| `custom`    | Any hex you provide            | Full palette derived from a single primary |
+| Brand       | Primary                   | Notes                                      |
+| ----------- | ------------------------- | ------------------------------------------ |
+| `easylife`  | Green `#22c55e` (default) | Slate neutrals, light canvas               |
+| `metalixia` | Lavender-blue `#707fdd`   | Slate neutrals, light canvas               |
+| `samantrix` | Violet `#7c5cff`          | Ink neutrals, always-dark canvas           |
+| `custom`    | Any hex you provide       | Full palette derived from a single primary |
 
 ### Roles
 
@@ -139,8 +139,8 @@ Theming works on two axes: a **brand** (the app/company palette) and a **role** 
 
 ## 🚢 CI/CD
 
-- **Chromatic Storybook** (`.github/workflows/chromatic.yml`): Pushing to `main`, opening a Pull Request against `main`, or triggering it manually builds the monorepo and publishes Storybook to Chromatic for visual regression testing. Only changed stories are tested, and changes are auto-accepted on `main`.
-- **NPM publishing** is run locally with the publish script (see below). No GitHub Action publishes packages.
+- **Chromatic Storybook** is published by the publish script after every successful production release (patch/minor/major). Set `CHROMATIC_PROJECT_TOKEN` in your environment first; without it the step is skipped. Pass `--no-chromatic` to skip it, or run `pnpm chromatic` to publish manually. Only changed stories are tested, and changes are auto-accepted.
+- **NPM publishing** is run locally with the publish script (see below). There are no GitHub Actions workflows.
 
 ---
 
@@ -185,6 +185,7 @@ Publishes a snapshot version (e.g. `0.0.0-test-...`) under the `test` dist-tag, 
 | `--no-git-commit`   | Skips the release commit                                            |
 | `--no-build`        | Skips the pre-publish build                                         |
 | `--skip-auth`       | Skips the `npm whoami` check                                        |
+| `--no-chromatic`    | Skips publishing Storybook to Chromatic after the release           |
 
 Example: `pnpm publish:minor --message "Add TimePicker" --otp 123456`
 
