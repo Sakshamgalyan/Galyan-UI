@@ -1,5 +1,7 @@
 {
   "onlyChanged": true,
   "exitZeroOnChanges": true,
-  "zip": true
+  "zip": true,
+  "storybookBaseDir": "apps/storybook",
+  "storybookConfigDir": "apps/storybook/.storybook"
 }
