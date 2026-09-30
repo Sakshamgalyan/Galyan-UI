@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.8
+
+### Patch Changes
+
+- Release update (patch):
+  - 8347148 fix: dark mode for samantrix
+  - b3eb0dc fix: publish scripts
+  - 0db1255 fix: scripts
+  - 6a8310c fix build
+  - dc76534 chore(release): v1.0.7
+- Updated dependencies
+  - @galyan/theme@1.0.8
+
 ## 1.0.7
 
 ### Patch Changes
