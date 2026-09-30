@@ -616,8 +616,8 @@ export const Controlled: Story = {
             gap: "0.5rem",
             alignItems: "center",
             padding: "0.75rem 1rem",
-            background: "var(--gy-surface-muted, #f8fafc)",
-            border: "1px solid var(--gy-border, #e2e8f0)",
+            background: "var(--gy-surface-muted)",
+            border: "1px solid var(--gy-border)",
             borderRadius: "0.5rem",
           }}
         >
@@ -711,8 +711,8 @@ export const AllowMultiple: Story = {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "0.75rem 1rem",
-            background: "var(--gy-surface-muted, #f8fafc)",
-            border: "1px solid var(--gy-border, #e2e8f0)",
+            background: "var(--gy-surface-muted)",
+            border: "1px solid var(--gy-border)",
             borderRadius: "0.5rem",
           }}
         >
@@ -922,9 +922,9 @@ function HeavyStatefulComponent() {
     <div
       style={{
         padding: "0.75rem",
-        background: "var(--gy-surface-muted, #f8fafc)",
+        background: "var(--gy-surface-muted)",
         borderRadius: "0.375rem",
-        border: "1px dashed var(--gy-border, #cbd5e1)",
+        border: "1px dashed var(--gy-border)",
       }}
     >
       <div style={{ fontWeight: 600, color: "var(--gy-primary, #3b82f6)" }}>
@@ -1025,7 +1025,7 @@ export const ComplexContent: Story = {
                     flexDirection: "column",
                     gap: "0.625rem",
                     padding: "0.75rem",
-                    background: "var(--gy-surface-muted, #f8fafc)",
+                    background: "var(--gy-surface-muted)",
                     borderRadius: "0.375rem",
                   }}
                 >
@@ -1420,8 +1420,8 @@ export const RulesManagement: Story = {
             justifyContent: "space-between",
             alignItems: "center",
             padding: "0.75rem 1rem",
-            background: "var(--gy-surface-muted, #f8fafc)",
-            border: "1px solid var(--gy-border, #e2e8f0)",
+            background: "var(--gy-surface-muted)",
+            border: "1px solid var(--gy-border)",
             borderRadius: "0.5rem",
           }}
         >
@@ -1493,9 +1493,9 @@ export const RulesManagement: Story = {
                     gridTemplateColumns: "repeat(3, 1fr)",
                     gap: "0.75rem",
                     padding: "0.75rem",
-                    background: "var(--gy-surface-muted, #f8fafc)",
+                    background: "var(--gy-surface-muted)",
                     borderRadius: "0.375rem",
-                    border: "1px solid var(--gy-border, #e2e8f0)",
+                    border: "1px solid var(--gy-border)",
                   }}
                 >
                   <div>
@@ -2256,7 +2256,7 @@ export const OrderCheckoutComposition: Story = {
 
                   <div
                     style={{
-                      background: "var(--gy-background-muted, #f8fafc)",
+                      background: "var(--gy-background-muted)",
                       padding: "0.875rem",
                       borderRadius: "0.5rem",
                       display: "grid",

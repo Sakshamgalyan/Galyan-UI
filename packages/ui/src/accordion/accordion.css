@@ -142,7 +142,7 @@
 [data-color-mode="dark"] .gy-accordion--glass,
 .dark .gy-accordion--glassmorphic,
 .dark .gy-accordion--glass,
-[data-theme="samantrix"] .gy-accordion--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic,
 [data-theme="dark"] .gy-accordion--glassmorphic {
   background: linear-gradient(
     135deg,
@@ -425,7 +425,11 @@
   .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
     .gy-accordion--glass
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
+    .gy-accordion--glass
+  ),
+[data-brand="samantrix"]:not([data-color-mode="light"])
   .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
     .gy-accordion--glass
   ) {
@@ -439,7 +443,8 @@
 [data-color-mode="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
 .dark .gy-accordion:hover:not(.gy-accordion--disabled),
 [data-theme="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
-[data-theme="samantrix"] .gy-accordion:hover:not(.gy-accordion--disabled) {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled) {
   border-color: color-mix(
     in srgb,
     var(--gy-primary, #3b82f6) 75%,
@@ -447,7 +452,7 @@
   );
 }
 
-/* --gy-surface-hover is not defined by the theme, so the light fallbacks below
+/* --gy-surface-hover is not defined by all themes, so the light fallbacks below
    would wash a dark accordion with a pale grey. Use a light overlay instead. */
 .gy-dark
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
@@ -456,7 +461,9 @@
 .dark .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
 [data-theme="dark"]
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
+[data-brand="samantrix"]:not([data-color-mode="light"])
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]) {
   background: rgba(255, 255, 255, 0.04);
 }
@@ -466,7 +473,8 @@
 [data-color-mode="dark"] .gy-accordion--expanded .gy-accordion__trigger,
 .dark .gy-accordion--expanded .gy-accordion__trigger,
 [data-theme="dark"] .gy-accordion--expanded .gy-accordion__trigger,
-[data-theme="samantrix"] .gy-accordion--expanded .gy-accordion__trigger {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger {
   background: var(--gy-surface-raised, #1e293b);
 }
 
@@ -474,7 +482,8 @@
 [data-color-mode="dark"] .gy-accordion__panel-inner,
 .dark .gy-accordion__panel-inner,
 [data-theme="dark"] .gy-accordion__panel-inner,
-[data-theme="samantrix"] .gy-accordion__panel-inner {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner {
   background: var(--gy-surface-sunken, #0f172a);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -493,19 +502,50 @@
 .dark .gy-accordion--glassmorphic .gy-accordion__panel-inner,
 .dark .gy-accordion--glass .gy-accordion__panel-inner,
 [data-theme="dark"] .gy-accordion--glassmorphic .gy-accordion__panel-inner,
-[data-theme="samantrix"] .gy-accordion--glassmorphic .gy-accordion__panel-inner {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner {
   background: rgba(0, 0, 0, 0.25);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Filled Variant Dark Mode */
+.gy-dark .gy-accordion--filled,
+[data-color-mode="dark"] .gy-accordion--filled,
+.dark .gy-accordion--filled,
+[data-theme="dark"] .gy-accordion--filled,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled {
+  background: var(--gy-surface-muted, #13131f);
+  border-color: var(--gy-border, #1c1c2b);
+}
+
 .gy-dark .gy-accordion--filled:hover:not(.gy-accordion--disabled),
-[data-color-mode="dark"]
-  .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-color-mode="dark"] .gy-accordion--filled:hover:not(.gy-accordion--disabled),
 .dark .gy-accordion--filled:hover:not(.gy-accordion--disabled),
 [data-theme="dark"] .gy-accordion--filled:hover:not(.gy-accordion--disabled),
-[data-theme="samantrix"]
-  .gy-accordion--filled:hover:not(.gy-accordion--disabled) {
-  background: rgba(255, 255, 255, 0.06);
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled) {
+  background: var(--gy-surface-hover, rgba(255, 255, 255, 0.06));
+  border-color: color-mix(
+    in srgb,
+    var(--gy-border, #1c1c2b) 70%,
+    var(--gy-primary, #7c5cff) 30%
+  );
+}
+
+.gy-dark .gy-accordion--filled.gy-accordion--expanded,
+[data-color-mode="dark"] .gy-accordion--filled.gy-accordion--expanded,
+.dark .gy-accordion--filled.gy-accordion--expanded,
+[data-theme="dark"] .gy-accordion--filled.gy-accordion--expanded,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded {
+  background: var(--gy-surface, #0a0a12);
+  border-color: color-mix(
+    in srgb,
+    var(--gy-border, #1c1c2b) 60%,
+    var(--gy-primary, #7c5cff) 40%
+  );
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 /* Accessibility / Reduced Motion */

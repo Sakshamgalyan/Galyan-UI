@@ -48,10 +48,10 @@ const preview: Preview = {
         title: "Brand",
         icon: "paintbrush",
         items: [
-          { value: "easylife", title: "EasyLife (Green)" },
-          { value: "metalixia", title: "Metalixia (Lavender-Blue)" },
-          { value: "samantrix", title: "Samantrix (Violet/Dark)" },
-          { value: "custom", title: "Custom (Orange demo)" },
+          { value: "easylife", title: "EasyLife" },
+          { value: "metalixia", title: "Metalixia" },
+          { value: "samantrix", title: "Samantrix" },
+          { value: "custom", title: "Custom" },
         ],
         dynamicTitle: true,
       },
@@ -90,10 +90,7 @@ const preview: Preview = {
     (Story, context) => {
       const brand = (context.globals.themeBrand || "easylife") as ThemeBrand;
       const role = (context.globals.themeRole || "customer") as ThemeRole;
-      const mode = context.globals.colorMode || "light";
-
-      // Samantrix is always dark; resolve wrapper background accordingly
-      const isDark = mode === "dark" || brand === "samantrix";
+      const mode = (context.globals.colorMode || "light") as "light" | "dark";
 
       return (
         <ThemeProvider
@@ -109,11 +106,11 @@ const preview: Preview = {
               data-brand={brand}
               data-role={role}
               data-theme={brand === "easylife" ? role : brand}
-              data-color-mode={isDark ? "dark" : "light"}
+              data-color-mode={mode}
               style={{
                 padding: "1.25rem 1rem",
-                background: isDark ? "#0f172a" : "#ffffff",
-                color: isDark ? "#f8fafc" : "#0f172a",
+                background: "var(--gy-background)",
+                color: "var(--gy-text)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

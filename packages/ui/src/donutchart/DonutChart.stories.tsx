@@ -60,16 +60,16 @@ export const ResponsiveMobile: Story = {
     <div
       style={{
         width: 320,
-        border: "1px dashed #cbd5e1",
+        border: "1px dashed var(--gy-border, #cbd5e1)",
         padding: "0.75rem",
         borderRadius: "1rem",
-        background: "#f8fafc",
+        background: "var(--gy-surface-sunken, #f8fafc)",
       }}
     >
       <div
         style={{
           fontSize: "0.75rem",
-          color: "#64748b",
+          color: "var(--gy-text-muted, #64748b)",
           marginBottom: "0.5rem",
           fontWeight: 600,
         }}
@@ -149,11 +149,13 @@ export const DashboardCardPreview: Story = {
       <div
         style={{
           width: 340,
-          background: "#ffffff",
+          background: "var(--gy-surface, #ffffff)",
+          color: "var(--gy-text, #0f172a)",
           borderRadius: "1.5rem",
           padding: "1.25rem",
-          border: "1px solid #e2e8f0",
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          boxShadow:
+            "var(--gy-shadow-md, 0 10px 25px -5px rgba(0, 0, 0, 0.05))",
           display: "flex",
           flexDirection: "column",
           gap: "0.75rem",
@@ -171,12 +173,17 @@ export const DashboardCardPreview: Story = {
               style={{
                 fontWeight: 700,
                 fontSize: "0.875rem",
-                color: "#0f172a",
+                color: "var(--gy-text, #0f172a)",
               }}
             >
               Contact Channel Reachability
             </div>
-            <div style={{ fontSize: "0.6875rem", color: "#64748b" }}>
+            <div
+              style={{
+                fontSize: "0.6875rem",
+                color: "var(--gy-text-muted, #64748b)",
+              }}
+            >
               Coverage across verified channels
             </div>
           </div>
@@ -184,8 +191,9 @@ export const DashboardCardPreview: Story = {
             style={{
               padding: "2px 8px",
               borderRadius: "9999px",
-              background: "rgba(16, 185, 129, 0.1)",
-              color: "#059669",
+              background:
+                "color-mix(in srgb, var(--gy-success, #10b981) 15%, transparent)",
+              color: "var(--gy-success-emphasis, #059669)",
               fontSize: "0.6875rem",
               fontWeight: 700,
             }}
@@ -259,11 +267,12 @@ export const MinimalDonutWithLegend: Story = {
       <div
         style={{
           width: 320,
-          background: "#ffffff",
+          background: "var(--gy-surface, #ffffff)",
+          color: "var(--gy-text, #0f172a)",
           borderRadius: "1.25rem",
           padding: "1.25rem",
-          border: "1px solid #e2e8f0",
-          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          boxShadow: "var(--gy-shadow-md, 0 4px 16px rgba(0, 0, 0, 0.04))",
         }}
       >
         <DonutChart
@@ -339,8 +348,9 @@ export const InteractiveAnimation: Story = {
             style={{
               padding: "6px 14px",
               borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: "#ffffff",
+              border: "1px solid var(--gy-border, #cbd5e1)",
+              background: "var(--gy-surface, #ffffff)",
+              color: "var(--gy-text, #0f172a)",
               cursor: "pointer",
               fontSize: "0.8125rem",
               fontWeight: 600,
@@ -354,8 +364,9 @@ export const InteractiveAnimation: Story = {
             style={{
               padding: "6px 14px",
               borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: "#ffffff",
+              border: "1px solid var(--gy-border, #cbd5e1)",
+              background: "var(--gy-surface, #ffffff)",
+              color: "var(--gy-text, #0f172a)",
               cursor: "pointer",
               fontSize: "0.8125rem",
               fontWeight: 600,

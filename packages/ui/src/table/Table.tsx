@@ -1238,7 +1238,7 @@ export function Table<T>({
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                     >
-                                      <path d="M2.5 4.5L6 8L9.5 4.5" />
+                                      <path d="M4.5 2.5L8 6L4.5 9.5" />
                                     </svg>
                                   </button>
                                 )}

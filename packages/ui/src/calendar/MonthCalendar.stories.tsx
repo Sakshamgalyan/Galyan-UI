@@ -181,11 +181,14 @@ export const Borderless: Story = {
           width: 320,
           boxSizing: "border-box",
           padding: "1rem",
-          backgroundColor: "#ffffff",
+          backgroundColor: "var(--gy-surface, #ffffff)",
+          border: "1px solid var(--gy-border, #e2e8f0)",
           borderRadius: "1rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          boxShadow: "var(--gy-shadow-sm)",
+          transition: "background-color 0.2s ease, border-color 0.2s ease",
         }}
       >
         <MonthCalendar

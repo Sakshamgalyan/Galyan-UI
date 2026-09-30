@@ -296,7 +296,7 @@ export function MonthCalendar({
                 className={[
                   "gy-calendar-picker-item",
                   isSelected ? "gy-calendar-picker-item--selected" : "",
-                  isThisMonth && !isSelected
+                  isThisMonth && !isSelected && !disabledMonth
                     ? "gy-calendar-picker-item--current"
                     : "",
                   disabledMonth ? "gy-calendar-picker-item--disabled" : "",
@@ -326,7 +326,7 @@ export function MonthCalendar({
                 className={[
                   "gy-calendar-picker-item",
                   isSelected ? "gy-calendar-picker-item--selected" : "",
-                  isCurrentDecadeYear && !isSelected
+                  isCurrentDecadeYear && !isSelected && !isOutOfRange
                     ? "gy-calendar-picker-item--current"
                     : "",
                   isOutOfRange ? "gy-calendar-picker-item--disabled" : "",

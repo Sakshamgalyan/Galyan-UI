@@ -987,9 +987,65 @@ const hierarchicalData: User[] = [
   },
 ];
 
+const treeColumns: Column<User>[] = [
+  {
+    key: "name",
+    header: "Name",
+    accessor: (row) => row.name,
+    sortable: true,
+    width: "280px",
+  },
+  {
+    key: "role",
+    header: "Role",
+    accessor: (row) => row.role,
+    sortable: true,
+  },
+  {
+    key: "status",
+    header: "Status",
+    accessor: (row) => (
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          padding: "2px 8px",
+          borderRadius: "9999px",
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          background:
+            row.status === "active"
+              ? "color-mix(in srgb, #10b981 14%, var(--gy-surface))"
+              : row.status === "pending"
+                ? "color-mix(in srgb, #f59e0b 14%, var(--gy-surface))"
+                : "color-mix(in srgb, #ef4444 14%, var(--gy-surface))",
+          color:
+            row.status === "active"
+              ? "#10b981"
+              : row.status === "pending"
+                ? "#f59e0b"
+                : "#ef4444",
+        }}
+      >
+        {row.status}
+      </span>
+    ),
+    align: "center",
+    width: "120px",
+  },
+  {
+    key: "revenue",
+    header: "Annual Revenue",
+    accessor: (row) => `$${row.revenue.toLocaleString()}`,
+    align: "right",
+    sortable: true,
+    width: "160px",
+  },
+];
+
 export const TreeNestedGrid: Story = {
   args: {
-    columns,
+    columns: treeColumns,
     data: hierarchicalData,
     rowKey: (row) => row.id,
     nestedChildrenAccessor: "subRows",

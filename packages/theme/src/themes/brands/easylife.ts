@@ -44,6 +44,8 @@ export const easylifeBrand = {
     overlay: "#ffffff",
     sunken: "#f8fafc",
     disabled: "#f1f5f9",
+    muted: "#f1f5f9",
+    hover: "#f8fafc",
   },
 
   // ── Text ───────────────────────────────────────────────────────────────

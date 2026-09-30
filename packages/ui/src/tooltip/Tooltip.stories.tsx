@@ -102,7 +102,7 @@ const meta: Meta<typeof Tooltip> = {
     },
     variant: {
       control: "select",
-      options: ["default", "dark", "light", "primary"],
+      options: ["default", "dark", "light", "primary", "glassmorphic"],
       description: "Color style variant of the tooltip",
     },
     size: {
@@ -661,10 +661,19 @@ export const Variants: Story = {
         gap: "1.5rem",
         alignItems: "center",
         padding: "3rem 1.5rem",
+        flexWrap: "wrap",
       }}
     >
       <Tooltip content="Adaptive theme tooltip" variant="default" shortcut="⌘D">
         <Button variant="secondary">Adaptive Default</Button>
+      </Tooltip>
+
+      <Tooltip
+        content="Ultra-frosted glassmorphic tooltip"
+        variant="glassmorphic"
+        shortcut="⌘G"
+      >
+        <Button variant="secondary">Glassmorphic</Button>
       </Tooltip>
 
       <Tooltip
@@ -741,3 +750,157 @@ export const WithoutArrow: Story = {
     </div>
   ),
 };
+
+export const DarkModeShowcase: Story = {
+  render: () => (
+    <div
+      data-color-mode="dark"
+      data-theme="samantrix"
+      style={{
+        position: "relative",
+        background: "#080911",
+        color: "#ffffff",
+        padding: "4rem 2.5rem",
+        borderRadius: "1.25rem",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "2.75rem",
+        alignItems: "center",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background ambient glowing orbs to showcase glassmorphism translucency & blur */}
+      <div
+        style={{
+          position: "absolute",
+          top: "10%",
+          left: "20%",
+          width: "220px",
+          height: "220px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(124, 92, 255, 0.35) 0%, transparent 70%)",
+          filter: "blur(40px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "15%",
+          right: "22%",
+          width: "240px",
+          height: "240px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, transparent 70%)",
+          filter: "blur(45px)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ textAlign: "center", maxWidth: "520px", position: "relative", zIndex: 1 }}>
+        <h4 style={{ margin: "0 0 0.5rem 0", fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
+          Dark Mode Glassmorphic Tooltip
+        </h4>
+        <p style={{ margin: 0, fontSize: "0.875rem", color: "rgba(255, 255, 255, 0.65)", lineHeight: 1.6 }}>
+          Features translucent frosted glass backgrounds with deep background blur (<code style={{ color: "#a78bfa" }}>backdrop-filter</code>), specular top bevel highlights, and laser-etched keyboard badges.
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "1.5rem",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <Tooltip
+          content="Adaptive frosted glassmorphic surface"
+          variant="default"
+          shortcut="⌘D"
+          placement="top"
+        >
+          <Button variant="secondary">Adaptive Glass</Button>
+        </Tooltip>
+
+        <Tooltip
+          content="Ultra-luminous frosted crystal glass"
+          variant="glassmorphic"
+          shortcut="⌘G"
+          placement="top"
+        >
+          <Button variant="primary">Glassmorphic</Button>
+        </Tooltip>
+
+        <Tooltip
+          content="Smoked obsidian glass with specular bevel"
+          variant="dark"
+          shortcut="⌘K"
+          placement="top"
+        >
+          <Button variant="secondary">Dark Obsidian</Button>
+        </Tooltip>
+
+        <Tooltip
+          content="Brand neon frosted glass with glowing drop shadow"
+          variant="primary"
+          shortcut="⌘P"
+          placement="top"
+        >
+          <Button variant="primary">Primary Brand</Button>
+        </Tooltip>
+
+        <Tooltip
+          content="Crisp high-contrast light glass accent"
+          variant="light"
+          shortcut="⌘L"
+          placement="top"
+        >
+          <Button variant="outline">Light Accent</Button>
+        </Tooltip>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "1.25rem",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <Tooltip content="Permanent file removal" placement="bottom" shortcut="⌫">
+          <Button variant="outline" size="sm">
+            <TrashIcon />
+          </Button>
+        </Tooltip>
+
+        <Tooltip content="Copy shareable link" placement="bottom" shortcut="⌘C">
+          <Button variant="secondary" size="sm">
+            <CopyIcon />
+          </Button>
+        </Tooltip>
+
+        <Tooltip content="Bookmark this page" placement="bottom" shortcut="⌘B">
+          <Button variant="secondary" size="sm">
+            <BookmarkIcon />
+          </Button>
+        </Tooltip>
+
+        <Tooltip content="Global preferences" placement="bottom" shortcut="⌘,">
+          <Button variant="secondary" size="sm">
+            <SettingsIcon />
+          </Button>
+        </Tooltip>
+      </div>
+    </div>
+  ),
+};
+
+

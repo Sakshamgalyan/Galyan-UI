@@ -10,7 +10,11 @@ import type { BrandTheme } from "./brands/easylife.js";
 import type { RoleOverride } from "./roles/types.js";
 import { easylifeBrand } from "./brands/easylife.js";
 import { metalixiaBrand } from "./brands/metalixia.js";
-import { samantrixBrand } from "./brands/samantrix.js";
+import {
+  samantrixBrand,
+  samantrixDarkBrand,
+  samantrixLightBrand,
+} from "./brands/samantrix.js";
 import { professionalOverrideEasylife } from "./roles/professional.js";
 import { agentOverrideEasylife } from "./roles/agent.js";
 import { adminOverrideEasylife } from "./roles/admin.js";
@@ -20,7 +24,7 @@ import { adminOverrideEasylife } from "./roles/admin.js";
 const brandThemes: Record<string, BrandTheme> = {
   easylife: easylifeBrand,
   metalixia: metalixiaBrand,
-  samantrix: samantrixBrand,
+  samantrix: samantrixBrand as unknown as BrandTheme,
 };
 
 // ── Role override registry (keyed by brand, then role) ──────────────────
@@ -69,10 +73,20 @@ function deepMerge<T extends Record<string, unknown>>(
  *
  * @param brand - The app/company brand ("easylife", "metalixia", "samantrix")
  * @param role  - The user role ("customer", "professional", "agent", "admin")
+ * @param mode  - Optional color mode ("light" | "dark")
  * @returns The merged BrandTheme with role-specific overrides applied
  */
-export function resolveTheme(brand: string, role: string): BrandTheme {
-  const base = brandThemes[brand] ?? easylifeBrand;
+export function resolveTheme(
+  brand: string,
+  role: string,
+  mode?: "light" | "dark",
+): BrandTheme {
+  let base = brandThemes[brand] ?? easylifeBrand;
+  if (brand === "samantrix") {
+    base = (
+      mode === "light" ? samantrixLightBrand : samantrixDarkBrand
+    ) as unknown as BrandTheme;
+  }
   const overrides = roleOverrides[brand]?.[role];
   if (!overrides) return base;
   return deepMerge(base, overrides as Record<string, unknown>);

@@ -43,17 +43,26 @@
 
 /* Nav button in Month Calendar (clean borderless arrow button) */
 .gy-month-calendar .gy-calendar-nav {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.875rem;
+  height: 1.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--gy-radius-md, 0.375rem);
-  background: transparent !important;
+  background: transparent;
   border: 1px solid transparent;
   color: var(--gy-text, #0f172a);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
-  background: transparent !important;
+  background: color-mix(in srgb, var(--gy-primary, #6366f1) 10%, transparent);
   color: var(--gy-primary, #6366f1);
+}
+
+.gy-month-calendar .gy-calendar-nav:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .gy-month-calendar .gy-calendar-title {
@@ -61,7 +70,17 @@
   font-weight: 700;
   color: var(--gy-text, #0f172a);
   letter-spacing: -0.01em;
-  padding: 0.175rem 0.375rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--gy-radius-md, 0.375rem);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.gy-month-calendar .gy-calendar-title:hover {
+  background: color-mix(in srgb, var(--gy-primary, #6366f1) 8%, transparent);
+  color: var(--gy-primary, #6366f1);
 }
 
 /* Sizing variations for MonthCalendar (height only) */
@@ -476,6 +495,9 @@
 [data-theme="dark"] .gy-calendar,
 [data-color-mode="dark"] .gy-calendar,
 .dark .gy-calendar,
+.gy-dark .gy-calendar,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar,
 .gy-calendar--dark {
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, rgba(255, 255, 255, 0.1));
@@ -488,6 +510,9 @@
 [data-theme="dark"] .gy-calendar-title,
 [data-color-mode="dark"] .gy-calendar-title,
 .dark .gy-calendar-title,
+.gy-dark .gy-calendar-title,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-title,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-title,
 .gy-calendar--dark .gy-calendar-title {
   color: var(--gy-text, #f8fafc);
 }
@@ -495,6 +520,9 @@
 [data-theme="dark"] .gy-calendar-title:hover,
 [data-color-mode="dark"] .gy-calendar-title:hover,
 .dark .gy-calendar-title:hover,
+.gy-dark .gy-calendar-title:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-title:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-title:hover,
 .gy-calendar--dark .gy-calendar-title:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
@@ -503,6 +531,9 @@
 [data-theme="dark"] .gy-calendar-nav,
 [data-color-mode="dark"] .gy-calendar-nav,
 .dark .gy-calendar-nav,
+.gy-dark .gy-calendar-nav,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-nav,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-nav,
 .gy-calendar--dark .gy-calendar-nav {
   background: transparent !important;
   color: var(--gy-text-muted, #94a3b8);
@@ -511,6 +542,9 @@
 [data-theme="dark"] .gy-calendar-nav:hover,
 [data-color-mode="dark"] .gy-calendar-nav:hover,
 .dark .gy-calendar-nav:hover,
+.gy-dark .gy-calendar-nav:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-nav:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-nav:hover,
 .gy-calendar--dark .gy-calendar-nav:hover {
   background: transparent !important;
   color: #ffffff;
@@ -628,10 +662,18 @@
 [data-theme="dark"] .gy-calendar-picker-item,
 [data-color-mode="dark"] .gy-calendar-picker-item,
 .dark .gy-calendar-picker-item,
+.gy-dark .gy-calendar-picker-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item,
 .gy-calendar--dark .gy-calendar-picker-item {
-  color: var(--gy-text, #e2e8f0);
-  background: transparent;
-  border-color: transparent;
+  color: var(--gy-text-muted, #94a3b8);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--gy-radius-lg, 0.5rem);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"]
@@ -646,49 +688,251 @@
   .gy-calendar-picker-item:hover:not(:disabled):not(
     .gy-calendar-picker-item--disabled
   ):not(.gy-calendar-picker-item--selected),
+.gy-dark
+  .gy-calendar-picker-item:hover:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item:hover:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item:hover:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
 .gy-calendar--dark
   .gy-calendar-picker-item:hover:not(:disabled):not(
     .gy-calendar-picker-item--disabled
   ):not(.gy-calendar-picker-item--selected) {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: transparent;
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+[data-theme="dark"]
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+[data-color-mode="dark"]
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+.dark
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+.gy-dark
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected),
+.gy-calendar--dark
+  .gy-calendar-picker-item:active:not(:disabled):not(
+    .gy-calendar-picker-item--disabled
+  ):not(.gy-calendar-picker-item--selected) {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Selected month / year item in dark mode */
+[data-theme="dark"] .gy-calendar-picker-item--selected,
+[data-color-mode="dark"] .gy-calendar-picker-item--selected,
+.dark .gy-calendar-picker-item--selected,
+.gy-dark .gy-calendar-picker-item--selected,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected,
+.gy-calendar--dark .gy-calendar-picker-item--selected {
+  background: var(--gy-primary, #6366f1) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  font-weight: 600;
+  box-shadow:
+    0 4px 14px -1px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent),
+    0 1px 3px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .gy-calendar-picker-item--selected:hover,
+[data-color-mode="dark"] .gy-calendar-picker-item--selected:hover,
+.dark .gy-calendar-picker-item--selected:hover,
+.gy-dark .gy-calendar-picker-item--selected:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected:hover,
+.gy-calendar--dark .gy-calendar-picker-item--selected:hover {
+  background: var(--gy-primary-hover, var(--gy-primary, #6366f1)) !important;
+  box-shadow:
+    0 6px 18px -1px color-mix(in srgb, var(--gy-primary, #6366f1) 60%, transparent),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Current month (Today's month) item in dark mode */
 [data-theme="dark"]
   .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
 [data-color-mode="dark"]
   .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
 .dark .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+.gy-dark .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected),
 .gy-calendar--dark
   .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
-  background: transparent !important;
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 14%,
+    rgba(255, 255, 255, 0.03)
+  ) !important;
+  border: 1.5px solid color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 50%,
+    transparent
+  ) !important;
+  color: var(--gy-primary-muted, #cabbff) !important;
+  font-weight: 600;
+  box-shadow: inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary, #6366f1) 12%, transparent);
+}
+
+[data-theme="dark"]
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+[data-color-mode="dark"]
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+.dark
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+.gy-dark
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover,
+.gy-calendar--dark
+  .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover {
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 24%,
+    rgba(255, 255, 255, 0.06)
+  ) !important;
   border-color: var(--gy-primary, #6366f1) !important;
-  color: #f8fafc !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 30%, transparent),
+    inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary, #6366f1) 18%, transparent);
+}
+
+/* Disabled month / year items in dark mode */
+[data-theme="dark"] .gy-calendar-picker-item--disabled,
+[data-color-mode="dark"] .gy-calendar-picker-item--disabled,
+.dark .gy-calendar-picker-item--disabled,
+.gy-dark .gy-calendar-picker-item--disabled,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--disabled,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--disabled,
+.gy-calendar--dark .gy-calendar-picker-item--disabled,
+[data-theme="dark"] .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+[data-color-mode="dark"] .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+.dark .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+.gy-dark .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current,
+.gy-calendar--dark .gy-calendar-picker-item--disabled.gy-calendar-picker-item--current {
+  opacity: 0.28 !important;
+  color: var(--gy-text-disabled, #64748b) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  pointer-events: none !important;
 }
 
 [data-theme="dark"] .gy-calendar-footer,
 [data-color-mode="dark"] .gy-calendar-footer,
 .dark .gy-calendar-footer,
+.gy-dark .gy-calendar-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-footer,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-footer,
 .gy-calendar--dark .gy-calendar-footer {
   border-top-color: rgba(255, 255, 255, 0.08);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
 }
 
 [data-theme="dark"] .gy-calendar-today-btn,
 [data-color-mode="dark"] .gy-calendar-today-btn,
 .dark .gy-calendar-today-btn,
+.gy-dark .gy-calendar-today-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn,
 .gy-calendar--dark .gy-calendar-today-btn {
-  color: #f8fafc;
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
-  border-color: color-mix(in srgb, var(--gy-primary, #6366f1) 35%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.375rem 1rem;
+  border-radius: var(--gy-radius-full, 9999px);
+  color: var(--gy-primary-muted, #cabbff);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 14%,
+    rgba(255, 255, 255, 0.03)
+  );
+  border: 1px solid color-mix(
+    in srgb,
+    var(--gy-primary, #6366f1) 32%,
+    rgba(255, 255, 255, 0.08)
+  );
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .gy-calendar-today-btn:hover,
+[data-color-mode="dark"] .gy-calendar-today-btn:hover,
+.dark .gy-calendar-today-btn:hover,
+.gy-dark .gy-calendar-today-btn:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:hover,
+.gy-calendar--dark .gy-calendar-today-btn:hover {
+  background: var(--gy-primary, #6366f1);
+  border-color: var(--gy-primary, #6366f1);
+  color: #ffffff;
+  box-shadow:
+    0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .gy-calendar-today-btn:active,
+[data-color-mode="dark"] .gy-calendar-today-btn:active,
+.dark .gy-calendar-today-btn:active,
+.gy-dark .gy-calendar-today-btn:active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:active,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:active,
+.gy-calendar--dark .gy-calendar-today-btn:active {
+  transform: translateY(0) scale(0.97);
 }
 
 [data-theme="dark"] .gy-month-calendar .gy-calendar-nav,
 [data-color-mode="dark"] .gy-month-calendar .gy-calendar-nav,
 .dark .gy-month-calendar .gy-calendar-nav,
+.gy-dark .gy-month-calendar .gy-calendar-nav,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-nav,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-nav,
 .gy-calendar--dark .gy-month-calendar .gy-calendar-nav {
   background: transparent !important;
-  color: var(--gy-text, #e2e8f0);
+  border: 1px solid transparent;
+  color: var(--gy-text-muted, #94a3b8);
 }
 
 [data-theme="dark"] .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
@@ -696,8 +940,57 @@
   .gy-month-calendar
   .gy-calendar-nav:hover:not(:disabled),
 .dark .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
+.gy-dark .gy-month-calendar .gy-calendar-nav:hover:not(:disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-month-calendar
+  .gy-calendar-nav:hover:not(:disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-month-calendar
+  .gy-calendar-nav:hover:not(:disabled),
 .gy-calendar--dark .gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
-  background: transparent !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .gy-month-calendar .gy-calendar-nav:active:not(:disabled),
+[data-color-mode="dark"]
+  .gy-month-calendar
+  .gy-calendar-nav:active:not(:disabled),
+.dark .gy-month-calendar .gy-calendar-nav:active:not(:disabled),
+.gy-dark .gy-month-calendar .gy-calendar-nav:active:not(:disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-month-calendar
+  .gy-calendar-nav:active:not(:disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-month-calendar
+  .gy-calendar-nav:active:not(:disabled),
+.gy-calendar--dark .gy-month-calendar .gy-calendar-nav:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  transform: scale(0.95);
+}
+
+[data-theme="dark"] .gy-month-calendar .gy-calendar-title,
+[data-color-mode="dark"] .gy-month-calendar .gy-calendar-title,
+.dark .gy-month-calendar .gy-calendar-title,
+.gy-dark .gy-month-calendar .gy-calendar-title,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-title,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-title,
+.gy-calendar--dark .gy-month-calendar .gy-calendar-title {
+  color: #ffffff;
+  border-color: transparent;
+}
+
+[data-theme="dark"] .gy-month-calendar .gy-calendar-title:hover,
+[data-color-mode="dark"] .gy-month-calendar .gy-calendar-title:hover,
+.dark .gy-month-calendar .gy-calendar-title:hover,
+.gy-dark .gy-month-calendar .gy-calendar-title:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-title:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-month-calendar .gy-calendar-title:hover,
+.gy-calendar--dark .gy-month-calendar .gy-calendar-title:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.08);
   color: #ffffff;
 }
 
@@ -748,7 +1041,13 @@
 [data-theme="dark"] .gy-calendar--glassmorphic,
 [data-theme="dark"] .gy-calendar--glass,
 .dark .gy-calendar--glassmorphic,
-.dark .gy-calendar--glass {
+.dark .gy-calendar--glass,
+.gy-dark .gy-calendar--glassmorphic,
+.gy-dark .gy-calendar--glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass {
   background: rgba(15, 23, 42, 0.72) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow:
@@ -762,8 +1061,14 @@
 [data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-nav:hover,
 [data-theme="dark"] .gy-calendar--glass .gy-calendar-nav:hover,
 .dark .gy-calendar--glassmorphic .gy-calendar-nav:hover,
-.dark .gy-calendar--glass .gy-calendar-nav:hover {
-  background: transparent !important;
+.dark .gy-calendar--glass .gy-calendar-nav:hover,
+.gy-dark .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+.gy-dark .gy-calendar--glass .gy-calendar-nav:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-nav:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-nav:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-nav:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
   color: #ffffff;
 }
 
@@ -796,6 +1101,36 @@
   .gy-calendar--glass
   .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
     .gy-calendar-day--selected
+  ),
+.gy-dark
+  .gy-calendar--glassmorphic
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
+  ),
+.gy-dark
+  .gy-calendar--glass
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
+  ),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar--glassmorphic
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
+  ),
+[data-theme="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar--glass
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
+  ),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar--glassmorphic
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
+  ),
+[data-brand="samantrix"]:not([data-color-mode="light"])
+  .gy-calendar--glass
+  .gy-calendar-day:hover:not(.gy-calendar-day--disabled):not(
+    .gy-calendar-day--selected
   ) {
   background: rgba(255, 255, 255, 0.08);
 }
@@ -805,7 +1140,13 @@
 [data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-picker-item,
 [data-theme="dark"] .gy-calendar--glass .gy-calendar-picker-item,
 .dark .gy-calendar--glassmorphic .gy-calendar-picker-item,
-.dark .gy-calendar--glass .gy-calendar-picker-item {
+.dark .gy-calendar--glass .gy-calendar-picker-item,
+.gy-dark .gy-calendar--glassmorphic .gy-calendar-picker-item,
+.gy-dark .gy-calendar--glass .gy-calendar-picker-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-picker-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-picker-item,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-picker-item,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-picker-item {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -815,6 +1156,12 @@
 [data-theme="dark"] .gy-calendar--glassmorphic .gy-calendar-footer,
 [data-theme="dark"] .gy-calendar--glass .gy-calendar-footer,
 .dark .gy-calendar--glassmorphic .gy-calendar-footer,
-.dark .gy-calendar--glass .gy-calendar-footer {
+.dark .gy-calendar--glass .gy-calendar-footer,
+.gy-dark .gy-calendar--glassmorphic .gy-calendar-footer,
+.gy-dark .gy-calendar--glass .gy-calendar-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-footer,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glassmorphic .gy-calendar-footer,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-calendar--glass .gy-calendar-footer {
   border-top-color: rgba(255, 255, 255, 0.08);
 }

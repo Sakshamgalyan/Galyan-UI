@@ -85,6 +85,43 @@ const meta: Meta<typeof Button> = {
         type: { summary: "ReactNode" },
       },
     },
+    href: {
+      control: "text",
+      description: "URL destination — automatically renders button as an <a> anchor tag",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    target: {
+      control: "select",
+      options: ["_blank", "_self", "_parent", "_top"],
+      description: "Target window or frame for navigation",
+      table: {
+        type: { summary: "'_blank' | '_self' | '_parent' | '_top'" },
+      },
+    },
+    rel: {
+      control: "text",
+      description: "Relationship attribute for link (defaults to 'noopener noreferrer' when target='_blank')",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    external: {
+      control: "boolean",
+      description: "Convenience prop: opens in a new tab with secure target and rel attributes",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    download: {
+      control: "text",
+      description: "Prompts the user to save the linked URL instead of navigating to it",
+      table: {
+        type: { summary: "boolean | string" },
+      },
+    },
   },
 };
 
@@ -211,8 +248,29 @@ export const Ghost: Story = {
 
 export const Link: Story = {
   args: {
-    children: "Learn More",
+    children: "Documentation & Guides →",
     variant: "link",
+    href: "https://github.com/Sakshamgalyan/Galyan-UI",
+    target: "_blank",
+    rel: "noopener noreferrer",
+  },
+};
+
+export const ExternalLink: Story = {
+  args: {
+    children: "Visit Website",
+    variant: "primary",
+    href: "https://example.com",
+    external: true,
+  },
+};
+
+export const ButtonAsLink: Story = {
+  args: {
+    children: "Download Report",
+    variant: "outline",
+    href: "/report.pdf",
+    download: "annual-report-2026.pdf",
   },
 };
 

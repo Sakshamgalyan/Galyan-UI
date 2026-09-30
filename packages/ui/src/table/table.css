@@ -461,6 +461,7 @@
   width: 1px;
   background: var(--gy-tree-line-color, var(--gy-border, #cbd5e1));
   pointer-events: none;
+  z-index: 1;
 }
 
 .gy-table-cell-content {
@@ -478,8 +479,8 @@
   height: var(--gy-tree-node, 20px);
   min-width: var(--gy-tree-node, 20px);
   flex-shrink: 0;
-  border: none;
-  background: transparent;
+  border: 1px solid transparent;
+  background: var(--gy-surface, #ffffff);
   color: var(--gy-text-muted, #64748b);
   cursor: pointer;
   border-radius: var(--gy-radius-sm, 0.25rem);
@@ -488,22 +489,29 @@
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
+    border-color 0.15s ease,
     transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+.gy-table-expand-btn:focus {
+  outline: none;
 }
 
 .gy-table-expand-btn:hover {
   background: var(--gy-background-muted, #f1f5f9);
-  color: var(--gy-text, #0f172a);
+  color: var(--gy-primary, #6366f1);
+  border-color: var(--gy-border, #e2e8f0);
 }
 
 .gy-table-expand-btn svg {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotate(0deg);
 }
 
 .gy-table-expand-btn--expanded svg {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .gy-table-expand-spacer {
@@ -1326,3 +1334,65 @@
     border-bottom-color: rgba(255, 255, 255, 0.08);
   }
 }
+
+/* ── Dark Mode Tree / Nested Rows ── */
+.gy-dark .gy-table-expand-btn,
+.dark .gy-table-expand-btn,
+[data-color-mode="dark"] .gy-table-expand-btn,
+[data-theme="dark"] .gy-table-expand-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn {
+  background: var(--gy-surface, #0f172a);
+  color: var(--gy-text-muted, #94a3b8);
+}
+
+.gy-dark .gy-table-expand-btn:hover,
+.dark .gy-table-expand-btn:hover,
+[data-color-mode="dark"] .gy-table-expand-btn:hover,
+[data-theme="dark"] .gy-table-expand-btn:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gy-dark .gy-table-tree-line--vertical::before,
+.gy-dark .gy-table-tree-line--tee::before,
+.gy-dark .gy-table-tree-line--corner::before,
+.gy-dark .gy-table-tree-line--tee::after,
+.gy-dark .gy-table-tree-line--corner::after,
+.gy-dark .gy-table-cell-first--tree-parent::after,
+.dark .gy-table-tree-line--vertical::before,
+.dark .gy-table-tree-line--tee::before,
+.dark .gy-table-tree-line--corner::before,
+.dark .gy-table-tree-line--tee::after,
+.dark .gy-table-tree-line--corner::after,
+.dark .gy-table-cell-first--tree-parent::after,
+[data-color-mode="dark"] .gy-table-tree-line--vertical::before,
+[data-color-mode="dark"] .gy-table-tree-line--tee::before,
+[data-color-mode="dark"] .gy-table-tree-line--corner::before,
+[data-color-mode="dark"] .gy-table-tree-line--tee::after,
+[data-color-mode="dark"] .gy-table-tree-line--corner::after,
+[data-color-mode="dark"] .gy-table-cell-first--tree-parent::after,
+[data-theme="dark"] .gy-table-tree-line--vertical::before,
+[data-theme="dark"] .gy-table-tree-line--tee::before,
+[data-theme="dark"] .gy-table-tree-line--corner::before,
+[data-theme="dark"] .gy-table-tree-line--tee::after,
+[data-theme="dark"] .gy-table-tree-line--corner::after,
+[data-theme="dark"] .gy-table-cell-first--tree-parent::after,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after {
+  background: var(--gy-tree-line-color, rgba(255, 255, 255, 0.16));
+}
+

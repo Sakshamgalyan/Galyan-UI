@@ -245,17 +245,13 @@ export const LoadingSkeletonCard: Story = {
 
 export const Glassmorphic: Story = {
   render: () => (
-    <div
-      style={{
-        padding: "2rem",
-        borderRadius: "1.5rem",
-        background:
-          "radial-gradient(circle at 20% 30%, #c7d2fe 0%, #fae8ff 50%, #fed7aa 100%)",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <Card variant="glassmorphic" padding="lg" hoverEffect="lift">
+    <div className="gy-card-glassmorphic-preview">
+      <Card
+        variant="glassmorphic"
+        padding="lg"
+        hoverEffect="lift"
+        style={{ maxWidth: 440, width: "100%" }}
+      >
         <CardHeader>
           <div
             style={{
@@ -276,7 +272,6 @@ export const Glassmorphic: Story = {
           <p
             style={{
               margin: "0.5rem 0 1rem",
-              color: "#334155",
               lineHeight: 1.6,
               fontSize: "0.875rem",
             }}

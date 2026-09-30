@@ -6,6 +6,7 @@ export * from "./themes/index.js";
 
 // Provider
 export { ThemeProvider } from "./provider/ThemeProvider.js";
+export { ThemeScript, type ThemeScriptProps } from "./provider/ThemeScript.js";
 export { ThemeContext } from "./provider/ThemeContext.js";
 export { useTheme } from "./provider/useTheme.js";
 export type {

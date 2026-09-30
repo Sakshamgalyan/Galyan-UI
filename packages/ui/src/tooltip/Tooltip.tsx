@@ -14,7 +14,13 @@ import {
 import "./tooltip.css";
 
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
-export type TooltipVariant = "default" | "dark" | "light" | "primary";
+export type TooltipVariant =
+  | "default"
+  | "dark"
+  | "light"
+  | "primary"
+  | "glassmorphic"
+  | "glass";
 export type TooltipSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type TooltipTrigger = "hover" | "click" | "both";
 

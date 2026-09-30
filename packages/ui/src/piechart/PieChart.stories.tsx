@@ -139,11 +139,12 @@ export const DashboardCardBorderless: Story = {
       style={{
         width: 360,
         height: 320,
-        backgroundColor: "#ffffff",
-        border: "1px solid #e2e8f0",
+        background: "var(--gy-surface, #ffffff)",
+        color: "var(--gy-text, #0f172a)",
+        border: "1px solid var(--gy-border, #e2e8f0)",
         borderRadius: "1rem",
         padding: "1rem 1.25rem",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+        boxShadow: "var(--gy-shadow-md, 0 1px 3px rgba(0, 0, 0, 0.05))",
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",
@@ -155,7 +156,7 @@ export const DashboardCardBorderless: Story = {
             margin: 0,
             fontSize: "0.9375rem",
             fontWeight: 700,
-            color: "#0f172a",
+            color: "var(--gy-text, #0f172a)",
           }}
         >
           Acquisition Channels
@@ -164,7 +165,7 @@ export const DashboardCardBorderless: Story = {
           style={{
             margin: "2px 0 0 0",
             fontSize: "0.75rem",
-            color: "#64748b",
+            color: "var(--gy-text-muted, #64748b)",
           }}
         >
           Hover over slices or legend to inspect
@@ -248,8 +249,9 @@ export const InteractiveAnimation: Story = {
             style={{
               padding: "6px 14px",
               borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: "#ffffff",
+              border: "1px solid var(--gy-border, #cbd5e1)",
+              background: "var(--gy-surface, #ffffff)",
+              color: "var(--gy-text, #0f172a)",
               cursor: "pointer",
               fontSize: "0.8125rem",
               fontWeight: 600,
@@ -263,8 +265,9 @@ export const InteractiveAnimation: Story = {
             style={{
               padding: "6px 14px",
               borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: "#ffffff",
+              border: "1px solid var(--gy-border, #cbd5e1)",
+              background: "var(--gy-surface, #ffffff)",
+              color: "var(--gy-text, #0f172a)",
               cursor: "pointer",
               fontSize: "0.8125rem",
               fontWeight: 600,
@@ -278,9 +281,15 @@ export const InteractiveAnimation: Story = {
             style={{
               padding: "6px 14px",
               borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: gap === 0 ? "#f1f5f9" : "#3b82f6",
-              color: gap === 0 ? "#0f172a" : "#ffffff",
+              border: "1px solid var(--gy-border, #cbd5e1)",
+              background:
+                gap === 0
+                  ? "var(--gy-surface-sunken, #f1f5f9)"
+                  : "var(--gy-primary, #3b82f6)",
+              color:
+                gap === 0
+                  ? "var(--gy-text, #0f172a)"
+                  : "var(--gy-primary-fg, #ffffff)",
               cursor: "pointer",
               fontSize: "0.8125rem",
               fontWeight: 600,

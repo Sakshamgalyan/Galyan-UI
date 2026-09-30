@@ -40,6 +40,8 @@ export const metalixiaBrand = {
     overlay: "#ffffff",
     sunken: "#f8fafc",
     disabled: "#f1f5f9",
+    muted: "#f1f2f7",
+    hover: "#f8fafc",
   },
 
   text: {

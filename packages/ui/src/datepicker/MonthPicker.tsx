@@ -263,8 +263,11 @@ export function MonthPicker({
         } ${className}`}
       >
         <MonthCalendar
-          value={value}
+          value={activeMonthVal}
           onChange={(val) => {
+            if (!isControlled) {
+              setInternalValue(val);
+            }
             setTempValue(val);
             onChange?.(val);
             onApply?.(val);

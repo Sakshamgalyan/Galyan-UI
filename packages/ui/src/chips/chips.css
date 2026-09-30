@@ -184,3 +184,47 @@
 .gy-chips-input__field::placeholder {
   color: var(--gy-text-subtle, #94a3b8);
 }
+
+/* ── Dark Mode Chips ─────────────────────────────────────────────────────── */
+.gy-dark .gy-chip--soft,
+.dark .gy-chip--soft,
+[data-color-mode="dark"] .gy-chip--soft,
+[data-theme="dark"] .gy-chip--soft,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--soft,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--soft {
+  background: color-mix(in srgb, var(--gy-primary) 22%, rgba(255, 255, 255, 0.06));
+  color: color-mix(in srgb, var(--gy-primary) 55%, #ffffff);
+  border-color: color-mix(in srgb, var(--gy-primary) 40%, transparent);
+}
+
+.gy-dark .gy-chip--outline,
+.dark .gy-chip--outline,
+[data-color-mode="dark"] .gy-chip--outline,
+[data-theme="dark"] .gy-chip--outline,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--outline,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--outline {
+  color: color-mix(in srgb, var(--gy-primary) 55%, #ffffff);
+  border-color: color-mix(in srgb, var(--gy-primary) 45%, transparent);
+}
+
+.gy-dark .gy-chip--neutral,
+.dark .gy-chip--neutral,
+[data-color-mode="dark"] .gy-chip--neutral,
+[data-theme="dark"] .gy-chip--neutral,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--neutral,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--gy-text-muted, #94a3b8);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gy-dark .gy-chips-input,
+.dark .gy-chips-input,
+[data-color-mode="dark"] .gy-chips-input,
+[data-theme="dark"] .gy-chips-input,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chips-input,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chips-input {
+  background: var(--gy-surface, #13131f);
+  border-color: var(--gy-border, #1c1c2b);
+}
+

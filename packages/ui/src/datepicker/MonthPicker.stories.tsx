@@ -181,10 +181,11 @@ export const InlineBorderless: Story = {
           width: 320,
           boxSizing: "border-box",
           padding: "1rem",
-          backgroundColor: "#ffffff",
+          background: "var(--gy-surface, #ffffff)",
+          color: "var(--gy-text, #0f172a)",
           borderRadius: "1rem",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-          border: "1px solid #e2e8f0",
+          boxShadow: "var(--gy-shadow-md, 0 4px 12px rgba(0,0,0,0.08))",
+          border: "1px solid var(--gy-border, #e2e8f0)",
         }}
       >
         <MonthPicker

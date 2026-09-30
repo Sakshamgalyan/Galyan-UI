@@ -47,12 +47,25 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   colorMode?: ColorMode;
   /** Additional CSS class names for custom styling */
   className?: string;
-  /** Polymorphic element tag */
+  /** Polymorphic element tag (defaults to "a" when href is present, otherwise "button") */
   as?: React.ElementType;
+  /** Link destination URL (renders as <a> if provided and as is unset) */
   href?: string;
+  /** Target window or frame for the link (e.g. '_blank', '_self', '_parent', '_top') */
+  target?: React.HTMLAttributeAnchorTarget;
+  /** Relationship of the target object to the link object (defaults to 'noopener noreferrer' when target='_blank') */
+  rel?: string;
+  /** Prompts the user to save the linked URL instead of navigating to it */
+  download?: boolean | string;
+  /** Referrer policy for the link */
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  /** Open in new tab with security attributes (sets target="_blank" and rel="noopener noreferrer") */
+  external?: boolean;
+  /** Button type attribute when rendered as <button> (defaults to 'button') */
+  type?: "button" | "submit" | "reset";
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<any, ButtonProps>(
   function Button(
     {
       variant = "primary",
@@ -69,36 +82,61 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onClick,
       themeRole,
       colorMode,
-      as: Component = "button",
+      as,
+      href,
+      target,
+      rel,
+      download,
+      referrerPolicy,
+      external = false,
+      type,
       ...rest
     },
     ref,
   ) {
+    const isButtonDisabled = Boolean(disabled) || isLoading;
+    const isLink = Boolean(href) || as === "a";
+    const Component = as ?? (href ? "a" : "button");
+
+    const computedTarget = target ?? (external ? "_blank" : undefined);
+    const computedRel =
+      rel ??
+      (computedTarget === "_blank" || external
+        ? "noopener noreferrer"
+        : undefined);
+
     const handleClick = useCallback(
-      (e: React.MouseEvent<HTMLButtonElement>) => {
+      (e: React.MouseEvent<any>) => {
+        if (isButtonDisabled) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
         if (variant !== "link") {
           // Ripple effect for active feedback
           const btn = e.currentTarget;
-          const rect = btn.getBoundingClientRect();
-          const s = Math.max(rect.width, rect.height);
-          const x = e.clientX - rect.left - s / 2;
-          const y = e.clientY - rect.top - s / 2;
+          if (btn && typeof btn.getBoundingClientRect === "function") {
+            const rect = btn.getBoundingClientRect();
+            const s = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - s / 2;
+            const y = e.clientY - rect.top - s / 2;
 
-          const ripple = document.createElement("span");
-          ripple.className = "gy-btn__ripple";
-          ripple.style.width = ripple.style.height = `${s}px`;
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
-          btn.appendChild(ripple);
-          setTimeout(() => ripple.remove(), 600);
+            const ripple = document.createElement("span");
+            ripple.className = "gy-btn__ripple";
+            ripple.style.width = ripple.style.height = `${s}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+          }
         }
 
         onClick?.(e);
       },
-      [onClick, variant],
+      [isButtonDisabled, onClick, variant],
     );
 
-    const isButtonDisabled = Boolean(disabled) || isLoading;
     const iconOnly =
       !children && !loadingText && (leftIcon || rightIcon) && !isLoading;
 
@@ -121,22 +159,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (themeRole) dataProps["data-theme"] = themeRole;
     if (colorMode) dataProps["data-color-mode"] = colorMode;
 
+    const elementProps: Record<string, any> = isLink
+      ? {
+          href: isButtonDisabled ? undefined : href,
+          target: computedTarget,
+          rel: computedRel,
+          download,
+          referrerPolicy,
+          role: isButtonDisabled ? "link" : rest.role,
+          tabIndex: isButtonDisabled ? -1 : rest.tabIndex,
+        }
+      : {
+          type: type ?? "button",
+          disabled: isButtonDisabled,
+        };
+
     return (
       <Component
         ref={ref}
         className={classes}
-        disabled={isButtonDisabled}
         aria-busy={isLoading}
         aria-disabled={isButtonDisabled}
-        onClick={
-          isButtonDisabled
-            ? (e: React.MouseEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }
-            : handleClick
-        }
+        onClick={handleClick}
         {...dataProps}
+        {...elementProps}
         {...rest}
       >
         {isLoading ? (

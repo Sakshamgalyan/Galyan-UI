@@ -56,6 +56,9 @@ interface ThemeProviderProps {
 
 // ── Component ───────────────────────────────────────────────────────────
 
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : useEffect;
+
 export function ThemeProvider({
   children,
   defaultRole,
@@ -86,9 +89,50 @@ export function ThemeProvider({
     }
   }
 
-  const [brand, setBrandState] = useState<ThemeBrand>(initialBrand);
-  const [role, setRoleState] = useState<ThemeRole>(initialRole);
-  const [colorMode, setColorModeState] = useState<ColorMode>(defaultColorMode);
+  // Lazy initialize state so client doesn't mount with a transient easylife state if stored
+  const [brand, setBrandState] = useState<ThemeBrand>(() => {
+    if (typeof brandProp !== "undefined") return brandProp;
+    if (defaultRole) return LEGACY_MAP[defaultRole]!.brand;
+    if (typeof window !== "undefined" && storageKey) {
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed.brand) return parsed.brand;
+        }
+      } catch {}
+    }
+    return "easylife";
+  });
+
+  const [role, setRoleState] = useState<ThemeRole>(() => {
+    if (typeof roleProp !== "undefined") return roleProp;
+    if (defaultRole) return LEGACY_MAP[defaultRole]!.role;
+    if (typeof window !== "undefined" && storageKey) {
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed.role) return parsed.role;
+        }
+      } catch {}
+    }
+    return "customer";
+  });
+
+  const [colorMode, setColorModeState] = useState<ColorMode>(() => {
+    if (typeof window !== "undefined" && storageKey) {
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed.colorMode) return parsed.colorMode;
+        }
+      } catch {}
+    }
+    return defaultColorMode;
+  });
+
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
   const [fontFamily, setFontFamilyState] = useState<string | undefined>(
     fontFamilyProp ?? customThemeProp?.fontFamily,
@@ -151,7 +195,7 @@ export function ThemeProvider({
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Load persisted preferences
+  // Load persisted preferences when storageKey changes, without overriding explicit props
   useEffect(() => {
     if (!storageKey) return;
     try {
@@ -166,29 +210,37 @@ export function ThemeProvider({
           fontFamilyDisplay?: string;
           customTheme?: CustomThemeConfig;
         };
-        if (parsed.brand) setBrandState(parsed.brand);
-        if (parsed.role) setRoleState(parsed.role);
-        if (parsed.colorMode) setColorModeState(parsed.colorMode);
-        if (parsed.fontFamily) setFontFamilyState(parsed.fontFamily);
-        if (parsed.fontFamilyMono)
+        if (parsed.brand && typeof brandProp === "undefined") setBrandState(parsed.brand);
+        if (parsed.role && typeof roleProp === "undefined") setRoleState(parsed.role);
+        if (parsed.colorMode && typeof defaultColorMode === "undefined") setColorModeState(parsed.colorMode);
+        if (parsed.fontFamily && typeof fontFamilyProp === "undefined") setFontFamilyState(parsed.fontFamily);
+        if (parsed.fontFamilyMono && typeof fontFamilyMonoProp === "undefined")
           setFontFamilyMonoState(parsed.fontFamilyMono);
-        if (parsed.fontFamilyDisplay)
+        if (parsed.fontFamilyDisplay && typeof fontFamilyDisplayProp === "undefined")
           setFontFamilyDisplayState(parsed.fontFamilyDisplay);
-        if (parsed.customTheme) setCustomConfig(parsed.customTheme);
+        if (parsed.customTheme && typeof customThemeProp === "undefined") setCustomConfig(parsed.customTheme);
       }
     } catch {
       // ignore
     }
-  }, [storageKey]);
+  }, [
+    storageKey,
+    brandProp,
+    roleProp,
+    defaultColorMode,
+    fontFamilyProp,
+    fontFamilyMonoProp,
+    fontFamilyDisplayProp,
+    customThemeProp,
+  ]);
 
   const resolvedMode = useMemo<"light" | "dark">(() => {
-    if (brand === "samantrix") return "dark";
     if (colorMode === "system") return systemPrefersDark ? "dark" : "light";
     return colorMode;
-  }, [colorMode, systemPrefersDark, brand]);
+  }, [colorMode, systemPrefersDark]);
 
-  // Apply data attributes to root element
-  useEffect(() => {
+  // Apply data attributes to root element synchronously before browser paint
+  useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-brand", brand);
     root.setAttribute("data-role", role);
@@ -197,8 +249,8 @@ export function ThemeProvider({
     root.setAttribute("data-theme", brand === "easylife" ? role : brand);
   }, [brand, role, resolvedMode]);
 
-  // Inject font families
-  useEffect(() => {
+  // Inject font families synchronously before paint
+  useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
     if (fontFamily) {
       root.style.setProperty("--gy-font-sans", fontFamily);
@@ -227,8 +279,8 @@ export function ThemeProvider({
     }
   }, [fontFamily, fontFamilyMono, fontFamilyDisplay]);
 
-  // Inject / clean up custom theme CSS variables
-  useEffect(() => {
+  // Inject / clean up custom theme CSS variables synchronously before paint
+  useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
 
     if (brand === "custom" && customConfig?.primary) {
