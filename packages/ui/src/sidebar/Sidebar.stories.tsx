@@ -162,6 +162,8 @@ const meta: Meta<typeof Sidebar> = {
       options: [
         "default",
         "floating",
+        "floating-glass",
+        "floating-glassmorphic",
         "bordered",
         "compact",
         "glass",
@@ -676,6 +678,90 @@ export const GlassmorphicEffect: Story = {
                   padding: "0.35rem 0.85rem",
                   borderRadius: "9999px",
                   background: "rgba(139, 92, 246, 0.15)",
+                  color: "#7c3aed",
+                  fontWeight: 600,
+                  fontSize: "0.8125rem",
+                }}
+              >
+                Active Route: {active}
+              </span>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  },
+};
+
+export const FloatingGlassmorphic: Story = {
+  args: {
+    variant: "floating-glass",
+    activeVariant: "line",
+    accentColor: "#7c3aed",
+    collapsible: true,
+  },
+  render: function Render(args) {
+    const [active, setActive] = useState("home");
+    return (
+      <div
+        style={{
+          height: "620px",
+          width: "820px",
+          display: "flex",
+          borderRadius: "1.75rem",
+          background:
+            "radial-gradient(ellipse at top left, #c4b5fd 0%, transparent 50%), radial-gradient(ellipse at bottom right, #a7f3d0 0%, #f1f5f9 100%)",
+          padding: "1rem",
+          boxShadow: "0 24px 48px -12px rgba(124, 58, 237, 0.15)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Sidebar
+          {...args}
+          header={<BrandHeader color="#7c3aed" />}
+          footer={<UserFooter />}
+          items={standardSidebarItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+        <main
+          style={{
+            flex: 1,
+            padding: "2.5rem",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(255, 255, 255, 0.65)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              borderRadius: "1.25rem",
+              padding: "2rem",
+              border: "1px solid rgba(255, 255, 255, 0.75)",
+              boxShadow: "0 12px 32px rgba(31, 38, 135, 0.06)",
+            }}
+          >
+            <h2 style={{ margin: "0 0 0.5rem", color: "#1e1b4b" }}>
+              Floating Glassmorphic Variant
+            </h2>
+            <p style={{ color: "#475569", lineHeight: 1.6 }}>
+              Native floating inset container combined with theme-adaptive
+              frosted glass blur, soft specular reflections, and responsive
+              translucency that looks stunning in both light and dark modes.
+            </p>
+            <div
+              style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem" }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "0.35rem 0.85rem",
+                  borderRadius: "9999px",
+                  background: "rgba(124, 58, 237, 0.15)",
                   color: "#7c3aed",
                   fontWeight: 600,
                   fontSize: "0.8125rem",

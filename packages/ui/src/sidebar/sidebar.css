@@ -1,4 +1,4 @@
-﻿/* ── Sidebar Component ─────────────────────────────────────────────────── */
+/* ── Sidebar Component ─────────────────────────────────────────────────── */
 .gy-sidebar {
   --gy-sidebar-brand: var(--gy-sidebar-accent, var(--gy-primary, #7c3aed));
   position: relative;
@@ -102,12 +102,166 @@
 }
 
 .gy-sidebar--glass.gy-sidebar--floating,
-.gy-sidebar--glassmorphic.gy-sidebar--floating {
-  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+.gy-sidebar--glassmorphic.gy-sidebar--floating,
+.gy-sidebar--floating-glass,
+.gy-sidebar--floating-glassmorphic {
+  margin: 0.75rem;
+  height: calc(100% - 1.5rem);
+  border-radius: var(--gy-radius-2xl, 1.25rem);
+  background: color-mix(
+    in srgb,
+    var(--gy-surface, #ffffff) 62%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(24px) saturate(150%) contrast(96%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%) contrast(96%);
+  border: 1px solid
+    color-mix(in srgb, var(--gy-border, #e2e8f0) 70%, transparent) !important;
   box-shadow:
-    0 16px 40px -8px rgba(31, 38, 135, 0.12),
-    0 4px 12px -2px rgba(31, 38, 135, 0.06),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+    0 8px 32px -12px rgba(0, 0, 0, 0.25),
+    0 4px 12px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4) !important;
+  overflow: hidden;
+}
+
+.gy-sidebar--floating-glass .gy-sidebar-header,
+.gy-sidebar--floating-glassmorphic .gy-sidebar-header,
+.gy-sidebar--floating-glass .gy-sidebar-footer,
+.gy-sidebar--floating-glassmorphic .gy-sidebar-footer {
+  border-color: color-mix(
+    in srgb,
+    var(--gy-border, #e2e8f0) 50%,
+    transparent
+  ) !important;
+}
+
+.gy-sidebar--floating-glass .gy-sidebar-divider,
+.gy-sidebar--floating-glassmorphic .gy-sidebar-divider,
+.gy-sidebar--floating-glass .gy-sidebar-group-divider,
+.gy-sidebar--floating-glassmorphic .gy-sidebar-group-divider {
+  background: color-mix(
+    in srgb,
+    var(--gy-border, #e2e8f0) 40%,
+    transparent
+  ) !important;
+}
+
+.gy-sidebar--floating-glass
+  .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+.gy-sidebar--floating-glassmorphic
+  .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active) {
+  background: color-mix(
+    in srgb,
+    var(--gy-surface, #ffffff) 50%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  color: var(--gy-text, #0f172a);
+}
+
+.gy-sidebar--floating-glass.gy-sidebar--active-pill .gy-sidebar-item--active,
+.gy-sidebar--floating-glassmorphic.gy-sidebar--active-pill .gy-sidebar-item--active {
+  background: color-mix(
+    in srgb,
+    var(--gy-sidebar-brand) 18%,
+    color-mix(in srgb, var(--gy-surface, #ffffff) 70%, transparent)
+  ) !important;
+  border: 1px solid
+    color-mix(in srgb, var(--gy-sidebar-brand) 30%, transparent) !important;
+  box-shadow:
+    0 4px 16px -2px color-mix(in srgb, var(--gy-sidebar-brand) 25%, transparent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  color: var(--gy-sidebar-brand);
+}
+
+.gy-sidebar--floating-glass.gy-sidebar--active-line .gy-sidebar-item--active,
+.gy-sidebar--floating-glassmorphic.gy-sidebar--active-line .gy-sidebar-item--active {
+  background: color-mix(
+    in srgb,
+    var(--gy-sidebar-brand) 10%,
+    color-mix(in srgb, var(--gy-surface, #ffffff) 40%, transparent)
+  ) !important;
+  color: var(--gy-sidebar-brand);
+}
+
+/* ── Dark Mode & Theme Glassmorphic Adaptations ── */
+.gy-dark .gy-sidebar--floating-glass,
+.gy-dark .gy-sidebar--floating-glassmorphic,
+.gy-dark .gy-sidebar--glass,
+.gy-dark .gy-sidebar--glassmorphic,
+[data-color-mode="dark"] .gy-sidebar--floating-glass,
+[data-color-mode="dark"] .gy-sidebar--floating-glassmorphic,
+[data-color-mode="dark"] .gy-sidebar--glass,
+[data-color-mode="dark"] .gy-sidebar--glassmorphic,
+.dark .gy-sidebar--floating-glass,
+.dark .gy-sidebar--floating-glassmorphic,
+.dark .gy-sidebar--glass,
+.dark .gy-sidebar--glassmorphic,
+[data-theme="dark"] .gy-sidebar--floating-glass,
+[data-theme="dark"] .gy-sidebar--floating-glassmorphic,
+[data-theme="dark"] .gy-sidebar--glass,
+[data-theme="dark"] .gy-sidebar--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--floating-glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--floating-glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glassmorphic,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--floating-glass,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--floating-glassmorphic,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glass,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glassmorphic {
+  background: color-mix(
+    in srgb,
+    var(--gy-surface, #0f172a) 60%,
+    transparent
+  ) !important;
+  background-color: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(28px) saturate(180%) contrast(105%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) contrast(105%);
+  border: 1px solid
+    color-mix(in srgb, var(--gy-border, #334155) 60%, transparent) !important;
+  box-shadow:
+    0 16px 40px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12) !important;
+  color: var(--gy-text, #f8fafc) !important;
+}
+
+.gy-dark .gy-sidebar--floating-glass .gy-sidebar-header,
+.gy-dark .gy-sidebar--floating-glassmorphic .gy-sidebar-header,
+.gy-dark .gy-sidebar--floating-glass .gy-sidebar-footer,
+.gy-dark .gy-sidebar--floating-glassmorphic .gy-sidebar-footer,
+[data-color-mode="dark"] .gy-sidebar--floating-glass .gy-sidebar-header,
+[data-color-mode="dark"] .gy-sidebar--floating-glassmorphic .gy-sidebar-header,
+[data-color-mode="dark"] .gy-sidebar--floating-glass .gy-sidebar-footer,
+[data-color-mode="dark"] .gy-sidebar--floating-glassmorphic .gy-sidebar-footer,
+.dark .gy-sidebar--floating-glass .gy-sidebar-header,
+.dark .gy-sidebar--floating-glassmorphic .gy-sidebar-header,
+.dark .gy-sidebar--floating-glass .gy-sidebar-footer,
+.dark .gy-sidebar--floating-glassmorphic .gy-sidebar-footer {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.gy-dark .gy-sidebar--floating-glass .gy-sidebar-item,
+.gy-dark .gy-sidebar--floating-glassmorphic .gy-sidebar-item,
+[data-color-mode="dark"] .gy-sidebar--floating-glass .gy-sidebar-item,
+[data-color-mode="dark"] .gy-sidebar--floating-glassmorphic .gy-sidebar-item,
+.dark .gy-sidebar--floating-glass .gy-sidebar-item,
+.dark .gy-sidebar--floating-glassmorphic .gy-sidebar-item {
+  color: #f1f5f9;
+}
+
+.gy-dark .gy-sidebar--floating-glass .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+.gy-dark .gy-sidebar--floating-glassmorphic .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+[data-color-mode="dark"] .gy-sidebar--floating-glass .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+[data-color-mode="dark"] .gy-sidebar--floating-glassmorphic .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+.dark .gy-sidebar--floating-glass .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
+.dark .gy-sidebar--floating-glassmorphic .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
 }
 
 .gy-sidebar--glass .gy-sidebar-header,

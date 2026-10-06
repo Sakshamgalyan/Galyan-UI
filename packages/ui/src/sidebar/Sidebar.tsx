@@ -15,6 +15,8 @@ export type SidebarPosition = "left" | "right";
 export type SidebarVariant =
   | "default"
   | "floating"
+  | "floating-glass"
+  | "floating-glassmorphic"
   | "bordered"
   | "compact"
   | "glass"
@@ -380,14 +382,26 @@ export function Sidebar({
       ? `${width}px`
       : width;
 
-  const isGlass = variant === "glass" || variant === "glassmorphic";
+  const isFloating =
+    variant === "floating" ||
+    variant === "floating-glass" ||
+    variant === "floating-glassmorphic";
+  const isGlass =
+    variant === "glass" ||
+    variant === "glassmorphic" ||
+    variant === "floating-glass" ||
+    variant === "floating-glassmorphic";
+  const isFloatingGlass =
+    variant === "floating-glass" || variant === "floating-glassmorphic";
   const hasColorScheme = !!resolvedColors;
 
   const sidebarClasses = [
     "gy-sidebar",
     `gy-sidebar--${position}`,
     `gy-sidebar--${variant}`,
+    isFloating ? "gy-sidebar--floating" : "",
     isGlass ? "gy-sidebar--glassmorphic" : "",
+    isFloatingGlass ? "gy-sidebar--floating-glass" : "",
     `gy-sidebar--active-${activeVariant}`,
     isCollapsed ? "gy-sidebar--collapsed" : "gy-sidebar--expanded",
     responsive ? "gy-sidebar--responsive" : "",
