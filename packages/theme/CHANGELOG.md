@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.10
+
+### Patch Changes
+
+- Release update (patch):
+  - 49108cc add: sidebar variant glass floating
+  - 95c0980 chore(release): v1.0.9
+  - 8dbd0aa Merge pull request #1 from Sakshamgalyan/fix/sidebar-fix
+  - 411f974 fix: sidebar and other component menu
+  - c2fc6db chore(release): v1.0.8
+
 ## 1.0.9
 
 ### Patch Changes
