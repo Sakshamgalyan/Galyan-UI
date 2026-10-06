@@ -221,6 +221,17 @@
 }
 
 /* Column sizes */
+.gy-table--xs .gy-table-th,
+.gy-table--xs .gy-table-td {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.6875rem;
+}
+
+.gy-table--xs .gy-table-td {
+  --gy-table-cell-py: 0.375rem;
+  --gy-table-cell-px: 0.5rem;
+}
+
 .gy-table--sm .gy-table-th,
 .gy-table--sm .gy-table-td {
   padding: 0.5rem 0.75rem;
@@ -332,6 +343,72 @@
 .gy-table--variant-secondary .gy-table-th {
   color: var(--gy-secondary, #475569);
   border-bottom-color: var(--gy-border, #e2e8f0);
+}
+
+/* Glass Variant */
+.gy-table-wrapper--glass {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+.gy-table--variant-glass {
+  background: transparent !important;
+}
+
+.gy-table--variant-glass .gy-table-header {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.gy-table--variant-glass .gy-table-th {
+  background: transparent;
+  color: var(--gy-text-muted, #94a3b8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gy-table--variant-glass .gy-table-td {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gy-table--variant-glass .gy-table-tr {
+  background: transparent;
+}
+
+.gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.gy-table-wrapper--glass .gy-table-pagination {
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-color-mode="light"] .gy-table-wrapper--glass,
+[data-brand="samantrix"][data-color-mode="light"] .gy-table-wrapper--glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(226, 232, 240, 0.85) !important;
+}
+
+[data-color-mode="light"] .gy-table--variant-glass .gy-table-header,
+[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-header {
+  background: rgba(248, 250, 252, 0.8);
+}
+
+[data-color-mode="light"] .gy-table--variant-glass .gy-table-th,
+[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-th {
+  border-bottom-color: rgba(226, 232, 240, 0.85);
+}
+
+[data-color-mode="light"] .gy-table--variant-glass .gy-table-td,
+[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-td {
+  border-bottom-color: rgba(241, 245, 249, 0.85);
+}
+
+[data-color-mode="light"] .gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td,
+[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td {
+  background: rgba(241, 245, 249, 0.6);
 }
 
 /* ── Sticky/Fixed Columns ───────────────────────────────────────────────── */

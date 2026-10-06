@@ -1,0 +1,293 @@
+/* ── Avatar Component ─────────────────────────────────────────────────── */
+.gy-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  user-select: none;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  background-color: var(--gy-surface-muted, #f1f5f9);
+  color: var(--gy-text, #1e293b);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gy-avatar--clickable {
+  cursor: pointer;
+}
+
+.gy-avatar--clickable:hover {
+  transform: translateY(-1px);
+}
+
+.gy-avatar--clickable:active {
+  transform: translateY(0);
+}
+
+/* Shapes */
+.gy-avatar--circle {
+  border-radius: 9999px;
+}
+
+.gy-avatar--rounded {
+  border-radius: var(--gy-radius-lg, 0.5rem);
+}
+
+.gy-avatar--square {
+  border-radius: 0;
+}
+
+/* Sizes */
+.gy-avatar--xs {
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.625rem;
+}
+
+.gy-avatar--sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.75rem;
+}
+
+.gy-avatar--md {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.875rem;
+}
+
+.gy-avatar--lg {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1rem;
+}
+
+.gy-avatar--xl {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.25rem;
+}
+
+.gy-avatar--2xl {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 1.625rem;
+}
+
+/* Image & Fallback */
+.gy-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+
+.gy-avatar__fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Variants */
+.gy-avatar--default {
+  background-color: var(--gy-surface-muted, #f1f5f9);
+  color: var(--gy-text, #1e293b);
+  border: 1px solid var(--gy-border, #e2e8f0);
+}
+
+.gy-avatar--bordered {
+  background-color: var(--gy-surface-muted, #f1f5f9);
+  border: 2px solid var(--gy-border-strong, #cbd5e1);
+}
+
+.gy-avatar--ring {
+  background-color: var(--gy-surface-muted, #f1f5f9);
+  border: 2px solid var(--gy-primary, #6366f1);
+  box-shadow: 0 0 0 2px var(--gy-surface, #ffffff);
+}
+
+.gy-avatar--glass {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Dot Indicator */
+.gy-avatar__status {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: #94a3b8;
+  border: 2px solid var(--gy-surface, #ffffff);
+  box-sizing: content-box;
+  z-index: 2;
+}
+
+/* Status Positions */
+.gy-avatar__status--bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: translate(15%, 15%);
+}
+
+.gy-avatar__status--top-right {
+  top: 0;
+  right: 0;
+  transform: translate(15%, -15%);
+}
+
+.gy-avatar__status--bottom-left {
+  bottom: 0;
+  left: 0;
+  transform: translate(-15%, 15%);
+}
+
+.gy-avatar__status--top-left {
+  top: 0;
+  left: 0;
+  transform: translate(-15%, -15%);
+}
+
+/* Status Sizes by Avatar Size */
+.gy-avatar--xs .gy-avatar__status {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-width: 1px;
+}
+
+.gy-avatar--sm .gy-avatar__status {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-width: 1.5px;
+}
+
+.gy-avatar--md .gy-avatar__status {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-width: 2px;
+}
+
+.gy-avatar--lg .gy-avatar__status {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 2px;
+}
+
+.gy-avatar--xl .gy-avatar__status {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-width: 2.5px;
+}
+
+.gy-avatar--2xl .gy-avatar__status {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-width: 3px;
+}
+
+/* Status Colors */
+.gy-avatar__status--online {
+  background-color: #10b981; /* emerald-500 */
+}
+
+.gy-avatar__status--away {
+  background-color: #f59e0b; /* amber-500 */
+}
+
+.gy-avatar__status--busy {
+  background-color: #ef4444; /* red-500 */
+}
+
+.gy-avatar__status--in_meeting {
+  background-color: #8b5cf6; /* purple-500 */
+}
+
+.gy-avatar__status--dnd {
+  background-color: #dc2626; /* red-600 */
+}
+
+.gy-avatar__status--offline {
+  background-color: #94a3b8; /* slate-400 */
+}
+
+/* ── Avatar Group ──────────────────────────────────────────────────────── */
+.gy-avatar-group {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.gy-avatar-group__item {
+  border: 2px solid var(--gy-surface, #ffffff);
+  box-sizing: content-box;
+}
+
+.gy-avatar-group--tight .gy-avatar-group__item:not(:first-child) {
+  margin-left: -0.875rem;
+}
+
+.gy-avatar-group--normal .gy-avatar-group__item:not(:first-child) {
+  margin-left: -0.625rem;
+}
+
+.gy-avatar-group--relaxed .gy-avatar-group__item:not(:first-child) {
+  margin-left: -0.375rem;
+}
+
+.gy-avatar--excess {
+  background-color: var(--gy-surface-raised, #e2e8f0);
+  color: var(--gy-text-muted, #475569);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 2px solid var(--gy-surface, #ffffff);
+}
+
+/* ── Dark Mode Adjustments ─────────────────────────────────────────────── */
+.gy-dark .gy-avatar--default,
+[data-color-mode="dark"] .gy-avatar--default,
+.dark .gy-avatar--default,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar--default {
+  background-color: rgba(30, 41, 59, 0.7);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gy-dark .gy-avatar__status,
+[data-color-mode="dark"] .gy-avatar__status,
+.dark .gy-avatar__status,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar__status,
+.gy-dark .gy-avatar-group__item,
+[data-color-mode="dark"] .gy-avatar-group__item,
+.dark .gy-avatar-group__item,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar-group__item {
+  border-color: #0f172a;
+}
+
+/* ── Role Ring Variants ────────────────────────────────────────────────── */
+.gy-avatar--role-developer {
+  box-shadow: 0 0 0 2px var(--gy-role-developer, #0284c7);
+}
+
+.gy-avatar--role-organization {
+  box-shadow: 0 0 0 2px var(--gy-role-organization, #7c3aed);
+}
+
+.gy-avatar--role-org-admin {
+  box-shadow: 0 0 0 2px var(--gy-role-org-admin, #059669);
+}
+
+.gy-avatar--role-org-member {
+  box-shadow: 0 0 0 2px var(--gy-role-org-member, #475569);
+}
+

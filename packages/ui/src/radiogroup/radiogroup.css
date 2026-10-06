@@ -1,4 +1,4 @@
-/* ── RadioGroup ──────────────────────────────────────────────────────────── */
+﻿/* ── RadioGroup ──────────────────────────────────────────────────────────── */
 .gy-radio-group {
   display: flex;
   flex-direction: column;
@@ -171,7 +171,7 @@
 .gy-dark .gy-radio__circle,
 [data-color-mode="dark"] .gy-radio__circle,
 [data-theme="dark"] .gy-radio__circle,
-[data-theme="samantrix"] .gy-radio__circle,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-radio__circle,
 .dark .gy-radio__circle {
   background-color: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.28);
@@ -181,7 +181,7 @@
 .gy-dark .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle,
 [data-color-mode="dark"] .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle,
 [data-theme="dark"] .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle,
-[data-theme="samantrix"] .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle,
 .dark .gy-radio:hover:not(.gy-radio--disabled) .gy-radio__circle {
   border-color: var(--gy-primary, #22c55e);
   background-color: color-mix(in srgb, var(--gy-primary, #22c55e) 15%, transparent);
@@ -191,7 +191,7 @@
 .gy-dark .gy-radio__circle--checked,
 [data-color-mode="dark"] .gy-radio__circle--checked,
 [data-theme="dark"] .gy-radio__circle--checked,
-[data-theme="samantrix"] .gy-radio__circle--checked,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-radio__circle--checked,
 .dark .gy-radio__circle--checked {
   border-color: var(--gy-primary, #22c55e);
   background-color: rgba(255, 255, 255, 0.05);
@@ -204,8 +204,8 @@
 [data-color-mode="dark"] .gy-radio-group__label,
 [data-theme="dark"] .gy-radio__label,
 [data-theme="dark"] .gy-radio-group__label,
-[data-theme="samantrix"] .gy-radio__label,
-[data-theme="samantrix"] .gy-radio-group__label,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-radio__label,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-radio-group__label,
 .dark .gy-radio__label,
 .dark .gy-radio-group__label {
   color: var(--gy-text, #f8fafc);

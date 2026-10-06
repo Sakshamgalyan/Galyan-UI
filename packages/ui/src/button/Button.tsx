@@ -156,7 +156,10 @@ export const Button = forwardRef<any, ButtonProps>(
 
     // Dynamic theme attribute scoping if themeRole or colorMode props are provided
     const dataProps: Record<string, string> = {};
-    if (themeRole) dataProps["data-theme"] = themeRole;
+    if (themeRole) {
+      dataProps["data-theme"] = themeRole;
+      dataProps["data-role"] = themeRole;
+    }
     if (colorMode) dataProps["data-color-mode"] = colorMode;
 
     const elementProps: Record<string, any> = isLink

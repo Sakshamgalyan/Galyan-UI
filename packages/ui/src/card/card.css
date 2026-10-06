@@ -37,6 +37,26 @@
   background: var(--gy-background-muted, #f8fafc);
   border: 1px solid transparent;
 }
+.gy-card--kpi {
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.gy-card--kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.08);
+}
+.gy-card--interactive {
+  background: var(--gy-surface, #ffffff);
+  border: 1px solid var(--gy-border, #e2e8f0);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gy-card--interactive:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--gy-primary) 40%, var(--gy-border, #e2e8f0));
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+}
 .gy-card--glassmorphic,
 .gy-card--glass {
   background: linear-gradient(
@@ -59,6 +79,9 @@
 }
 
 /* Padding */
+.gy-card--padding-xs {
+  padding: 0.5rem 0.75rem;
+}
 .gy-card--padding-sm {
   padding: 0.875rem 1rem;
 }
@@ -332,4 +355,34 @@
     radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.3) 0%, transparent 65%),
     linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%);
 }
+
+/* ── Samantrix Light Mode Glass Cards ────────────────────────────────────── */
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic,
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass,
+[data-theme="samantrix-admin"][data-color-mode="light"] .gy-card--glassmorphic,
+[data-theme="samantrix-admin"][data-color-mode="light"] .gy-card--glass,
+[data-theme="samantrix-professional"][data-color-mode="light"] .gy-card--glassmorphic,
+[data-theme="samantrix-professional"][data-color-mode="light"] .gy-card--glass {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(229, 226, 246, 0.85) !important;
+  box-shadow:
+    0 4px 20px -2px rgba(124, 92, 255, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  color: var(--gy-text, #0a0a14) !important;
+}
+
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-header,
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass .gy-card-header,
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-footer,
+[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass .gy-card-footer {
+  border-color: rgba(229, 226, 246, 0.8) !important;
+}
+
+/* Card with no padding — flush headers */
+.gy-card:not([class*="gy-card--padding-"]) > .gy-card-header {
+  margin-bottom: 0;
+}
+
 

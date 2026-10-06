@@ -45,7 +45,7 @@ export interface DropdownProps<V extends DropdownValue = DropdownValue> {
   onChange?: (val: V) => void;
   placeholder?: string;
   label?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   variant?: "default" | "filled" | "glassmorphic" | "glass";
   multiple?: boolean;
   searchable?: boolean;
@@ -692,7 +692,7 @@ export function Dropdown<V extends DropdownValue = DropdownValue>({
             !loading &&
             (Array.isArray(value) ? value.length > 0 : true) && (
               <ClearButton
-                size={size === "lg" ? "md" : "sm"}
+                size={size === "lg" ? "md" : size === "xs" ? "xs" : "sm"}
                 variant="subtle"
                 ariaLabel="Clear selection"
                 className="gy-dropdown-clear"

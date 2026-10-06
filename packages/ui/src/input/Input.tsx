@@ -1,14 +1,17 @@
 "use client";
 
 import React, { forwardRef, useId, useState } from "react";
+import type { ThemeRole, ColorMode } from "@galyan/theme";
 import { ClearButton } from "../clearbutton/ClearButton";
 import "./input.css";
 import { Typography } from "../typography";
 
-export type InputSize = "sm" | "md" | "lg";
+export type InputSize = "xs" | "sm" | "md" | "lg";
 export type InputVariant =
   | "default"
   | "filled"
+  | "glass"
+  | "glassmorphic"
   | "focused"
   | "error"
   | "success"
@@ -64,6 +67,10 @@ export interface InputProps extends Omit<
   borderRadius?: string;
   /** Legacy error message string (shows as helperText in error state) */
   error?: string;
+  /** Override theme role for this input component */
+  themeRole?: ThemeRole;
+  /** Override color mode (light/dark) for this input component */
+  colorMode?: ColorMode;
 }
 
 const InfoIcon = () => (
@@ -145,6 +152,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     borderRadius,
     error,
     disabled,
+    themeRole,
+    colorMode,
     id,
     value,
     onChange,
@@ -183,6 +192,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     "gy-input-wrapper",
     `gy-input-wrapper--${size}`,
     variant === "filled" ? "gy-input-wrapper--filled" : "",
+    variant === "glass" || variant === "glassmorphic"
+      ? `gy-input-wrapper--${variant}`
+      : "",
     resolvedError ? "gy-input-wrapper--error" : "",
     resolvedSuccess ? "gy-input-wrapper--success" : "",
     resolvedDisabled ? "gy-input-wrapper--disabled" : "",
@@ -217,9 +229,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     wrapperStyle.borderRadius = borderRadius;
   }
 
+  // Dynamic theme attribute scoping if themeRole or colorMode props are provided
+  const dataProps: Record<string, string> = {};
+  if (themeRole) {
+    dataProps["data-theme"] = themeRole;
+    dataProps["data-role"] = themeRole;
+  }
+  if (colorMode) {
+    dataProps["data-color-mode"] = colorMode;
+  }
+
   return (
     <div
       className={`gy-input-root ${fullWidth ? "" : "gy-input-root--inline"} ${className}`}
+      {...dataProps}
     >
       {label && (
         <Typography
@@ -271,7 +294,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
         {showClear && (
           <ClearButton
-            size={size === "lg" ? "md" : size === "sm" ? "xs" : "sm"}
+            size={size === "lg" ? "md" : size === "xs" || size === "sm" ? "xs" : "sm"}
             variant="subtle"
             ariaLabel="Clear input"
             onClick={onClear}

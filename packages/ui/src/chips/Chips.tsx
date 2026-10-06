@@ -8,11 +8,13 @@ export type ChipVariant =
   | "solid"
   | "soft"
   | "outline"
+  | "primary"
+  | "glass"
   | "success"
   | "warning"
   | "danger"
   | "neutral";
-export type ChipSize = "sm" | "md" | "lg";
+export type ChipSize = "xs" | "sm" | "md" | "lg";
 export type ChipRadius = "none" | "sm" | "md" | "lg" | "full";
 
 export interface ChipProps {

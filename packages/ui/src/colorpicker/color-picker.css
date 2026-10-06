@@ -378,6 +378,7 @@
   outline: none;
   box-sizing: border-box;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .gy-colorpicker-number-input::-webkit-outer-spin-button,

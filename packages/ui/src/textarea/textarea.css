@@ -52,6 +52,11 @@
 }
 
 /* ── Sizes ── */
+.gy-textarea--xs {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--gy-font-size-xs, 0.75rem);
+  min-height: 3rem;
+}
 .gy-textarea--sm {
   padding: 0.375rem 0.75rem;
   font-size: var(--gy-font-size-sm, 0.875rem);
@@ -66,6 +71,31 @@
   padding: 0.75rem 1rem;
   font-size: var(--gy-font-size-md, 1rem);
   min-height: 6.5rem;
+}
+
+/* ── Glass & Glassmorphic Variant ── */
+.gy-textarea--glass,
+.gy-textarea--glassmorphic {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: inherit;
+}
+
+.gy-textarea--glass:focus,
+.gy-textarea--glassmorphic:focus {
+  border-color: var(--gy-primary, #6366f1) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+
+[data-color-mode="light"] .gy-textarea--glass,
+[data-color-mode="light"] .gy-textarea--glassmorphic,
+[data-brand="samantrix"][data-color-mode="light"] .gy-textarea--glass,
+[data-brand="samantrix"][data-color-mode="light"] .gy-textarea--glassmorphic {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(226, 232, 240, 0.85) !important;
 }
 
 /* ── Variant: Filled ── */

@@ -1,4 +1,4 @@
-/* ── Checkbox Component ─────────────────────────────────────────────────── */
+﻿/* ── Checkbox Component ─────────────────────────────────────────────────── */
 .gy-checkbox-wrapper {
   display: inline-flex;
   align-items: center;
@@ -205,7 +205,7 @@
 .gy-dark .gy-checkbox__box,
 [data-color-mode="dark"] .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox__box,
 .dark .gy-checkbox__box {
   background-color: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.28);
@@ -215,7 +215,7 @@
 .gy-dark .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box,
 [data-color-mode="dark"] .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box,
 .dark .gy-checkbox-wrapper:hover:not(.gy-checkbox--disabled) .gy-checkbox__box {
   border-color: var(--gy-primary, #6366f1);
   background-color: color-mix(in srgb, var(--gy-primary, #6366f1) 15%, transparent);
@@ -228,8 +228,8 @@
 [data-color-mode="dark"] .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:checked + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--solid .gy-checkbox__input:indeterminate + .gy-checkbox__box {
   background-color: var(--gy-primary, #6366f1);
@@ -244,8 +244,8 @@
 [data-color-mode="dark"] .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:checked + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--outline .gy-checkbox__input:indeterminate + .gy-checkbox__box {
   background-color: transparent;
@@ -259,8 +259,8 @@
 [data-color-mode="dark"] .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
 [data-theme="dark"] .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
-[data-theme="samantrix"] .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:checked + .gy-checkbox__box,
 .dark .gy-checkbox--primary.gy-checkbox--soft .gy-checkbox__input:indeterminate + .gy-checkbox__box {
   background-color: color-mix(in srgb, var(--gy-primary, #6366f1) 22%, transparent);
@@ -271,7 +271,7 @@
 .gy-dark .gy-checkbox__label,
 [data-color-mode="dark"] .gy-checkbox__label,
 [data-theme="dark"] .gy-checkbox__label,
-[data-theme="samantrix"] .gy-checkbox__label,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox__label,
 .dark .gy-checkbox__label {
   color: var(--gy-text, #f8fafc);
 }
@@ -279,7 +279,7 @@
 .gy-dark .gy-checkbox__description,
 [data-color-mode="dark"] .gy-checkbox__description,
 [data-theme="dark"] .gy-checkbox__description,
-[data-theme="samantrix"] .gy-checkbox__description,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-checkbox__description,
 .dark .gy-checkbox__description {
   color: var(--gy-text-muted, #94a3b8);
 }

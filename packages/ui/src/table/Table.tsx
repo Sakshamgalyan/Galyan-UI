@@ -48,8 +48,8 @@ export interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   rowKey?: (row: T) => string;
-  variant?: "default" | "striped" | "simple" | "primary" | "secondary";
-  size?: "sm" | "md" | "lg";
+  variant?: "default" | "striped" | "simple" | "primary" | "secondary" | "glass";
+  size?: "xs" | "sm" | "md" | "lg";
   hoverable?: boolean;
   showHeader?: boolean;
   sortable?: boolean;
@@ -824,6 +824,7 @@ export function Table<T>({
     hasFixedRight ? "gy-table-wrapper--has-fixed-right" : "",
     canScrollLeft ? "gy-table-wrapper--scroll-left" : "",
     canScrollRight ? "gy-table-wrapper--scroll-right" : "",
+    variant === "glass" ? "gy-table-wrapper--glass" : "",
     noBorder ? "gy-table-wrapper--no-border" : "",
     className,
   ]
