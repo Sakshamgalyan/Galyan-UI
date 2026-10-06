@@ -19,12 +19,43 @@
   cursor: pointer;
 }
 
-.gy-avatar--clickable:hover {
+.gy-avatar--clickable:hover:not(.gy-avatar--interactive) {
   transform: translateY(-1px);
 }
 
-.gy-avatar--clickable:active {
+.gy-avatar--clickable:active:not(.gy-avatar--interactive) {
   transform: translateY(0);
+}
+
+/* ── Interactive & Clickable ── */
+.gy-avatar--interactive {
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-avatar--interactive:hover {
+  transform: scale(1.05);
+}
+
+.gy-avatar--interactive:active {
+  transform: scale(0.98);
+}
+
+/* ── Glow Effect ── */
+.gy-avatar--glow {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent),
+    0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-avatar--glow:hover,
+.gy-avatar--clickable.gy-avatar--glow:hover,
+.gy-avatar--interactive.gy-avatar--glow:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent),
+    0 8px 20px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 35%, transparent);
 }
 
 /* Shapes */

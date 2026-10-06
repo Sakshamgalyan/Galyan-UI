@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Menu } from "./Menu";
+import { Avatar } from "../avatar/Avatar";
+import { Badge } from "../badge/Badge";
+import { Chip } from "../chips/Chips";
 
 const DashboardIcon = () => (
   <svg
@@ -752,3 +755,203 @@ export const GlassmorphicDarkMode: Story = {
     );
   },
 };
+
+export const DropdownWithAvatarTrigger: Story = {
+  render: () => {
+    const items = [
+      { id: "profile", label: "Organization Profile", icon: <ProfileIcon /> },
+      { id: "security", label: "Security & 2FA", icon: <SettingsIcon /> },
+      { id: "workplace", label: "Open Workplace", icon: <HomeIcon /> },
+      { id: "div", label: "", divider: true },
+      { id: "logout", label: "Sign out" },
+    ];
+
+    return (
+      <div style={{ padding: "3rem", display: "flex", justifyContent: "center" }}>
+        <Menu
+          trigger={
+            <Avatar
+              name="Sarah Connor"
+              size="md"
+              variant="glass"
+              status="online"
+              glow
+              interactive
+              aria-label="Account menu"
+            />
+          }
+          placement="bottom-end"
+          width={260}
+          size="sm"
+          variant="bordered"
+          items={items}
+          header={
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem", textAlign: "left" }}>
+              <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
+                Sarah Connor
+              </span>
+              <span style={{ fontSize: "0.75rem", color: "var(--gy-text-secondary)" }}>
+                sarah@cyberdyne.io
+              </span>
+              <div style={{ display: "flex", gap: "0.375rem", marginTop: "0.25rem" }}>
+                <Chip size="sm" variant="soft">
+                  Platform Admin
+                </Chip>
+                <Chip size="sm" variant="neutral">
+                  Enterprise
+                </Chip>
+              </div>
+            </div>
+          }
+        />
+      </div>
+    );
+  },
+};
+
+export const DropdownWithBadgeTrigger: Story = {
+  render: () => {
+    const items = [
+      { id: "account", label: "Account settings", icon: <ProfileIcon /> },
+      { id: "team", label: "Manage team", icon: <UsersIcon /> },
+      { id: "div", label: "", divider: true },
+      { id: "logout", label: "Log out" },
+    ];
+
+    return (
+      <div style={{ padding: "3rem", display: "flex", justifyContent: "center" }}>
+        <Menu
+          trigger={
+            <Badge
+              content="S"
+              variant="primary"
+              size="xl"
+              shape="circle"
+              glow
+              interactive
+              aria-label="Account menu"
+            />
+          }
+          placement="bottom-end"
+          width={240}
+          size="sm"
+          variant="bordered"
+          items={items}
+          header={
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", textAlign: "left" }}>
+              <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
+                Samantrix Admin
+              </span>
+              <span style={{ fontSize: "0.75rem", color: "var(--gy-text-secondary)" }}>
+                admin@samantrix.com
+              </span>
+            </div>
+          }
+        />
+      </div>
+    );
+  },
+};
+
+export const DropdownNotificationMenu: Story = {
+  render: () => {
+    const items = [
+      {
+        id: "workspace",
+        icon: (
+          <span style={{ color: "var(--gy-success, #10b981)" }}>
+            <DocumentIcon />
+          </span>
+        ),
+        label: (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.125rem", textAlign: "left" }}>
+            <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-text)" }}>
+              Workspace provisioned
+            </span>
+            <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-secondary)" }}>
+              Virtual office floor plan is active.
+            </span>
+          </div>
+        ),
+      },
+      {
+        id: "security",
+        icon: (
+          <span style={{ color: "var(--gy-warning, #f59e0b)" }}>
+            <SettingsIcon />
+          </span>
+        ),
+        label: (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.125rem", textAlign: "left" }}>
+            <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-text)" }}>
+              Enable 2FA
+            </span>
+            <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-secondary)" }}>
+              Secure administrative access.
+            </span>
+          </div>
+        ),
+      },
+      { id: "div", label: "", divider: true },
+      {
+        id: "all",
+        label: (
+          <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gy-primary)" }}>
+            Show all notifications
+          </span>
+        ),
+      },
+    ];
+
+    const BellSvg = () => (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    );
+
+    return (
+      <div style={{ padding: "3rem", display: "flex", justifyContent: "center" }}>
+        <Menu
+          trigger={
+            <Badge dot ping variant="primary" placement="top-right" className="cursor-pointer">
+              <Avatar
+                fallback={<BellSvg />}
+                size="md"
+                variant="default"
+                glow
+                interactive
+                aria-label="Notifications"
+              />
+            </Badge>
+          }
+          placement="bottom-end"
+          width={300}
+          size="sm"
+          variant="bordered"
+          items={items}
+          header={
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
+                Notifications
+              </span>
+              <Chip size="sm" variant="warning">
+                Action required
+              </Chip>
+            </div>
+          }
+        />
+      </div>
+    );
+  },
+};
+

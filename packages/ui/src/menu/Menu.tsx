@@ -113,12 +113,13 @@ export function Menu({
     handleOpenChange(!isOpen);
   };
 
-  const { refs, floatingStyles, context } = useFloating({
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
     open: isOpen,
     onOpenChange: handleOpenChange,
     placement,
     whileElementsMounted: autoUpdate,
     strategy: "fixed",
+    transform: false,
     middleware: [
       offset(8),
       flip({ padding: 8 }),
@@ -308,9 +309,12 @@ export function Menu({
   const floatingPanel = isOpen ? (
     <div
       ref={refs.setFloating}
-      className="gy-menu-dropdown"
+      className={`gy-menu-dropdown ${isPositioned ? "gy-menu-dropdown--positioned" : ""}`.trim()}
       style={{
         ...floatingStyles,
+        visibility: isPositioned ? "visible" : "hidden",
+        opacity: isPositioned ? undefined : 0,
+        pointerEvents: isPositioned ? undefined : "none",
         zIndex,
         width: width ? (typeof width === "number" ? `${width}px` : width) : undefined,
         maxWidth: "calc(100vw - 16px)",

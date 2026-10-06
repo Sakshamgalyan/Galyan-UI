@@ -75,6 +75,20 @@ const meta: Meta<typeof Avatar> = {
         type: { summary: "'developer' | 'organization' | 'org-admin' | 'org-member'" },
       },
     },
+    glow: {
+      control: "boolean",
+      description: "Subtle primary ring and elevation glow shadow",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
+    interactive: {
+      control: "boolean",
+      description: "Cursor pointer, hover scale 1.05 and active feedback",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
     name: {
       control: "text",
       description: "User full name for automatic fallback initials extraction",
@@ -428,3 +442,128 @@ export const DigitalWorkplaceRoster: Story = {
     );
   },
 };
+
+const BellIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+  </svg>
+);
+
+const MailIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+);
+
+const ShieldIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
+export const GlowAndInteractive: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar src={SAMPLE_AVATAR_1} name="Elena Rostova" size="md" glow interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Image + Glow</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar name="Alex Vance" size="md" variant="glass" glow interactive status="online" />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Glass + Status</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar name="Gordan Freeman" size="md" variant="default" glow interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Default + Glow</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar src={SAMPLE_AVATAR_2} size="lg" glow interactive status="away" />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Large + Away</span>
+      </div>
+    </div>
+  ),
+};
+
+export const IconFallback: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar fallback={<BellIcon />} size="md" variant="default" interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Bell Icon</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar fallback={<MailIcon />} size="md" variant="glass" interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Mail Icon</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar fallback={<ShieldIcon />} size="md" variant="default" glow interactive status="busy" statusPosition="top-right" />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Shield + Status</span>
+      </div>
+    </div>
+  ),
+};
+
+export const HeaderProfileAvatar: Story = {
+  render: () => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "1.5rem",
+        padding: "1.5rem",
+        borderRadius: "1rem",
+        background: "var(--gy-surface, #ffffff)",
+        border: "1px solid var(--gy-border, #e2e8f0)",
+      }}
+    >
+      <Avatar
+        src={SAMPLE_AVATAR_1}
+        name="Elena Rostova"
+        size="md"
+        variant="glass"
+        status="online"
+        glow
+        interactive
+        aria-label="Account menu"
+      />
+      <div>
+        <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
+          Elena Rostova
+        </div>
+        <div style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
+          Interactive header profile trigger with glow
+        </div>
+      </div>
+    </div>
+  ),
+};
+

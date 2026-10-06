@@ -47,6 +47,10 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   status?: AvatarStatus;
   /** Placement of the status indicator */
   statusPosition?: "bottom-right" | "top-right" | "bottom-left" | "top-left";
+  /** Adds primary ring & shadow glow */
+  glow?: boolean;
+  /** Interactive hover scale and feedback */
+  interactive?: boolean;
   /** Optional click handler */
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   /** Additional CSS class names */
@@ -85,6 +89,8 @@ export function Avatar({
   role,
   status,
   statusPosition = "bottom-right",
+  glow = false,
+  interactive = false,
   onClick,
   className = "",
   style,
@@ -94,6 +100,7 @@ export function Avatar({
   const initials = fallback ?? (name ? getInitials(name) : "?");
   const hasImage = Boolean(src) && !imageError;
   const normalizedStatus = normalizeStatus(status);
+  const isClickable = Boolean(onClick || interactive);
 
   const rootClasses = [
     "gy-avatar",
@@ -101,7 +108,9 @@ export function Avatar({
     `gy-avatar--${shape}`,
     `gy-avatar--${variant}`,
     role ? `gy-avatar--role-${role}` : "",
-    onClick ? "gy-avatar--clickable" : "",
+    isClickable ? "gy-avatar--clickable" : "",
+    interactive ? "gy-avatar--interactive" : "",
+    glow ? "gy-avatar--glow" : "",
     className,
   ]
     .filter(Boolean)
@@ -113,8 +122,8 @@ export function Avatar({
       style={style}
       data-role={role}
       onClick={onClick}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
       {...rest}
     >
       {hasImage ? (

@@ -79,6 +79,63 @@
   font-size: 0.8125rem;
 }
 
+.gy-badge--xl {
+  height: 2.25rem;
+  min-width: 2.25rem;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Shapes */
+.gy-badge--circle {
+  border-radius: 9999px;
+  aspect-ratio: 1 / 1;
+  padding: 0 !important;
+}
+
+.gy-badge--rounded {
+  border-radius: var(--gy-radius-lg, 0.5rem);
+}
+
+.gy-badge--square {
+  border-radius: 0;
+}
+
+/* ── Interactive & Clickable ── */
+.gy-badge--clickable,
+.gy-badge--interactive {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-badge--clickable:hover,
+.gy-badge--interactive:hover {
+  transform: scale(1.05);
+}
+
+.gy-badge--clickable:active,
+.gy-badge--interactive:active {
+  transform: scale(0.98);
+}
+
+/* ── Glow Effect ── */
+.gy-badge--glow {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent),
+    0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gy-badge--glow:hover,
+.gy-badge--clickable.gy-badge--glow:hover,
+.gy-badge--interactive.gy-badge--glow:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent),
+    0 8px 20px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 35%, transparent);
+}
+
 /* Dot style */
 .gy-badge--dot {
   min-width: 0 !important;

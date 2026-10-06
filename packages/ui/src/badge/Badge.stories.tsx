@@ -85,11 +85,33 @@ const meta: Meta<typeof Badge> = {
     },
     size: {
       control: "select",
-      options: ["xs", "sm", "md", "lg"],
+      options: ["xs", "sm", "md", "lg", "xl"],
       description: "Size scale of the badge",
       table: {
-        type: { summary: "'xs' | 'sm' | 'md' | 'lg'" },
+        type: { summary: "'xs' | 'sm' | 'md' | 'lg' | 'xl'" },
         defaultValue: { summary: "'md'" },
+      },
+    },
+    shape: {
+      control: "select",
+      options: ["circle", "rounded", "square"],
+      description: "Shape geometry of the badge",
+      table: {
+        type: { summary: "'circle' | 'rounded' | 'square'" },
+      },
+    },
+    glow: {
+      control: "boolean",
+      description: "Subtle primary ring and elevation glow shadow",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
+    interactive: {
+      control: "boolean",
+      description: "Cursor pointer and smooth hover scale feedback",
+      table: {
+        defaultValue: { summary: "false" },
       },
     },
     placement: {
@@ -466,3 +488,54 @@ export const GlassBadges: Story = {
     </div>
   ),
 };
+
+export const GlowAndInteractive: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+      <Badge content="Primary Glow" variant="primary" size="md" glow interactive />
+      <Badge content="Glass Glow" variant="glass" size="md" glow interactive />
+      <Badge content="Success Glow" variant="success" size="md" glow interactive />
+      <Badge content="Neutral Glow" variant="neutral" size="md" glow interactive />
+    </div>
+  ),
+};
+
+export const CircularAvatarBadge: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Badge content="S" variant="primary" size="xl" shape="circle" glow interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial "S"</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Badge content="JD" variant="secondary" size="xl" shape="circle" glow interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial "JD"</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Badge content="99+" variant="danger" size="xl" shape="circle" glow interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Count "99+"</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Badge content={<BellIcon />} variant="neutral" size="xl" shape="circle" interactive />
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Icon Badge</span>
+      </div>
+    </div>
+  ),
+};
+
+export const NotificationTriggerWithBadge: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}>
+      <Badge dot ping variant="primary" placement="top-right">
+        <Avatar name="Sarah Connor" size="md" />
+      </Badge>
+      <Badge dot ping variant="danger" placement="top-right">
+        <Avatar name="John Matrix" size="md" variant="glass" glow />
+      </Badge>
+      <Badge dot ping variant="warning" placement="top-right">
+        <Badge content={<BellIcon />} variant="neutral" size="xl" shape="circle" interactive />
+      </Badge>
+    </div>
+  ),
+};
+

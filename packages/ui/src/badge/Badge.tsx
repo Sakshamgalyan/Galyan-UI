@@ -17,7 +17,8 @@ export type BadgeVariant =
   | "org-admin"
   | "org-member";
 
-export type BadgeSize = "xs" | "sm" | "md" | "lg";
+export type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type BadgeShape = "circle" | "rounded" | "square";
 export type BadgePlacement =
   | "top-right"
   | "top-left"
@@ -41,6 +42,12 @@ export interface BadgeProps
   variant?: BadgeVariant;
   /** Size preset */
   size?: BadgeSize;
+  /** Badge shape */
+  shape?: BadgeShape;
+  /** Adds primary ring & shadow glow */
+  glow?: boolean;
+  /** Interactive hover scale and feedback */
+  interactive?: boolean;
   /** Position relative to children, or inline */
   placement?: BadgePlacement;
   /** Whether to render badge when content is 0 */
@@ -59,6 +66,9 @@ export function Badge({
   ping = false,
   variant = "primary",
   size = "md",
+  shape,
+  glow = false,
+  interactive = false,
   placement,
   showZero = false,
   invisible = false,
@@ -83,20 +93,28 @@ export function Badge({
     return children ? <span className="gy-badge-wrapper">{children}</span> : null;
   }
 
+  const isClickable = Boolean(rest.onClick || interactive);
+
   const badgeElement = (
     <span
       className={[
         "gy-badge",
         `gy-badge--${variant}`,
         `gy-badge--${size}`,
+        shape ? `gy-badge--${shape}` : "",
+        glow ? "gy-badge--glow" : "",
+        isClickable ? "gy-badge--clickable" : "",
+        interactive ? "gy-badge--interactive" : "",
         dot ? "gy-badge--dot" : "",
         resolvedPlacement !== "inline" ? `gy-badge--placed gy-badge--${resolvedPlacement}` : "",
-        className,
+        !children ? className : "",
       ]
         .filter(Boolean)
         .join(" ")}
-      style={style}
-      {...rest}
+      style={!children ? style : undefined}
+      role={!children && isClickable ? "button" : undefined}
+      tabIndex={!children && isClickable ? 0 : undefined}
+      {...(!children ? rest : {})}
     >
       {ping && <span className="gy-badge__ping" />}
       {!dot && displayContent}
@@ -105,7 +123,11 @@ export function Badge({
 
   if (children) {
     return (
-      <span className="gy-badge-wrapper">
+      <span
+        className={`gy-badge-wrapper ${className}`.trim()}
+        style={style}
+        {...rest}
+      >
         {children}
         {badgeElement}
       </span>

@@ -627,6 +627,13 @@
   animation: gy-menu-dropdown-fade 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.gy-menu-dropdown:not(.gy-menu-dropdown--positioned) {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @keyframes gy-menu-dropdown-fade {
   from {
     opacity: 0;
