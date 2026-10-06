@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.12
+
+### Patch Changes
+
+- Release update (patch):
+  - 40bf57e fix: badge and avatar and menu
+  - bf8ad3d chore(release): v1.0.11
+  - a41254c fix: sidebar arrow button
+  - d38eb57 chore(release): v1.0.10
+  - 49108cc add: sidebar variant glass floating
+- Updated dependencies
+  - @galyan/theme@1.0.12
+
 ## 1.0.11
 
 ### Patch Changes
