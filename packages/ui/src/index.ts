@@ -60,3 +60,5 @@ export * from "./timepicker/index";
 export * from "./emptystate/index";
 export * from "./clearbutton/index";
 export * from "./listitemgroup/index";
+export * from "./avatar/index";
+export * from "./badge/index";

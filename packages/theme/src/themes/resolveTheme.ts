@@ -18,6 +18,16 @@ import {
 import { professionalOverrideEasylife } from "./roles/professional.js";
 import { agentOverrideEasylife } from "./roles/agent.js";
 import { adminOverrideEasylife } from "./roles/admin.js";
+import {
+  developerOverrideSamantrix,
+  organizationOverrideSamantrix,
+  orgAdminOverrideSamantrix,
+  orgMemberOverrideSamantrix,
+  adminOverrideSamantrix,
+  professionalOverrideSamantrix,
+  agentOverrideSamantrix,
+  customerOverrideSamantrix,
+} from "./roles/samantrix.js";
 
 // ── Brand registry ──────────────────────────────────────────────────────
 
@@ -37,7 +47,16 @@ const roleOverrides: Record<string, Record<string, RoleOverride>> = {
     // customer: {} — brand default, no overrides
   },
   // metalixia: {} — mono brand, all roles use brand defaults
-  // samantrix: {} — mono brand for now, add role overrides here in future
+  samantrix: {
+    developer: developerOverrideSamantrix,
+    organization: organizationOverrideSamantrix,
+    "org-admin": orgAdminOverrideSamantrix,
+    "org-member": orgMemberOverrideSamantrix,
+    admin: adminOverrideSamantrix,
+    professional: professionalOverrideSamantrix,
+    agent: agentOverrideSamantrix,
+    customer: customerOverrideSamantrix,
+  },
 };
 
 // ── Deep merge utility ──────────────────────────────────────────────────

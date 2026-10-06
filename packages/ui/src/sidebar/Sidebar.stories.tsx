@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Sidebar,
+  SidebarHeader,
+  SidebarLogo,
+  SidebarText,
+  SidebarDivider,
+  SidebarBody,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarItem,
   SidebarItemData,
   type SidebarRolePreset,
 } from "./Sidebar";
+import { Avatar } from "../avatar/Avatar";
+import { Badge } from "../badge/Badge";
 
 const HomeIcon = () => (
   <svg
@@ -117,6 +127,21 @@ const NotificationIcon = () => (
   >
     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+  </svg>
+);
+
+const MessageSquareIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
   </svg>
 );
 
@@ -802,6 +827,10 @@ const ROLE_COLORS: Record<string, string> = {
   viewer: "#059669",
   support: "#0891b2",
   guest: "#6b7280",
+  developer: "#0284c7",
+  organization: "#7c3aed",
+  "org-admin": "#059669",
+  "org-member": "#475569",
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -812,6 +841,10 @@ const ROLE_LABELS: Record<string, string> = {
   viewer: "Viewer",
   support: "Support",
   guest: "Guest",
+  developer: "Developer (Samantrix)",
+  organization: "Organization (Samantrix)",
+  "org-admin": "Org Admin (Samantrix)",
+  "org-member": "Org Member (Samantrix)",
 };
 
 export const RoleColorSchemes: Story = {
@@ -1245,6 +1278,603 @@ export const CustomColorScheme: Story = {
             , and more fields for full brand customization.
           </p>
         </main>
+      </div>
+    );
+  },
+};
+
+export const SamantrixWorkplaceSidebar: Story = {
+  render: function Render() {
+    const [active, setActive] = useState("workplace");
+    const [collapsed, setCollapsed] = useState(false);
+
+    const samantrixItems: SidebarItemData[] = [
+      {
+        id: "workplace",
+        label: "3D Virtual Workplace",
+        icon: <ProjectsIcon />,
+        badge: "LIVE",
+        badgeColor: "success",
+        group: "VIRTUAL OFFICE",
+      },
+      {
+        id: "proximity-audio",
+        label: "Proximity Voice Channel",
+        icon: <NotificationIcon />,
+        badge: "Active",
+        badgeColor: "primary",
+        group: "VIRTUAL OFFICE",
+      },
+      {
+        id: "rooms",
+        label: "Floor Plan & Rooms",
+        icon: <HomeIcon />,
+        group: "VIRTUAL OFFICE",
+        children: [
+          { id: "room-boardroom", label: "Boardroom Alpha" },
+          { id: "room-design", label: "Design Studio" },
+          { id: "room-breakout", label: "Breakout Lounge" },
+        ],
+      },
+      {
+        id: "team-directory",
+        label: "Team Directory",
+        icon: <UsersIcon />,
+        badge: "24",
+        badgeColor: "neutral",
+        group: "COLLABORATION",
+      },
+      {
+        id: "documents",
+        label: "Shared Whiteboards",
+        icon: <DocumentIcon />,
+        group: "COLLABORATION",
+      },
+      {
+        id: "telemetry",
+        label: "Realtime Telemetry",
+        icon: <AnalyticsIcon />,
+        group: "ORGANIZATION",
+      },
+      {
+        id: "settings",
+        label: "Tenant Settings",
+        icon: <SettingsIcon />,
+        group: "ORGANIZATION",
+      },
+    ];
+
+    return (
+      <div
+        data-brand="samantrix"
+        data-theme="samantrix"
+        style={{
+          height: "640px",
+          width: "820px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-background, #f8fafc)",
+        }}
+      >
+        <Sidebar
+          collapsed={collapsed}
+          onCollapseChange={setCollapsed}
+          collapsible
+          variant="default"
+          activeVariant="pill"
+          colorScheme="developer"
+          header={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                width: "100%",
+              }}
+            >
+              <div
+                className="gy-sidebar-logo"
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "0.5rem",
+                  background: "linear-gradient(135deg, #7c5cff, #6366f1)",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  flexShrink: 0,
+                  boxShadow: "0 2px 8px rgba(124, 92, 255, 0.3)",
+                }}
+              >
+                S
+              </div>
+              <div
+                className="gy-sidebar-text"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minWidth: 0,
+                  flex: 1,
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "0.9375rem",
+                    lineHeight: 1.2,
+                    color: "var(--gy-text, #0f172a)",
+                  }}
+                >
+                  Samantrix HQ
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#7c5cff",
+                    fontWeight: 600,
+                  }}
+                >
+                  Digital Workplace v3.2
+                </span>
+              </div>
+            </div>
+          }
+          footer={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                width: "100%",
+              }}
+            >
+              <Avatar
+                size="sm"
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80"
+                name="Elena Rostova"
+                role="developer"
+                status="online"
+              />
+              <div
+                className="gy-sidebar-text"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minWidth: 0,
+                  flex: 1,
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 600,
+                    fontSize: "0.8125rem",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  Elena Rostova
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.6875rem",
+                    color: "var(--gy-text-muted, #64748b)",
+                  }}
+                >
+                  Desk #12 • Engineering
+                </span>
+              </div>
+            </div>
+          }
+          items={samantrixItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+        <main
+          style={{
+            flex: 1,
+            padding: "2rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            background: "var(--gy-surface, #ffffff)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 700 }}>
+              Samantrix Virtual Office
+            </h2>
+            <Badge variant="developer" content="DEVELOPER TIER" size="sm" />
+          </div>
+          <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6, margin: 0 }}>
+            Configured with Samantrix brand colors, role-based developer accents, nested floor plan rooms, and online avatar presence in the footer.
+          </p>
+          <div
+            style={{
+              padding: "1rem",
+              borderRadius: "0.75rem",
+              background: "var(--gy-surface-muted, #f8fafc)",
+              border: "1px solid var(--gy-border, #e2e8f0)",
+              fontSize: "0.875rem",
+            }}
+          >
+            Currently selected route: <strong>{active}</strong>
+          </div>
+        </main>
+      </div>
+    );
+  },
+};
+
+export const WithAvatarsAndBadges: Story = {
+  render: function Render() {
+    const [active, setActive] = useState("dm-1");
+
+    return (
+      <div
+        style={{
+          height: "600px",
+          width: "780px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-surface, #ffffff)",
+        }}
+      >
+        <Sidebar
+          variant="bordered"
+          activeVariant="subtle"
+          colorScheme="org-admin"
+          header={
+            <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
+              <Badge dot ping variant="success" size="sm">
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: "0.375rem",
+                    background: "#059669",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 700,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  O
+                </div>
+              </Badge>
+              <div className="gy-sidebar-text">
+                <span style={{ fontWeight: 700, fontSize: "0.875rem" }}>Office Team Chat</span>
+                <span style={{ fontSize: "0.6875rem", color: "#059669", fontWeight: 600 }}>18 Online</span>
+              </div>
+            </div>
+          }
+          footer={
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", width: "100%" }}>
+              <Avatar
+                size="md"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80"
+                name="Marcus Vance"
+                role="org-admin"
+                status="in_meeting"
+              />
+              <div className="gy-sidebar-text" style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ fontWeight: 600, fontSize: "0.8125rem" }}>Marcus Vance</span>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
+                  <Badge variant="org-admin" content="ADMIN" size="xs" />
+                  <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>In Meeting</span>
+                </div>
+              </div>
+            </div>
+          }
+        >
+          <SidebarGroup title="DIRECT MESSAGES">
+            <SidebarItem
+              id="dm-1"
+              active={active === "dm-1"}
+              onClick={() => setActive("dm-1")}
+              icon={
+                <Avatar
+                  size="xs"
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80"
+                  name="Elena Rostova"
+                  status="online"
+                />
+              }
+              label="Elena Rostova"
+              badge={<Badge content={3} variant="danger" size="xs" />}
+            />
+            <SidebarItem
+              id="dm-2"
+              active={active === "dm-2"}
+              onClick={() => setActive("dm-2")}
+              icon={
+                <Avatar
+                  size="xs"
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80"
+                  name="Aria Chen"
+                  status="away"
+                />
+              }
+              label="Aria Chen"
+            />
+            <SidebarItem
+              id="dm-3"
+              active={active === "dm-3"}
+              onClick={() => setActive("dm-3")}
+              icon={
+                <Avatar
+                  size="xs"
+                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80"
+                  name="David Sterling"
+                  status="busy"
+                />
+              }
+              label="David Sterling"
+            />
+          </SidebarGroup>
+
+          <SidebarDivider />
+
+          <SidebarGroup title="LIVE ROOM HUDDLES">
+            <SidebarItem
+              id="room-eng"
+              active={active === "room-eng"}
+              onClick={() => setActive("room-eng")}
+              icon={<NotificationIcon />}
+              label="Engineering Voice"
+              badge={<Badge dot ping variant="success" size="sm" />}
+            />
+            <SidebarItem
+              id="room-general"
+              active={active === "room-general"}
+              onClick={() => setActive("room-general")}
+              icon={<MessageSquareIcon />}
+              label="All-Hands Stage"
+              badge={<Badge variant="neutral" content="42" size="xs" />}
+            />
+          </SidebarGroup>
+        </Sidebar>
+
+        <main style={{ flex: 1, padding: "2rem" }}>
+          <h3 style={{ margin: "0 0 0.5rem" }}>Sidebar with Avatars & Badges</h3>
+          <p style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+            Demonstrates deep composition pairing the Galyan Sidebar with both the Avatar component (for teammate avatars & status indicators) and the Badge component (for live pings and notification counts).
+          </p>
+        </main>
+      </div>
+    );
+  },
+};
+
+export const CompoundComponentComposition: Story = {
+  render: function Render() {
+    const [selected, setSelected] = useState("overview");
+
+    return (
+      <div
+        style={{
+          height: "560px",
+          width: "740px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-surface, #ffffff)",
+        }}
+      >
+        <Sidebar variant="floating" activeVariant="glow" colorScheme="owner">
+          <SidebarHeader>
+            <SidebarLogo>
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "0.5rem",
+                  background: "#7c3aed",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                  fontSize: "0.875rem",
+                }}
+              >
+                C
+              </div>
+            </SidebarLogo>
+            <SidebarText>
+              <span style={{ fontWeight: 700, fontSize: "0.875rem" }}>Compound API</span>
+              <span style={{ fontSize: "0.6875rem", color: "#7c3aed" }}>Full JSX Control</span>
+            </SidebarText>
+          </SidebarHeader>
+
+          <SidebarBody>
+            <SidebarGroup title="PLATFORM">
+              <SidebarItem
+                id="overview"
+                active={selected === "overview"}
+                onClick={() => setSelected("overview")}
+                label="System Overview"
+                icon={<HomeIcon />}
+              />
+              <SidebarItem
+                id="analytics"
+                active={selected === "analytics"}
+                onClick={() => setSelected("analytics")}
+                label="Metrics & Analytics"
+                icon={<AnalyticsIcon />}
+                badge="Hot"
+                badgeColor="danger"
+              />
+            </SidebarGroup>
+
+            <SidebarDivider />
+
+            <SidebarGroup title="SETTINGS">
+              <SidebarItem
+                id="team"
+                active={selected === "team"}
+                onClick={() => setSelected("team")}
+                label="Team & Permissions"
+                icon={<UsersIcon />}
+              />
+              <SidebarItem
+                id="config"
+                active={selected === "config"}
+                onClick={() => setSelected("config")}
+                label="Configuration"
+                icon={<SettingsIcon />}
+              />
+            </SidebarGroup>
+          </SidebarBody>
+
+          <SidebarFooter>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "100%" }}>
+              <Avatar size="sm" name="Admin Owner" role="organization" />
+              <SidebarText>
+                <span style={{ fontSize: "0.8125rem", fontWeight: 600 }}>Enterprise Tenant</span>
+                <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Active plan</span>
+              </SidebarText>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+
+        <main style={{ flex: 1, padding: "2rem" }}>
+          <h3 style={{ margin: "0 0 0.5rem" }}>Compound Component Pattern</h3>
+          <p style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+            Use &lt;SidebarHeader&gt;, &lt;SidebarBody&gt;, &lt;SidebarGroup&gt;, &lt;SidebarItem&gt;, &lt;SidebarDivider&gt;, and &lt;SidebarFooter&gt; for complete JSX compositional control over the layout.
+          </p>
+        </main>
+      </div>
+    );
+  },
+};
+
+export const RightPositionSidebar: Story = {
+  render: function Render() {
+    const [active, setActive] = useState("participants");
+
+    const rightPanelItems: SidebarItemData[] = [
+      {
+        id: "participants",
+        label: "Voice Participants",
+        icon: <UsersIcon />,
+        badge: "8",
+        badgeColor: "success",
+        group: "CALL INFO",
+      },
+      {
+        id: "chat",
+        label: "Room Messages",
+        icon: <MessageSquareIcon />,
+        badge: "3",
+        badgeColor: "primary",
+        group: "CALL INFO",
+      },
+      {
+        id: "shared-files",
+        label: "Meeting Attachments",
+        icon: <DocumentIcon />,
+        group: "RESOURCES",
+      },
+      {
+        id: "call-settings",
+        label: "Audio & Video Devices",
+        icon: <SettingsIcon />,
+        group: "RESOURCES",
+      },
+    ];
+
+    return (
+      <div
+        style={{
+          height: "560px",
+          width: "780px",
+          display: "flex",
+          border: "1px solid var(--gy-border, #e2e8f0)",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          background: "var(--gy-surface, #ffffff)",
+        }}
+      >
+        <main style={{ flex: 1, padding: "2rem", background: "var(--gy-background-muted, #f8fafc)" }}>
+          <h3 style={{ margin: "0 0 0.5rem" }}>Main Application Workspace</h3>
+          <p style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+            The sidebar below is positioned on the right (<code>position="right"</code>), ideal for conference side-panels, inspector drawers, or activity feeds.
+          </p>
+        </main>
+
+        <Sidebar
+          position="right"
+          collapsible
+          variant="default"
+          activeVariant="line"
+          colorScheme="developer"
+          header={
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span style={{ fontWeight: 700, fontSize: "0.875rem" }}>Room Activity</span>
+            </div>
+          }
+          items={rightPanelItems}
+          activeItemId={active}
+          onItemClick={setActive}
+        />
+      </div>
+    );
+  },
+};
+
+export const ActiveVariantsComparison: Story = {
+  render: () => {
+    const variants: Array<{ id: "pill" | "line" | "subtle" | "glow"; name: string; desc: string }> = [
+      { id: "pill", name: "Pill Style", desc: "Solid filled background pill with rounded corners" },
+      { id: "line", name: "Line Indicator", desc: "Subtle indicator bar along the leading edge" },
+      { id: "subtle", name: "Subtle Fill", desc: "Soft tinted background with colored icon" },
+      { id: "glow", name: "Glow Accent", desc: "Luminous primary glow shadow effect" },
+    ];
+
+    return (
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", maxWidth: 1200 }}>
+        {variants.map((v) => (
+          <div
+            key={v.id}
+            style={{
+              border: "1px solid var(--gy-border, #e2e8f0)",
+              borderRadius: "0.75rem",
+              overflow: "hidden",
+              height: 380,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ padding: "0.75rem 1rem", borderBottom: "1px solid var(--gy-border, #e2e8f0)", background: "var(--gy-surface-muted, #f8fafc)" }}>
+              <span style={{ fontWeight: 700, fontSize: "0.875rem" }}>{v.name}</span>
+              <span style={{ display: "block", fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>{v.desc}</span>
+            </div>
+            <div style={{ flex: 1, display: "flex" }}>
+              <Sidebar
+                collapsible={false}
+                variant="default"
+                activeVariant={v.id}
+                items={[
+                  { id: "dash", label: "Dashboard (Active)", icon: <HomeIcon /> },
+                  { id: "projects", label: "Projects", icon: <ProjectsIcon /> },
+                  { id: "users", label: "Members", icon: <UsersIcon /> },
+                ]}
+                activeItemId="dash"
+              />
+            </div>
+          </div>
+        ))}
       </div>
     );
   },

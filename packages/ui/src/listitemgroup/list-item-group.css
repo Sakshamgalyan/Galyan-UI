@@ -1,4 +1,4 @@
-/* ── List Item Group Container ────────────────────────────────────────────── */
+﻿/* ── List Item Group Container ────────────────────────────────────────────── */
 .gy-list-item-group {
   --gy-list-item-accent: var(--gy-primary, #6d28d9);
   --gy-list-item-selected-bg: rgba(124, 58, 237, 0.08);
@@ -224,7 +224,7 @@
 .gy-dark .gy-list-item-group,
 [data-color-mode="dark"] .gy-list-item-group,
 [data-theme="dark"] .gy-list-item-group,
-[data-theme="samantrix"] .gy-list-item-group,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-group,
 .dark .gy-list-item-group {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -239,7 +239,7 @@
 .gy-dark .gy-list-item,
 [data-color-mode="dark"] .gy-list-item,
 [data-theme="dark"] .gy-list-item,
-[data-theme="samantrix"] .gy-list-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item,
 .dark .gy-list-item {
   color: var(--gy-text, #f8fafc);
 }
@@ -250,7 +250,7 @@
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
 [data-theme="dark"]
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
 .dark
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected) {
@@ -265,7 +265,7 @@
 .gy-dark .gy-list-item--selected,
 [data-color-mode="dark"] .gy-list-item--selected,
 [data-theme="dark"] .gy-list-item--selected,
-[data-theme="samantrix"] .gy-list-item--selected,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item--selected,
 .dark .gy-list-item--selected {
   background-color: var(
     --gy-list-item-selected-bg,
@@ -277,7 +277,7 @@
 .gy-dark .gy-list-item:focus-visible,
 [data-color-mode="dark"] .gy-list-item:focus-visible,
 [data-theme="dark"] .gy-list-item:focus-visible,
-[data-theme="samantrix"] .gy-list-item:focus-visible,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item:focus-visible,
 .dark .gy-list-item:focus-visible {
   box-shadow: inset 0 0 0 2px var(--gy-primary, #6366f1);
 }
@@ -285,7 +285,7 @@
 .gy-dark .gy-list-item-dot,
 [data-color-mode="dark"] .gy-list-item-dot,
 [data-theme="dark"] .gy-list-item-dot,
-[data-theme="samantrix"] .gy-list-item-dot,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-dot,
 .dark .gy-list-item-dot {
   background-color: var(--gy-list-item-accent, #818cf8);
   box-shadow: 0 0 8px
@@ -295,7 +295,7 @@
 .gy-dark .gy-list-item-badge,
 [data-color-mode="dark"] .gy-list-item-badge,
 [data-theme="dark"] .gy-list-item-badge,
-[data-theme="samantrix"] .gy-list-item-badge,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-badge,
 .dark .gy-list-item-badge {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--gy-text-muted, #94a3b8);
@@ -304,7 +304,7 @@
 .gy-dark .gy-list-item--selected .gy-list-item-badge,
 [data-color-mode="dark"] .gy-list-item--selected .gy-list-item-badge,
 [data-theme="dark"] .gy-list-item--selected .gy-list-item-badge,
-[data-theme="samantrix"] .gy-list-item--selected .gy-list-item-badge,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item--selected .gy-list-item-badge,
 .dark .gy-list-item--selected .gy-list-item-badge {
   background-color: color-mix(
     in srgb,
@@ -323,9 +323,9 @@
 [data-theme="dark"] .gy-list-item-description,
 [data-theme="dark"] .gy-list-item-suffix,
 [data-theme="dark"] .gy-list-item-icon,
-[data-theme="samantrix"] .gy-list-item-description,
-[data-theme="samantrix"] .gy-list-item-suffix,
-[data-theme="samantrix"] .gy-list-item-icon,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-description,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-suffix,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-list-item-icon,
 .dark .gy-list-item-description,
 .dark .gy-list-item-suffix,
 .dark .gy-list-item-icon {

@@ -1,4 +1,4 @@
-/* ── TimePicker Component ─────────────────────────────────────────────────── */
+﻿/* ── TimePicker Component ─────────────────────────────────────────────────── */
 .gy-timepicker {
   position: relative;
   display: flex;
@@ -404,8 +404,8 @@
 [data-color-mode="dark"] .gy-timepicker--glass .gy-input-wrapper,
 [data-theme="dark"] .gy-timepicker--glassmorphic .gy-input-wrapper,
 [data-theme="dark"] .gy-timepicker--glass .gy-input-wrapper,
-[data-theme="samantrix"] .gy-timepicker--glassmorphic .gy-input-wrapper,
-[data-theme="samantrix"] .gy-timepicker--glass .gy-input-wrapper,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glassmorphic .gy-input-wrapper,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glass .gy-input-wrapper,
 .dark .gy-timepicker--glassmorphic .gy-input-wrapper,
 .dark .gy-timepicker--glass .gy-input-wrapper {
   background: rgba(15, 23, 42, 0.72) !important;
@@ -423,8 +423,8 @@
 [data-color-mode="dark"] .gy-timepicker--glass .gy-input-wrapper:hover,
 [data-theme="dark"] .gy-timepicker--glassmorphic .gy-input-wrapper:hover,
 [data-theme="dark"] .gy-timepicker--glass .gy-input-wrapper:hover,
-[data-theme="samantrix"] .gy-timepicker--glassmorphic .gy-input-wrapper:hover,
-[data-theme="samantrix"] .gy-timepicker--glass .gy-input-wrapper:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glassmorphic .gy-input-wrapper:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glass .gy-input-wrapper:hover,
 .dark .gy-timepicker--glassmorphic .gy-input-wrapper:hover,
 .dark .gy-timepicker--glass .gy-input-wrapper:hover {
   background: rgba(30, 41, 59, 0.8) !important;
@@ -440,8 +440,8 @@
 [data-color-mode="dark"] .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper,
 [data-theme="dark"] .gy-timepicker--glassmorphic .gy-timepicker-trigger--open .gy-input-wrapper,
 [data-theme="dark"] .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper,
-[data-theme="samantrix"] .gy-timepicker--glassmorphic .gy-timepicker-trigger--open .gy-input-wrapper,
-[data-theme="samantrix"] .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glassmorphic .gy-timepicker-trigger--open .gy-input-wrapper,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper,
 .dark .gy-timepicker--glassmorphic .gy-timepicker-trigger--open .gy-input-wrapper,
 .dark .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper {
   background: rgba(30, 41, 59, 0.85) !important;
@@ -456,8 +456,8 @@
 [data-color-mode="dark"] .gy-timepicker-popover--glass,
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic,
 [data-theme="dark"] .gy-timepicker-popover--glass,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic,
-[data-theme="samantrix"] .gy-timepicker-popover--glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass,
 .dark .gy-timepicker-popover--glassmorphic,
 .dark .gy-timepicker-popover--glass {
   background: rgba(15, 23, 42, 0.78) !important;
@@ -489,12 +489,12 @@
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-column-headers,
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic .gy-timepicker-columns,
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-columns,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-header,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-header,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-column-headers,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-column-headers,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-columns,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-columns,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-column-headers,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-column-headers,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-columns,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-columns,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-header,
 .dark .gy-timepicker-popover--glass .gy-timepicker-header,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-column-headers,
@@ -518,10 +518,10 @@
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-presets,
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic .gy-timepicker-footer,
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-footer,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-presets,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-presets,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-footer,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-presets,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-presets,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-footer,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-presets,
 .dark .gy-timepicker-popover--glass .gy-timepicker-presets,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-footer,
@@ -536,8 +536,8 @@
 [data-color-mode="dark"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn,
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn,
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-preset-btn,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn,
 .dark .gy-timepicker-popover--glass .gy-timepicker-preset-btn {
   background: rgba(255, 255, 255, 0.06) !important;
@@ -551,8 +551,8 @@
 [data-color-mode="dark"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover,
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn:hover,
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover,
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn:hover,
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn:hover,
 .dark .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover {
   background: color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
@@ -566,8 +566,8 @@
 [data-color-mode="dark"] .gy-timepicker-popover--glass .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
 [data-theme="dark"] .gy-timepicker-popover--glassmorphic .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
 [data-theme="dark"] .gy-timepicker-popover--glass .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
-[data-theme="samantrix"] .gy-timepicker-popover--glassmorphic .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
-[data-theme="samantrix"] .gy-timepicker-popover--glass .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glassmorphic .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled),
 .dark .gy-timepicker-popover--glass .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled) {
   background: rgba(255, 255, 255, 0.1) !important;
@@ -595,7 +595,7 @@
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-timepicker-trigger:hover:not(.gy-timepicker-trigger--disabled)
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -620,7 +620,7 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-timepicker
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -649,7 +649,7 @@
   .gy-timepicker-trigger:hover:not(.gy-timepicker-trigger--disabled)
   .gy-timepicker-right-addons
   svg,
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-timepicker-trigger:hover:not(.gy-timepicker-trigger--disabled)
   .gy-timepicker-right-addons
   svg,
@@ -673,7 +673,7 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled)
   .gy-timepicker-right-addons
   svg,
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-timepicker
   .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled)
   .gy-timepicker-right-addons
@@ -693,14 +693,14 @@
 [data-theme="dark"]
   .gy-timepicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-timepicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
 .gy-dark .gy-timepicker .gy-input-wrapper--focused,
 [data-color-mode="dark"] .gy-timepicker .gy-input-wrapper--focused,
 .dark .gy-timepicker .gy-input-wrapper--focused,
 [data-theme="dark"] .gy-timepicker .gy-input-wrapper--focused,
-[data-theme="samantrix"] .gy-timepicker .gy-input-wrapper--focused {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-timepicker .gy-input-wrapper--focused {
   border-color: var(--gy-primary, #6366f1);
   background: color-mix(
     in srgb,

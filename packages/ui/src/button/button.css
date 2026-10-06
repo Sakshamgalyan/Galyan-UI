@@ -1,4 +1,4 @@
-/* ── Enterprise Button Component ───────────────────────────────────────────── */
+﻿/* ── Enterprise Button Component ───────────────────────────────────────────── */
 .gy-btn {
   display: inline-flex;
   align-items: center;
@@ -578,6 +578,75 @@
   color: var(--gy-primary-hover, #16a34a);
 }
 
+/* 8. Glass & Glassmorphic */
+.gy-btn--glassmorphic,
+.gy-btn--glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: var(--gy-text, #0f172a);
+  box-shadow:
+    0 4px 12px 0 rgba(31, 38, 135, 0.06),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.gy-btn--glassmorphic:hover:not(:disabled),
+.gy-btn--glass:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.75);
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 16px 0 rgba(31, 38, 135, 0.1),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.gy-btn--glassmorphic:active:not(:disabled),
+.gy-btn--glass:active:not(:disabled) {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Glass Buttons in Dark Mode / Samantrix */
+[data-color-mode="dark"] .gy-btn--glassmorphic,
+[data-color-mode="dark"] .gy-btn--glass,
+.gy-dark .gy-btn--glassmorphic,
+.gy-dark .gy-btn--glass,
+.dark .gy-btn--glassmorphic,
+.dark .gy-btn--glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-btn--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-btn--glass,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-btn--glassmorphic,
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-btn--glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  box-shadow:
+    0 4px 20px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+[data-color-mode="dark"] .gy-btn--glassmorphic:hover:not(:disabled),
+[data-color-mode="dark"] .gy-btn--glass:hover:not(:disabled),
+.gy-dark .gy-btn--glassmorphic:hover:not(:disabled),
+.gy-dark .gy-btn--glass:hover:not(:disabled),
+.dark .gy-btn--glassmorphic:hover:not(:disabled),
+.dark .gy-btn--glass:hover:not(:disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-btn--glassmorphic:hover:not(:disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-btn--glass:hover:not(:disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-btn--glassmorphic:hover:not(:disabled),
+[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-btn--glass:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 24px 0 rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+}
+
 /* ── Full width ──────────────────────────────────────────────────────────── */
 .gy-btn--full {
   width: 100%;
@@ -711,7 +780,7 @@
 [data-color-mode="dark"] .gy-btn--glass,
 .dark .gy-btn--glassmorphic,
 .dark .gy-btn--glass,
-[data-theme="samantrix"] .gy-btn--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-btn--glassmorphic,
 [data-theme="dark"] .gy-btn--glassmorphic {
   background: linear-gradient(
     135deg,

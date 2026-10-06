@@ -1,4 +1,4 @@
-/* ── Spinner ──────────────────────────────────────────────────────────────── */
+﻿/* ── Spinner ──────────────────────────────────────────────────────────────── */
 .gy-spinner {
   display: inline-flex;
   align-items: center;
@@ -78,7 +78,7 @@
 .gy-dark .gy-spinner--neutral .gy-spinner__circle,
 [data-color-mode="dark"] .gy-spinner--neutral .gy-spinner__circle,
 [data-theme="dark"] .gy-spinner--neutral .gy-spinner__circle,
-[data-theme="samantrix"] .gy-spinner--neutral .gy-spinner__circle,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-spinner--neutral .gy-spinner__circle,
 .dark .gy-spinner--neutral .gy-spinner__circle {
   border-color: rgba(255, 255, 255, 0.15);
   border-top-color: var(--gy-text-muted, #94a3b8);
@@ -87,7 +87,7 @@
 .gy-dark .gy-spinner__label,
 [data-color-mode="dark"] .gy-spinner__label,
 [data-theme="dark"] .gy-spinner__label,
-[data-theme="samantrix"] .gy-spinner__label,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-spinner__label,
 .dark .gy-spinner__label {
   color: var(--gy-text-muted, #94a3b8);
 }

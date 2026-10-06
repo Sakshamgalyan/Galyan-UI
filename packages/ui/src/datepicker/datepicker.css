@@ -1,4 +1,4 @@
-/* ── DatePicker & MonthPicker Component ───────────────────────────────────── */
+﻿/* ── DatePicker & MonthPicker Component ───────────────────────────────────── */
 .gy-datepicker,
 .gy-monthpicker {
   position: relative;
@@ -1197,7 +1197,7 @@
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled)
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -1222,7 +1222,7 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-datepicker
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -1247,7 +1247,7 @@
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled)
   .gy-input-wrapper:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -1272,7 +1272,7 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-monthpicker
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
@@ -1289,22 +1289,22 @@
 [data-color-mode="dark"] .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled) .gy-input-addon svg,
 .dark .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled) .gy-input-addon svg,
 [data-theme="dark"] .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled) .gy-input-addon svg,
-[data-theme="samantrix"] .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled) .gy-input-addon svg,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-trigger:hover:not(.gy-datepicker-trigger--disabled) .gy-input-addon svg,
 .gy-dark .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 [data-color-mode="dark"] .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 .dark .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 [data-theme="dark"] .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
-[data-theme="samantrix"] .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 .gy-dark .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
 [data-color-mode="dark"] .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
 .dark .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
 [data-theme="dark"] .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
-[data-theme="samantrix"] .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-monthpicker-trigger:hover:not(.gy-monthpicker-trigger--disabled) .gy-input-addon svg,
 .gy-dark .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 [data-color-mode="dark"] .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 .dark .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
 [data-theme="dark"] .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg,
-[data-theme="samantrix"] .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-monthpicker .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled) .gy-input-addon svg {
   color: var(--gy-primary, #6366f1);
 }
 
@@ -1320,14 +1320,14 @@
 [data-theme="dark"]
   .gy-datepicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-datepicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
 .gy-dark .gy-datepicker .gy-input-wrapper--focused,
 [data-color-mode="dark"] .gy-datepicker .gy-input-wrapper--focused,
 .dark .gy-datepicker .gy-input-wrapper--focused,
 [data-theme="dark"] .gy-datepicker .gy-input-wrapper--focused,
-[data-theme="samantrix"] .gy-datepicker .gy-input-wrapper--focused,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker .gy-input-wrapper--focused,
 .gy-dark
   .gy-monthpicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
@@ -1340,14 +1340,14 @@
 [data-theme="dark"]
   .gy-monthpicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-monthpicker-trigger--open
   .gy-input-wrapper:not(.gy-input-wrapper--error),
 .gy-dark .gy-monthpicker .gy-input-wrapper--focused,
 [data-color-mode="dark"] .gy-monthpicker .gy-input-wrapper--focused,
 .dark .gy-monthpicker .gy-input-wrapper--focused,
 [data-theme="dark"] .gy-monthpicker .gy-input-wrapper--focused,
-[data-theme="samantrix"] .gy-monthpicker .gy-input-wrapper--focused {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-monthpicker .gy-input-wrapper--focused {
   border-color: var(--gy-primary, #6366f1);
   background: color-mix(
     in srgb,
@@ -1361,7 +1361,7 @@
 .gy-dark .gy-datepicker-time-panel,
 [data-color-mode="dark"] .gy-datepicker-time-panel,
 [data-theme="dark"] .gy-datepicker-time-panel,
-[data-theme="samantrix"] .gy-datepicker-time-panel,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-panel,
 .dark .gy-datepicker-time-panel {
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -1369,7 +1369,7 @@
 .gy-dark .gy-datepicker-time-dropdown-btn,
 [data-color-mode="dark"] .gy-datepicker-time-dropdown-btn,
 [data-theme="dark"] .gy-datepicker-time-dropdown-btn,
-[data-theme="samantrix"] .gy-datepicker-time-dropdown-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-dropdown-btn,
 .dark .gy-datepicker-time-dropdown-btn {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.12);
@@ -1379,7 +1379,7 @@
 .gy-dark .gy-datepicker-time-dropdown-btn:hover,
 [data-color-mode="dark"] .gy-datepicker-time-dropdown-btn:hover,
 [data-theme="dark"] .gy-datepicker-time-dropdown-btn:hover,
-[data-theme="samantrix"] .gy-datepicker-time-dropdown-btn:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-dropdown-btn:hover,
 .dark .gy-datepicker-time-dropdown-btn:hover {
   border-color: var(--gy-primary, #6366f1);
   color: var(--gy-primary, #6366f1);
@@ -1393,7 +1393,7 @@
 .gy-dark .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron,
 [data-color-mode="dark"] .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron,
 [data-theme="dark"] .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron,
-[data-theme="samantrix"] .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron,
 .dark .gy-datepicker-time-dropdown-btn:hover .gy-datepicker-time-dropdown-chevron {
   color: var(--gy-primary, #6366f1);
 }
@@ -1401,7 +1401,7 @@
 .gy-dark .gy-datepicker-time-dropdown-btn--open,
 [data-color-mode="dark"] .gy-datepicker-time-dropdown-btn--open,
 [data-theme="dark"] .gy-datepicker-time-dropdown-btn--open,
-[data-theme="samantrix"] .gy-datepicker-time-dropdown-btn--open,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-dropdown-btn--open,
 .dark .gy-datepicker-time-dropdown-btn--open {
   border-color: var(--gy-primary, #6366f1);
   color: var(--gy-primary, #6366f1);
@@ -1417,7 +1417,7 @@
 .gy-dark .gy-datepicker-time-dropdown-menu,
 [data-color-mode="dark"] .gy-datepicker-time-dropdown-menu,
 [data-theme="dark"] .gy-datepicker-time-dropdown-menu,
-[data-theme="samantrix"] .gy-datepicker-time-dropdown-menu,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-dropdown-menu,
 .dark .gy-datepicker-time-dropdown-menu {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -1427,12 +1427,12 @@
 .gy-dark .gy-datepicker-time-menu-header,
 [data-color-mode="dark"] .gy-datepicker-time-menu-header,
 [data-theme="dark"] .gy-datepicker-time-menu-header,
-[data-theme="samantrix"] .gy-datepicker-time-menu-header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-menu-header,
 .dark .gy-datepicker-time-menu-header,
 .gy-dark .gy-datepicker-time-menu-footer,
 [data-color-mode="dark"] .gy-datepicker-time-menu-footer,
 [data-theme="dark"] .gy-datepicker-time-menu-footer,
-[data-theme="samantrix"] .gy-datepicker-time-menu-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-menu-footer,
 .dark .gy-datepicker-time-menu-footer {
   background: var(--gy-surface-overlay, #0f172a);
   border-color: var(--gy-border, #334155);
@@ -1441,7 +1441,7 @@
 .gy-dark .gy-datepicker-time-menu-title-wrap,
 [data-color-mode="dark"] .gy-datepicker-time-menu-title-wrap,
 [data-theme="dark"] .gy-datepicker-time-menu-title-wrap,
-[data-theme="samantrix"] .gy-datepicker-time-menu-title-wrap,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-menu-title-wrap,
 .dark .gy-datepicker-time-menu-title-wrap {
   color: var(--gy-text, #f1f5f9);
 }
@@ -1452,8 +1452,8 @@
 [data-color-mode="dark"] .gy-datepicker-time-cols,
 [data-theme="dark"] .gy-datepicker-time-cols-header,
 [data-theme="dark"] .gy-datepicker-time-cols,
-[data-theme="samantrix"] .gy-datepicker-time-cols-header,
-[data-theme="samantrix"] .gy-datepicker-time-cols,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-cols-header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-cols,
 .dark .gy-datepicker-time-cols-header,
 .dark .gy-datepicker-time-cols {
   background: transparent;
@@ -1463,7 +1463,7 @@
 .gy-dark .gy-datepicker-time-item,
 [data-color-mode="dark"] .gy-datepicker-time-item,
 [data-theme="dark"] .gy-datepicker-time-item,
-[data-theme="samantrix"] .gy-datepicker-time-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-time-item,
 .dark .gy-datepicker-time-item {
   color: var(--gy-text, #f8fafc);
 }
@@ -1473,7 +1473,7 @@
   .gy-datepicker-time-item:hover:not(.gy-datepicker-time-item--selected),
 [data-theme="dark"]
   .gy-datepicker-time-item:hover:not(.gy-datepicker-time-item--selected),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-datepicker-time-item:hover:not(.gy-datepicker-time-item--selected),
 .dark .gy-datepicker-time-item:hover:not(.gy-datepicker-time-item--selected) {
   background: rgba(255, 255, 255, 0.08);
@@ -1482,7 +1482,7 @@
 .gy-dark .gy-datepicker-epoch-chip,
 [data-color-mode="dark"] .gy-datepicker-epoch-chip,
 [data-theme="dark"] .gy-datepicker-epoch-chip,
-[data-theme="samantrix"] .gy-datepicker-epoch-chip,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-epoch-chip,
 .dark .gy-datepicker-epoch-chip {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.1);
@@ -1491,7 +1491,7 @@
 .gy-dark .gy-datepicker-epoch-val,
 [data-color-mode="dark"] .gy-datepicker-epoch-val,
 [data-theme="dark"] .gy-datepicker-epoch-val,
-[data-theme="samantrix"] .gy-datepicker-epoch-val,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-datepicker-epoch-val,
 .dark .gy-datepicker-epoch-val {
   color: var(--gy-text, #f8fafc);
 }

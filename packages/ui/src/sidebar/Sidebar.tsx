@@ -30,7 +30,11 @@ export type SidebarRolePreset =
   | "moderator"
   | "owner"
   | "support"
-  | "guest";
+  | "guest"
+  | "developer"
+  | "organization"
+  | "org-admin"
+  | "org-member";
 
 /** Custom color scheme object for full control */
 export interface SidebarCustomColorScheme {
@@ -109,6 +113,38 @@ const ROLE_COLOR_PRESETS: Record<SidebarRolePreset, SidebarCustomColorScheme> =
       textLight: "#4b5563",
       textDark: "#d1d5db",
       border: "#e5e7eb",
+    },
+    developer: {
+      primary: "#0284c7",
+      surfaceLight: "#f0f9ff",
+      surfaceDark: "#082f49",
+      textLight: "#0369a1",
+      textDark: "#7dd3fc",
+      border: "#bae6fd",
+    },
+    organization: {
+      primary: "#7c3aed",
+      surfaceLight: "#f5f3ff",
+      surfaceDark: "#2e1065",
+      textLight: "#5b21b6",
+      textDark: "#c4b5fd",
+      border: "#ddd6fe",
+    },
+    "org-admin": {
+      primary: "#059669",
+      surfaceLight: "#ecfdf5",
+      surfaceDark: "#022c22",
+      textLight: "#047857",
+      textDark: "#6ee7b7",
+      border: "#a7f3d0",
+    },
+    "org-member": {
+      primary: "#475569",
+      surfaceLight: "#f8fafc",
+      surfaceDark: "#0f172a",
+      textLight: "#334155",
+      textDark: "#94a3b8",
+      border: "#cbd5e1",
     },
   };
 

@@ -1,4 +1,4 @@
-/* ── Empty State Component ─────────────────────────────────────────────── */
+﻿/* ── Empty State Component ─────────────────────────────────────────────── */
 .gy-empty-state {
   display: flex;
   flex-direction: column;
@@ -305,7 +305,7 @@
 [data-color-mode="dark"] .gy-empty-state--dashed,
 .dark .gy-empty-state--dashed,
 [data-theme="dark"] .gy-empty-state--dashed,
-[data-theme="samantrix"] .gy-empty-state--dashed {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--dashed {
   background: color-mix(
     in srgb,
     var(--gy-primary, #3b82f6) 4%,
@@ -318,7 +318,7 @@
 [data-color-mode="dark"] .gy-empty-state--gradient,
 .dark .gy-empty-state--gradient,
 [data-theme="dark"] .gy-empty-state--gradient,
-[data-theme="samantrix"] .gy-empty-state--gradient {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--gradient {
   background:
     radial-gradient(
       120% 90% at 50% 0%,
@@ -338,7 +338,7 @@
 [data-color-mode="dark"] .gy-empty-state--glass,
 .dark .gy-empty-state--glass,
 [data-theme="dark"] .gy-empty-state--glass,
-[data-theme="samantrix"] .gy-empty-state--glass {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--glass {
   background: linear-gradient(
     135deg,
     rgba(30, 41, 59, 0.75) 0%,
@@ -354,7 +354,7 @@
 [data-color-mode="dark"] .gy-empty-state--glass .gy-empty-state-icon-badge,
 .dark .gy-empty-state--glass .gy-empty-state-icon-badge,
 [data-theme="dark"] .gy-empty-state--glass .gy-empty-state-icon-badge,
-[data-theme="samantrix"] .gy-empty-state--glass .gy-empty-state-icon-badge {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--glass .gy-empty-state-icon-badge {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.16);
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
@@ -364,7 +364,7 @@
 [data-color-mode="dark"] .gy-empty-state--spotlight .gy-empty-state-icon-badge,
 .dark .gy-empty-state--spotlight .gy-empty-state-icon-badge,
 [data-theme="dark"] .gy-empty-state--spotlight .gy-empty-state-icon-badge,
-[data-theme="samantrix"] .gy-empty-state--spotlight .gy-empty-state-icon-badge {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--spotlight .gy-empty-state-icon-badge {
   background: var(--gy-surface-raised, #1e293b);
 }
 
@@ -372,7 +372,7 @@
 [data-color-mode="dark"] .gy-empty-state--card,
 .dark .gy-empty-state--card,
 [data-theme="dark"] .gy-empty-state--card,
-[data-theme="samantrix"] .gy-empty-state--card {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state--card {
   background: var(--gy-surface-raised, #1e293b);
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
@@ -382,7 +382,7 @@
 [data-color-mode="dark"] .gy-empty-state-icon-badge,
 .dark .gy-empty-state-icon-badge,
 [data-theme="dark"] .gy-empty-state-icon-badge,
-[data-theme="samantrix"] .gy-empty-state-icon-badge {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-empty-state-icon-badge {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.12);
 }

@@ -71,7 +71,7 @@
 .gy-dark .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 [data-color-mode="dark"] .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 [data-theme="dark"] .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
-[data-theme="samantrix"] .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 .dark .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error) {
   border-color: var(--gy-primary, #22c55e);
   background: color-mix(
@@ -169,6 +169,7 @@
 }
 .gy-input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .gy-input:disabled {
@@ -177,6 +178,10 @@
 }
 
 /* ── Sizes ── */
+.gy-input-wrapper--xs .gy-input {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--gy-font-size-xs, 0.75rem);
+}
 .gy-input-wrapper--sm .gy-input {
   padding: 0.375rem 0.75rem;
   font-size: var(--gy-font-size-sm, 0.875rem);
@@ -190,6 +195,10 @@
   font-size: var(--gy-font-size-md, 1rem);
 }
 
+.gy-input-wrapper--xs {
+  min-height: 1.75rem;
+  border-radius: var(--gy-radius-md, 0.375rem);
+}
 .gy-input-wrapper--sm {
   min-height: 2rem;
 }
@@ -198,6 +207,31 @@
 }
 .gy-input-wrapper--lg {
   min-height: 3rem;
+}
+
+/* ── Glass & Glassmorphic Variant ── */
+.gy-input-wrapper--glass,
+.gy-input-wrapper--glassmorphic {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: inherit;
+}
+
+.gy-input-wrapper--glass:focus-within,
+.gy-input-wrapper--glassmorphic:focus-within {
+  border-color: var(--gy-primary, #6366f1) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+
+[data-color-mode="light"] .gy-input-wrapper--glass,
+[data-color-mode="light"] .gy-input-wrapper--glassmorphic,
+[data-brand="samantrix"][data-color-mode="light"] .gy-input-wrapper--glass,
+[data-brand="samantrix"][data-color-mode="light"] .gy-input-wrapper--glassmorphic {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(226, 232, 240, 0.85) !important;
 }
 
 /* Left addon spacing fix */

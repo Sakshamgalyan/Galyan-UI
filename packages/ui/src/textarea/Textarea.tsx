@@ -11,10 +11,12 @@ import React, {
 import "./textarea.css";
 import { Typography } from "../typography";
 
-export type TextareaSize = "sm" | "md" | "lg";
+export type TextareaSize = "xs" | "sm" | "md" | "lg";
 export type TextareaVariant =
   | "default"
   | "filled"
+  | "glass"
+  | "glassmorphic"
   | "focused"
   | "error"
   | "success"
@@ -192,6 +194,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       "gy-textarea",
       `gy-textarea--${size}`,
       variant === "filled" ? "gy-textarea--filled" : "",
+      variant === "glass" || variant === "glassmorphic"
+        ? `gy-textarea--${variant}`
+        : "",
       resolvedError ? "gy-textarea--error" : "",
       resolvedSuccess ? "gy-textarea--success" : "",
       resolvedDisabled ? "gy-textarea--disabled" : "",

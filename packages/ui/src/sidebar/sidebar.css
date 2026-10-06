@@ -1,4 +1,4 @@
-/* ── Sidebar Component ─────────────────────────────────────────────────── */
+﻿/* ── Sidebar Component ─────────────────────────────────────────────────── */
 .gy-sidebar {
   --gy-sidebar-brand: var(--gy-sidebar-accent, var(--gy-primary, #7c3aed));
   position: relative;
@@ -785,7 +785,7 @@
 .gy-dark .gy-sidebar,
 [data-color-mode="dark"] .gy-sidebar,
 .dark .gy-sidebar,
-[data-theme="samantrix"] .gy-sidebar,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar,
 [data-theme="dark"] .gy-sidebar {
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -798,8 +798,8 @@
 [data-color-mode="dark"] .gy-sidebar-footer,
 .dark .gy-sidebar-header,
 .dark .gy-sidebar-footer,
-[data-theme="samantrix"] .gy-sidebar-header,
-[data-theme="samantrix"] .gy-sidebar-footer,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-footer,
 [data-theme="dark"] .gy-sidebar-header,
 [data-theme="dark"] .gy-sidebar-footer {
   border-color: var(--gy-border, #334155);
@@ -808,7 +808,7 @@
 .gy-dark .gy-sidebar-item,
 [data-color-mode="dark"] .gy-sidebar-item,
 .dark .gy-sidebar-item,
-[data-theme="samantrix"] .gy-sidebar-item,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-item,
 [data-theme="dark"] .gy-sidebar-item {
   color: var(--gy-text, #f8fafc);
 }
@@ -817,7 +817,7 @@
 [data-color-mode="dark"]
   .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
 .dark .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active),
 [data-theme="dark"]
   .gy-sidebar-item:hover:not(:disabled):not(.gy-sidebar-item--active) {
@@ -828,7 +828,7 @@
 .gy-dark .gy-sidebar--active-pill .gy-sidebar-item--active,
 [data-color-mode="dark"] .gy-sidebar--active-pill .gy-sidebar-item--active,
 .dark .gy-sidebar--active-pill .gy-sidebar-item--active,
-[data-theme="samantrix"] .gy-sidebar--active-pill .gy-sidebar-item--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--active-pill .gy-sidebar-item--active,
 [data-theme="dark"] .gy-sidebar--active-pill .gy-sidebar-item--active {
   background: color-mix(
     in srgb,
@@ -841,7 +841,7 @@
 .gy-dark .gy-sidebar-toggle-btn,
 [data-color-mode="dark"] .gy-sidebar-toggle-btn,
 .dark .gy-sidebar-toggle-btn,
-[data-theme="samantrix"] .gy-sidebar-toggle-btn,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-toggle-btn,
 [data-theme="dark"] .gy-sidebar-toggle-btn {
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -851,7 +851,7 @@
 .gy-dark .gy-sidebar-item-badge-dot,
 [data-color-mode="dark"] .gy-sidebar-item-badge-dot,
 .dark .gy-sidebar-item-badge-dot,
-[data-theme="samantrix"] .gy-sidebar-item-badge-dot,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-item-badge-dot,
 [data-theme="dark"] .gy-sidebar-item-badge-dot {
   box-shadow: 0 0 0 2px var(--gy-surface, #1e293b);
 }
@@ -859,7 +859,7 @@
 .gy-dark .gy-sidebar-group-divider,
 [data-color-mode="dark"] .gy-sidebar-group-divider,
 .dark .gy-sidebar-group-divider,
-[data-theme="samantrix"] .gy-sidebar-group-divider,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-group-divider,
 [data-theme="dark"] .gy-sidebar-group-divider {
   background: rgba(255, 255, 255, 0.12);
 }
@@ -871,8 +871,8 @@
 [data-color-mode="dark"] .gy-sidebar--glassmorphic,
 .dark .gy-sidebar--glass,
 .dark .gy-sidebar--glassmorphic,
-[data-theme="samantrix"] .gy-sidebar--glass,
-[data-theme="samantrix"] .gy-sidebar--glassmorphic,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glass,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar--glassmorphic,
 [data-theme="dark"] .gy-sidebar--glass,
 [data-theme="dark"] .gy-sidebar--glassmorphic {
   background: linear-gradient(
@@ -1271,7 +1271,7 @@
 .gy-dark .gy-sidebar-nested-list,
 [data-color-mode="dark"] .gy-sidebar-nested-list,
 [data-theme="dark"] .gy-sidebar-nested-list,
-[data-theme="samantrix"] .gy-sidebar-nested-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-sidebar-nested-list,
 .dark .gy-sidebar-nested-list {
   --gy-sidebar-tree-line: rgba(255, 255, 255, 0.14);
 }

@@ -1096,6 +1096,187 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   ROLE OVERRIDES (Samantrix Brand)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Samantrix Developer Role (Violet + Indigo Platform Engineering) ─────── */
+[data-brand="samantrix"][data-role="developer"],
+[data-theme="samantrix-developer"],
+[data-brand="samantrix"][data-role="admin"],
+[data-theme="samantrix-admin"] {
+  --gy-secondary: #6366f1;
+  --gy-secondary-hover: #4f46e5;
+  --gy-secondary-muted: #c7d2fe;
+  --gy-secondary-subtle: #eef2ff;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #7c5cff;
+  --gy-text-link-hover: #6438f0;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(124, 92, 255, 0.45);
+  --gy-focus-outline: #7c5cff;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #6366f1 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #6438f0 0%, #7c5cff 50%, #6366f1 100%);
+}
+
+/* Samantrix Developer / Admin Light Mode */
+[data-brand="samantrix"][data-role="developer"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="developer"],
+[data-theme="samantrix-developer"][data-color-mode="light"],
+[data-brand="samantrix"][data-role="admin"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="admin"],
+[data-theme="samantrix-admin"][data-color-mode="light"] {
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.08) 0%,
+    rgba(99, 102, 241, 0.04) 100%
+  );
+}
+
+/* ── Samantrix Organization Role (Executive Violet + Sapphire Corporate) ──── */
+[data-brand="samantrix"][data-role="organization"],
+[data-theme="samantrix-organization"] {
+  --gy-secondary: #4f46e5;
+  --gy-secondary-hover: #4338ca;
+  --gy-secondary-muted: #c7d2fe;
+  --gy-secondary-subtle: #eef2ff;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #6438f0;
+  --gy-text-link-hover: #5028c4;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(99, 102, 241, 0.45);
+  --gy-focus-outline: #6438f0;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #4f46e5 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #5028c4 0%, #7c5cff 50%, #4f46e5 100%);
+}
+
+[data-brand="samantrix"][data-role="organization"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="organization"],
+[data-theme="samantrix-organization"][data-color-mode="light"] {
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.08) 0%,
+    rgba(79, 70, 229, 0.04) 100%
+  );
+}
+
+/* ── Samantrix Org Admin Role (Workspace Violet + Governance Amber) ──────── */
+[data-brand="samantrix"][data-role="org-admin"],
+[data-theme="samantrix-org-admin"],
+[data-brand="samantrix"][data-role="professional"],
+[data-theme="samantrix-professional"] {
+  --gy-secondary: #f59e0b;
+  --gy-secondary-hover: #d97706;
+  --gy-secondary-muted: #fde68a;
+  --gy-secondary-subtle: #fffbeb;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #7c5cff;
+  --gy-text-link-hover: #6438f0;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(124, 92, 255, 0.45);
+  --gy-focus-outline: #7c5cff;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #f59e0b 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #6438f0 0%, #7c5cff 50%, #f59e0b 100%);
+}
+
+[data-brand="samantrix"][data-role="org-admin"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="org-admin"],
+[data-theme="samantrix-org-admin"][data-color-mode="light"],
+[data-brand="samantrix"][data-role="professional"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="professional"],
+[data-theme="samantrix-professional"][data-color-mode="light"] {
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.06) 0%,
+    rgba(245, 158, 11, 0.04) 100%
+  );
+}
+
+/* ── Samantrix Org Member Role (Virtual Workplace Violet + Emerald Presence) */
+[data-brand="samantrix"][data-role="org-member"],
+[data-theme="samantrix-org-member"] {
+  --gy-secondary: #10b981;
+  --gy-secondary-hover: #059669;
+  --gy-secondary-muted: #a7f3d0;
+  --gy-secondary-subtle: #ecfdf5;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #7c5cff;
+  --gy-text-link-hover: #6438f0;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(16, 185, 129, 0.4);
+  --gy-focus-outline: #10b981;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #10b981 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #6438f0 0%, #10b981 100%);
+}
+
+[data-brand="samantrix"][data-role="org-member"][data-color-mode="light"],
+[data-color-mode="light"] [data-brand="samantrix"][data-role="org-member"],
+[data-theme="samantrix-org-member"][data-color-mode="light"] {
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.06) 0%,
+    rgba(16, 185, 129, 0.04) 100%
+  );
+}
+
+/* ── Samantrix Agent Role (Autonomous / Automated Workflows) ─────────────── */
+[data-brand="samantrix"][data-role="agent"],
+[data-theme="samantrix-agent"] {
+  --gy-secondary: #38bdf8;
+  --gy-secondary-hover: #0284c7;
+  --gy-secondary-muted: #bae6fd;
+  --gy-secondary-subtle: #f0f9ff;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #7c5cff;
+  --gy-text-link-hover: #6438f0;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(124, 92, 255, 0.4);
+  --gy-focus-outline: #7c5cff;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #38bdf8 100%);
+  --gy-gradient-brand: linear-gradient(135deg, #6438f0 0%, #38bdf8 100%);
+}
+
+/* ── Samantrix Customer Role (Marketing Cosmic Ink + Cyber Glow) ─────────── */
+[data-brand="samantrix"][data-role="customer"],
+[data-theme="samantrix-customer"] {
+  --gy-secondary: #38bdf8;
+  --gy-secondary-hover: #0284c7;
+  --gy-secondary-muted: #bae6fd;
+  --gy-secondary-subtle: #f0f9ff;
+  --gy-secondary-fg: #ffffff;
+
+  --gy-text-link: #ab93ff;
+  --gy-text-link-hover: #8f70ff;
+
+  --gy-border-focus: #7c5cff;
+  --gy-focus-ring: rgba(124, 92, 255, 0.5);
+  --gy-focus-outline: #7c5cff;
+
+  --gy-gradient-primary: linear-gradient(135deg, #7c5cff 0%, #38bdf8 100%);
+  --gy-gradient-hero: linear-gradient(
+    135deg,
+    #06060a 0%,
+    #0a0a12 50%,
+    #13131f 100%
+  );
+  --gy-gradient-brand: linear-gradient(135deg, #5028c4 0%, #7c5cff 50%, #38bdf8 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    DARK MODE OVERRIDES (Applies to all brands except samantrix)
    ═══════════════════════════════════════════════════════════════════════════ */
 [data-color-mode="dark"]:not([data-brand="samantrix"]):not(

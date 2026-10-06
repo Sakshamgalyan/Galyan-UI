@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import type { ThemeRole, ColorMode } from "@galyan/theme";
 import { Skeleton } from "../skeleton/Skeleton";
 import "./card.css";
 import { Typography } from "../typography";
@@ -11,8 +12,10 @@ export type CardVariant =
   | "outlined"
   | "filled"
   | "glassmorphic"
-  | "glass";
-export type CardPadding = "none" | "sm" | "md" | "lg";
+  | "glass"
+  | "kpi"
+  | "interactive";
+export type CardPadding = "none" | "xs" | "sm" | "md" | "lg";
 export type CardShadow = "none" | "sm" | "md" | "lg";
 export type CardHoverEffect = "none" | "lift" | "glow" | "border";
 export type CardRadius = "none" | "sm" | "md" | "lg" | "xl" | "full";
@@ -32,6 +35,10 @@ export interface CardProps {
   skeletonContent?: React.ReactNode;
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  /** Role override (e.g. developer, organization, org-admin, org-member) */
+  themeRole?: ThemeRole;
+  /** Color mode override */
+  colorMode?: ColorMode;
   style?: React.CSSProperties;
 }
 
@@ -50,6 +57,8 @@ export function Card({
   skeletonContent,
   children,
   onClick,
+  themeRole,
+  colorMode,
   style,
 }: CardProps) {
   const cardStyle: React.CSSProperties = {
@@ -72,9 +81,18 @@ export function Card({
     .filter(Boolean)
     .join(" ");
 
+  const dataProps: Record<string, string> = {};
+  if (themeRole) {
+    dataProps["data-theme"] = themeRole;
+    dataProps["data-role"] = themeRole;
+  }
+  if (colorMode) {
+    dataProps["data-color-mode"] = colorMode;
+  }
+
   if (isLoading) {
     return (
-      <div className={rootClasses} style={cardStyle}>
+      <div className={rootClasses} style={cardStyle} {...dataProps}>
         {skeletonContent ? (
           skeletonContent
         ) : (
@@ -102,6 +120,7 @@ export function Card({
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
+      {...dataProps}
     >
       {children}
     </div>

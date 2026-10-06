@@ -1,4 +1,4 @@
-/* ── Tabs Component ──────────────────────────────────────────────────────── */
+﻿/* ── Tabs Component ──────────────────────────────────────────────────────── */
 .gy-tabs {
   display: flex;
   flex-direction: column;
@@ -512,7 +512,7 @@
 .gy-dark .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs-trigger,
 .dark .gy-tabs-trigger,
-[data-theme="samantrix"] .gy-tabs-trigger,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs-trigger,
 [data-theme="dark"] .gy-tabs-trigger {
   color: var(--gy-text-muted, #94a3b8);
 }
@@ -520,7 +520,7 @@
 .gy-dark .gy-tabs-trigger:hover:not(:disabled),
 [data-color-mode="dark"] .gy-tabs-trigger:hover:not(:disabled),
 .dark .gy-tabs-trigger:hover:not(:disabled),
-[data-theme="samantrix"] .gy-tabs-trigger:hover:not(:disabled),
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs-trigger:hover:not(:disabled),
 [data-theme="dark"] .gy-tabs-trigger:hover:not(:disabled) {
   color: #f8fafc;
 }
@@ -529,7 +529,7 @@
 .gy-dark .gy-tabs--classic .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-list,
 .dark .gy-tabs--classic .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--classic .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--classic .gy-tabs-list {
   border-bottom-color: rgba(255, 255, 255, 0.12);
 }
@@ -537,7 +537,7 @@
 .gy-dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
 .dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--classic.gy-tabs--vertical .gy-tabs-list {
   border-right-color: rgba(255, 255, 255, 0.12);
 }
@@ -551,7 +551,7 @@
 .dark
   .gy-tabs--classic
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--classic
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -566,7 +566,7 @@
 .gy-dark .gy-tabs--classic .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger--active,
 .dark .gy-tabs--classic .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--classic .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--classic .gy-tabs-trigger--active {
   color: var(--gy-primary, #22c55e);
   border-bottom-color: var(--gy-primary, #22c55e);
@@ -577,7 +577,7 @@
 .gy-dark .gy-tabs--classic .gy-tabs-trigger--active:hover,
 [data-color-mode="dark"] .gy-tabs--classic .gy-tabs-trigger--active:hover,
 .dark .gy-tabs--classic .gy-tabs-trigger--active:hover,
-[data-theme="samantrix"] .gy-tabs--classic .gy-tabs-trigger--active:hover,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--classic .gy-tabs-trigger--active:hover,
 [data-theme="dark"] .gy-tabs--classic .gy-tabs-trigger--active:hover {
   background: transparent !important;
 }
@@ -591,7 +591,7 @@
 .dark
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -606,7 +606,7 @@
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger--active,
 .dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active,
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger--active,
 [data-theme="dark"]
@@ -623,7 +623,7 @@
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger--active:hover,
 .dark .gy-tabs--classic.gy-tabs--vertical .gy-tabs-trigger--active:hover,
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--classic.gy-tabs--vertical
   .gy-tabs-trigger--active:hover,
 [data-theme="dark"]
@@ -636,7 +636,7 @@
 .gy-dark .gy-tabs--button .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--button .gy-tabs-list,
 .dark .gy-tabs--button .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--button .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--button .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--button .gy-tabs-list {
   background: rgba(30, 41, 59, 0.65) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -647,7 +647,7 @@
 .gy-dark .gy-tabs--button .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger,
 .dark .gy-tabs--button .gy-tabs-trigger,
-[data-theme="samantrix"] .gy-tabs--button .gy-tabs-trigger,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--button .gy-tabs-trigger,
 [data-theme="dark"] .gy-tabs--button .gy-tabs-trigger {
   color: #94a3b8;
   background: transparent;
@@ -662,7 +662,7 @@
 .dark
   .gy-tabs--button
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--button
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -677,7 +677,7 @@
 .gy-dark .gy-tabs--button .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--button .gy-tabs-trigger--active,
 .dark .gy-tabs--button .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--button .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--button .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--button .gy-tabs-trigger--active {
   background: #1e293b !important;
   color: var(--gy-primary, #22c55e) !important;
@@ -698,7 +698,7 @@
 .gy-dark .gy-tabs--card .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--card .gy-tabs-list,
 .dark .gy-tabs--card .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--card .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--card .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--card .gy-tabs-list {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -706,7 +706,7 @@
 .gy-dark .gy-tabs--card .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger,
 .dark .gy-tabs--card .gy-tabs-trigger,
-[data-theme="samantrix"] .gy-tabs--card .gy-tabs-trigger,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--card .gy-tabs-trigger,
 [data-theme="dark"] .gy-tabs--card .gy-tabs-trigger {
   color: #94a3b8;
   background: transparent;
@@ -725,7 +725,7 @@
 .dark
   .gy-tabs--card
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--card
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -740,7 +740,7 @@
 .gy-dark .gy-tabs--card .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--card .gy-tabs-trigger--active,
 .dark .gy-tabs--card .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--card .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--card .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--card .gy-tabs-trigger--active {
   background: #1e293b !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
@@ -756,7 +756,7 @@
 .gy-dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
 .dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--card.gy-tabs--vertical .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-list {
   border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-bottom: none !important;
@@ -771,7 +771,7 @@
 .dark
   .gy-tabs--card.gy-tabs--vertical
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--card.gy-tabs--vertical
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -786,7 +786,7 @@
   .gy-tabs--card.gy-tabs--vertical
   .gy-tabs-trigger--active,
 .dark .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active,
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--card.gy-tabs--vertical
   .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--card.gy-tabs--vertical .gy-tabs-trigger--active {
@@ -801,7 +801,7 @@
 .gy-dark .gy-tabs--outline .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs--outline .gy-tabs-trigger,
 .dark .gy-tabs--outline .gy-tabs-trigger,
-[data-theme="samantrix"] .gy-tabs--outline .gy-tabs-trigger,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--outline .gy-tabs-trigger,
 [data-theme="dark"] .gy-tabs--outline .gy-tabs-trigger {
   background: rgba(30, 41, 59, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
@@ -817,7 +817,7 @@
 .dark
   .gy-tabs--outline
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--outline
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -833,7 +833,7 @@
 .gy-dark .gy-tabs--outline .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--outline .gy-tabs-trigger--active,
 .dark .gy-tabs--outline .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--outline .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--outline .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--outline .gy-tabs-trigger--active {
   background: color-mix(
     in srgb,
@@ -856,7 +856,7 @@
 .dark
   .gy-tabs--ghost
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--ghost
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -871,7 +871,7 @@
 .gy-dark .gy-tabs--ghost .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--ghost .gy-tabs-trigger--active,
 .dark .gy-tabs--ghost .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--ghost .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--ghost .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--ghost .gy-tabs-trigger--active {
   background: color-mix(
     in srgb,
@@ -887,7 +887,7 @@
 .gy-dark .gy-tabs--merged .gy-tabs-list,
 [data-color-mode="dark"] .gy-tabs--merged .gy-tabs-list,
 .dark .gy-tabs--merged .gy-tabs-list,
-[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-list,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--merged .gy-tabs-list,
 [data-theme="dark"] .gy-tabs--merged .gy-tabs-list {
   border-color: rgba(255, 255, 255, 0.12);
   background: rgba(15, 23, 42, 0.7);
@@ -896,7 +896,7 @@
 .gy-dark .gy-tabs--merged .gy-tabs-trigger,
 [data-color-mode="dark"] .gy-tabs--merged .gy-tabs-trigger,
 .dark .gy-tabs--merged .gy-tabs-trigger,
-[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-trigger,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--merged .gy-tabs-trigger,
 [data-theme="dark"] .gy-tabs--merged .gy-tabs-trigger {
   color: #94a3b8;
 }
@@ -910,7 +910,7 @@
 .dark
   .gy-tabs--merged
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
-[data-theme="samantrix"]
+[data-theme="samantrix"]:not([data-color-mode="light"])
   .gy-tabs--merged
   .gy-tabs-trigger:hover:not(:disabled):not(.gy-tabs-trigger--active),
 [data-theme="dark"]
@@ -926,7 +926,7 @@
 .gy-dark .gy-tabs--merged .gy-tabs-trigger--active,
 [data-color-mode="dark"] .gy-tabs--merged .gy-tabs-trigger--active,
 .dark .gy-tabs--merged .gy-tabs-trigger--active,
-[data-theme="samantrix"] .gy-tabs--merged .gy-tabs-trigger--active,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--merged .gy-tabs-trigger--active,
 [data-theme="dark"] .gy-tabs--merged .gy-tabs-trigger--active {
   background: color-mix(
     in srgb,
@@ -943,7 +943,7 @@
   .gy-dark .gy-tabs--vertical .gy-tabs-list,
   [data-color-mode="dark"] .gy-tabs--vertical .gy-tabs-list,
   .dark .gy-tabs--vertical .gy-tabs-list,
-  [data-theme="samantrix"] .gy-tabs--vertical .gy-tabs-list,
+  [data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tabs--vertical .gy-tabs-list,
   [data-theme="dark"] .gy-tabs--vertical .gy-tabs-list {
     border-bottom-color: rgba(255, 255, 255, 0.12);
   }

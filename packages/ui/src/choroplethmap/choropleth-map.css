@@ -1,4 +1,4 @@
-/* ── Choropleth / World Region Map Container ─────────────────────────────── */
+﻿/* ── Choropleth / World Region Map Container ─────────────────────────────── */
 .gy-choropleth-wrapper {
   position: relative;
   box-sizing: border-box;
@@ -305,7 +305,7 @@
 [data-color-mode="dark"] .gy-choropleth-wrapper,
 .dark .gy-choropleth-wrapper,
 [data-theme="dark"] .gy-choropleth-wrapper,
-[data-theme="samantrix"] .gy-choropleth-wrapper {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-wrapper {
   background: var(--gy-surface, #1e293b);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -315,7 +315,7 @@
 [data-color-mode="dark"] .gy-choropleth-sphere,
 .dark .gy-choropleth-sphere,
 [data-theme="dark"] .gy-choropleth-sphere,
-[data-theme="samantrix"] .gy-choropleth-sphere {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-sphere {
   fill: rgba(15, 23, 42, 0.55);
   stroke: rgba(255, 255, 255, 0.1);
 }
@@ -324,7 +324,7 @@
 [data-color-mode="dark"] .gy-choropleth-graticule,
 .dark .gy-choropleth-graticule,
 [data-theme="dark"] .gy-choropleth-graticule,
-[data-theme="samantrix"] .gy-choropleth-graticule {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-graticule {
   stroke: rgba(255, 255, 255, 0.08);
   opacity: 0.75;
 }
@@ -333,7 +333,7 @@
 [data-color-mode="dark"] .gy-choropleth-country,
 .dark .gy-choropleth-country,
 [data-theme="dark"] .gy-choropleth-country,
-[data-theme="samantrix"] .gy-choropleth-country {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-country {
   stroke: rgba(255, 255, 255, 0.14);
 }
 
@@ -341,7 +341,7 @@
 [data-color-mode="dark"] .gy-choropleth-country:hover,
 .dark .gy-choropleth-country:hover,
 [data-theme="dark"] .gy-choropleth-country:hover,
-[data-theme="samantrix"] .gy-choropleth-country:hover {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-country:hover {
   filter: brightness(1.15) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
   stroke: var(--gy-primary, #6366f1) !important;
 }
@@ -350,7 +350,7 @@
 [data-color-mode="dark"] .gy-choropleth-zoom-controls,
 .dark .gy-choropleth-zoom-controls,
 [data-theme="dark"] .gy-choropleth-zoom-controls,
-[data-theme="samantrix"] .gy-choropleth-zoom-controls {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-zoom-controls {
   background: var(--gy-surface-raised, #334155);
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
@@ -360,7 +360,7 @@
 [data-color-mode="dark"] .gy-choropleth-zoom-btn,
 .dark .gy-choropleth-zoom-btn,
 [data-theme="dark"] .gy-choropleth-zoom-btn,
-[data-theme="samantrix"] .gy-choropleth-zoom-btn {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-zoom-btn {
   color: var(--gy-text, #f8fafc);
 }
 
@@ -379,7 +379,7 @@
 [data-color-mode="dark"] .gy-choropleth-tooltip,
 .dark .gy-choropleth-tooltip,
 [data-theme="dark"] .gy-choropleth-tooltip,
-[data-theme="samantrix"] .gy-choropleth-tooltip {
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-choropleth-tooltip {
   background: rgba(30, 41, 59, 0.95);
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);

@@ -6,4 +6,5 @@ export type {
   MenuItem,
   MenuSize,
   MenuVariant,
+  TriggerRenderProps,
 } from "./Menu";

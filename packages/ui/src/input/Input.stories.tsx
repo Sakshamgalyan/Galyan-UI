@@ -95,21 +95,56 @@ const meta: Meta<typeof Input> = {
     helperText: { control: "text", description: "Helper text below the input" },
     size: {
       control: "radio",
-      options: ["sm", "md", "lg"],
+      options: ["xs", "sm", "md", "lg"],
       table: {
-        type: { summary: "sm | md | lg" },
+        type: { summary: "xs | sm | md | lg" },
         defaultValue: { summary: "md" },
       },
     },
     variant: {
       control: "select",
-      options: ["default", "filled", "focused", "error", "success", "disabled"],
+      options: [
+        "default",
+        "filled",
+        "glass",
+        "glassmorphic",
+        "focused",
+        "error",
+        "success",
+        "disabled",
+      ],
       table: {
         type: {
-          summary: "default | filled | focused | error | success | disabled",
+          summary:
+            "default | filled | glass | glassmorphic | focused | error | success | disabled",
         },
         defaultValue: { summary: "default" },
       },
+    },
+    themeRole: {
+      control: "select",
+      options: [
+        "customer",
+        "professional",
+        "agent",
+        "admin",
+        "developer",
+        "organization",
+        "org-admin",
+        "org-member",
+      ],
+      description: "Scoped role theme override (EasyLife & Samantrix)",
+      table: {
+        type: {
+          summary:
+            "'customer' | 'professional' | 'agent' | 'admin' | 'developer' | 'organization' | 'org-admin' | 'org-member'",
+        },
+      },
+    },
+    colorMode: {
+      control: "radio",
+      options: ["light", "dark"],
+      description: "Color mode override for the input",
     },
     type: {
       control: "text",
@@ -246,9 +281,18 @@ export const WithDifferentHelperIcons: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-      <Input label="Small" size="sm" placeholder="Small input" />
-      <Input label="Medium (Default)" size="md" placeholder="Medium input" />
-      <Input label="Large" size="lg" placeholder="Large input" />
+      <Input
+        label="Extra Small (xs - 28px)"
+        size="xs"
+        placeholder="Extra small input"
+      />
+      <Input label="Small (sm - 32px)" size="sm" placeholder="Small input" />
+      <Input
+        label="Medium (md - 40px, Default)"
+        size="md"
+        placeholder="Medium input"
+      />
+      <Input label="Large (lg - 48px)" size="lg" placeholder="Large input" />
     </div>
   ),
 };
@@ -258,6 +302,12 @@ export const Variants: Story = {
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <Input label="Default" variant="default" placeholder="Default variant" />
       <Input label="Filled" variant="filled" placeholder="Filled variant" />
+      <Input label="Glass" variant="glass" placeholder="Glass variant" />
+      <Input
+        label="Glassmorphic"
+        variant="glassmorphic"
+        placeholder="Glassmorphic variant"
+      />
       <Input
         label="Focused"
         variant="focused"
@@ -398,4 +448,330 @@ export const FilledVariant: Story = {
       />
     );
   },
+};
+
+export const GlassAndGlassmorphic: Story = {
+  render: () => (
+    <div
+      style={{
+        background: "linear-gradient(135deg, #090d16 0%, #1e1b4b 50%, #312e81 100%)",
+        padding: "2rem",
+        borderRadius: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.5rem",
+        width: "100%",
+        maxWidth: 480,
+      }}
+    >
+      <div style={{ marginBottom: "0.25rem" }}>
+        <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "#ffffff" }}>
+          Glass & Glassmorphic Variants
+        </h4>
+        <p style={{ margin: "0.25rem 0 0", fontSize: "0.8125rem", color: "#94a3b8" }}>
+          Translucent frosted background with backdrop filter for digital workplace UI.
+        </p>
+      </div>
+      <Input
+        label="Workspace Search (Glass)"
+        variant="glass"
+        placeholder="Search virtual offices, rooms, or members..."
+        leftIcon={<SearchIcon />}
+      />
+      <Input
+        label="API Secret Key (Glassmorphic)"
+        variant="glassmorphic"
+        placeholder="sam_live_sk_..."
+        type="password"
+        leftIcon={<LockIcon />}
+        helperText="Encrypted and masked on the client"
+      />
+      <Input
+        label="Quick Note (Glass XS)"
+        variant="glass"
+        size="xs"
+        placeholder="Status tag..."
+      />
+    </div>
+  ),
+};
+
+export const RoleThemedInputs: Story = {
+  parameters: {
+    layout: "padded",
+  },
+  render: () => {
+    const rolePresets = [
+      {
+        name: "Developer (Samantrix)",
+        brand: "samantrix",
+        role: "developer" as const,
+        badge: "#7c5cff",
+        desc: "Tailored for telemetry, internal operations, and developer API consoles.",
+        placeholder: "ghp_xxxxxxxxxxxxxxxxxxxx",
+        label: "GitHub Access Token",
+      },
+      {
+        name: "Org Admin (Samantrix)",
+        brand: "samantrix",
+        role: "org-admin" as const,
+        badge: "#f59e0b",
+        desc: "Tenant configuration, user permissions, and custom room settings.",
+        placeholder: "Acme Virtual HQ",
+        label: "Organization Workspace Name",
+      },
+      {
+        name: "Org Member (Samantrix)",
+        brand: "samantrix",
+        role: "org-member" as const,
+        badge: "#10b981",
+        desc: "Everyday virtual office collaboration, status broadcast, and proximity chat.",
+        placeholder: "Available for pairing...",
+        label: "Avatar Status Note",
+      },
+      {
+        name: "Enterprise Org (Samantrix)",
+        brand: "samantrix",
+        role: "organization" as const,
+        badge: "#4f46e5",
+        desc: "Corporate tier tenant billing, contract quotas, and audit logs.",
+        placeholder: "billing@acme-corp.com",
+        label: "Enterprise Billing Email",
+      },
+      {
+        name: "Customer (EasyLife)",
+        brand: "easylife",
+        role: "customer" as const,
+        badge: "#22c55e",
+        desc: "Default consumer role with signature emerald brand accents.",
+        placeholder: "alex@example.com",
+        label: "Customer Account Email",
+      },
+      {
+        name: "Professional (EasyLife)",
+        brand: "easylife",
+        role: "professional" as const,
+        badge: "#3b82f6",
+        desc: "Service provider workflow with high-trust blue accents.",
+        placeholder: "PRO-882194",
+        label: "Professional License ID",
+      },
+      {
+        name: "Agent (EasyLife)",
+        brand: "easylife",
+        role: "agent" as const,
+        badge: "#f43f5e",
+        desc: "Operations dispatcher and live concierge with rose/coral theme.",
+        placeholder: "Queue route identifier",
+        label: "Dispatch Route ID",
+      },
+      {
+        name: "Admin (EasyLife)",
+        brand: "easylife",
+        role: "admin" as const,
+        badge: "#f59e0b",
+        desc: "Platform administration with amber highlight and elevated permissions.",
+        placeholder: "System maintenance override",
+        label: "Admin Authorization Note",
+      },
+    ];
+
+    return (
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+          gap: "1.75rem",
+          width: "100%",
+          maxWidth: 1100,
+        }}
+      >
+        {rolePresets.map((r) => (
+          <div
+            key={r.name}
+            data-brand={r.brand}
+            data-role={r.role}
+            data-theme={r.brand === "easylife" ? r.role : r.brand}
+            style={{
+              padding: "1.25rem",
+              borderRadius: "0.875rem",
+              border: "1px solid var(--gy-border, #e2e8f0)",
+              background: "var(--gy-surface, #ffffff)",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "0.25rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.9375rem",
+                    fontWeight: 600,
+                    color: "var(--gy-text, #0f172a)",
+                  }}
+                >
+                  {r.name}
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    padding: "0.15rem 0.5rem",
+                    borderRadius: "9999px",
+                    background: `${r.badge}18`,
+                    color: r.badge,
+                    border: `1px solid ${r.badge}33`,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {r.role}
+                </span>
+              </div>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "0.75rem",
+                  color: "var(--gy-text-muted, #64748b)",
+                  lineHeight: 1.4,
+                }}
+              >
+                {r.desc}
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <Input
+                label={r.label}
+                placeholder={r.placeholder}
+                defaultValue=""
+                helperText="Focus or type to see role-scoped brand colors & focus ring"
+                leftIcon={<SearchIcon />}
+                themeRole={r.role}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const RolePropsDemo: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "100%", maxWidth: 460 }}>
+      <div style={{ marginBottom: "0.25rem" }}>
+        <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
+          Direct `themeRole` Prop Overrides
+        </h4>
+        <p style={{ margin: "0.25rem 0 0", fontSize: "0.8125rem", color: "var(--gy-text-muted)" }}>
+          Inputs with explicit themeRole props inherit role-specific focus rings and borders independently.
+        </p>
+      </div>
+      <Input
+        label="Developer Role (Violet Focus)"
+        themeRole="developer"
+        placeholder="Developer workspace command..."
+        defaultValue="git checkout -b feature/realtime"
+        leftIcon={<SearchIcon />}
+        helperText="Focus ring uses Samantrix developer violet token"
+      />
+      <Input
+        label="Org Admin Role (Amber Accent)"
+        themeRole="org-admin"
+        placeholder="Admin policy setting..."
+        helperText="Focus ring uses org-admin role override"
+      />
+      <Input
+        label="Org Member Role (Emerald Accent)"
+        themeRole="org-member"
+        placeholder="Member status..."
+        helperText="Focus ring uses org-member presence green token"
+      />
+      <Input
+        label="Professional Role (Blue Focus)"
+        themeRole="professional"
+        placeholder="Professional credential ID..."
+        helperText="Focus ring uses professional role override"
+      />
+      <Input
+        label="Agent Role (Rose Focus)"
+        themeRole="agent"
+        placeholder="Support ticket note..."
+        helperText="Focus ring uses agent role override"
+      />
+    </div>
+  ),
+};
+
+export const SamantrixWorkplaceInputs: Story = {
+  render: () => (
+    <div
+      data-brand="samantrix"
+      data-theme="samantrix"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.25rem",
+        padding: "1.5rem",
+        borderRadius: "0.75rem",
+        background: "var(--gy-surface, #ffffff)",
+        border: "1px solid var(--gy-border, #e2e8f0)",
+        width: "100%",
+        maxWidth: 480,
+      }}
+    >
+      <div style={{ marginBottom: "0.25rem" }}>
+        <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
+          Samantrix Digital Workplace
+        </h4>
+        <p style={{ margin: "0.25rem 0 0", fontSize: "0.8125rem", color: "var(--gy-text-muted)" }}>
+          Configured with Samantrix brand design tokens and role-specific workflows.
+        </p>
+      </div>
+
+      <Input
+        label="Console Command Input"
+        size="xs"
+        themeRole="developer"
+        placeholder="pnpm dev --filter @galyan/ui"
+        helperText="Extra compact input for internal tooling and telemetry"
+      />
+
+      <Input
+        label="Virtual Office Room Name"
+        size="sm"
+        themeRole="org-admin"
+        placeholder="e.g. Design Studio Alpha"
+        helperText="Configurable room label in virtual 3D floor plan"
+      />
+
+      <Input
+        label="Proximity Voice Status"
+        size="md"
+        themeRole="org-member"
+        placeholder="Available for pair programming"
+        leftIcon={<CheckCircleIcon />}
+        helperText="Live presence indicator in digital workplace"
+      />
+
+      <Input
+        label="Glassmorphic Dock Search"
+        size="lg"
+        variant="glassmorphic"
+        themeRole="org-member"
+        placeholder="Search colleagues, rooms, documents..."
+        leftIcon={<SearchIcon />}
+      />
+    </div>
+  ),
 };

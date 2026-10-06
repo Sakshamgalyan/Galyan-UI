@@ -1,4 +1,4 @@
-/* ── Linear ProgressBar ─────────────────────────────────────────────────── */
+﻿/* ── Linear ProgressBar ─────────────────────────────────────────────────── */
 .gy-progress {
   width: 100%;
   display: flex;
@@ -541,7 +541,7 @@
 .gy-dark .gy-progress__track,
 [data-color-mode="dark"] .gy-progress__track,
 [data-theme="dark"] .gy-progress__track,
-[data-theme="samantrix"] .gy-progress__track,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-progress__track,
 .dark .gy-progress__track {
   background: #1e293b;
 }
@@ -549,7 +549,7 @@
 .gy-dark .gy-progress__track--indeterminate,
 [data-color-mode="dark"] .gy-progress__track--indeterminate,
 [data-theme="dark"] .gy-progress__track--indeterminate,
-[data-theme="samantrix"] .gy-progress__track--indeterminate,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-progress__track--indeterminate,
 .dark .gy-progress__track--indeterminate {
   background-color: #1e293b;
 }
@@ -557,7 +557,7 @@
 .gy-dark .gy-progress__track--indeterminate::before,
 [data-color-mode="dark"] .gy-progress__track--indeterminate::before,
 [data-theme="dark"] .gy-progress__track--indeterminate::before,
-[data-theme="samantrix"] .gy-progress__track--indeterminate::before,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-progress__track--indeterminate::before,
 .dark .gy-progress__track--indeterminate::before {
   background: linear-gradient(
     90deg,
@@ -570,7 +570,7 @@
 .gy-dark .gy-progress__header,
 [data-color-mode="dark"] .gy-progress__header,
 [data-theme="dark"] .gy-progress__header,
-[data-theme="samantrix"] .gy-progress__header,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-progress__header,
 .dark .gy-progress__header {
   color: var(--gy-text, #f8fafc);
 }
@@ -578,7 +578,7 @@
 .gy-dark .gy-progress-circular__bg,
 [data-color-mode="dark"] .gy-progress-circular__bg,
 [data-theme="dark"] .gy-progress-circular__bg,
-[data-theme="samantrix"] .gy-progress-circular__bg,
+[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-progress-circular__bg,
 .dark .gy-progress-circular__bg {
   stroke: #1e293b;
 }

@@ -6,7 +6,15 @@ import { createContext } from "react";
 
 export type ThemeBrand = "easylife" | "metalixia" | "samantrix" | "custom";
 
-export type ThemeRole = "customer" | "professional" | "agent" | "admin";
+export type ThemeRole =
+  | "customer"
+  | "professional"
+  | "agent"
+  | "admin"
+  | "developer"
+  | "organization"
+  | "org-admin"
+  | "org-member";
 
 export type ColorMode = "light" | "dark" | "system";
 

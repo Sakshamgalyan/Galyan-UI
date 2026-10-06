@@ -1,6 +1,18 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  useDismiss,
+  useRole,
+  useInteractions,
+  FloatingPortal,
+  Placement as FloatingPlacement,
+} from "@floating-ui/react";
 import "./menu.css";
 
 // Re-export Tooltip for backwards compat
@@ -27,6 +39,11 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
+export type TriggerRenderProps = {
+  open: boolean;
+  toggle: (e?: React.MouseEvent<HTMLElement>) => void;
+};
+
 export interface MenuProps {
   items?: MenuItem[];
   orientation?: "vertical" | "horizontal";
@@ -39,8 +56,20 @@ export interface MenuProps {
   activeMenuItemColor?: string;
   maxHeight?: string;
   children?: React.ReactNode;
+  header?: React.ReactNode;
   readOnly?: boolean;
   className?: string;
+  /** Dropdown / Floating mode props */
+  trigger?: React.ReactNode | ((props: TriggerRenderProps) => React.ReactNode);
+  renderTrigger?: (props: TriggerRenderProps) => React.ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  placement?: FloatingPlacement;
+  width?: number | string;
+  keepOpenOnSelect?: boolean;
+  usePortal?: boolean;
+  zIndex?: number;
 }
 
 export function Menu({
@@ -55,9 +84,55 @@ export function Menu({
   activeMenuItemColor,
   maxHeight,
   children,
+  header,
   readOnly = false,
   className = "",
+  trigger,
+  renderTrigger,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  placement = "bottom-start",
+  width,
+  keepOpenOnSelect = false,
+  usePortal = true,
+  zIndex = 10050,
 }: MenuProps) {
+  const isDropdown = Boolean(trigger || renderTrigger);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isControlled = openProp !== undefined;
+  const isOpen = isControlled ? Boolean(openProp) : internalOpen;
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!isControlled) setInternalOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  };
+
+  const toggle = (e?: React.MouseEvent<HTMLElement>) => {
+    e?.stopPropagation();
+    handleOpenChange(!isOpen);
+  };
+
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: handleOpenChange,
+    placement,
+    whileElementsMounted: autoUpdate,
+    strategy: "fixed",
+    middleware: [
+      offset(8),
+      flip({ padding: 8 }),
+      shift({ padding: 8 }),
+    ],
+  });
+
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: "menu" });
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    dismiss,
+    role,
+  ]);
+
   const rootRef = useRef<HTMLElement>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
     const expanded = new Set<string>();
@@ -66,7 +141,6 @@ export function Menu({
       orientation === "vertical" &&
       Array.isArray(items)
     ) {
-      // Expand parents of active item or first level collapsible by default in vertical
       items.forEach((item) => {
         if (item?.children) expanded.add(item.id);
       });
@@ -140,6 +214,9 @@ export function Menu({
           return next;
         });
       }
+      if (isDropdown && !keepOpenOnSelect) {
+        handleOpenChange(false);
+      }
       onItemClick?.(item.id);
     };
 
@@ -200,12 +277,64 @@ export function Menu({
     );
   };
 
-  return (
+  const headerContent = header || children;
+
+  const menuContent = (
     <nav ref={rootRef} className={rootClasses} style={rootStyle}>
-      {children && <div className="gy-nav-menu__header">{children}</div>}
+      {headerContent && <div className="gy-nav-menu__header">{headerContent}</div>}
       <div className="gy-nav-menu__list" role="menu">
         {Array.isArray(items) && items.map((item) => renderItem(item))}
       </div>
     </nav>
+  );
+
+  if (!isDropdown) {
+    return menuContent;
+  }
+
+  const triggerNode = renderTrigger
+    ? renderTrigger({ open: isOpen, toggle })
+    : typeof trigger === "function"
+      ? (trigger as (props: TriggerRenderProps) => React.ReactNode)({ open: isOpen, toggle })
+      : React.isValidElement(trigger)
+        ? React.cloneElement(trigger as React.ReactElement<any>, {
+            onClick: (e: any) => {
+              (trigger as any).props?.onClick?.(e);
+              toggle(e);
+            },
+          })
+        : trigger;
+
+  const floatingPanel = isOpen ? (
+    <div
+      ref={refs.setFloating}
+      className="gy-menu-dropdown"
+      style={{
+        ...floatingStyles,
+        zIndex,
+        width: width ? (typeof width === "number" ? `${width}px` : width) : undefined,
+        maxWidth: "calc(100vw - 16px)",
+      }}
+      {...getFloatingProps()}
+    >
+      {menuContent}
+    </div>
+  ) : null;
+
+  return (
+    <>
+      <span
+        ref={refs.setReference}
+        className="gy-menu-trigger-wrapper"
+        {...getReferenceProps()}
+      >
+        {triggerNode}
+      </span>
+      {usePortal ? (
+        <FloatingPortal>{floatingPanel}</FloatingPortal>
+      ) : (
+        floatingPanel
+      )}
+    </>
   );
 }
