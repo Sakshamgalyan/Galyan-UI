@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.9
+
+### Patch Changes
+
+- Release update (patch):
+  - 8dbd0aa Merge pull request #1 from Sakshamgalyan/fix/sidebar-fix
+  - 411f974 fix: sidebar and other component menu
+  - c2fc6db chore(release): v1.0.8
+  - 8347148 fix: dark mode for samantrix
+  - b3eb0dc fix: publish scripts
+- Updated dependencies
+  - @galyan/theme@1.0.9
+
 ## 1.0.8
 
 ### Patch Changes
