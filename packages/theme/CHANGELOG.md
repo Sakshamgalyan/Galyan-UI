@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.11
+
+### Patch Changes
+
+- Release update (patch):
+  - a41254c fix: sidebar arrow button
+  - d38eb57 chore(release): v1.0.10
+  - 49108cc add: sidebar variant glass floating
+  - 95c0980 chore(release): v1.0.9
+  - 8dbd0aa Merge pull request #1 from Sakshamgalyan/fix/sidebar-fix
+
 ## 1.0.10
 
 ### Patch Changes
