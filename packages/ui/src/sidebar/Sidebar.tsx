@@ -245,12 +245,12 @@ export const useSidebar = () => useContext(SidebarContext);
 
 const ChevronLeft = () => (
   <svg
-    width="16"
-    height="16"
+    width="14"
+    height="14"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.25"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
@@ -260,12 +260,12 @@ const ChevronLeft = () => (
 
 const ChevronRight = () => (
   <svg
-    width="16"
-    height="16"
+    width="14"
+    height="14"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.25"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
