@@ -1895,7 +1895,7 @@ export const RightPositionSidebar: Story = {
         <main style={{ flex: 1, padding: "2rem", background: "var(--gy-background-muted, #f8fafc)" }}>
           <h3 style={{ margin: "0 0 0.5rem" }}>Main Application Workspace</h3>
           <p style={{ color: "var(--gy-text-muted)", fontSize: "0.875rem", lineHeight: 1.6 }}>
-            The sidebar below is positioned on the right (<code>position="right"</code>), ideal for conference side-panels, inspector drawers, or activity feeds.
+            The sidebar below is positioned on the right (<code>position=&quot;right&quot;</code>), ideal for conference side-panels, inspector drawers, or activity feeds.
           </p>
         </main>
 

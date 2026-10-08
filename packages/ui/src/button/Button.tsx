@@ -65,7 +65,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   type?: "button" | "submit" | "reset";
 }
 
-export const Button = forwardRef<any, ButtonProps>(
+export const Button = forwardRef<HTMLElement, ButtonProps>(
   function Button(
     {
       variant = "primary",
@@ -106,7 +106,7 @@ export const Button = forwardRef<any, ButtonProps>(
         : undefined);
 
     const handleClick = useCallback(
-      (e: React.MouseEvent<any>) => {
+      (e: React.MouseEvent<HTMLElement>) => {
         if (isButtonDisabled) {
           e.preventDefault();
           e.stopPropagation();
@@ -132,7 +132,7 @@ export const Button = forwardRef<any, ButtonProps>(
           }
         }
 
-        onClick?.(e);
+        onClick?.(e as React.MouseEvent<HTMLButtonElement>);
       },
       [isButtonDisabled, onClick, variant],
     );
@@ -162,7 +162,7 @@ export const Button = forwardRef<any, ButtonProps>(
     }
     if (colorMode) dataProps["data-color-mode"] = colorMode;
 
-    const elementProps: Record<string, any> = isLink
+    const elementProps: Record<string, unknown> = isLink
       ? {
           href: isButtonDisabled ? undefined : href,
           target: computedTarget,

@@ -505,15 +505,15 @@ export const CircularAvatarBadge: Story = {
     <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
         <Badge content="S" variant="primary" size="xl" shape="circle" glow interactive />
-        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial "S"</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial &quot;S&quot;</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
         <Badge content="JD" variant="secondary" size="xl" shape="circle" glow interactive />
-        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial "JD"</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Initial &quot;JD&quot;</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
         <Badge content="99+" variant="danger" size="xl" shape="circle" glow interactive />
-        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Count "99+"</span>
+        <span style={{ fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>Count &quot;99+&quot;</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
         <Badge content={<BellIcon />} variant="neutral" size="xl" shape="circle" interactive />

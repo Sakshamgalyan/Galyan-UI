@@ -298,9 +298,10 @@ export function Menu({
     : typeof trigger === "function"
       ? (trigger as (props: TriggerRenderProps) => React.ReactNode)({ open: isOpen, toggle })
       : React.isValidElement(trigger)
-        ? React.cloneElement(trigger as React.ReactElement<any>, {
-            onClick: (e: any) => {
-              (trigger as any).props?.onClick?.(e);
+        ? React.cloneElement(trigger as React.ReactElement<{ onClick?: (e: React.MouseEvent<HTMLElement>) => void }>, {
+            onClick: (e: React.MouseEvent<HTMLElement>) => {
+              const child = trigger as React.ReactElement<{ onClick?: (e: React.MouseEvent<HTMLElement>) => void }>;
+              child.props?.onClick?.(e);
               toggle(e);
             },
           })

@@ -258,11 +258,11 @@ export const FallbackAndInitials: Story = {
     <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
         <Avatar size="lg" name="Saksham Galyan" />
-        <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Full Name: "SG"</span>
+        <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Full Name: &quot;SG&quot;</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
         <Avatar size="lg" name="Antigravity" />
-        <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Single Name: "AN"</span>
+        <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Single Name: &quot;AN&quot;</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
         <Avatar size="lg" src="https://broken-image-link-test.jpg" name="Fallback On Error" />

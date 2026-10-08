@@ -100,7 +100,9 @@ export function ThemeProvider({
           const parsed = JSON.parse(stored);
           if (parsed.brand) return parsed.brand;
         }
-      } catch {}
+      } catch {
+        // Ignore localStorage read/parse errors
+      }
     }
     return "easylife";
   });
@@ -115,7 +117,9 @@ export function ThemeProvider({
           const parsed = JSON.parse(stored);
           if (parsed.role) return parsed.role;
         }
-      } catch {}
+      } catch {
+        // Ignore localStorage read/parse errors
+      }
     }
     return "customer";
   });
@@ -128,7 +132,9 @@ export function ThemeProvider({
           const parsed = JSON.parse(stored);
           if (parsed.colorMode) return parsed.colorMode;
         }
-      } catch {}
+      } catch {
+        // Ignore localStorage read/parse errors
+      }
     }
     return defaultColorMode;
   });
