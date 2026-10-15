@@ -33,9 +33,10 @@ const preview: Preview = {
     },
     backgrounds: {
       options: {
-        white: { name: "white", value: "#ffffff" },
-        "light-subtle": { name: "light-subtle", value: "#f8fafc" },
-        dark: { name: "dark", value: "#0f172a" },
+        dark: { name: "Dark (Simantrix Ink)", value: "#06060a" },
+        "dark-surface": { name: "Dark Surface", value: "#0a0a12" },
+        white: { name: "White (Light Mode)", value: "#ffffff" },
+        "light-subtle": { name: "Light Subtle", value: "#f8fafc" },
       },
     },
   },
@@ -43,47 +44,47 @@ const preview: Preview = {
   globalTypes: {
     themeBrand: {
       description: "App Brand / Company Identity",
-      defaultValue: "easylife",
+      defaultValue: "simantrix",
       toolbar: {
         title: "Brand",
         icon: "paintbrush",
         items: [
-          { value: "easylife", title: "EasyLife" },
-          { value: "metalixia", title: "Metalixia" },
-          { value: "samantrix", title: "Samantrix" },
-          { value: "custom", title: "Custom" },
+          { value: "simantrix", title: "Simantrix (Flagship)" },
+          { value: "easylife", title: "EasyLife (Legacy)" },
+          { value: "metalixia", title: "Metalixia (Legacy)" },
+          { value: "custom", title: "Custom Theme" },
         ],
         dynamicTitle: true,
       },
     },
     themeRole: {
-      description: "User Role",
-      defaultValue: "customer",
+      description: "Color Scheme / User Role",
+      defaultValue: "simantrix",
       toolbar: {
-        title: "Role",
-        icon: "user",
+        title: "Color Scheme",
+        icon: "paintbrush",
         items: [
-          { value: "customer", title: "Customer" },
-          { value: "professional", title: "Professional" },
-          { value: "agent", title: "Agent" },
-          { value: "admin", title: "Admin" },
-          { value: "developer", title: "Developer (Samantrix)" },
-          { value: "organization", title: "Organization (Samantrix)" },
-          { value: "org-admin", title: "Org Admin (Samantrix)" },
-          { value: "org-member", title: "Org Member (Samantrix)" },
+          // ── Direct Color Schemes ──────────────────────────────────────────
+          { value: "simantrix", title: "Simantrix (#7c5cff - Signature Violet)" },
+          { value: "coral", title: "Coral (#f43f5e - Rose / Crimson)" },
+          { value: "green", title: "Green (#10b981 - Emerald)" },
+          { value: "blue", title: "Blue (#3b82f6 - Cobalt)" },
+          { value: "violet", title: "Violet (#6366f1 - Indigo)" },
+          { value: "amber", title: "Amber (#f59e0b - Governance)" },
+          { value: "cyan", title: "Cyan (#0ea5e9 - Sky Blue)" },
         ],
         dynamicTitle: true,
       },
     },
     colorMode: {
-      description: "Color Mode",
-      defaultValue: "light",
+      description: "Color Mode (Light / Dark)",
+      defaultValue: "dark",
       toolbar: {
-        title: "Color Mode",
+        title: "Mode",
         icon: "circlehollow",
         items: [
-          { value: "light", title: "Light" },
-          { value: "dark", title: "Dark" },
+          { value: "dark", title: "Dark Mode" },
+          { value: "light", title: "Light Mode" },
         ],
         dynamicTitle: true,
       },
@@ -92,9 +93,10 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => {
-      const brand = (context.globals.themeBrand || "easylife") as ThemeBrand;
-      const role = (context.globals.themeRole || "customer") as ThemeRole;
-      const mode = (context.globals.colorMode || "light") as "light" | "dark";
+      const brand = (context.globals.themeBrand || "simantrix") as ThemeBrand;
+      const role = (context.globals.themeRole || "simantrix") as ThemeRole;
+      const mode = (context.globals.colorMode || "dark") as "light" | "dark";
+      const themeAttr = brand === "easylife" ? role : `${brand}-${role}`;
 
       return (
         <ThemeProvider
@@ -109,7 +111,8 @@ const preview: Preview = {
             <div
               data-brand={brand}
               data-role={role}
-              data-theme={brand === "easylife" ? role : brand}
+              data-color-scheme={role}
+              data-theme={themeAttr}
               data-color-mode={mode}
               style={{
                 padding: "1.25rem 1rem",
@@ -121,6 +124,7 @@ const preview: Preview = {
                 width: "100%",
                 boxSizing: "border-box",
                 transition: "all 0.2s ease-in-out",
+                minHeight: "100vh",
               }}
             >
               <Story />
@@ -132,11 +136,11 @@ const preview: Preview = {
   ],
 
   initialGlobals: {
-    themeBrand: "easylife",
-    themeRole: "customer",
-    colorMode: "light",
+    themeBrand: "simantrix",
+    themeRole: "simantrix",
+    colorMode: "dark",
     backgrounds: {
-      value: "white",
+      value: "#06060a",
     },
   },
 };

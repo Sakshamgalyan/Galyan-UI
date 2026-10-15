@@ -755,7 +755,7 @@ export const DarkModeShowcase: Story = {
   render: () => (
     <div
       data-color-mode="dark"
-      data-theme="samantrix"
+      data-theme="simantrix"
       style={{
         position: "relative",
         background: "#080911",

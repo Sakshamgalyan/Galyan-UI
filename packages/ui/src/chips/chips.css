@@ -211,8 +211,8 @@
 .dark .gy-chip--soft,
 [data-color-mode="dark"] .gy-chip--soft,
 [data-theme="dark"] .gy-chip--soft,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--soft,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--soft {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chip--soft,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chip--soft {
   background: color-mix(in srgb, var(--gy-primary) 22%, rgba(255, 255, 255, 0.06));
   color: color-mix(in srgb, var(--gy-primary) 55%, #ffffff);
   border-color: color-mix(in srgb, var(--gy-primary) 40%, transparent);
@@ -222,8 +222,8 @@
 .dark .gy-chip--outline,
 [data-color-mode="dark"] .gy-chip--outline,
 [data-theme="dark"] .gy-chip--outline,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--outline,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--outline {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chip--outline,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chip--outline {
   color: color-mix(in srgb, var(--gy-primary) 55%, #ffffff);
   border-color: color-mix(in srgb, var(--gy-primary) 45%, transparent);
 }
@@ -232,8 +232,8 @@
 .dark .gy-chip--neutral,
 [data-color-mode="dark"] .gy-chip--neutral,
 [data-theme="dark"] .gy-chip--neutral,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--neutral,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--neutral {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chip--neutral,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chip--neutral {
   background: rgba(255, 255, 255, 0.08);
   color: var(--gy-text-muted, #94a3b8);
   border-color: rgba(255, 255, 255, 0.12);
@@ -243,8 +243,8 @@
 .dark .gy-chip--primary,
 [data-color-mode="dark"] .gy-chip--primary,
 [data-theme="dark"] .gy-chip--primary,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--primary,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--primary {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chip--primary,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chip--primary {
   background: color-mix(in srgb, var(--gy-primary) 24%, rgba(255, 255, 255, 0.08));
   color: color-mix(in srgb, var(--gy-primary) 65%, #ffffff);
   border-color: color-mix(in srgb, var(--gy-primary) 45%, transparent);
@@ -254,8 +254,8 @@
 .dark .gy-chip--glass,
 [data-color-mode="dark"] .gy-chip--glass,
 [data-theme="dark"] .gy-chip--glass,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chip--glass,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chip--glass {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chip--glass,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chip--glass {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.14);
   color: #ffffff;
@@ -265,8 +265,8 @@
 .dark .gy-chips-input,
 [data-color-mode="dark"] .gy-chips-input,
 [data-theme="dark"] .gy-chips-input,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-chips-input,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-chips-input {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-chips-input,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-chips-input {
   background: var(--gy-surface, #13131f);
   border-color: var(--gy-border, #1c1c2b);
 }

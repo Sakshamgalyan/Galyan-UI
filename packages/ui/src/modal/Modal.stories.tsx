@@ -647,7 +647,7 @@ export const MultiStepWizardModal: Story = {
                   label="Organization Name"
                   value={orgName}
                   onChange={(e) => setOrgName(e.target.value)}
-                  placeholder="e.g. Samantrix Labs"
+                  placeholder="e.g. Simantrix Labs"
                 />
                 <Dropdown
                   label="Primary Datacenter Region"
@@ -796,7 +796,7 @@ export const TabbedSettingsModal: Story = {
   render: function Render() {
     const [open, setOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("general");
-    const [projectName, setProjectName] = useState("samantrix-ui-platform");
+    const [projectName, setProjectName] = useState("simantrix-ui-platform");
     const [projectDesc, setProjectDesc] = useState(
       "Comprehensive multi-tenant design system with storybook integration.",
     );

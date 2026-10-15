@@ -386,28 +386,28 @@
 }
 
 [data-color-mode="light"] .gy-table-wrapper--glass,
-[data-brand="samantrix"][data-color-mode="light"] .gy-table-wrapper--glass {
+[data-brand="simantrix"][data-color-mode="light"] .gy-table-wrapper--glass {
   background: rgba(255, 255, 255, 0.7) !important;
   border: 1px solid rgba(226, 232, 240, 0.85) !important;
 }
 
 [data-color-mode="light"] .gy-table--variant-glass .gy-table-header,
-[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-header {
+[data-brand="simantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-header {
   background: rgba(248, 250, 252, 0.8);
 }
 
 [data-color-mode="light"] .gy-table--variant-glass .gy-table-th,
-[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-th {
+[data-brand="simantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-th {
   border-bottom-color: rgba(226, 232, 240, 0.85);
 }
 
 [data-color-mode="light"] .gy-table--variant-glass .gy-table-td,
-[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-td {
+[data-brand="simantrix"][data-color-mode="light"] .gy-table--variant-glass .gy-table-td {
   border-bottom-color: rgba(241, 245, 249, 0.85);
 }
 
 [data-color-mode="light"] .gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td,
-[data-brand="samantrix"][data-color-mode="light"] .gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td {
+[data-brand="simantrix"][data-color-mode="light"] .gy-table--variant-glass.gy-table--hoverable .gy-table-tr:hover td {
   background: rgba(241, 245, 249, 0.6);
 }
 
@@ -1417,8 +1417,8 @@
 .dark .gy-table-expand-btn,
 [data-color-mode="dark"] .gy-table-expand-btn,
 [data-theme="dark"] .gy-table-expand-btn,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn {
   background: var(--gy-surface, #0f172a);
   color: var(--gy-text-muted, #94a3b8);
 }
@@ -1427,8 +1427,8 @@
 .dark .gy-table-expand-btn:hover,
 [data-color-mode="dark"] .gy-table-expand-btn:hover,
 [data-theme="dark"] .gy-table-expand-btn:hover,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-expand-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.12);
@@ -1458,18 +1458,18 @@
 [data-theme="dark"] .gy-table-tree-line--tee::after,
 [data-theme="dark"] .gy-table-tree-line--corner::after,
 [data-theme="dark"] .gy-table-cell-first--tree-parent::after,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--vertical::before,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::before,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::before,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--tee::after,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-tree-line--corner::after,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-table-cell-first--tree-parent::after {
   background: var(--gy-tree-line-color, rgba(255, 255, 255, 0.16));
 }
 

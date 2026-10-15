@@ -10,6 +10,8 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
+  padding: 1rem;
+  box-sizing: border-box;
 }
 .gy-modal-backdrop--top {
   align-items: flex-start;
@@ -41,7 +43,9 @@
   box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 0 0 1px var(--gy-border, #e2e8f0);
-  max-height: 90vh;
+  max-height: calc(100vh - 2rem);
+  max-width: calc(100vw - 2rem);
+  box-sizing: border-box;
   overflow: hidden;
   outline: none;
 }
@@ -205,8 +209,10 @@
 .gy-modal__body {
   padding: 1.5rem;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
   color: var(--gy-text);
+  overscroll-behavior: contain;
 }
 
 /* ── Footer ── */

@@ -61,3 +61,35 @@
 .gy-scrollbar-visible::-webkit-scrollbar-thumb:hover {
   background: var(--gy-text-subtle, #94a3b8) !important;
 }
+
+/* ── Webkit Autofill Normalization ── */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active,
+.gy-dark input:-webkit-autofill,
+.gy-dark input:-webkit-autofill:hover,
+.gy-dark input:-webkit-autofill:focus,
+.gy-dark input:-webkit-autofill:active,
+[data-color-mode="dark"] input:-webkit-autofill,
+[data-color-mode="dark"] input:-webkit-autofill:hover,
+[data-color-mode="dark"] input:-webkit-autofill:focus,
+[data-color-mode="dark"] input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--gy-text, #f8fafc) !important;
+  box-shadow: 0 0 0 1000px var(--gy-surface, rgba(15, 23, 42, 0.85)) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--gy-surface, rgba(15, 23, 42, 0.85)) inset !important;
+  caret-color: var(--gy-text, #f8fafc) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+:root:not(.dark) input:-webkit-autofill,
+[data-color-mode="light"] input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--gy-text, #0f172a) !important;
+  box-shadow: 0 0 0 1000px var(--gy-surface, rgba(248, 250, 252, 0.95)) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--gy-surface, rgba(248, 250, 252, 0.95)) inset !important;
+  caret-color: var(--gy-text, #0f172a) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+

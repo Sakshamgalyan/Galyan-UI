@@ -214,26 +214,39 @@
 [data-color-mode="dark"] .gy-card--glass,
 .dark .gy-card--glassmorphic,
 .dark .gy-card--glass,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glass,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glass,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glass,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glass,
 [data-theme="dark"] .gy-card--glassmorphic,
 [data-theme="dark"] .gy-card--glass {
   background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12) 0%,
+    140deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
     rgba(255, 255, 255, 0.04) 100%
-  ) !important;
-  background-color: rgba(15, 23, 42, 0.6) !important;
-  backdrop-filter: blur(28px) saturate(190%) contrast(105%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(105%);
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  ), rgba(10, 10, 16, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow:
-    0 24px 50px -10px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.3) !important;
+    0 20px 50px -10px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 20px 0 rgba(99, 102, 241, 0.03) !important;
   color: #ffffff !important;
+}
+
+.gy-dark .gy-card--glass:hover,
+.dark .gy-card--glass:hover,
+[data-color-mode="dark"] .gy-card--glass:hover,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glass:hover {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 24px 60px -10px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 0 24px 0 rgba(99, 102, 241, 0.06) !important;
 }
 
 .gy-dark .gy-card--glassmorphic .gy-card-header,
@@ -242,10 +255,10 @@
 [data-color-mode="dark"] .gy-card--glassmorphic .gy-card-footer,
 .dark .gy-card--glassmorphic .gy-card-header,
 .dark .gy-card--glassmorphic .gy-card-footer,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-header,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-footer,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-header,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-footer,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-header,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-footer,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-header,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-card-footer,
 [data-theme="dark"] .gy-card--glassmorphic .gy-card-header,
 [data-theme="dark"] .gy-card--glassmorphic .gy-card-footer {
   border-color: rgba(255, 255, 255, 0.14) !important;
@@ -257,10 +270,10 @@
 [data-color-mode="dark"] .gy-card--glass p,
 .dark .gy-card--glassmorphic p,
 .dark .gy-card--glass p,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic p,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glass p,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic p,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glass p,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic p,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glass p,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic p,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glass p,
 [data-theme="dark"] .gy-card--glassmorphic p,
 [data-theme="dark"] .gy-card--glass p {
   color: var(--gy-text-muted, #cbd5e1) !important;
@@ -290,14 +303,14 @@
 .dark .gy-card--glass h2,
 .dark .gy-card--glass h3,
 .dark .gy-card--glass h4,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h1,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h2,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h3,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h4,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h1,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h2,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h3,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h4 {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h1,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h2,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h3,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h4,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h1,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h2,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h3,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic h4 {
   color: #ffffff !important;
 }
 
@@ -314,10 +327,10 @@
 [data-color-mode="dark"] .gy-card--glass .gy-chip--soft,
 .dark .gy-card--glassmorphic .gy-chip--soft,
 .dark .gy-card--glass .gy-chip--soft,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-chip--soft,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card--glass .gy-chip--soft,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-chip--soft,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card--glass .gy-chip--soft,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-chip--soft,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card--glass .gy-chip--soft,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glassmorphic .gy-chip--soft,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card--glass .gy-chip--soft,
 [data-theme="dark"] .gy-card--glassmorphic .gy-chip--soft,
 [data-theme="dark"] .gy-card--glass .gy-chip--soft {
   background: color-mix(in srgb, var(--gy-primary) 22%, rgba(255, 255, 255, 0.08)) !important;
@@ -347,8 +360,8 @@
 .dark .gy-card-glassmorphic-preview,
 [data-color-mode="dark"] .gy-card-glassmorphic-preview,
 [data-theme="dark"] .gy-card-glassmorphic-preview,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-card-glassmorphic-preview,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-card-glassmorphic-preview {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-card-glassmorphic-preview,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-card-glassmorphic-preview {
   background:
     radial-gradient(circle at 15% 20%, rgba(124, 92, 255, 0.5) 0%, transparent 55%),
     radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.45) 0%, transparent 55%),
@@ -356,13 +369,9 @@
     linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%);
 }
 
-/* ── Samantrix Light Mode Glass Cards ────────────────────────────────────── */
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic,
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass,
-[data-theme="samantrix-admin"][data-color-mode="light"] .gy-card--glassmorphic,
-[data-theme="samantrix-admin"][data-color-mode="light"] .gy-card--glass,
-[data-theme="samantrix-professional"][data-color-mode="light"] .gy-card--glassmorphic,
-[data-theme="samantrix-professional"][data-color-mode="light"] .gy-card--glass {
+/* ── Simantrix Light Mode Glass Cards ────────────────────────────────────── */
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glassmorphic,
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glass {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
@@ -373,10 +382,10 @@
   color: var(--gy-text, #0a0a14) !important;
 }
 
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-header,
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass .gy-card-header,
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-footer,
-[data-brand="samantrix"][data-color-mode="light"] .gy-card--glass .gy-card-footer {
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-header,
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glass .gy-card-header,
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glassmorphic .gy-card-footer,
+[data-brand="simantrix"][data-color-mode="light"] .gy-card--glass .gy-card-footer {
   border-color: rgba(229, 226, 246, 0.8) !important;
 }
 

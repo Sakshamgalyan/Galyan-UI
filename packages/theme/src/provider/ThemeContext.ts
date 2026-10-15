@@ -4,17 +4,20 @@ import { createContext } from "react";
 
 // ── Two-axis types ──────────────────────────────────────────────────────
 
-export type ThemeBrand = "easylife" | "metalixia" | "samantrix" | "custom";
+export type ThemeBrand = "easylife" | "metalixia" | "simantrix" | "custom";
 
-export type ThemeRole =
-  | "customer"
-  | "professional"
-  | "agent"
-  | "admin"
-  | "developer"
-  | "organization"
-  | "org-admin"
-  | "org-member";
+/** Direct color scheme identifiers */
+export type ThemeColorScheme =
+  | "simantrix"
+  | "coral"
+  | "green"
+  | "blue"
+  | "violet"
+  | "amber"
+  | "cyan";
+
+export type ThemeRole = ThemeColorScheme;
+
 
 export type ColorMode = "light" | "dark" | "system";
 
@@ -30,17 +33,10 @@ export interface CustomThemeConfig {
   fontFamilyDisplay?: string;
 }
 
-// ── Legacy flat role type (for backward compat) ─────────────────────────
+// ── Legacy flat role type ───────────────────────────────────────────────
 
 /** @deprecated Use `ThemeBrand` + `ThemeRole` instead */
-export type LegacyThemeRole =
-  | "customer"
-  | "professional"
-  | "agent"
-  | "admin"
-  | "metalixia"
-  | "samantrix"
-  | "custom";
+export type LegacyThemeRole = ThemeRole | "metalixia" | "custom";
 
 // ── Context value ───────────────────────────────────────────────────────
 
@@ -63,10 +59,10 @@ export interface ThemeContextValue {
 }
 
 export const ThemeContext = createContext<ThemeContextValue>({
-  brand: "easylife",
-  role: "customer",
+  brand: "simantrix",
+  role: "simantrix",
   colorMode: "system",
-  resolvedMode: "light",
+  resolvedMode: "dark",
   setBrand: () => {},
   setRole: () => {},
   setColorMode: () => {},

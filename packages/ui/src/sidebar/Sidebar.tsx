@@ -24,19 +24,15 @@ export type SidebarVariant =
   | "dark";
 export type SidebarActiveVariant = "pill" | "line" | "subtle" | "glow";
 
-/** Built-in role color scheme presets */
+/** Built-in color scheme presets */
 export type SidebarRolePreset =
-  | "admin"
-  | "editor"
-  | "viewer"
-  | "moderator"
-  | "owner"
-  | "support"
-  | "guest"
-  | "developer"
-  | "organization"
-  | "org-admin"
-  | "org-member";
+  | "simantrix"
+  | "coral"
+  | "green"
+  | "blue"
+  | "violet"
+  | "amber"
+  | "cyan";
 
 /** Custom color scheme object for full control */
 export interface SidebarCustomColorScheme {
@@ -54,99 +50,67 @@ export interface SidebarCustomColorScheme {
   border?: string;
 }
 
-/** Can be a preset role name or a custom color scheme object */
+/** Can be a preset color scheme name or a custom color scheme object */
 export type SidebarColorScheme = SidebarRolePreset | SidebarCustomColorScheme;
 
-/** Role-based color presets */
+/** Color scheme presets */
 const ROLE_COLOR_PRESETS: Record<SidebarRolePreset, SidebarCustomColorScheme> =
   {
-    admin: {
-      primary: "#dc2626",
-      surfaceLight: "#fef2f2",
-      surfaceDark: "#450a0a",
-      textLight: "#991b1b",
-      textDark: "#fca5a5",
-      border: "#fecaca",
-    },
-    owner: {
-      primary: "#7c3aed",
+    simantrix: {
+      primary: "#7c5cff",
       surfaceLight: "#f5f3ff",
-      surfaceDark: "#2e1065",
+      surfaceDark: "#1e1040",
       textLight: "#5b21b6",
       textDark: "#c4b5fd",
       border: "#ddd6fe",
     },
-    editor: {
-      primary: "#2563eb",
+    coral: {
+      primary: "#f43f5e",
+      surfaceLight: "#fff1f2",
+      surfaceDark: "#4c0519",
+      textLight: "#be123c",
+      textDark: "#fda4af",
+      border: "#fecdd3",
+    },
+    green: {
+      primary: "#10b981",
+      surfaceLight: "#ecfdf5",
+      surfaceDark: "#022c22",
+      textLight: "#047857",
+      textDark: "#6ee7b7",
+      border: "#a7f3d0",
+    },
+    blue: {
+      primary: "#3b82f6",
       surfaceLight: "#eff6ff",
       surfaceDark: "#172554",
       textLight: "#1d4ed8",
       textDark: "#93c5fd",
       border: "#bfdbfe",
     },
-    moderator: {
-      primary: "#d97706",
+    violet: {
+      primary: "#6366f1",
+      surfaceLight: "#eef2ff",
+      surfaceDark: "#1e1b4b",
+      textLight: "#4338ca",
+      textDark: "#a5b4fc",
+      border: "#c7d2fe",
+    },
+    amber: {
+      primary: "#f59e0b",
       surfaceLight: "#fffbeb",
       surfaceDark: "#451a03",
       textLight: "#b45309",
       textDark: "#fcd34d",
       border: "#fde68a",
     },
-    viewer: {
-      primary: "#059669",
-      surfaceLight: "#ecfdf5",
-      surfaceDark: "#022c22",
-      textLight: "#047857",
-      textDark: "#6ee7b7",
-      border: "#a7f3d0",
-    },
-    support: {
-      primary: "#0891b2",
-      surfaceLight: "#ecfeff",
-      surfaceDark: "#083344",
-      textLight: "#0e7490",
-      textDark: "#67e8f9",
-      border: "#a5f3fc",
-    },
-    guest: {
-      primary: "#6b7280",
-      surfaceLight: "#f9fafb",
-      surfaceDark: "#1f2937",
-      textLight: "#4b5563",
-      textDark: "#d1d5db",
-      border: "#e5e7eb",
-    },
-    developer: {
-      primary: "#0284c7",
+    cyan: {
+      primary: "#0ea5e9",
       surfaceLight: "#f0f9ff",
       surfaceDark: "#082f49",
       textLight: "#0369a1",
       textDark: "#7dd3fc",
       border: "#bae6fd",
-    },
-    organization: {
-      primary: "#7c3aed",
-      surfaceLight: "#f5f3ff",
-      surfaceDark: "#2e1065",
-      textLight: "#5b21b6",
-      textDark: "#c4b5fd",
-      border: "#ddd6fe",
-    },
-    "org-admin": {
-      primary: "#059669",
-      surfaceLight: "#ecfdf5",
-      surfaceDark: "#022c22",
-      textLight: "#047857",
-      textDark: "#6ee7b7",
-      border: "#a7f3d0",
-    },
-    "org-member": {
-      primary: "#475569",
-      surfaceLight: "#f8fafc",
-      surfaceDark: "#0f172a",
-      textLight: "#334155",
-      textDark: "#94a3b8",
-      border: "#cbd5e1",
     },
   };
 

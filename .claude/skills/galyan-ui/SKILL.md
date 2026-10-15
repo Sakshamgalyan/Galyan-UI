@@ -42,7 +42,7 @@ import "@galyan/ui/styles.css";
 
 export default function Root({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider brand="easylife" role="customer" defaultColorMode="system">
+    <ThemeProvider brand="simantrix" role="simantrix" defaultColorMode="dark">
       {children}
     </ThemeProvider>
   );
@@ -56,13 +56,20 @@ import { useTheme } from "@galyan/theme";
 
 ## Theming in one screen
 
-- **Brand** (`easylife` default · `metalixia` · `samantrix` (always dark) · `custom`) sets the overall palette.
-- **Role** (`customer` default · `professional` blue · `agent` rose/coral · `admin` indigo) changes the primary accent. **Roles only change colors on the `easylife` brand**; on other brands the role has no visual effect.
+- **Brand** (`simantrix` default · `easylife` · `metalixia` · `custom`) sets the overall palette. `simantrix` supports full Light and Dark modes.
+- **Direct Color Schemes (`ThemeRole` / `ThemeColorScheme`)**:
+  - `simantrix` (Default): Signature Violet `#7c5cff` (Default fallback identity)
+  - `coral`: Coral / Rose `#f43f5e` (Owner, SuperAdmin)
+  - `green`: Emerald Green `#10b981` (Member)
+  - `blue`: Cobalt Blue `#3b82f6` (Manager)
+  - `violet`: Platform Indigo / Violet `#6366f1` (Developer / Organization)
+  - `amber`: Governance Amber `#f59e0b` (Admin)
+  - `cyan`: Sky Blue / Cyan `#0ea5e9` (Viewer, Auditor, User)
 - **Color mode**: `"light" | "dark" | "system"`. It's saved to localStorage under `storageKey` (default `"gy-theme"`; `null` turns this off).
 - **Custom brand**: `<ThemeProvider brand="custom" customTheme={{ primary: "#ff6600", fontFamily: "'Outfit', sans-serif" }}>`. The full palette is derived from the one primary color.
 - At runtime, `const { brand, role, resolvedMode, setBrand, setRole, setColorMode, setCustomTheme } = useTheme();`
-- The provider writes `data-brand`, `data-role`, `data-color-mode` (plus the legacy `data-theme`) on `<html>`, and the CSS variables switch based on these attributes.
-- `defaultRole="metalixia"`-style props are **deprecated**. Use `brand` + `role` instead.
+- The provider writes `data-brand`, `data-role`, `data-color-mode` (plus `data-theme="simantrix-${role}"`) on `<html>`, and the CSS variables switch based on these attributes.
+- Default fallback when no role or brand is supplied: `brand="simantrix"` and `role="simantrix"`.
 
 ## Rules for writing app code with Galyan
 

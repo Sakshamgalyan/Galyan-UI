@@ -142,7 +142,7 @@
 [data-color-mode="dark"] .gy-accordion--glass,
 .dark .gy-accordion--glassmorphic,
 .dark .gy-accordion--glass,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic,
 [data-theme="dark"] .gy-accordion--glassmorphic {
   background: linear-gradient(
     135deg,
@@ -387,7 +387,7 @@
 }
 
 /* ── Hover: border picks up the active role theme ────────────────────────── */
-/* --gy-primary is redefined per role (professional / agent / admin), so the
+/* --gy-primary is redefined per role or color scheme, so the
    highlight follows whichever role theme is active with no per-role rules. */
 .gy-accordion:hover:not(.gy-accordion--disabled) {
   border-color: color-mix(
@@ -425,11 +425,11 @@
   .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
     .gy-accordion--glass
   ),
-[data-theme="samantrix"]:not([data-color-mode="light"])
+[data-theme="simantrix"]:not([data-color-mode="light"])
   .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
     .gy-accordion--glass
   ),
-[data-brand="samantrix"]:not([data-color-mode="light"])
+[data-brand="simantrix"]:not([data-color-mode="light"])
   .gy-accordion--expanded:not(.gy-accordion--glassmorphic):not(
     .gy-accordion--glass
   ) {
@@ -443,8 +443,8 @@
 [data-color-mode="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
 .dark .gy-accordion:hover:not(.gy-accordion--disabled),
 [data-theme="dark"] .gy-accordion:hover:not(.gy-accordion--disabled),
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled),
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled) {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled),
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion:hover:not(.gy-accordion--disabled) {
   border-color: color-mix(
     in srgb,
     var(--gy-primary, #3b82f6) 75%,
@@ -461,9 +461,9 @@
 .dark .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
 [data-theme="dark"]
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
-[data-theme="samantrix"]:not([data-color-mode="light"])
+[data-theme="simantrix"]:not([data-color-mode="light"])
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]),
-[data-brand="samantrix"]:not([data-color-mode="light"])
+[data-brand="simantrix"]:not([data-color-mode="light"])
   .gy-accordion__trigger:hover:not(:disabled):not([aria-disabled="true"]) {
   background: rgba(255, 255, 255, 0.04);
 }
@@ -473,8 +473,8 @@
 [data-color-mode="dark"] .gy-accordion--expanded .gy-accordion__trigger,
 .dark .gy-accordion--expanded .gy-accordion__trigger,
 [data-theme="dark"] .gy-accordion--expanded .gy-accordion__trigger,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion--expanded .gy-accordion__trigger {
   background: var(--gy-surface-raised, #1e293b);
 }
 
@@ -482,8 +482,8 @@
 [data-color-mode="dark"] .gy-accordion__panel-inner,
 .dark .gy-accordion__panel-inner,
 [data-theme="dark"] .gy-accordion__panel-inner,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion__panel-inner {
   background: var(--gy-surface-sunken, #0f172a);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -502,8 +502,8 @@
 .dark .gy-accordion--glassmorphic .gy-accordion__panel-inner,
 .dark .gy-accordion--glass .gy-accordion__panel-inner,
 [data-theme="dark"] .gy-accordion--glassmorphic .gy-accordion__panel-inner,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion--glassmorphic .gy-accordion__panel-inner {
   background: rgba(0, 0, 0, 0.25);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -513,8 +513,8 @@
 [data-color-mode="dark"] .gy-accordion--filled,
 .dark .gy-accordion--filled,
 [data-theme="dark"] .gy-accordion--filled,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled {
   background: var(--gy-surface-muted, #13131f);
   border-color: var(--gy-border, #1c1c2b);
 }
@@ -523,8 +523,8 @@
 [data-color-mode="dark"] .gy-accordion--filled:hover:not(.gy-accordion--disabled),
 .dark .gy-accordion--filled:hover:not(.gy-accordion--disabled),
 [data-theme="dark"] .gy-accordion--filled:hover:not(.gy-accordion--disabled),
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled),
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled) {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled),
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled:hover:not(.gy-accordion--disabled) {
   background: var(--gy-surface-hover, rgba(255, 255, 255, 0.06));
   border-color: color-mix(
     in srgb,
@@ -537,8 +537,8 @@
 [data-color-mode="dark"] .gy-accordion--filled.gy-accordion--expanded,
 .dark .gy-accordion--filled.gy-accordion--expanded,
 [data-theme="dark"] .gy-accordion--filled.gy-accordion--expanded,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-accordion--filled.gy-accordion--expanded {
   background: var(--gy-surface, #0a0a12);
   border-color: color-mix(
     in srgb,

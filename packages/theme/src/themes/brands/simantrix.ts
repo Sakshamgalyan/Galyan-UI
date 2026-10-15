@@ -1,6 +1,6 @@
-/** Samantrix brand theme — violet (#7c5cff) primary with full Light and Dark mode tokens */
+/** Simantrix brand theme — signature violet (#7c5cff) primary with full Light and Dark mode tokens */
 
-export const samantrixPrimary = {
+export const simantrixPrimary = {
   50: "#f2efff",
   100: "#e4ddff",
   200: "#cabbff",
@@ -19,9 +19,9 @@ export const samantrixPrimary = {
   fg: "#ffffff",
 } as const;
 
-/** Samantrix Dark mode theme — signature ink foundation */
-export const samantrixDarkBrand = {
-  primary: samantrixPrimary,
+/** Simantrix Dark mode theme — signature ink foundation */
+export const simantrixDarkBrand = {
+  primary: simantrixPrimary,
 
   secondary: {
     default: "#ab93ff",
@@ -107,9 +107,9 @@ export const samantrixDarkBrand = {
   },
 } as const;
 
-/** Samantrix Light mode theme — clean violet-tinted canvas */
-export const samantrixLightBrand = {
-  primary: samantrixPrimary,
+/** Simantrix Light mode theme — clean violet-tinted canvas */
+export const simantrixLightBrand = {
+  primary: simantrixPrimary,
 
   secondary: {
     default: "#6438f0",
@@ -195,5 +195,5 @@ export const samantrixLightBrand = {
   },
 } as const;
 
-/** Samantrix brand theme default (defaults to dark canvas) */
-export const samantrixBrand = samantrixDarkBrand;
+/** Simantrix brand theme default (defaults to dark canvas) */
+export const simantrixBrand = simantrixDarkBrand;

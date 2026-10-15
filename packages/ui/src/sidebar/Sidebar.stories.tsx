@@ -180,13 +180,13 @@ const meta: Meta<typeof Sidebar> = {
       control: "select",
       options: [
         undefined,
-        "admin",
-        "owner",
-        "editor",
-        "moderator",
-        "viewer",
-        "support",
-        "guest",
+        "simantrix",
+        "coral",
+        "green",
+        "blue",
+        "violet",
+        "amber",
+        "cyan",
       ],
     },
     width: { control: "text" },
@@ -906,37 +906,29 @@ export const DarkMode: Story = {
 /* ── Role-Based Color Schemes ─────────────────────────────────────────── */
 
 const ROLE_COLORS: Record<string, string> = {
-  admin: "#dc2626",
-  owner: "#7c3aed",
-  editor: "#2563eb",
-  moderator: "#d97706",
-  viewer: "#059669",
-  support: "#0891b2",
-  guest: "#6b7280",
-  developer: "#0284c7",
-  organization: "#7c3aed",
-  "org-admin": "#059669",
-  "org-member": "#475569",
+  simantrix: "#7c5cff",
+  coral: "#f43f5e",
+  green: "#10b981",
+  blue: "#3b82f6",
+  violet: "#6366f1",
+  amber: "#f59e0b",
+  cyan: "#0ea5e9",
 };
 
 const ROLE_LABELS: Record<string, string> = {
-  admin: "Administrator",
-  owner: "Owner",
-  editor: "Editor",
-  moderator: "Moderator",
-  viewer: "Viewer",
-  support: "Support",
-  guest: "Guest",
-  developer: "Developer (Samantrix)",
-  organization: "Organization (Samantrix)",
-  "org-admin": "Org Admin (Samantrix)",
-  "org-member": "Org Member (Samantrix)",
+  simantrix: "Simantrix (Default)",
+  coral: "Coral (Authority)",
+  green: "Green (Collaboration)",
+  blue: "Blue (Operations)",
+  violet: "Violet (Engineering)",
+  amber: "Amber (Governance)",
+  cyan: "Cyan (Read-Only)",
 };
 
 export const RoleColorSchemes: Story = {
   render: function Render() {
     const [active, setActive] = useState("home");
-    const [role, setRole] = useState<string>("admin");
+    const [role, setRole] = useState<string>("simantrix");
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
         {/* Role switcher */}
@@ -1095,7 +1087,7 @@ export const RoleColorSchemes: Story = {
 export const RoleColorSchemesDark: Story = {
   render: function Render() {
     const [active, setActive] = useState("home");
-    const [role, setRole] = useState<string>("admin");
+    const [role, setRole] = useState<string>("amber");
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
@@ -1369,12 +1361,12 @@ export const CustomColorScheme: Story = {
   },
 };
 
-export const SamantrixWorkplaceSidebar: Story = {
+export const SimantrixWorkplaceSidebar: Story = {
   render: function Render() {
     const [active, setActive] = useState("workplace");
     const [collapsed, setCollapsed] = useState(false);
 
-    const samantrixItems: SidebarItemData[] = [
+    const simantrixItems: SidebarItemData[] = [
       {
         id: "workplace",
         label: "3D Virtual Workplace",
@@ -1432,8 +1424,8 @@ export const SamantrixWorkplaceSidebar: Story = {
 
     return (
       <div
-        data-brand="samantrix"
-        data-theme="samantrix"
+        data-brand="simantrix"
+        data-theme="simantrix"
         style={{
           height: "640px",
           width: "820px",
@@ -1450,7 +1442,7 @@ export const SamantrixWorkplaceSidebar: Story = {
           collapsible
           variant="default"
           activeVariant="pill"
-          colorScheme="developer"
+          colorScheme="violet"
           header={
             <div
               style={{
@@ -1496,7 +1488,7 @@ export const SamantrixWorkplaceSidebar: Story = {
                     color: "var(--gy-text, #0f172a)",
                   }}
                 >
-                  Samantrix HQ
+                  Simantrix HQ
                 </span>
                 <span
                   style={{
@@ -1523,7 +1515,7 @@ export const SamantrixWorkplaceSidebar: Story = {
                 size="sm"
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80"
                 name="Elena Rostova"
-                role="developer"
+                role="violet"
                 status="online"
               />
               <div
@@ -1557,7 +1549,7 @@ export const SamantrixWorkplaceSidebar: Story = {
               </div>
             </div>
           }
-          items={samantrixItems}
+          items={simantrixItems}
           activeItemId={active}
           onItemClick={setActive}
         />
@@ -1573,12 +1565,12 @@ export const SamantrixWorkplaceSidebar: Story = {
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 700 }}>
-              Samantrix Virtual Office
+              Simantrix Virtual Office
             </h2>
-            <Badge variant="developer" content="DEVELOPER TIER" size="sm" />
+            <Badge variant="violet" content="ENGINEERING" size="sm" />
           </div>
           <p style={{ color: "var(--gy-text-muted, #64748b)", lineHeight: 1.6, margin: 0 }}>
-            Configured with Samantrix brand colors, role-based developer accents, nested floor plan rooms, and online avatar presence in the footer.
+            Configured with Simantrix brand colors, color scheme accents, nested floor plan rooms, and online avatar presence in the footer.
           </p>
           <div
             style={{
@@ -1616,7 +1608,7 @@ export const WithAvatarsAndBadges: Story = {
         <Sidebar
           variant="bordered"
           activeVariant="subtle"
-          colorScheme="org-admin"
+          colorScheme="amber"
           header={
             <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
               <Badge dot ping variant="success" size="sm">
@@ -1649,13 +1641,13 @@ export const WithAvatarsAndBadges: Story = {
                 size="md"
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80"
                 name="Marcus Vance"
-                role="org-admin"
+                role="amber"
                 status="in_meeting"
               />
               <div className="gy-sidebar-text" style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ fontWeight: 600, fontSize: "0.8125rem" }}>Marcus Vance</span>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
-                  <Badge variant="org-admin" content="ADMIN" size="xs" />
+                  <Badge variant="amber" content="ADMIN" size="xs" />
                   <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>In Meeting</span>
                 </div>
               </div>
@@ -1757,7 +1749,7 @@ export const CompoundComponentComposition: Story = {
           background: "var(--gy-surface, #ffffff)",
         }}
       >
-        <Sidebar variant="floating" activeVariant="glow" colorScheme="owner">
+        <Sidebar variant="floating" activeVariant="glow" colorScheme="coral">
           <SidebarHeader>
             <SidebarLogo>
               <div
@@ -1825,7 +1817,7 @@ export const CompoundComponentComposition: Story = {
 
           <SidebarFooter>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "100%" }}>
-              <Avatar size="sm" name="Admin Owner" role="organization" />
+              <Avatar size="sm" name="Admin Owner" role="violet" />
               <SidebarText>
                 <span style={{ fontSize: "0.8125rem", fontWeight: 600 }}>Enterprise Tenant</span>
                 <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Active plan</span>
@@ -1904,7 +1896,7 @@ export const RightPositionSidebar: Story = {
           collapsible
           variant="default"
           activeVariant="line"
-          colorScheme="developer"
+          colorScheme="violet"
           header={
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <span style={{ fontWeight: 700, fontSize: "0.875rem" }}>Room Activity</span>

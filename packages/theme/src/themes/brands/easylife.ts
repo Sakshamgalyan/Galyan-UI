@@ -1,6 +1,6 @@
 /** EasyLife brand theme — green primary, slate neutrals, light canvas */
 export const easylifeBrand = {
-  // ── Primary (Green — default for customer role) ───────────────────────
+  // ── Primary (Green) ──────────────────────────────────────────────────
   primary: {
     50: "#f0fdf4",
     100: "#dcfce7",

@@ -23,13 +23,15 @@ const LEGACY_MAP: Record<
   LegacyThemeRole,
   { brand: ThemeBrand; role: ThemeRole }
 > = {
-  customer: { brand: "easylife", role: "customer" },
-  professional: { brand: "easylife", role: "professional" },
-  agent: { brand: "easylife", role: "agent" },
-  admin: { brand: "easylife", role: "admin" },
-  metalixia: { brand: "metalixia", role: "customer" },
-  samantrix: { brand: "samantrix", role: "customer" },
-  custom: { brand: "custom", role: "customer" },
+  simantrix: { brand: "simantrix", role: "simantrix" },
+  coral: { brand: "simantrix", role: "coral" },
+  green: { brand: "simantrix", role: "green" },
+  blue: { brand: "simantrix", role: "blue" },
+  violet: { brand: "simantrix", role: "violet" },
+  amber: { brand: "simantrix", role: "amber" },
+  cyan: { brand: "simantrix", role: "cyan" },
+  metalixia: { brand: "metalixia", role: "simantrix" },
+  custom: { brand: "custom", role: "simantrix" },
 };
 
 // ── Props ───────────────────────────────────────────────────────────────
@@ -73,9 +75,9 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   // Resolve initial brand+role from props (prefer new API, fall back to legacy)
   const initialBrand: ThemeBrand =
-    brandProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.brand : "easylife");
+    brandProp ?? (defaultRole && LEGACY_MAP[defaultRole] ? LEGACY_MAP[defaultRole].brand : "simantrix");
   const initialRole: ThemeRole =
-    roleProp ?? (defaultRole ? LEGACY_MAP[defaultRole]!.role : "customer");
+    roleProp ?? (defaultRole && LEGACY_MAP[defaultRole] ? LEGACY_MAP[defaultRole].role : "simantrix");
 
   // Legacy deprecation warning
   if (typeof defaultRole !== "undefined" && typeof brandProp === "undefined") {
@@ -89,10 +91,10 @@ export function ThemeProvider({
     }
   }
 
-  // Lazy initialize state so client doesn't mount with a transient easylife state if stored
+  // Lazy initialize state
   const [brand, setBrandState] = useState<ThemeBrand>(() => {
     if (typeof brandProp !== "undefined") return brandProp;
-    if (defaultRole) return LEGACY_MAP[defaultRole]!.brand;
+    if (defaultRole && LEGACY_MAP[defaultRole]) return LEGACY_MAP[defaultRole].brand;
     if (typeof window !== "undefined" && storageKey) {
       try {
         const stored = localStorage.getItem(storageKey);
@@ -104,12 +106,12 @@ export function ThemeProvider({
         // Ignore localStorage read/parse errors
       }
     }
-    return "easylife";
+    return "simantrix";
   });
 
   const [role, setRoleState] = useState<ThemeRole>(() => {
     if (typeof roleProp !== "undefined") return roleProp;
-    if (defaultRole) return LEGACY_MAP[defaultRole]!.role;
+    if (defaultRole && LEGACY_MAP[defaultRole]) return LEGACY_MAP[defaultRole].role;
     if (typeof window !== "undefined" && storageKey) {
       try {
         const stored = localStorage.getItem(storageKey);
@@ -121,7 +123,7 @@ export function ThemeProvider({
         // Ignore localStorage read/parse errors
       }
     }
-    return "customer";
+    return "simantrix";
   });
 
   const [colorMode, setColorModeState] = useState<ColorMode>(() => {
@@ -249,10 +251,35 @@ export function ThemeProvider({
   useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-brand", brand);
-    root.setAttribute("data-role", role);
+    root.setAttribute("data-role", role || "simantrix");
     root.setAttribute("data-color-mode", resolvedMode);
-    // Legacy compat: keep data-theme for any consumers still selecting on it
-    root.setAttribute("data-theme", brand === "easylife" ? role : brand);
+
+    // Direct color schemes: simantrix, coral, green, blue, violet, amber, cyan
+    const VALID_SCHEMES = new Set([
+      "simantrix",
+      "coral",
+      "green",
+      "blue",
+      "violet",
+      "amber",
+      "cyan",
+    ]);
+    const activeScheme = VALID_SCHEMES.has(role) ? role : "simantrix";
+    root.setAttribute("data-color-scheme", activeScheme);
+
+    root.setAttribute(
+      "data-theme",
+      brand === "easylife"
+        ? (role || "simantrix")
+        : `${brand}-${role || "simantrix"}`
+    );
+    if (resolvedMode === "dark") {
+      root.classList.add("dark", "gy-dark");
+      root.classList.remove("light", "gy-light");
+    } else {
+      root.classList.add("light", "gy-light");
+      root.classList.remove("dark", "gy-dark");
+    }
   }, [brand, role, resolvedMode]);
 
   // Inject font families synchronously before paint

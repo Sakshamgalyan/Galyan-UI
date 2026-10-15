@@ -185,7 +185,7 @@ export const SelectAllGroup: Story = {
     const [items, setItems] = useState([
       { id: "1", label: "easyLife Customer App", checked: true },
       { id: "2", label: "metalixia Dashboard", checked: false },
-      { id: "3", label: "samantrix Dark Studio", checked: true },
+      { id: "3", label: "simantrix Dark Studio", checked: true },
     ]);
 
     const allChecked = items.every((i) => i.checked);

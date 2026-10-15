@@ -21,10 +21,13 @@ export type AvatarStatus =
   | "OFFLINE";
 
 export type AvatarRole =
-  | "developer"
-  | "organization"
-  | "org-admin"
-  | "org-member";
+  | "simantrix"
+  | "coral"
+  | "green"
+  | "blue"
+  | "violet"
+  | "amber"
+  | "cyan";
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Image source URL */
@@ -41,7 +44,7 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   shape?: AvatarShape;
   /** Visual style variant */
   variant?: AvatarVariant;
-  /** Samantrix role */
+  /** Simantrix role */
   role?: AvatarRole;
   /** Live presence or availability status */
   status?: AvatarStatus;

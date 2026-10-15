@@ -840,10 +840,10 @@ export const DropdownWithBadgeTrigger: Story = {
           header={
             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", textAlign: "left" }}>
               <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gy-text)" }}>
-                Samantrix Admin
+                Simantrix Admin
               </span>
               <span style={{ fontSize: "0.75rem", color: "var(--gy-text-secondary)" }}>
-                admin@samantrix.com
+                admin@simantrix.com
               </span>
             </div>
           }

@@ -44,7 +44,7 @@ import "@galyan/ui/styles.css";        // component styles, last
 ```tsx
 import { ThemeProvider } from "@galyan/theme";
 
-<ThemeProvider brand="easylife" role="professional" defaultColorMode="system">
+<ThemeProvider brand="simantrix" role="simantrix" defaultColorMode="dark">
   {children}
 </ThemeProvider>
 ```
@@ -54,29 +54,22 @@ import { ThemeProvider } from "@galyan/theme";
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `children` | `React.ReactNode` | — (required) | |
-| `brand` | `ThemeBrand` = `"easylife" \| "metalixia" \| "samantrix" \| "custom"` | `"easylife"` (or from `defaultRole`) | App/company brand. Re-synced when the prop changes. |
-| `role` | `ThemeRole` = `"customer" \| "professional" \| "agent" \| "admin"` | `"customer"` (or from `defaultRole`) | User-type role. Only visually affects `easylife`. |
-| `defaultColorMode` | `ColorMode` = `"light" \| "dark" \| "system"` | `"system"` | Initial mode. Re-synced when the prop changes. |
+| `brand` | `ThemeBrand` = `"simantrix" \| "easylife" \| "metalixia" \| "custom"` | `"simantrix"` | App/company brand. Re-synced when the prop changes. |
+| `role` | `ThemeRole` | `"simantrix"` | User-type role. Full support for Developer & Org tracks. |
+| `defaultColorMode` | `ColorMode` = `"light" \| "dark" \| "system"` | `"dark"` | Initial mode. Re-synced when the prop changes. |
 | `storageKey` | `string \| null` | `"gy-theme"` | localStorage key for persistence. `null` disables persistence. |
 | `fontFamily` | `string` | `undefined` | Sets `--gy-font-sans`, `--gy-font-family`, `--gy-custom-font-sans` inline on `<html>`. |
 | `fontFamilyMono` | `string` | `undefined` | Sets `--gy-font-mono`, `--gy-custom-font-mono`. |
 | `fontFamilyDisplay` | `string` | `undefined` | Sets `--gy-font-display`, `--gy-custom-font-display`. |
-| `customTheme` | `CustomThemeConfig` | `undefined` | `{ primary: string; fontFamily?; fontFamilyMono?; fontFamilyDisplay? }`. Colors only applied when `brand === "custom"`; its font fields are used as initial fonts regardless. |
-| `defaultRole` | `LegacyThemeRole` (**deprecated**) | `undefined` | Old flat API. Mapped below. Logs a `console.warn` in non-production when used without `brand`. |
+| `customTheme` | `CustomThemeConfig` | `undefined` | `{ primary: string; fontFamily?; fontFamilyMono?; fontFamilyDisplay? }`. Colors only applied when `brand === "custom"`. |
+| `defaultRole` | `LegacyThemeRole` (**deprecated**) | `undefined` | Old flat API. Deprecated in favor of `brand` + `role`. |
 
-### Legacy `defaultRole` mapping
+### Simantrix Role System
 
-| `defaultRole` | → `brand` | → `role` |
-|---|---|---|
-| `customer` | easylife | customer |
-| `professional` | easylife | professional |
-| `agent` | easylife | agent |
-| `admin` | easylife | admin |
-| `metalixia` | metalixia | customer |
-| `samantrix` | samantrix | customer |
-| `custom` | custom | customer |
-
-`brand`/`role` props take precedence over `defaultRole`.
+`ThemeRole` supports the following taxonomy:
+- **Developer Track**: `"developer" | "developer-manager" | "developer-member" | "developer-auditor" | "developer-user" | "superadmin" | "member" | "auditor" | "user"`
+- **Organization Track**: `"org-owner" | "org-admin" | "org-manager" | "org-member" | "org-viewer" | "owner" | "admin" | "manager" | "viewer" | "organization" | "org"`
+- **Default Fallback**: `"simantrix"`
 
 ### Behavior
 
@@ -84,12 +77,12 @@ import { ThemeProvider } from "@galyan/theme";
 
   | Attribute | Value |
   |---|---|
-  | `data-brand` | current `brand` |
-  | `data-role` | current `role` |
+  | `data-brand` | current `brand` (default `"simantrix"`) |
+  | `data-role` | current `role` (default `"simantrix"`) |
   | `data-color-mode` | `resolvedMode` (`"light"` / `"dark"`, never `"system"`) |
-  | `data-theme` | legacy compat: `role` when brand is `easylife`, otherwise the `brand` name |
+  | `data-theme` | `simantrix-${role}` (e.g. `simantrix-simantrix`, `simantrix-org-owner`) |
 
-- **Resolved mode:** `samantrix` → always `"dark"`. Otherwise `"system"` follows `matchMedia("(prefers-color-scheme: dark)")` (live listener), else the explicit mode.
+- **Resolved mode:** `"system"` follows `matchMedia("(prefers-color-scheme: dark)")` (live listener), else the explicit mode (`light` or `dark`). Simantrix features curated token palettes for **both** light and dark modes.
 - **Persistence:** on mount, reads `localStorage[storageKey]` as JSON `{ brand?, role?, colorMode?, fontFamily?, fontFamilyMono?, fontFamilyDisplay?, customTheme? }`; any stored field overrides the initial props. Every setter merges its field into that JSON. Errors (private mode, bad JSON) are swallowed.
 - **Custom brand:** when `brand === "custom"` and a `primary` exists, `deriveCustomTheme(...)` output is written as inline styles on `<html>`; switching away removes them (plus all `CUSTOM_THEME_VARS`).
 - **Fonts:** inline `style.setProperty` on `<html>`; clearing a font removes the property so the stylesheet default returns.
@@ -106,7 +99,7 @@ import { ThemeProvider } from "@galyan/theme";
 | `brand` | `ThemeBrand` | Current brand |
 | `role` | `ThemeRole` | Current role |
 | `colorMode` | `ColorMode` | User preference (`light`/`dark`/`system`) |
-| `resolvedMode` | `"light" \| "dark"` | Effective mode (samantrix forces `dark`) |
+| `resolvedMode` | `"light" \| "dark"` | Effective mode (simantrix forces `dark`) |
 | `fontFamily` | `string \| undefined` | Custom sans font |
 | `fontFamilyMono` | `string \| undefined` | Custom mono font |
 | `fontFamilyDisplay` | `string \| undefined` | Custom display font |
@@ -147,37 +140,43 @@ Pure, dependency-free. Returns a map of CSS variable name → value:
 
 Background/surface/text/border (non-focus)/divider/disabled/skeleton/elevation/overlay are **not** derived; the `[data-brand="custom"]` block reads optional `--gy-custom-background`, `--gy-custom-surface`, `--gy-custom-text`, etc., falling back to EasyLife light values. You can set those manually for a fully custom canvas.
 
-### `resolveTheme(brand: string, role: string): BrandTheme`
+### `resolveTheme(brand: string, role: string, mode?: "light" | "dark"): BrandTheme`
 
-Deep-merges a brand's JS token object with a role override. Unknown brand → `easylifeBrand`. Overrides exist only for `easylife` × `professional` / `agent` / `admin`; every other combo returns the brand object unchanged. Returned `BrandTheme` keys: `primary` (50–950 + `default`/`emphasis`/`muted`/`subtle`/`fg`), `secondary`, `background`, `surface`, `text`, `border`, `divider`, `focus`, `disabled`, `skeleton`, `brand`, `gradient`, `elevation` (0–3).
+Deep-merges a brand's JS token object with a role override. When `brand === "simantrix"` (or omitted/unknown), resolves with direct color scheme token overrides (`coralOverride`, `blueOverride`, `greenOverride`, `violetOverride`, `amberOverride`, `cyanOverride`, `simantrixOverride`). Returned `BrandTheme` keys: `primary` (50–950 + `default`/`emphasis`/`muted`/`subtle`/`fg`), `secondary`, `background`, `surface`, `text`, `border`, `divider`, `focus`, `disabled`, `skeleton`, `brand`, `gradient`, `elevation` (0–3).
 
-Also exported: `easylifeBrand`, `metalixiaBrand`, `samantrixBrand`, `customerOverride` (`{}`), `professionalOverrideEasylife`, `agentOverrideEasylife`, `adminOverrideEasylife`, `baseTheme`.
+Also exported: `simantrixBrand`, `simantrixDarkBrand`, `simantrixLightBrand`, `easylifeBrand`, `metalixiaBrand`, `coralOverride`, `blueOverride`, `greenOverride`, `violetOverride`, `amberOverride`, `cyanOverride`, `simantrixOverride`, `baseTheme`.
 
 ---
 
-## 4. Brands × roles
+## 4. Brands × color schemes
 
 ### Brands (CSS values)
 
 | Brand | Primary | Hover / Active | Secondary | Canvas | Text | Notes |
 |---|---|---|---|---|---|---|
-| `easylife` (default, also `:root`) | `#22c55e` green | `#16a34a` / `#15803d` | `#14b8a6` teal | light `#ffffff` | `#0f172a` slate | Only brand with role variants |
-| `metalixia` | `#707fdd` lavender-blue | `#5a67c4` / `#4a57b4` | `#5a67c4` | light `#ffffff`, muted `#f1f2f7` | `#0f172a` | Roles ignored |
-| `samantrix` | `#7c5cff` violet | `#6438f0` / `#5028c4` | `#ab93ff` | **always dark** ink `#06060a`, surface `#0a0a12` | `#ffffff`, muted `#9a9ab4` | Forced dark; excluded from dark-mode overrides; `--gy-border-error: #f2543d` |
-| `custom` | from `--gy-custom-primary` (fallback `#22c55e`) | derived | hue +30° | EasyLife light unless `--gy-custom-*` set | EasyLife | Via `customTheme` / `setCustomTheme` |
+| `simantrix` (default, also `:root`) | `#7c5cff` violet | `#6438f0` / `#5028c4` | `#ab93ff` | ink `#06060a`, surface `#0a0a12` (dark) or clean slate/white (light) | `#ffffff` (dark) / `#0f172a` (light) | Full light & dark mode token support across all color schemes |
+| `easylife` | `#22c55e` green | `#16a34a` / `#15803d` | `#14b8a6` teal | light `#ffffff` | `#0f172a` slate | Legacy brand |
+| `metalixia` | `#707fdd` lavender-blue | `#5a67c4` / `#4a57b4` | `#5a67c4` | light `#ffffff`, muted `#f1f2f7` | `#0f172a` | Legacy brand |
+| `custom` | from `--gy-custom-primary` | derived | hue +30° | EasyLife light unless `--gy-custom-*` set | EasyLife | Via `customTheme` / `setCustomTheme` |
 
-### Roles (EasyLife only; selector `[data-brand="easylife"][data-role="<role>"]` or legacy `[data-theme="<role>"]` / `.gy-theme-<role>`)
+### Direct Color Schemes (Simantrix)
 
-| Role | Primary | Secondary | Other changes |
+Selector compound: `[data-brand="simantrix"][data-role="<scheme>"]`, `[data-theme="simantrix-<scheme>"]`, or global fallback `--gy-role-*`.
+
+| Color Scheme | Primary & Secondary | Allocated Roles (Application-side) | Description & Permissions |
 |---|---|---|---|
-| `customer` | brand default (green `#22c55e`) | teal `#14b8a6` | none |
-| `professional` | blue `#3b82f6` (hover `#2563eb`, active `#1d4ed8`) | indigo `#6366f1` | link `#2563eb`, focus, brand, gradients, neu-bg `#e3e8f0` |
-| `agent` | rose `#f43f5e` (hover `#e11d48`, active `#be123c`) | rose `#f43f5e` | **warm stone neutrals**: bg-subtle `#faf5f5`, bg-muted `#f5eaea`, text `#1c1917`, text-muted `#57534e`, border `#e7e5e4`; gradient to orange `#fb923c` |
-| `admin` | indigo `#6366f1` (hover `#4f46e5`, active `#4338ca`) | violet `#8b5cf6` | link, focus, brand, gradients, neu-bg `#e4e2f2` |
+| **Simantrix** *(Default)* | Signature violet `#7c5cff`, emerald `#10b981` presence, indigo `#6366f1` | `simantrix`, default fallback | Platform signature digital workplace identity and default fallback. |
+| **Coral** | Rose `#f43f5e`, crimson `#e11d48`, secondary rose/gold `#fb923c` | `org-owner`, `owner`, `superadmin`, `developer-superadmin` | Tenant owner (primary registering email; full billing & account deletion authority) and platform root superadmin. |
+| **Green** | Emerald `#10b981`, hover `#059669`, subtle `#a7f3d0` | `org-member`, `developer-member`, `member` | Standard workspace team member with 3D avatar presence, chat, and room presence. |
+| **Blue** | Cobalt blue `#3b82f6`, hover `#2563eb`, secondary indigo `#6366f1` | `developer-manager`, `org-manager`, `manager` | Operations management: approving developers, managing team rosters, and organizing rooms. |
+| **Violet** | Platform violet / indigo `#6366f1`, sapphire `#4f46e5` | `developer`, `organization`, `org` | Active platform developer with console access and organization tenant identity. |
+| **Amber** | Governance amber `#f59e0b`, deep gold `#d97706` | `org-admin`, `admin` | Full tenant management **except** deleting the account or changing billing tiers. |
+| **Cyan** | Cyan/sky `#0ea5e9`, hover `#0284c7`, secondary teal `#14b8a6` | `org-viewer`, `developer-user`, `auditor`, `developer-auditor`, `viewer`, `user` | Read-only viewers, compliance auditors, and pending developer users. |
 
-**Combination rule:** brand block sets everything → easylife role block overrides primary/secondary/link/focus/brand/gradient (agent also neutrals) → dark-mode block overrides neutrals (bg/surface/text/border/divider/disabled/skeleton/elevation/neu). Dark mode never changes primary/secondary/status colors.
-
-**JS vs CSS mismatch (agent):** `agentOverrideEasylife` / `resolveTheme("easylife","agent")` uses red/coral (`primary.default #f87171`, scale = red, secondary `#fb923c`), while `variables.css` uses rose `#f43f5e`. The CSS is what renders; treat JS agent values as divergent.
+**Light vs. Dark Mode behavior:**
+- Each color scheme automatically responds to `[data-color-mode="light"]` and `[data-color-mode="dark"]`.
+- Light mode renders clean, high-contrast crisp surfaces (`#ffffff` / `#f8fafc` / `#f1f5f9`) with tailored subtle borders and scheme-tinted badges.
+- Dark mode renders deep ink luxury dark surfaces (`#06060a` / `#0a0a12` / `#13131f`) with radiant accents and glowing focus rings.
 
 ---
 
@@ -189,7 +188,7 @@ All values are strings. `import { spacing, radius, ... } from "@galyan/theme"`.
 
 Palettes: `green`, `teal`, `blue`, `indigo`, `slate`, `emerald`, `amber`, `red`, `sky`, `rose`, `purple`, `orange` (Tailwind-identical values), plus brand-specific:
 
-| Step | `violet` (Samantrix) | `ink` (Samantrix neutral) |
+| Step | `violet` (Simantrix) | `ink` (Simantrix neutral) |
 |---|---|---|
 | 50 | `#f2efff` | `#e6e6f0` |
 | 100 | `#e4ddff` | `#c4c4d8` |
@@ -316,20 +315,20 @@ Keyframe objects: `fade.in/out`, `slide.inUp/inDown/inLeft/inRight` (±8px), `zo
 | Shared (theme-independent) | `:root` | typography, spacing, radius, shadow, z, motion, status, chart, neu geometry |
 | EasyLife brand (default) | `:root`, `[data-brand="easylife"]`, `.gy-brand-easylife`, `[data-theme="customer"]`, `.gy-theme-customer` | all color roles |
 | Metalixia | `[data-brand="metalixia"]`, `.gy-brand-metalixia`, `[data-theme="metalixia"]`, `.gy-theme-metalixia` | |
-| Samantrix | `[data-brand="samantrix"]`, `.gy-brand-samantrix`, `[data-theme="samantrix"]`, `.gy-theme-samantrix` | |
+| Simantrix | `[data-brand="simantrix"]`, `.gy-brand-simantrix`, `[data-theme="simantrix"]`, `.gy-theme-simantrix` | |
 | Custom | `[data-brand="custom"]`, `.gy-brand-custom`, `[data-theme="custom"]`, `.gy-theme-custom` | every color = `var(--gy-custom-*, <easylife fallback>)` |
 | Roles | `[data-brand="easylife"][data-role="professional\|agent\|admin"]`, `[data-theme="<role>"]`, `.gy-theme-<role>` | |
-| Dark | `[data-color-mode="dark"]` or `.gy-dark`, both `:not([data-brand="samantrix"]):not([data-theme="samantrix"])` | neutrals only |
+| Dark | `[data-color-mode="dark"]` or `.gy-dark`, both `:not([data-brand="simantrix"]):not([data-theme="simantrix"])` | neutrals only |
 
 The class selectors (`.gy-brand-*`, `.gy-theme-*`, `.gy-dark`) let you scope a theme to a subtree without the provider.
 
-### Color roles — light (EasyLife) vs dark (all non-samantrix brands) vs Samantrix
+### Color roles — light (EasyLife) vs dark (all non-simantrix brands) vs Simantrix
 
 "—" in Dark = not overridden by dark mode (keeps brand/role value).
 
 #### Primary / secondary / brand
 
-| Variable | Meaning | EasyLife | Dark | Samantrix |
+| Variable | Meaning | EasyLife | Dark | Simantrix |
 |---|---|---|---|---|
 | `--gy-color-primary-50` … `-950` | Full primary ramp (11 steps) | green scale | — | violet scale |
 | `--gy-primary` | Main brand action color (buttons, active states) | `#22c55e` | — | `#7c5cff` |
@@ -352,7 +351,7 @@ The class selectors (`.gy-brand-*`, `.gy-theme-*`, `.gy-dark`) let you scope a t
 
 #### Background / surface / elevation
 
-| Variable | Meaning | EasyLife | Dark | Samantrix |
+| Variable | Meaning | EasyLife | Dark | Simantrix |
 |---|---|---|---|---|
 | `--gy-background` | Page canvas | `#ffffff` | `#0f172a` | `#06060a` |
 | `--gy-background-subtle` | Slightly offset section bg | `#f8fafc` | `#1e293b` | `#0a0a12` |
@@ -369,7 +368,7 @@ The class selectors (`.gy-brand-*`, `.gy-theme-*`, `.gy-dark`) let you scope a t
 
 #### Text
 
-| Variable | Meaning | EasyLife | Dark | Samantrix |
+| Variable | Meaning | EasyLife | Dark | Simantrix |
 |---|---|---|---|---|
 | `--gy-text` | Primary body/heading text | `#0f172a` | `#f8fafc` | `#ffffff` |
 | `--gy-text-muted` | Secondary text, labels | `#475569` | `#cbd5e1` | `#9a9ab4` |
@@ -381,7 +380,7 @@ The class selectors (`.gy-brand-*`, `.gy-theme-*`, `.gy-dark`) let you scope a t
 
 #### Border / divider / focus / disabled / skeleton
 
-| Variable | Meaning | EasyLife | Dark | Samantrix |
+| Variable | Meaning | EasyLife | Dark | Simantrix |
 |---|---|---|---|---|
 | `--gy-border` | Default border (cards, inputs) | `#e2e8f0` | `#334155` | `#1c1c2b` |
 | `--gy-border-muted` | Faint border | `#f1f5f9` | `#1e293b` | `#13131f` |
@@ -425,7 +424,7 @@ Note: in the JS `BrandTheme`, `skeleton.shimmer` is a flat color and `disabled.b
 
 #### Neumorphism
 
-| Variable | Meaning | EasyLife | professional / agent / admin | Metalixia | Dark | Samantrix |
+| Variable | Meaning | EasyLife | professional / agent / admin | Metalixia | Dark | Simantrix |
 |---|---|---|---|---|---|---|
 | `--gy-neu-distance` | Shadow offset | `6px` (all) | | | | |
 | `--gy-neu-blur` | Shadow blur | `12px` (all) | | | | |
@@ -506,7 +505,7 @@ Components reference these with inline fallbacks; they are component-level hooks
 2. Register it in `brandThemes` in `themes/resolveTheme.ts` (and role overrides in `roleOverrides[<name>]` if it needs role variants).
 3. Add `"<name>"` to `ThemeBrand` (and `LegacyThemeRole` + `LEGACY_MAP` if legacy support is wanted) in `provider/ThemeContext.ts` / `ThemeProvider.tsx`.
 4. `css/variables.css`: add a block `[data-brand="<name>"], .gy-brand-<name>, [data-theme="<name>"], .gy-theme-<name> { … }` defining **every** brand-level variable (primary ramp + semantic, secondary, background, surface, text, border, divider, focus, disabled, skeleton, brand, gradient, elevation, overlay, neu-*). Role variants: `[data-brand="<name>"][data-role="<role>"]`.
-5. If always-dark (like samantrix): force `resolvedMode` in `ThemeProvider` and add `:not([data-brand="<name>"])` to the dark-mode selector.
+5. If always-dark (like simantrix): force `resolvedMode` in `ThemeProvider` and add `:not([data-brand="<name>"])` to the dark-mode selector.
 6. Optionally add a primitive palette to `tokens/colors.ts`. Rebuild (`pnpm --filter @galyan/theme build` copies `src/css` → `dist/css`).
 
 For a one-off runtime brand without code changes, use `brand="custom"` + `customTheme={{ primary: "#hex" }}` (or `setCustomTheme`).

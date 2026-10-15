@@ -69,10 +69,18 @@ const meta: Meta<typeof Avatar> = {
     },
     role: {
       control: "select",
-      options: ["developer", "org-admin", "org-member", "organization"],
-      description: "Samantrix role ring accent",
+      options: [
+        "simantrix",
+        "coral",
+        "green",
+        "blue",
+        "violet",
+        "amber",
+        "cyan",
+      ],
+      description: "Simantrix role ring accent",
       table: {
-        type: { summary: "'developer' | 'organization' | 'org-admin' | 'org-member'" },
+        type: { summary: "AvatarRole" },
       },
     },
     glow: {
@@ -297,20 +305,32 @@ export const RoleRings: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "1.75rem", flexWrap: "wrap" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-        <Avatar size="lg" src={SAMPLE_AVATAR_1} role="developer" status="online" />
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#0284c7" }}>Developer</span>
+        <Avatar size="lg" src={SAMPLE_AVATAR_1} role="simantrix" status="online" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#7c5cff" }}>Simantrix</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-        <Avatar size="lg" src={SAMPLE_AVATAR_2} role="org-admin" status="busy" />
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#059669" }}>Org Admin</span>
+        <Avatar size="lg" src={SAMPLE_AVATAR_2} role="coral" status="busy" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#f43f5e" }}>Coral</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-        <Avatar size="lg" src={SAMPLE_AVATAR_3} role="org-member" status="away" />
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#475569" }}>Org Member</span>
+        <Avatar size="lg" src={SAMPLE_AVATAR_3} role="amber" status="in_meeting" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#f59e0b" }}>Amber</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-        <Avatar size="lg" src={SAMPLE_AVATAR_4} role="organization" status="in_meeting" />
-        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#7c3aed" }}>Organization</span>
+        <Avatar size="lg" src={SAMPLE_AVATAR_4} role="blue" status="online" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#3b82f6" }}>Blue</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar size="lg" src={SAMPLE_AVATAR_5} role="green" status="away" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#10b981" }}>Green</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar size="lg" src={SAMPLE_AVATAR_1} role="violet" status="offline" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#6366f1" }}>Violet</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <Avatar size="lg" src={SAMPLE_AVATAR_2} role="cyan" status="online" />
+        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#0ea5e9" }}>Cyan</span>
       </div>
     </div>
   ),
@@ -370,7 +390,7 @@ export const DigitalWorkplaceRoster: Story = {
       {
         name: "Elena Rostova",
         title: "Principal Graphics Architect",
-        role: "developer" as const,
+        role: "violet" as const,
         status: "online" as const,
         statusLabel: "At desk (3D Office)",
         avatar: SAMPLE_AVATAR_1,
@@ -378,7 +398,7 @@ export const DigitalWorkplaceRoster: Story = {
       {
         name: "Marcus Vance",
         title: "Engineering Director",
-        role: "org-admin" as const,
+        role: "amber" as const,
         status: "in_meeting" as const,
         statusLabel: "In Boardroom A",
         avatar: SAMPLE_AVATAR_2,
@@ -386,7 +406,7 @@ export const DigitalWorkplaceRoster: Story = {
       {
         name: "Aria Chen",
         title: "Product Design Lead",
-        role: "org-member" as const,
+        role: "green" as const,
         status: "busy" as const,
         statusLabel: "Focusing — Do Not Disturb",
         avatar: SAMPLE_AVATAR_3,

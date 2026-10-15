@@ -12,6 +12,7 @@ export { useTheme } from "./provider/useTheme.js";
 export type {
   ThemeBrand,
   ThemeRole,
+  ThemeColorScheme,
   LegacyThemeRole,
   ColorMode,
   ThemeContextValue,

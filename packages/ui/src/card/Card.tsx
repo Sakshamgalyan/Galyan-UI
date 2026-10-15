@@ -35,7 +35,7 @@ export interface CardProps {
   skeletonContent?: React.ReactNode;
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  /** Role override (e.g. developer, organization, org-admin, org-member) */
+  /** Role override (e.g. simantrix, coral, blue, amber, green, violet, cyan) */
   themeRole?: ThemeRole;
   /** Color mode override */
   colorMode?: ColorMode;

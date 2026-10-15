@@ -298,7 +298,7 @@ export const Playground: Story = {
                 marginTop: 2,
               }}
             >
-              saksham@samantrix.com
+              saksham@simantrix.com
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ export const Bordered: Story = {
           subtitle: "Multi-brand styling architecture",
           defaultExpanded: true,
           content:
-            "Brands define the company palette (easyLife, metalixia, samantrix) while roles adjust surfaces and permission-based accents across all components seamlessly.",
+            "Brands define the company palette (easyLife, metalixia, simantrix) while roles adjust surfaces and permission-based accents across all components seamlessly.",
         },
         {
           id: "2",
@@ -462,7 +462,7 @@ export const WithIcon: Story = {
           id: "api",
           icon: <CodeIcon />,
           title: "Developer API Keys",
-          subtitle: "Samantrix, metalixia & easyLife apps",
+          subtitle: "Simantrix, metalixia & easyLife apps",
           content:
             "Generate, rotate, and revoke REST API tokens and client secrets for production and sandbox environments.",
         },
@@ -973,7 +973,7 @@ export const UnmountOnExit: Story = {
 export const ComplexContent: Story = {
   name: "Complex Content",
   render: function Render() {
-    const [email, setEmail] = useState("admin@samantrix.com");
+    const [email, setEmail] = useState("admin@simantrix.com");
     const [webhookUrl, setWebhookUrl] = useState(
       "https://api.merchant.com/v1/webhooks",
     );
@@ -1620,7 +1620,7 @@ export const EnterpriseSettingsComposition: Story = {
     const [channels, setChannels] = useState<string[]>(["slack", "pagerduty"]);
     const [priority, setPriority] = useState("high");
     const [webhookUrl, setWebhookUrl] = useState(
-      "https://hooks.samantrix.io/alerts/prod",
+      "https://hooks.simantrix.io/alerts/prod",
     );
     const [sendDigest, setSendDigest] = useState(true);
 

@@ -351,28 +351,46 @@ export const RoleThemes: Story = {
       desc: string;
     }> = [
       {
-        name: "Customer Role (EasyLife Green)",
-        brand: "easylife",
-        role: "customer",
-        desc: "Green primary color (#22c55e)",
+        name: "Simantrix Default (Main Violet)",
+        brand: "simantrix",
+        role: "simantrix",
+        desc: "Signature violet primary color (#7c5cff)",
       },
       {
-        name: "Professional Role (Blue/Indigo)",
-        brand: "easylife",
-        role: "professional",
-        desc: "Blue primary color (#3b82f6)",
-      },
-      {
-        name: "Agent Role (Rose / Coral)",
-        brand: "easylife",
-        role: "agent",
+        name: "Coral (Authority Rose)",
+        brand: "simantrix",
+        role: "coral",
         desc: "Rose primary color (#f43f5e)",
       },
       {
-        name: "Samantrix Brand (Violet / Dark)",
-        brand: "samantrix",
-        role: "customer",
-        desc: "Violet primary color (#7c5cff)",
+        name: "Amber (Governance)",
+        brand: "simantrix",
+        role: "amber",
+        desc: "Amber primary color (#f59e0b)",
+      },
+      {
+        name: "Blue (Operations)",
+        brand: "simantrix",
+        role: "blue",
+        desc: "Cobalt blue primary color (#3b82f6)",
+      },
+      {
+        name: "Green (Collaboration)",
+        brand: "simantrix",
+        role: "green",
+        desc: "Emerald presence accent (#10b981)",
+      },
+      {
+        name: "Violet (Engineering)",
+        brand: "simantrix",
+        role: "violet",
+        desc: "Platform violet primary color (#6366f1)",
+      },
+      {
+        name: "Cyan (Read-Only)",
+        brand: "simantrix",
+        role: "cyan",
+        desc: "Sky blue primary color (#0ea5e9)",
       },
     ];
 
@@ -383,7 +401,7 @@ export const RoleThemes: Story = {
             key={r.name}
             data-brand={r.brand}
             data-role={r.role}
-            data-theme={r.brand === "easylife" ? r.role : r.brand}
+            data-theme={`simantrix-${r.role}`}
             style={{
               padding: "1.25rem",
               borderRadius: "0.75rem",

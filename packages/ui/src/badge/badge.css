@@ -208,27 +208,45 @@
   color: #ffffff;
 }
 
-/* Backend-Aligned Role Variants */
-.gy-badge--developer {
-  background-color: var(--gy-role-developer, #0284c7);
+/* Color Scheme Variants */
+.gy-badge--coral {
+  background-color: var(--gy-role-coral, #f43f5e);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.gy-badge--organization {
-  background-color: var(--gy-role-organization, #7c3aed);
+.gy-badge--blue {
+  background-color: var(--gy-role-blue, #3b82f6);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.gy-badge--org-admin {
-  background-color: var(--gy-role-org-admin, #059669);
+.gy-badge--cyan {
+  background-color: var(--gy-role-cyan, #0ea5e9);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.gy-badge--org-member {
-  background-color: var(--gy-role-org-member, #475569);
+.gy-badge--amber {
+  background-color: var(--gy-role-amber, #f59e0b);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gy-badge--green {
+  background-color: var(--gy-role-green, #10b981);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gy-badge--violet {
+  background-color: var(--gy-role-violet, #6366f1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gy-badge--simantrix {
+  background-color: var(--gy-role-simantrix, #7c5cff);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -255,7 +273,7 @@
 .gy-dark .gy-badge--neutral,
 [data-color-mode="dark"] .gy-badge--neutral,
 .dark .gy-badge--neutral,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-badge--neutral {
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-badge--neutral {
   background-color: rgba(30, 41, 59, 0.7);
   color: #f8fafc;
   border-color: rgba(255, 255, 255, 0.12);

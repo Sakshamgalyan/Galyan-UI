@@ -124,7 +124,7 @@ export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
 /**
- * Default variant: automatically adopts the role/brand theme color (e.g. green for Customer, blue for Professional, violet for Samantrix).
+ * Default variant: automatically adopts the role/brand theme color (e.g. violet for Simantrix, coral for Org Owner, blue for Manager).
  */
 export const DefaultRoleTheme: Story = {
   name: "Default (Role Theme Color)",

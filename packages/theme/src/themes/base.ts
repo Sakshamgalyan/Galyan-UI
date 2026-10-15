@@ -1,4 +1,4 @@
-/** Shared base semantic tokens inherited by both customer and professional themes */
+/** Shared base semantic tokens inherited across all themes */
 export const baseTheme = {
   // ── Success ────────────────────────────────────────────────────────────
   success: {

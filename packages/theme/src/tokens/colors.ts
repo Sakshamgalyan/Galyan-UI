@@ -1,6 +1,6 @@
 /** Galyan primitive color palette — full 50–950 scales */
 export const colors = {
-  // ── Green (Customer primary) ─────────────────────────────────────────────
+  // ── Green ─────────────────────────────────────────────────────────────────
   green: {
     50: "#f0fdf4",
     100: "#dcfce7",
@@ -15,7 +15,7 @@ export const colors = {
     950: "#052e16",
   },
 
-  // ── Teal (Customer secondary) ────────────────────────────────────────────
+  // ── Teal ──────────────────────────────────────────────────────────────────
   teal: {
     50: "#f0fdfa",
     100: "#ccfbf1",
@@ -30,7 +30,7 @@ export const colors = {
     950: "#042f2e",
   },
 
-  // ── Blue (Professional primary) ──────────────────────────────────────────
+  // ── Blue ──────────────────────────────────────────────────────────────────
   blue: {
     50: "#eff6ff",
     100: "#dbeafe",
@@ -45,7 +45,7 @@ export const colors = {
     950: "#172554",
   },
 
-  // ── Indigo (Professional secondary) ─────────────────────────────────────
+  // ── Indigo ────────────────────────────────────────────────────────────────
   indigo: {
     50: "#eef2ff",
     100: "#e0e7ff",
@@ -180,7 +180,7 @@ export const colors = {
     950: "#431407",
   },
 
-  // ── Violet (Samantrix brand) ──────────────────────────────────────────
+  // ── Violet (Simantrix brand) ──────────────────────────────────────────
   violet: {
     50: "#f2efff",
     100: "#e4ddff",
@@ -195,7 +195,7 @@ export const colors = {
     950: "#1a0d42",
   },
 
-  // ── Ink (Samantrix foundation neutral) ────────────────────────────────
+  // ── Ink (Simantrix foundation neutral) ────────────────────────────────
   ink: {
     50: "#e6e6f0",
     100: "#c4c4d8",

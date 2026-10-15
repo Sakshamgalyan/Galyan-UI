@@ -288,7 +288,7 @@
 .gy-dark .gy-avatar--default,
 [data-color-mode="dark"] .gy-avatar--default,
 .dark .gy-avatar--default,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar--default {
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-avatar--default {
   background-color: rgba(30, 41, 59, 0.7);
   color: #f8fafc;
   border-color: rgba(255, 255, 255, 0.12);
@@ -297,28 +297,39 @@
 .gy-dark .gy-avatar__status,
 [data-color-mode="dark"] .gy-avatar__status,
 .dark .gy-avatar__status,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar__status,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-avatar__status,
 .gy-dark .gy-avatar-group__item,
 [data-color-mode="dark"] .gy-avatar-group__item,
 .dark .gy-avatar-group__item,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-avatar-group__item {
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-avatar-group__item {
   border-color: #0f172a;
 }
 
 /* ── Role Ring Variants ────────────────────────────────────────────────── */
-.gy-avatar--role-developer {
-  box-shadow: 0 0 0 2px var(--gy-role-developer, #0284c7);
+.gy-avatar--role-coral {
+  box-shadow: 0 0 0 2px var(--gy-role-coral, #f43f5e);
 }
 
-.gy-avatar--role-organization {
-  box-shadow: 0 0 0 2px var(--gy-role-organization, #7c3aed);
+.gy-avatar--role-blue {
+  box-shadow: 0 0 0 2px var(--gy-role-blue, #3b82f6);
 }
 
-.gy-avatar--role-org-admin {
-  box-shadow: 0 0 0 2px var(--gy-role-org-admin, #059669);
+.gy-avatar--role-cyan {
+  box-shadow: 0 0 0 2px var(--gy-role-cyan, #0ea5e9);
 }
 
-.gy-avatar--role-org-member {
-  box-shadow: 0 0 0 2px var(--gy-role-org-member, #475569);
+.gy-avatar--role-amber {
+  box-shadow: 0 0 0 2px var(--gy-role-amber, #f59e0b);
 }
 
+.gy-avatar--role-green {
+  box-shadow: 0 0 0 2px var(--gy-role-green, #10b981);
+}
+
+.gy-avatar--role-violet {
+  box-shadow: 0 0 0 2px var(--gy-role-violet, #6366f1);
+}
+
+.gy-avatar--role-simantrix {
+  box-shadow: 0 0 0 2px var(--gy-role-simantrix, #7c5cff);
+}

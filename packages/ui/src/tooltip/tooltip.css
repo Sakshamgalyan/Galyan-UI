@@ -263,8 +263,8 @@
 .dark .gy-tooltip--default,
 [data-color-mode="dark"] .gy-tooltip--default,
 [data-theme="dark"] .gy-tooltip--default,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--default,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--default {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--default,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--default {
   --gy-tooltip-bg: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.12) 0%,
@@ -291,10 +291,10 @@
 [data-color-mode="dark"] .gy-tooltip--glass,
 [data-theme="dark"] .gy-tooltip--glassmorphic,
 [data-theme="dark"] .gy-tooltip--glass,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--glassmorphic,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--glass,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--glassmorphic,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--glass {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--glassmorphic,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--glass,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--glassmorphic,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--glass {
   --gy-tooltip-bg: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.14) 0%,
@@ -317,8 +317,8 @@
 .dark .gy-tooltip--dark,
 [data-color-mode="dark"] .gy-tooltip--dark,
 [data-theme="dark"] .gy-tooltip--dark,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--dark,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--dark {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--dark,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--dark {
   --gy-tooltip-bg: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.08) 0%,
@@ -341,8 +341,8 @@
 .dark .gy-tooltip--primary,
 [data-color-mode="dark"] .gy-tooltip--primary,
 [data-theme="dark"] .gy-tooltip--primary,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--primary,
-[data-brand="samantrix"]:not([data-color-mode="light"]) .gy-tooltip--primary {
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--primary,
+[data-brand="simantrix"]:not([data-color-mode="light"]) .gy-tooltip--primary {
   --gy-tooltip-bg: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.25) 0%,

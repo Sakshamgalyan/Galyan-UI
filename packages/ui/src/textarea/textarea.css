@@ -92,8 +92,8 @@
 
 [data-color-mode="light"] .gy-textarea--glass,
 [data-color-mode="light"] .gy-textarea--glassmorphic,
-[data-brand="samantrix"][data-color-mode="light"] .gy-textarea--glass,
-[data-brand="samantrix"][data-color-mode="light"] .gy-textarea--glassmorphic {
+[data-brand="simantrix"][data-color-mode="light"] .gy-textarea--glass,
+[data-brand="simantrix"][data-color-mode="light"] .gy-textarea--glassmorphic {
   background: rgba(255, 255, 255, 0.75) !important;
   border: 1px solid rgba(226, 232, 240, 0.85) !important;
 }
@@ -110,8 +110,8 @@
 
 /* ── Focus State ── */
 .gy-textarea:focus {
-  border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
-  box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+  border-color: var(--gy-border-focus, var(--gy-primary, #7c5cff));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-border-focus, var(--gy-primary, #7c5cff)) 18%, transparent);
 }
 
 /* ── Hover State (mirrors Dropdown hover) ── */
@@ -127,8 +127,8 @@
 }
 
 .gy-textarea--focused {
-  border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
-  box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+  border-color: var(--gy-border-focus, var(--gy-primary, #7c5cff));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-border-focus, var(--gy-primary, #7c5cff)) 18%, transparent);
 }
 
 /* ── No Border Effects ── */

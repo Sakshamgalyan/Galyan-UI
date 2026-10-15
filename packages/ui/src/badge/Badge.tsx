@@ -12,10 +12,13 @@ export type BadgeVariant =
   | "info"
   | "neutral"
   | "glass"
-  | "developer"
-  | "organization"
-  | "org-admin"
-  | "org-member";
+  | "simantrix"
+  | "coral"
+  | "green"
+  | "blue"
+  | "violet"
+  | "amber"
+  | "cyan";
 
 export type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type BadgeShape = "circle" | "rounded" | "square";

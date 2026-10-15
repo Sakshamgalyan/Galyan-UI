@@ -69,16 +69,18 @@ const meta: Meta<typeof Badge> = {
         "info",
         "neutral",
         "glass",
-        "developer",
-        "organization",
-        "org-admin",
-        "org-member",
+        "simantrix",
+        "coral",
+        "green",
+        "blue",
+        "violet",
+        "amber",
+        "cyan",
       ],
       description: "Visual color and role style preset",
       table: {
         type: {
-          summary:
-            "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'glass' | 'developer' | 'organization' | 'org-admin' | 'org-member'",
+          summary: "BadgeVariant",
         },
         defaultValue: { summary: "'primary'" },
       },
@@ -203,29 +205,41 @@ export const RoleVariants: Story = {
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <div>
         <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.875rem", fontWeight: 600 }}>
-          Samantrix Role Badges
+          Simantrix Color Scheme Badges
         </h4>
         <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--gy-text-muted)" }}>
-          Coordinated with platform user tiers and organizational permissions.
+          Direct color scheme badges for platform identity and workspace theming.
         </p>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
-          <Badge variant="developer" content="DEVELOPER" size="sm" />
-          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Developer Console</span>
+          <Badge variant="simantrix" content="SIMANTRIX" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Default Brand</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
-          <Badge variant="org-admin" content="ORG ADMIN" size="sm" />
-          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Admin Workspace</span>
+          <Badge variant="coral" content="CORAL" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Authority</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
-          <Badge variant="org-member" content="ORG MEMBER" size="sm" />
-          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Digital Workplace</span>
+          <Badge variant="amber" content="AMBER" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Governance</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
-          <Badge variant="organization" content="ORGANIZATION" size="sm" />
-          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Enterprise Tenant</span>
+          <Badge variant="blue" content="BLUE" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Operations</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
+          <Badge variant="green" content="GREEN" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Collaboration</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
+          <Badge variant="violet" content="VIOLET" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Engineering</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.375rem" }}>
+          <Badge variant="cyan" content="CYAN" size="sm" />
+          <span style={{ fontSize: "0.6875rem", color: "var(--gy-text-muted)" }}>Read-Only</span>
         </div>
       </div>
     </div>
@@ -309,8 +323,8 @@ export const BadgesOverAvatars: Story = {
         />
       </Badge>
 
-      <Badge content="DEV" variant="developer" size="xs">
-        <Avatar name="Siddharth Patel" size="lg" role="developer" />
+      <Badge content="DEV" variant="violet" size="xs">
+        <Avatar name="Siddharth Patel" size="lg" role="violet" />
       </Badge>
     </div>
   ),
@@ -437,7 +451,7 @@ export const PingAnimation: Story = {
         <span style={{ fontSize: "0.8125rem", fontWeight: 600 }}>Meeting Recording</span>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-        <Badge dot ping variant="developer" size="md" />
+        <Badge dot ping variant="violet" size="md" />
         <span style={{ fontSize: "0.8125rem", fontWeight: 600 }}>Realtime Telemetry Feed</span>
       </div>
     </div>

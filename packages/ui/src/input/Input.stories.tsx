@@ -124,20 +124,19 @@ const meta: Meta<typeof Input> = {
     themeRole: {
       control: "select",
       options: [
-        "customer",
-        "professional",
-        "agent",
-        "admin",
-        "developer",
-        "organization",
-        "org-admin",
-        "org-member",
+        "simantrix",
+        "coral",
+        "green",
+        "blue",
+        "violet",
+        "amber",
+        "cyan",
       ],
-      description: "Scoped role theme override (EasyLife & Samantrix)",
+      description: "Scoped role theme override (Simantrix)",
       table: {
         type: {
           summary:
-            "'customer' | 'professional' | 'agent' | 'admin' | 'developer' | 'organization' | 'org-admin' | 'org-member'",
+            "'simantrix' | 'coral' | 'green' | 'blue' | 'violet' | 'amber' | 'cyan'",
         },
       },
     },
@@ -503,76 +502,67 @@ export const RoleThemedInputs: Story = {
   render: () => {
     const rolePresets = [
       {
-        name: "Developer (Samantrix)",
-        brand: "samantrix",
-        role: "developer" as const,
+        name: "Simantrix (Default)",
+        brand: "simantrix",
+        role: "simantrix" as const,
         badge: "#7c5cff",
-        desc: "Tailored for telemetry, internal operations, and developer API consoles.",
-        placeholder: "ghp_xxxxxxxxxxxxxxxxxxxx",
-        label: "GitHub Access Token",
+        desc: "Flagship Simantrix signature violet palette.",
+        placeholder: "Simantrix workspace...",
+        label: "Workspace Query",
       },
       {
-        name: "Org Admin (Samantrix)",
-        brand: "samantrix",
-        role: "org-admin" as const,
+        name: "Coral Scheme",
+        brand: "simantrix",
+        role: "coral" as const,
+        badge: "#f43f5e",
+        desc: "Authority tier — tenant root ownership and billing.",
+        placeholder: "owner@company.com",
+        label: "Primary Owner Email",
+      },
+      {
+        name: "Amber Scheme",
+        brand: "simantrix",
+        role: "amber" as const,
         badge: "#f59e0b",
-        desc: "Tenant configuration, user permissions, and custom room settings.",
+        desc: "Governance — tenant configuration and user permissions.",
         placeholder: "Acme Virtual HQ",
         label: "Organization Workspace Name",
       },
       {
-        name: "Org Member (Samantrix)",
-        brand: "samantrix",
-        role: "org-member" as const,
+        name: "Blue Scheme",
+        brand: "simantrix",
+        role: "blue" as const,
+        badge: "#3b82f6",
+        desc: "Operations — workspace management and roster administration.",
+        placeholder: "MGR-2026-HQ",
+        label: "Manager Operational Key",
+      },
+      {
+        name: "Cyan Scheme",
+        brand: "simantrix",
+        role: "cyan" as const,
+        badge: "#0ea5e9",
+        desc: "Read-only workspace observation and compliance auditing.",
+        placeholder: "viewer@client.com",
+        label: "Viewer Account Email",
+      },
+      {
+        name: "Green Scheme",
+        brand: "simantrix",
+        role: "green" as const,
         badge: "#10b981",
-        desc: "Everyday virtual office collaboration, status broadcast, and proximity chat.",
+        desc: "Collaboration — virtual office presence and proximity chat.",
         placeholder: "Available for pairing...",
         label: "Avatar Status Note",
       },
       {
-        name: "Enterprise Org (Samantrix)",
-        brand: "samantrix",
-        role: "organization" as const,
-        badge: "#4f46e5",
-        desc: "Corporate tier tenant billing, contract quotas, and audit logs.",
-        placeholder: "billing@acme-corp.com",
-        label: "Enterprise Billing Email",
-      },
-      {
-        name: "Customer (EasyLife)",
-        brand: "easylife",
-        role: "customer" as const,
-        badge: "#22c55e",
-        desc: "Default consumer role with signature emerald brand accents.",
-        placeholder: "alex@example.com",
-        label: "Customer Account Email",
-      },
-      {
-        name: "Professional (EasyLife)",
-        brand: "easylife",
-        role: "professional" as const,
-        badge: "#3b82f6",
-        desc: "Service provider workflow with high-trust blue accents.",
-        placeholder: "PRO-882194",
-        label: "Professional License ID",
-      },
-      {
-        name: "Agent (EasyLife)",
-        brand: "easylife",
-        role: "agent" as const,
-        badge: "#f43f5e",
-        desc: "Operations dispatcher and live concierge with rose/coral theme.",
-        placeholder: "Queue route identifier",
-        label: "Dispatch Route ID",
-      },
-      {
-        name: "Admin (EasyLife)",
-        brand: "easylife",
-        role: "admin" as const,
-        badge: "#f59e0b",
-        desc: "Platform administration with amber highlight and elevated permissions.",
-        placeholder: "System maintenance override",
-        label: "Admin Authorization Note",
+        name: "Violet Scheme",
+        brand: "simantrix",
+        role: "violet" as const,
+        badge: "#6366f1",
+        desc: "Engineering — developer tools and platform console.",
+        placeholder: "ghp_xxxxxxxxxxxxxxxxxxxx",
+        label: "GitHub Access Token",
       },
     ];
 
@@ -591,7 +581,7 @@ export const RoleThemedInputs: Story = {
             key={r.name}
             data-brand={r.brand}
             data-role={r.role}
-            data-theme={r.brand === "easylife" ? r.role : r.brand}
+            data-theme={`simantrix-${r.role}`}
             style={{
               padding: "1.25rem",
               borderRadius: "0.875rem",
@@ -678,46 +668,52 @@ export const RolePropsDemo: Story = {
         </p>
       </div>
       <Input
-        label="Developer Role (Violet Focus)"
-        themeRole="developer"
+        label="Violet Role (Engineering Focus)"
+        themeRole="violet"
         placeholder="Developer workspace command..."
         defaultValue="git checkout -b feature/realtime"
         leftIcon={<SearchIcon />}
-        helperText="Focus ring uses Samantrix developer violet token"
+        helperText="Focus ring uses violet color scheme token"
       />
       <Input
-        label="Org Admin Role (Amber Accent)"
-        themeRole="org-admin"
+        label="Amber Role (Governance Accent)"
+        themeRole="amber"
         placeholder="Admin policy setting..."
-        helperText="Focus ring uses org-admin role override"
+        helperText="Focus ring uses amber color scheme override"
       />
       <Input
-        label="Org Member Role (Emerald Accent)"
-        themeRole="org-member"
+        label="Green Role (Emerald Accent)"
+        themeRole="green"
         placeholder="Member status..."
-        helperText="Focus ring uses org-member presence green token"
+        helperText="Focus ring uses green presence token"
       />
       <Input
-        label="Professional Role (Blue Focus)"
-        themeRole="professional"
-        placeholder="Professional credential ID..."
-        helperText="Focus ring uses professional role override"
+        label="Blue Role (Operations Focus)"
+        themeRole="blue"
+        placeholder="Manager credential ID..."
+        helperText="Focus ring uses blue color scheme override"
       />
       <Input
-        label="Agent Role (Rose Focus)"
-        themeRole="agent"
-        placeholder="Support ticket note..."
-        helperText="Focus ring uses agent role override"
+        label="Coral Role (Authority Focus)"
+        themeRole="coral"
+        placeholder="Owner authorization key..."
+        helperText="Focus ring uses coral color scheme override"
+      />
+      <Input
+        label="Cyan Role (Read-Only Focus)"
+        themeRole="cyan"
+        placeholder="Viewer reference..."
+        helperText="Focus ring uses cyan color scheme override"
       />
     </div>
   ),
 };
 
-export const SamantrixWorkplaceInputs: Story = {
+export const SimantrixWorkplaceInputs: Story = {
   render: () => (
     <div
-      data-brand="samantrix"
-      data-theme="samantrix"
+      data-brand="simantrix"
+      data-theme="simantrix"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -732,17 +728,17 @@ export const SamantrixWorkplaceInputs: Story = {
     >
       <div style={{ marginBottom: "0.25rem" }}>
         <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "var(--gy-text)" }}>
-          Samantrix Digital Workplace
+          Simantrix Digital Workplace
         </h4>
         <p style={{ margin: "0.25rem 0 0", fontSize: "0.8125rem", color: "var(--gy-text-muted)" }}>
-          Configured with Samantrix brand design tokens and role-specific workflows.
+          Configured with Simantrix brand design tokens and role-specific workflows.
         </p>
       </div>
 
       <Input
         label="Console Command Input"
         size="xs"
-        themeRole="developer"
+        themeRole="violet"
         placeholder="pnpm dev --filter @galyan/ui"
         helperText="Extra compact input for internal tooling and telemetry"
       />
@@ -750,7 +746,7 @@ export const SamantrixWorkplaceInputs: Story = {
       <Input
         label="Virtual Office Room Name"
         size="sm"
-        themeRole="org-admin"
+        themeRole="amber"
         placeholder="e.g. Design Studio Alpha"
         helperText="Configurable room label in virtual 3D floor plan"
       />
@@ -758,7 +754,7 @@ export const SamantrixWorkplaceInputs: Story = {
       <Input
         label="Proximity Voice Status"
         size="md"
-        themeRole="org-member"
+        themeRole="green"
         placeholder="Available for pair programming"
         leftIcon={<CheckCircleIcon />}
         helperText="Live presence indicator in digital workplace"
@@ -768,7 +764,7 @@ export const SamantrixWorkplaceInputs: Story = {
         label="Glassmorphic Dock Search"
         size="lg"
         variant="glassmorphic"
-        themeRole="org-member"
+        themeRole="green"
         placeholder="Search colleagues, rooms, documents..."
         leftIcon={<SearchIcon />}
       />

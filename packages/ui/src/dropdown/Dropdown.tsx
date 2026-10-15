@@ -471,6 +471,7 @@ export function Dropdown<V extends DropdownValue = DropdownValue>({
               >
                 <span>{opt.label}</span>
                 <ClearButton
+                  as="span"
                   size="xs"
                   ariaLabel={`Remove ${typeof opt.label === "string" ? opt.label : "option"}`}
                   className="gy-dropdown-tag-remove"
@@ -692,6 +693,7 @@ export function Dropdown<V extends DropdownValue = DropdownValue>({
             !loading &&
             (Array.isArray(value) ? value.length > 0 : true) && (
               <ClearButton
+                as="span"
                 size={size === "lg" ? "md" : size === "xs" ? "xs" : "sm"}
                 variant="subtle"
                 ariaLabel="Clear selection"

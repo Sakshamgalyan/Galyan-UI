@@ -52,8 +52,8 @@
 
 /* ── Focus State ── */
 .gy-input-wrapper:focus-within {
-  border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
-  box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+  border-color: var(--gy-border-focus, var(--gy-primary, #7c5cff));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-border-focus, var(--gy-primary, #7c5cff)) 18%, transparent);
 }
 
 /* ── Hover State (mirrors Dropdown hover) ── */
@@ -71,7 +71,7 @@
 .gy-dark .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 [data-color-mode="dark"] .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 [data-theme="dark"] .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error),
 .dark .gy-input-wrapper:hover:not(:focus-within):not(.gy-input-wrapper--disabled):not(.gy-input-wrapper--error) {
   border-color: var(--gy-primary, #22c55e);
   background: color-mix(
@@ -82,8 +82,8 @@
 }
 
 .gy-input-wrapper--focused {
-  border-color: var(--gy-border-focus, var(--gy-primary, #22c55e));
-  box-shadow: 0 0 0 3px var(--gy-focus-ring, rgba(34, 197, 94, 0.2));
+  border-color: var(--gy-border-focus, var(--gy-primary, #7c5cff));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-border-focus, var(--gy-primary, #7c5cff)) 18%, transparent);
 }
 
 /* ── No Border Effects ── */
@@ -157,9 +157,79 @@
   min-width: 0;
 }
 
+.gy-input:focus,
+.gy-input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .gy-input::placeholder {
   color: var(--gy-text-subtle, #94a3b8);
 }
+
+/* ── Webkit Autofill Normalization ── */
+.gy-input:-webkit-autofill,
+.gy-input:-webkit-autofill:hover,
+.gy-input:-webkit-autofill:focus,
+.gy-input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--gy-text, #0f172a) !important;
+  box-shadow: 0 0 0 1000px var(--gy-surface, #ffffff) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--gy-surface, #ffffff) inset !important;
+  caret-color: var(--gy-text, #0f172a) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark .gy-input:-webkit-autofill,
+.dark .gy-input:-webkit-autofill:hover,
+.dark .gy-input:-webkit-autofill:focus,
+.dark .gy-input:-webkit-autofill:active,
+.gy-dark .gy-input:-webkit-autofill,
+.gy-dark .gy-input:-webkit-autofill:hover,
+.gy-dark .gy-input:-webkit-autofill:focus,
+.gy-dark .gy-input:-webkit-autofill:active,
+[data-color-mode="dark"] .gy-input:-webkit-autofill,
+[data-color-mode="dark"] .gy-input:-webkit-autofill:hover,
+[data-color-mode="dark"] .gy-input:-webkit-autofill:focus,
+[data-color-mode="dark"] .gy-input:-webkit-autofill:active,
+[data-theme="dark"] .gy-input:-webkit-autofill,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--gy-text, #f8fafc) !important;
+  box-shadow: 0 0 0 1000px var(--gy-surface, rgba(15, 23, 42, 0.95)) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--gy-surface, rgba(15, 23, 42, 0.95)) inset !important;
+  caret-color: var(--gy-text, #f8fafc) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Glass & Glassmorphic input autofill */
+.gy-input-wrapper--glass .gy-input:-webkit-autofill,
+.gy-input-wrapper--glass .gy-input:-webkit-autofill:hover,
+.gy-input-wrapper--glass .gy-input:-webkit-autofill:focus,
+.gy-input-wrapper--glassmorphic .gy-input:-webkit-autofill,
+.gy-input-wrapper--glassmorphic .gy-input:-webkit-autofill:hover,
+.gy-input-wrapper--glassmorphic .gy-input:-webkit-autofill:focus {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #f8fafc !important;
+  box-shadow: 0 0 0 1000px rgba(15, 23, 42, 0.85) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(15, 23, 42, 0.85) inset !important;
+  caret-color: #f8fafc !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+[data-color-mode="light"] .gy-input-wrapper--glass .gy-input:-webkit-autofill,
+[data-color-mode="light"] .gy-input-wrapper--glassmorphic .gy-input:-webkit-autofill,
+:root:not(.dark) .gy-input-wrapper--glass .gy-input:-webkit-autofill,
+:root:not(.dark) .gy-input-wrapper--glassmorphic .gy-input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #0f172a !important;
+  box-shadow: 0 0 0 1000px rgba(248, 250, 252, 0.95) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(248, 250, 252, 0.95) inset !important;
+  caret-color: #0f172a !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 
 /* Hide number input spinners */
 .gy-input[type="number"]::-webkit-outer-spin-button,
@@ -228,8 +298,8 @@
 
 [data-color-mode="light"] .gy-input-wrapper--glass,
 [data-color-mode="light"] .gy-input-wrapper--glassmorphic,
-[data-brand="samantrix"][data-color-mode="light"] .gy-input-wrapper--glass,
-[data-brand="samantrix"][data-color-mode="light"] .gy-input-wrapper--glassmorphic {
+[data-brand="simantrix"][data-color-mode="light"] .gy-input-wrapper--glass,
+[data-brand="simantrix"][data-color-mode="light"] .gy-input-wrapper--glassmorphic {
   background: rgba(255, 255, 255, 0.75) !important;
   border: 1px solid rgba(226, 232, 240, 0.85) !important;
 }

@@ -41,7 +41,7 @@
   - 8dbd0aa Merge pull request #1 from Sakshamgalyan/fix/sidebar-fix
   - 411f974 fix: sidebar and other component menu
   - c2fc6db chore(release): v1.0.8
-  - 8347148 fix: dark mode for samantrix
+  - 8347148 fix: dark mode for simantrix
   - b3eb0dc fix: publish scripts
 
 ## 1.0.8
@@ -49,7 +49,7 @@
 ### Patch Changes
 
 - Release update (patch):
-  - 8347148 fix: dark mode for samantrix
+  - 8347148 fix: dark mode for simantrix
   - b3eb0dc fix: publish scripts
   - 0db1255 fix: scripts
   - 6a8310c fix build

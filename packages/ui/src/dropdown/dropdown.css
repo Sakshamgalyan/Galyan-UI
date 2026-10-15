@@ -35,15 +35,16 @@
   );
 }
 
+.gy-dropdown-trigger:focus-visible,
 .gy-dropdown-trigger--open {
-  border-color: var(--gy-primary, #10b981);
+  border-color: var(--gy-border-focus, var(--gy-primary, #7c5cff));
   background: color-mix(
     in srgb,
-    var(--gy-primary, #10b981) 8%,
+    var(--gy-primary, #7c5cff) 8%,
     var(--gy-surface, #ffffff)
   );
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--gy-primary, #10b981) 20%, transparent);
+    color-mix(in srgb, var(--gy-border-focus, var(--gy-primary, #7c5cff)) 18%, transparent);
 }
 
 .gy-dropdown-trigger--error {
@@ -103,9 +104,10 @@
   font-size: 0.75rem;
 }
 .gy-dropdown-trigger--sm {
-  padding: 0.375rem 0.625rem;
-  font-size: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  font-size: var(--gy-font-size-sm, 0.875rem);
   min-height: 2rem;
+  border-radius: var(--gy-radius-lg, 0.5rem);
 }
 .gy-dropdown-trigger--md {
   padding: 0.5rem 0.875rem;
@@ -532,7 +534,7 @@
 .gy-dark .gy-dropdown-trigger,
 [data-color-mode="dark"] .gy-dropdown-trigger,
 [data-theme="dark"] .gy-dropdown-trigger,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger,
 .dark .gy-dropdown-trigger {
   background: var(--gy-surface, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -545,7 +547,7 @@
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
 [data-theme="dark"]
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
-[data-theme="samantrix"]:not([data-color-mode="light"])
+[data-theme="simantrix"]:not([data-color-mode="light"])
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
 .dark
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading) {
@@ -560,7 +562,7 @@
 .gy-dark .gy-dropdown-trigger--open,
 [data-color-mode="dark"] .gy-dropdown-trigger--open,
 [data-theme="dark"] .gy-dropdown-trigger--open,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--open,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--open,
 .dark .gy-dropdown-trigger--open {
   border-color: var(--gy-primary, #6366f1);
   background: color-mix(
@@ -573,7 +575,7 @@
 .gy-dark .gy-dropdown-trigger--filled,
 [data-color-mode="dark"] .gy-dropdown-trigger--filled,
 [data-theme="dark"] .gy-dropdown-trigger--filled,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--filled,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--filled,
 .dark .gy-dropdown-trigger--filled {
   background: var(--gy-surface-raised, #1e293b);
   border-color: transparent;
@@ -591,7 +593,7 @@
   .gy-dropdown-trigger--filled:hover:not(:disabled):not(
     .gy-dropdown-trigger--loading
   ),
-[data-theme="samantrix"]:not([data-color-mode="light"])
+[data-theme="simantrix"]:not([data-color-mode="light"])
   .gy-dropdown-trigger--filled:hover:not(:disabled):not(
     .gy-dropdown-trigger--loading
   ),
@@ -610,7 +612,7 @@
 .gy-dark .gy-dropdown-tag,
 [data-color-mode="dark"] .gy-dropdown-tag,
 [data-theme="dark"] .gy-dropdown-tag,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-tag,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-tag,
 .dark .gy-dropdown-tag {
   background: color-mix(in srgb, var(--gy-primary, #7c3aed) 20%, #1e293b);
   border-color: color-mix(in srgb, var(--gy-primary, #7c3aed) 35%, transparent);
@@ -620,7 +622,7 @@
 .gy-dark .gy-dropdown-tag-more,
 [data-color-mode="dark"] .gy-dropdown-tag-more,
 [data-theme="dark"] .gy-dropdown-tag-more,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-tag-more,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-tag-more,
 .dark .gy-dropdown-tag-more {
   background: rgba(255, 255, 255, 0.08);
   color: var(--gy-text-muted, #94a3b8);
@@ -629,7 +631,7 @@
 .gy-dark .gy-dropdown-menu,
 [data-color-mode="dark"] .gy-dropdown-menu,
 [data-theme="dark"] .gy-dropdown-menu,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-menu,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-menu,
 .dark .gy-dropdown-menu {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -642,7 +644,7 @@
 .gy-dark .gy-dropdown-search,
 [data-color-mode="dark"] .gy-dropdown-search,
 [data-theme="dark"] .gy-dropdown-search,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-search,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-search,
 .dark .gy-dropdown-search {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -652,7 +654,7 @@
 .gy-dark .gy-dropdown-search-input,
 [data-color-mode="dark"] .gy-dropdown-search-input,
 [data-theme="dark"] .gy-dropdown-search-input,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-search-input,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-search-input,
 .dark .gy-dropdown-search-input {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -665,7 +667,7 @@
 .gy-dark .gy-dropdown-search-input:focus,
 [data-color-mode="dark"] .gy-dropdown-search-input:focus,
 [data-theme="dark"] .gy-dropdown-search-input:focus,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-search-input:focus,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-search-input:focus,
 .dark .gy-dropdown-search-input:focus {
   border-color: var(--gy-primary, #6366f1) !important;
   box-shadow: 0 0 0 2px
@@ -675,7 +677,7 @@
 .gy-dark .gy-dropdown-select-all,
 [data-color-mode="dark"] .gy-dropdown-select-all,
 [data-theme="dark"] .gy-dropdown-select-all,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all,
 .dark .gy-dropdown-select-all {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
@@ -683,7 +685,7 @@
 .gy-dark .gy-dropdown-select-all:hover,
 [data-color-mode="dark"] .gy-dropdown-select-all:hover,
 [data-theme="dark"] .gy-dropdown-select-all:hover,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all:hover,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all:hover,
 .dark .gy-dropdown-select-all:hover {
   background: rgba(255, 255, 255, 0.05);
 }
@@ -691,7 +693,7 @@
 .gy-dark .gy-dropdown-select-all-label,
 [data-color-mode="dark"] .gy-dropdown-select-all-label,
 [data-theme="dark"] .gy-dropdown-select-all-label,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all-label,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all-label,
 .dark .gy-dropdown-select-all-label {
   color: var(--gy-text, #f8fafc);
 }
@@ -699,7 +701,7 @@
 .gy-dark .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
 [data-color-mode="dark"] .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
 [data-theme="dark"] .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
 .dark .gy-dropdown-select-all:hover .gy-dropdown-select-all-label {
   color: var(--gy-primary, #6366f1);
 }
@@ -707,7 +709,7 @@
 .gy-dark .gy-dropdown-group-header,
 [data-color-mode="dark"] .gy-dropdown-group-header,
 [data-theme="dark"] .gy-dropdown-group-header,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-header,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-header,
 .dark .gy-dropdown-group-header {
   background: var(--gy-surface-raised, #1e293b);
   color: var(--gy-text-subtle, #94a3b8);
@@ -715,7 +717,7 @@
 .gy-dark .gy-dropdown-group-header::after,
 [data-color-mode="dark"] .gy-dropdown-group-header::after,
 [data-theme="dark"] .gy-dropdown-group-header::after,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-header::after,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-header::after,
 .dark .gy-dropdown-group-header::after {
   background: var(--gy-border, #334155);
 }
@@ -723,7 +725,7 @@
 .gy-dark .gy-dropdown-group-count,
 [data-color-mode="dark"] .gy-dropdown-group-count,
 [data-theme="dark"] .gy-dropdown-group-count,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-count,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-group-count,
 .dark .gy-dropdown-group-count {
   background: rgba(255, 255, 255, 0.06);
 }
@@ -733,7 +735,7 @@
   .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
 [data-theme="dark"]
   .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
-[data-theme="samantrix"]:not([data-color-mode="light"])
+[data-theme="simantrix"]:not([data-color-mode="light"])
   .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled),
 .dark .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled) {
   background: color-mix(
@@ -746,7 +748,7 @@
 .gy-dark .gy-dropdown-option--selected,
 [data-color-mode="dark"] .gy-dropdown-option--selected,
 [data-theme="dark"] .gy-dropdown-option--selected,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-option--selected,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-option--selected,
 .dark .gy-dropdown-option--selected {
   background: color-mix(
     in srgb,
@@ -759,7 +761,7 @@
 .gy-dark .gy-dropdown-option-description,
 [data-color-mode="dark"] .gy-dropdown-option-description,
 [data-theme="dark"] .gy-dropdown-option-description,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-option-description,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-option-description,
 .dark .gy-dropdown-option-description {
   color: var(--gy-text-muted, #94a3b8);
 }
@@ -767,7 +769,7 @@
 .gy-dark .gy-dropdown-option:hover .gy-checkbox__box,
 [data-color-mode="dark"] .gy-dropdown-option:hover .gy-checkbox__box,
 [data-theme="dark"] .gy-dropdown-option:hover .gy-checkbox__box,
-[data-theme="samantrix"]:not([data-color-mode="light"]) .gy-dropdown-option:hover .gy-checkbox__box,
+[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-option:hover .gy-checkbox__box,
 .dark .gy-dropdown-option:hover .gy-checkbox__box {
   border-color: var(--gy-primary, #6366f1);
   background-color: color-mix(in srgb, var(--gy-primary, #6366f1) 15%, transparent);

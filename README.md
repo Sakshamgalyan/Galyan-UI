@@ -72,7 +72,7 @@ import { Button } from "@galyan/ui";
 
 export function App() {
   return (
-    <ThemeProvider brand="easylife" role="customer" defaultColorMode="system">
+    <ThemeProvider brand="simantrix" role="simantrix" defaultColorMode="system">
       <Button>Get started</Button>
     </ThemeProvider>
   );
@@ -114,19 +114,28 @@ Theming works on two axes: a **brand** (the app/company palette) and a **role** 
 
 ### Brands
 
-| Brand       | Primary                   | Notes                                      |
-| ----------- | ------------------------- | ------------------------------------------ |
-| `easylife`  | Green `#22c55e` (default) | Slate neutrals, light canvas               |
-| `metalixia` | Lavender-blue `#707fdd`   | Slate neutrals, light canvas               |
-| `samantrix` | Violet `#7c5cff`          | Ink neutrals, always-dark canvas           |
-| `custom`    | Any hex you provide       | Full palette derived from a single primary |
+| Brand       | Primary                    | Notes                                      |
+| ----------- | -------------------------- | ------------------------------------------ |
+| `simantrix` | Violet `#7c5cff` (default) | Ink neutrals, full light & dark mode support |
+| `easylife`  | Green `#22c55e`            | Slate neutrals, light canvas               |
+| `metalixia` | Lavender-blue `#707fdd`    | Slate neutrals, light canvas               |
+| `custom`    | Any hex you provide        | Full palette derived from a single primary |
 
-### Roles
+### Role Taxonomy & Color Schemes
 
-- **`customer`** (default): uses the brand's primary color
-- **`professional`**: Blue `#3b82f6`
-- **`agent`**: Coral/Red `#ef4444`
-- **`admin`**: Indigo `#6366f1`
+Simantrix uses a role taxonomy divided into **Organization** and **Developer** tracks. Each role maps to a dedicated color scheme across both **Light** and **Dark** modes:
+
+| Color Scheme | Accent Colors | Roles & Description |
+| :--- | :--- | :--- |
+| **Simantrix** *(Default)* | Signature Violet `#7c5cff`, `#6438f0`, `#ab93ff` | • `simantrix`: Default platform fallback when no role or color is specified.<br>• Core unified digital workplace branding. |
+| **Coral** | Coral / Rose `#f43f5e`, Crimson `#e11d48`, Gold `#fb923c` | • `org-owner`: Primary registration email; full tenant ownership, billing & account deletion authority.<br>• `superadmin` / `developer-superadmin`: Platform root administrator with full revenue, catalog, and infrastructure control. |
+| **Green** | Emerald Green `#10b981`, `#059669`, Mint `#a7f3d0` | • `org-member` / `member`: Standard workspace team member with 3D avatar, chat, and room presence.<br>• `developer-member`: Active developer workspace collaborator. |
+| **Blue** | Cobalt Blue `#3b82f6`, Royal `#2563eb`, Light Blue `#bfdbfe` | • `org-manager`: Workspace operations, room setup, and team manager.<br>• `developer-manager`: Platform developer manager approving developers, apps, and subscriptions. |
+| **Violet** | Platform Violet / Indigo `#6366f1`, Sapphire `#4f46e5` | • `developer`: Active platform developer with console access.<br>• `organization` / `org`: Organization tenant identity. |
+| **Amber** | Governance Amber `#f59e0b`, Deep Gold `#d97706` | • `org-admin`: Full tenant administrative access **except** deleting account and changing billing plans. |
+| **Cyan** | Cyan / Sky Blue `#0ea5e9`, `#0284c7`, Light Sky `#bae6fd` | • `org-viewer`: Read-only viewer across organization workspaces.<br>• `developer-user`: Registered platform developer awaiting approval.<br>• `developer-auditor` / `auditor`: Compliance auditor with read-only inspection access. |
+
+> **Default Fallback**: If no role or brand is specified, the system defaults to `brand="simantrix"` and `role="simantrix"` with full Light and Dark mode support. You can specify a color scheme directly (e.g. `simantrix`, `coral`, `green`, `blue`, `violet`, `amber`, `cyan`) or by role name.
 
 ### Color Modes & Custom Themes
 
@@ -134,8 +143,6 @@ Theming works on two axes: a **brand** (the app/company palette) and a **role** 
 - `customTheme={{ primary: "#ff6600", fontFamily, fontFamilyMono, fontFamilyDisplay }}` with `brand="custom"` builds a full theme from one color.
 - `fontFamily`, `fontFamilyMono`, and `fontFamilyDisplay` props override the font variables.
 - `useTheme()` returns the current `brand`, `role`, `colorMode`, `resolvedMode`, and setters (`setBrand`, `setRole`, `setColorMode`, `setCustomTheme`, font setters) for changing the theme at runtime.
-
-> The old single `defaultRole` prop (e.g. `defaultRole="metalixia"`) still works but is deprecated. Use `brand` + `role` instead.
 
 ---
 
