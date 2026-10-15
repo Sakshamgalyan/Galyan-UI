@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.13
+
+### Patch Changes
+
+- Release update (patch):
+  - 5948b7e fix: simantrix brand color
+  - 868991e fix: code
+  - 3c621d3 chore(release): v1.0.12
+  - 40bf57e fix: badge and avatar and menu
+  - bf8ad3d chore(release): v1.0.11
+- Updated dependencies
+  - @galyan/theme@1.0.13
+
 ## 1.0.12
 
 ### Patch Changes
