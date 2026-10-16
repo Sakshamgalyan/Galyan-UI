@@ -1,5 +1,18 @@
 # @galyan/ui
 
+## 1.0.14
+
+### Patch Changes
+
+- Release update (patch):
+  - 526b256 fix: border radius
+  - 635195b chore(release): v1.0.13
+  - 5948b7e fix: simantrix brand color
+  - 868991e fix: code
+  - 3c621d3 chore(release): v1.0.12
+- Updated dependencies
+  - @galyan/theme@1.0.14
+
 ## 1.0.13
 
 ### Patch Changes
