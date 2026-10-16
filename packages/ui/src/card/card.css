@@ -4,7 +4,7 @@
   flex-direction: column;
   background: var(--gy-surface, #ffffff);
   color: var(--gy-text, #0f172a);
-  border-radius: var(--gy-radius-xl, 0.75rem);
+  border-radius: var(--gy-radius-card, var(--gy-radius-xl, 0.75rem));
   box-sizing: border-box;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -108,8 +108,11 @@
 .gy-card--radius-xl {
   border-radius: var(--gy-radius-xl, 0.75rem);
 }
+.gy-card--radius-2xl {
+  border-radius: var(--gy-radius-2xl, 1rem);
+}
 .gy-card--radius-full {
-  border-radius: var(--gy-radius-2xl, 1.25rem);
+  border-radius: var(--gy-radius-full, 9999px);
 }
 
 /* Shadows */

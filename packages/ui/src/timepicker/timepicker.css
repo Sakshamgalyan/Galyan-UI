@@ -1,4 +1,4 @@
-﻿/* ── TimePicker Component ─────────────────────────────────────────────────── */
+/* ── TimePicker Component ─────────────────────────────────────────────────── */
 .gy-timepicker {
   position: relative;
   display: flex;
@@ -110,7 +110,7 @@
 .gy-timepicker-popover {
   background: var(--gy-surface, #ffffff);
   border: 1px solid var(--gy-border, #cbd5e1);
-  border-radius: var(--gy-radius-xl, 0.75rem);
+  border-radius: var(--gy-radius-popover, var(--gy-radius-xl, 0.75rem));
   box-shadow:
     0 12px 28px -4px rgba(0, 0, 0, 0.14),
     0 8px 10px -4px rgba(0, 0, 0, 0.06);

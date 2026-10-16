@@ -47,7 +47,15 @@ export const coralOverrideSimantrix: RoleOverride = {
     "link-hover": "#e11d48",
   },
   border: {
+    default: "#fecdd3",
+    muted: "#fff1f2",
+    strong: "#fda4af",
     focus: "#f43f5e",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#fecdd3",
+    strong: "#fda4af",
   },
   focus: {
     ring: "rgba(244, 63, 94, 0.45)",
@@ -99,7 +107,15 @@ export const blueOverrideSimantrix: RoleOverride = {
     "link-hover": "#2563eb",
   },
   border: {
+    default: "#bfdbfe",
+    muted: "#eff6ff",
+    strong: "#93c5fd",
     focus: "#3b82f6",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#bfdbfe",
+    strong: "#93c5fd",
   },
   focus: {
     ring: "rgba(59, 130, 246, 0.45)",
@@ -151,7 +167,15 @@ export const greenOverrideSimantrix: RoleOverride = {
     "link-hover": "#059669",
   },
   border: {
+    default: "#a7f3d0",
+    muted: "#ecfdf5",
+    strong: "#6ee7b7",
     focus: "#10b981",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#a7f3d0",
+    strong: "#6ee7b7",
   },
   focus: {
     ring: "rgba(16, 185, 129, 0.45)",
@@ -203,7 +227,15 @@ export const violetOverrideSimantrix: RoleOverride = {
     "link-hover": "#4f46e5",
   },
   border: {
+    default: "#c7d2fe",
+    muted: "#eef2ff",
+    strong: "#a5b4fc",
     focus: "#6366f1",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#c7d2fe",
+    strong: "#a5b4fc",
   },
   focus: {
     ring: "rgba(99, 102, 241, 0.45)",
@@ -255,7 +287,15 @@ export const amberOverrideSimantrix: RoleOverride = {
     "link-hover": "#d97706",
   },
   border: {
+    default: "#fde68a",
+    muted: "#fffbeb",
+    strong: "#fcd34d",
     focus: "#f59e0b",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#fde68a",
+    strong: "#fcd34d",
   },
   focus: {
     ring: "rgba(245, 158, 11, 0.45)",
@@ -307,7 +347,15 @@ export const cyanOverrideSimantrix: RoleOverride = {
     "link-hover": "#0284c7",
   },
   border: {
+    default: "#bae6fd",
+    muted: "#f0f9ff",
+    strong: "#7dd3fc",
     focus: "#0ea5e9",
+    error: "#ef4444",
+  },
+  divider: {
+    default: "#bae6fd",
+    strong: "#7dd3fc",
   },
   focus: {
     ring: "rgba(14, 165, 233, 0.45)",
@@ -328,5 +376,17 @@ export const cyanOverrideSimantrix: RoleOverride = {
 export const cyanOverride: RoleOverride = cyanOverrideSimantrix;
 
 // ── 7. Simantrix Signature Default (#7c5cff) ──────────────────────────────
-export const simantrixDefaultOverride: RoleOverride = {};
+export const simantrixDefaultOverride: RoleOverride = {
+  border: {
+    default: "#e5e2f6",
+    muted: "#f0edff",
+    strong: "#c9c4eb",
+    focus: "#7c5cff",
+    error: "#f2543d",
+  },
+  divider: {
+    default: "#e5e2f6",
+    strong: "#c9c4eb",
+  },
+};
 export const simantrixOverride: RoleOverride = simantrixDefaultOverride;

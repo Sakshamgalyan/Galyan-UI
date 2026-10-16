@@ -1,4 +1,4 @@
-﻿/* ── DatePicker & MonthPicker Component ───────────────────────────────────── */
+/* ── DatePicker & MonthPicker Component ───────────────────────────────────── */
 .gy-datepicker,
 .gy-monthpicker {
   position: relative;
@@ -124,7 +124,7 @@
   z-index: var(--gy-z-popover, 10050);
   background: var(--gy-surface, #ffffff);
   border: 1px solid var(--gy-border, #cbd5e1);
-  border-radius: var(--gy-radius-2xl, 1rem);
+  border-radius: var(--gy-radius-popover, var(--gy-radius-xl, 0.75rem));
   box-shadow:
     0 12px 28px -4px rgba(0, 0, 0, 0.14),
     0 8px 10px -4px rgba(0, 0, 0, 0.06);
@@ -381,8 +381,8 @@
 .gy-monthpicker-popover {
   z-index: var(--gy-z-popover, 10050);
   background: var(--gy-surface, #ffffff);
-  border: 1px solid var(--gy-border, #e2e8f0);
-  border-radius: var(--gy-radius-2xl, 1.25rem);
+  border: 1px solid var(--gy-border, #cbd5e1);
+  border-radius: var(--gy-radius-popover, var(--gy-radius-xl, 0.75rem));
   box-shadow:
     0 10px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.05);

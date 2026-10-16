@@ -38,14 +38,14 @@
 
 .gy-input-group__addon--left {
   border-right: none;
-  border-top-left-radius: var(--gy-radius-lg, 0.5rem);
-  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem);
+  border-top-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem));
+  border-bottom-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem));
 }
 
 .gy-input-group__addon--right {
   border-left: none;
-  border-top-right-radius: var(--gy-radius-lg, 0.5rem);
-  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem);
+  border-top-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem));
+  border-bottom-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem));
 }
 
 /* ── Seamless Dropdown inside Addon ───────────────────────────────────────── */
@@ -73,8 +73,8 @@
   .gy-dropdown-trigger {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  border-top-left-radius: var(--gy-radius-lg, 0.5rem) !important;
-  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-top-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
+  border-bottom-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
   border-right: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
 }
@@ -83,8 +83,8 @@
   .gy-dropdown-trigger {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-  border-top-right-radius: var(--gy-radius-lg, 0.5rem) !important;
-  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-top-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
+  border-bottom-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
   border-left: 1px solid var(--gy-border, #cbd5e1) !important;
   height: 100% !important;
 }
@@ -143,8 +143,8 @@
 .gy-input-group__addon--left:has(button) button {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  border-top-left-radius: var(--gy-radius-lg, 0.5rem) !important;
-  border-bottom-left-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-top-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
+  border-bottom-left-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
 }
 
 /* Right button addon */
@@ -153,8 +153,8 @@
 .gy-input-group__addon--right:has(button) button {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-  border-top-right-radius: var(--gy-radius-lg, 0.5rem) !important;
-  border-bottom-right-radius: var(--gy-radius-lg, 0.5rem) !important;
+  border-top-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
+  border-bottom-right-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem)) !important;
 }
 
 /* ── Control Area ────────────────────────────────────────────────────────── */
