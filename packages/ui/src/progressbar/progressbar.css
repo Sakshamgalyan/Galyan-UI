@@ -93,7 +93,10 @@
   background-color: var(--gy-purple, #8b5cf6);
 }
 .gy-progress__bar--gradient {
-  background: linear-gradient(90deg, #6366f1 0%, #ec4899 50%, #f43f5e 100%);
+  background: var(
+    --gy-gradient-primary,
+    linear-gradient(90deg, var(--gy-primary) 0%, color-mix(in srgb, var(--gy-primary) 60%, #ec4899) 100%)
+  );
 }
 
 /* ── Indeterminate / Loading State (Linear) ─────────────────────────────── */
@@ -208,7 +211,7 @@
 .gy-progress__bar--indeterminate-1.gy-progress__bar--primary,
 .gy-progress__bar--indeterminate-2.gy-progress__bar--primary,
 .gy-progress__bar--indeterminate.gy-progress__bar--primary {
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--gy-primary) 45%, transparent);
 }
 
 .gy-progress__bar--indeterminate-1.gy-progress__bar--success,
@@ -238,7 +241,7 @@
 .gy-progress__bar--indeterminate-1.gy-progress__bar--indigo,
 .gy-progress__bar--indeterminate-2.gy-progress__bar--indigo,
 .gy-progress__bar--indeterminate.gy-progress__bar--indigo {
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--gy-primary) 45%, transparent);
 }
 
 .gy-progress__bar--indeterminate-1.gy-progress__bar--purple,

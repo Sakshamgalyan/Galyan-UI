@@ -1,6 +1,6 @@
 /* ── Skeleton Component ─────────────────────────────────────────────────── */
 .gy-skeleton {
-  background: var(--gy-skeleton-base, #e2e8f0);
+  background-color: var(--gy-skeleton-base, #f1f5f9);
   position: relative;
   overflow: hidden;
   display: block;
@@ -11,22 +11,39 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
-    transparent 100%
+  background: var(
+    --gy-skeleton-shimmer,
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
+    )
   );
   animation: gy-skeleton-shimmer 1.6s ease-in-out infinite;
 }
 
+[data-color-mode="dark"] .gy-skeleton,
+.gy-dark .gy-skeleton,
+[data-theme="dark"] .gy-skeleton,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-skeleton,
+.dark .gy-skeleton {
+  background-color: var(--gy-skeleton-base, #1e293b);
+}
+
 [data-color-mode="dark"] .gy-skeleton::after,
-.gy-dark .gy-skeleton::after {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 100%
+.gy-dark .gy-skeleton::after,
+[data-theme="dark"] .gy-skeleton::after,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-skeleton::after,
+.dark .gy-skeleton::after {
+  background: var(
+    --gy-skeleton-shimmer,
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 100%
+    )
   );
 }
 

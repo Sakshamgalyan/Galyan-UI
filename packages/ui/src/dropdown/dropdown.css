@@ -52,12 +52,37 @@
 }
 
 .gy-dropdown-trigger--disabled {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed !important;
-  background: var(--gy-background-muted, #f8fafc);
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
+}
+.gy-dropdown-trigger--disabled:hover {
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
 }
 .gy-dropdown-trigger--disabled * {
   cursor: not-allowed !important;
+  color: var(--gy-text-disabled, #94a3b8) !important;
+}
+
+.gy-dark .gy-dropdown-trigger--disabled,
+[data-color-mode="dark"] .gy-dropdown-trigger--disabled,
+[data-theme="dark"] .gy-dropdown-trigger--disabled,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--disabled,
+.dark .gy-dropdown-trigger--disabled {
+  background: var(--gy-disabled-bg, #13131f) !important;
+  border-color: var(--gy-disabled-border, #1c1c2b) !important;
+}
+
+.gy-dark .gy-dropdown-trigger--disabled *,
+[data-color-mode="dark"] .gy-dropdown-trigger--disabled *,
+[data-theme="dark"] .gy-dropdown-trigger--disabled *,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--disabled *,
+.dark .gy-dropdown-trigger--disabled * {
+  color: var(--gy-text-disabled, #64748b) !important;
 }
 
 /* Filled Variant */
@@ -283,16 +308,16 @@
 
 .gy-dropdown-search {
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--gy-border, #e2e8f0);
-  background: var(--gy-surface, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--gy-primary) 15%, var(--gy-border, #e2e8f0));
+  background: color-mix(in srgb, var(--gy-primary) 4%, var(--gy-surface, #ffffff));
   flex-shrink: 0;
 }
 .gy-dropdown-search-input {
   width: 100%;
   padding: 0.375rem 0.625rem;
-  background: var(--gy-background-muted, #f8fafc);
+  background: var(--gy-surface, #ffffff);
   color: var(--gy-text, #0f172a);
-  border: 1px solid var(--gy-border, #cbd5e1);
+  border: 1px solid color-mix(in srgb, var(--gy-primary) 20%, var(--gy-border, #cbd5e1));
   border-radius: var(--gy-radius-control, var(--gy-radius-md, 0.375rem));
   font-size: 0.875rem;
   outline: none;
@@ -301,9 +326,9 @@
   transition: all 0.15s ease;
 }
 .gy-dropdown-search-input:focus {
-  border-color: var(--gy-primary, #6366f1);
-  box-shadow: 0 0 0 2px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
+  border-color: var(--gy-primary);
+  box-shadow: 0 0 0 2.5px
+    color-mix(in srgb, var(--gy-primary) 22%, transparent);
 }
 .gy-dropdown-search-input::placeholder {
   color: var(--gy-text-subtle, #94a3b8);
@@ -332,7 +357,7 @@
   transition: color 0.15s ease;
 }
 .gy-dropdown-select-all:hover .gy-dropdown-select-all-label {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-dropdown-group + .gy-dropdown-group {
@@ -553,12 +578,8 @@
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading),
 .dark
   .gy-dropdown-trigger:hover:not(:disabled):not(.gy-dropdown-trigger--loading) {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 12%,
-    var(--gy-surface, #1e293b)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #1e293b);
 }
 
 .gy-dark .gy-dropdown-trigger--open,
@@ -566,12 +587,8 @@
 [data-theme="dark"] .gy-dropdown-trigger--open,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-trigger--open,
 .dark .gy-dropdown-trigger--open {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 15%,
-    var(--gy-surface, #1e293b)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #1e293b);
 }
 
 .gy-dark .gy-dropdown-trigger--filled,
@@ -605,10 +622,10 @@
   ) {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 18%,
+    var(--gy-primary) 18%,
     var(--gy-surface-raised, #1e293b)
   );
-  border-color: var(--gy-primary, #6366f1);
+  border-color: var(--gy-primary);
 }
 
 .gy-dark .gy-dropdown-tag,
@@ -648,8 +665,8 @@
 [data-theme="dark"] .gy-dropdown-search,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-search,
 .dark .gy-dropdown-search {
-  background: var(--gy-surface-raised, #1e293b);
-  border-color: var(--gy-border, #334155);
+  background: color-mix(in srgb, var(--gy-primary) 6%, var(--gy-surface-raised, #1e293b));
+  border-color: color-mix(in srgb, var(--gy-primary) 20%, var(--gy-border, #334155));
   padding: 0.5rem 0.75rem;
 }
 
@@ -671,9 +688,9 @@
 [data-theme="dark"] .gy-dropdown-search-input:focus,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-search-input:focus,
 .dark .gy-dropdown-search-input:focus {
-  border-color: var(--gy-primary, #6366f1) !important;
+  border-color: var(--gy-primary) !important;
   box-shadow: 0 0 0 2px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
+    color-mix(in srgb, var(--gy-primary) 25%, transparent) !important;
 }
 
 .gy-dark .gy-dropdown-select-all,
@@ -705,7 +722,7 @@
 [data-theme="dark"] .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-select-all:hover .gy-dropdown-select-all-label,
 .dark .gy-dropdown-select-all:hover .gy-dropdown-select-all-label {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-dark .gy-dropdown-group-header,
@@ -742,7 +759,7 @@
 .dark .gy-dropdown-option:hover:not(.gy-dropdown-option--disabled) {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 12%,
+    var(--gy-primary) 12%,
     var(--gy-surface-raised, #1e293b)
   );
 }
@@ -754,7 +771,7 @@
 .dark .gy-dropdown-option--selected {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 18%,
+    var(--gy-primary) 18%,
     var(--gy-surface-raised, #1e293b)
   ) !important;
   color: var(--gy-text, #f8fafc) !important;
@@ -773,8 +790,8 @@
 [data-theme="dark"] .gy-dropdown-option:hover .gy-checkbox__box,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-dropdown-option:hover .gy-checkbox__box,
 .dark .gy-dropdown-option:hover .gy-checkbox__box {
-  border-color: var(--gy-primary, #6366f1);
-  background-color: color-mix(in srgb, var(--gy-primary, #6366f1) 15%, transparent);
+  border-color: var(--gy-primary);
+  background-color: color-mix(in srgb, var(--gy-primary) 15%, transparent);
 }
 
 /* ── Glassmorphic Dropdown ─────────────────────────────────────────────────── */

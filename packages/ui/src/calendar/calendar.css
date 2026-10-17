@@ -57,8 +57,8 @@
 }
 
 .gy-month-calendar .gy-calendar-nav:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 10%, transparent);
-  color: var(--gy-primary, #6366f1);
+  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
+  color: var(--gy-primary);
 }
 
 .gy-month-calendar .gy-calendar-nav:active:not(:disabled) {
@@ -79,8 +79,8 @@
 }
 
 .gy-month-calendar .gy-calendar-title:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 8%, transparent);
-  color: var(--gy-primary, #6366f1);
+  background: color-mix(in srgb, var(--gy-primary) 8%, transparent);
+  color: var(--gy-primary);
 }
 
 /* Sizing variations for MonthCalendar (height only) */
@@ -129,13 +129,13 @@
 }
 
 .gy-calendar-title:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 10%, transparent);
-  color: var(--gy-primary, #6366f1);
+  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
+  color: var(--gy-primary);
 }
 
 .gy-calendar-title:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--gy-focus-ring, rgba(99, 102, 241, 0.4));
+  box-shadow: 0 0 0 2px var(--gy-focus-ring, color-mix(in srgb, var(--gy-primary) 40%, transparent));
 }
 
 .gy-calendar-nav {
@@ -155,12 +155,12 @@
 
 .gy-calendar-nav:hover {
   background: transparent !important;
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-calendar-nav:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--gy-focus-ring, rgba(99, 102, 241, 0.4));
+  box-shadow: 0 0 0 2px var(--gy-focus-ring, color-mix(in srgb, var(--gy-primary) 40%, transparent));
 }
 
 /* ── Grid ───────────────────────────────────────────────────────────────── */
@@ -228,10 +228,10 @@
   ) {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 12%,
+    var(--gy-primary) 12%,
     transparent
   );
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-calendar-day--outside:not(.gy-calendar-day--selected):not(
@@ -258,7 +258,7 @@
     .gy-calendar-day--range-in
   ):not(.gy-calendar-day--range-start):not(.gy-calendar-day--range-end)
   .gy-calendar-day__inner {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
   font-weight: 700;
 }
 .gy-calendar-day--today:not(.gy-calendar-day--selected):not(
@@ -270,8 +270,8 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--gy-primary, #6366f1);
-  box-shadow: 0 0 6px var(--gy-primary, #6366f1);
+  background: var(--gy-primary);
+  box-shadow: 0 0 6px var(--gy-primary);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -282,8 +282,8 @@
 .gy-calendar-day--selected:not(.gy-calendar-day--range-start):not(
     .gy-calendar-day--range-end
   ) {
-  background-color: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
+  background-color: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
   border-radius: 50% !important;
   aspect-ratio: 1 !important;
   width: 2.125rem !important;
@@ -291,7 +291,7 @@
   margin: 0 auto !important;
   font-weight: 600;
   box-shadow: 0 3px 10px -2px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent);
+    color-mix(in srgb, var(--gy-primary) 50%, transparent);
 }
 
 /* Range Start Day: Solid primary with rounded left cap */
@@ -299,8 +299,8 @@
   width: 100% !important;
   margin: 0 !important;
   aspect-ratio: auto !important;
-  background-color: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
+  background-color: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
   border-top-left-radius: var(--gy-radius-full, 9999px) !important;
   border-bottom-left-radius: var(--gy-radius-full, 9999px) !important;
   border-top-right-radius: 0 !important;
@@ -308,7 +308,7 @@
   font-weight: 600;
   z-index: 2;
   box-shadow: -2px 2px 8px -1px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+    color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 /* Middle In-Range Days: Tinted primary connecting ribbon */
@@ -318,7 +318,7 @@
   aspect-ratio: auto !important;
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 16%,
+    var(--gy-primary) 16%,
     var(--gy-surface, #ffffff)
   ) !important;
   color: var(--gy-text, #0f172a) !important;
@@ -330,7 +330,7 @@
 .gy-calendar-day--range-in:hover {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 24%,
+    var(--gy-primary) 24%,
     var(--gy-surface, #ffffff)
   ) !important;
 }
@@ -340,8 +340,8 @@
   width: 100% !important;
   margin: 0 !important;
   aspect-ratio: auto !important;
-  background-color: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
+  background-color: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
   border-top-right-radius: var(--gy-radius-full, 9999px) !important;
   border-bottom-right-radius: var(--gy-radius-full, 9999px) !important;
   border-top-left-radius: 0 !important;
@@ -349,7 +349,7 @@
   font-weight: 600;
   z-index: 2;
   box-shadow: 2px 2px 8px -1px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+    color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 /* Row Start in range: round left cap */
@@ -413,26 +413,26 @@
 .gy-calendar-picker-item:hover:not(:disabled):not(
     .gy-calendar-picker-item--disabled
   ):not(.gy-calendar-picker-item--selected) {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 8%, transparent);
-  color: var(--gy-primary, #6366f1);
+  background: color-mix(in srgb, var(--gy-primary) 8%, transparent);
+  color: var(--gy-primary);
   border-color: transparent;
 }
 
 /* Selected month: solid primary background with rounded corners (matches 'Jul' in screenshot) */
 .gy-calendar-picker-item--selected {
-  background: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
+  background: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
   border-color: transparent !important;
   font-weight: 600;
   box-shadow: 0 3px 10px -2px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+    color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 /* Current month: thin primary outline with transparent background (matches 'Sep' in screenshot) */
 .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
   background: transparent !important;
-  border-color: var(--gy-primary, #6366f1) !important;
-  color: var(--gy-primary, #6366f1) !important;
+  border-color: var(--gy-primary) !important;
+  color: var(--gy-primary) !important;
   font-weight: 600;
 }
 
@@ -441,7 +441,7 @@
   ):hover {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 8%,
+    var(--gy-primary) 8%,
     transparent
   ) !important;
 }
@@ -470,10 +470,10 @@
   padding: 0.3125rem 0.875rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gy-primary, #6366f1);
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 10%, transparent);
+  color: var(--gy-primary);
+  background: color-mix(in srgb, var(--gy-primary) 10%, transparent);
   border: 1px solid
-    color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
+    color-mix(in srgb, var(--gy-primary) 20%, transparent);
   border-radius: var(--gy-radius-full, 9999px);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -481,11 +481,11 @@
 }
 
 .gy-calendar-today-btn:hover {
-  background: var(--gy-primary, #6366f1);
-  color: #ffffff;
-  border-color: var(--gy-primary, #6366f1);
+  background: var(--gy-primary);
+  color: var(--gy-primary-fg, #ffffff);
+  border-color: var(--gy-primary);
   box-shadow: 0 2px 8px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent);
+    color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -642,7 +642,7 @@
 .gy-calendar--dark .gy-calendar-day--range-in {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 22%,
+    var(--gy-primary) 22%,
     #1e293b
   ) !important;
   color: #f8fafc !important;
@@ -654,7 +654,7 @@
 .gy-calendar--dark .gy-calendar-day--range-in:hover {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 32%,
+    var(--gy-primary) 32%,
     #1e293b
   ) !important;
 }
@@ -750,12 +750,12 @@
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected,
 [data-brand="simantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected,
 .gy-calendar--dark .gy-calendar-picker-item--selected {
-  background: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
+  background: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
   border-color: transparent !important;
   font-weight: 600;
   box-shadow:
-    0 4px 14px -1px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent),
+    0 4px 14px -1px color-mix(in srgb, var(--gy-primary) 50%, transparent),
     0 1px 3px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
   transform: translateY(-1px);
@@ -768,9 +768,9 @@
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected:hover,
 [data-brand="simantrix"]:not([data-color-mode="light"]) .gy-calendar-picker-item--selected:hover,
 .gy-calendar--dark .gy-calendar-picker-item--selected:hover {
-  background: var(--gy-primary-hover, var(--gy-primary, #6366f1)) !important;
+  background: var(--gy-primary-hover, var(--gy-primary)) !important;
   box-shadow:
-    0 6px 18px -1px color-mix(in srgb, var(--gy-primary, #6366f1) 60%, transparent),
+    0 6px 18px -1px color-mix(in srgb, var(--gy-primary) 60%, transparent),
     0 2px 4px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
@@ -790,17 +790,17 @@
   .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected) {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 14%,
+    var(--gy-primary) 14%,
     rgba(255, 255, 255, 0.03)
   ) !important;
   border: 1.5px solid color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 50%,
+    var(--gy-primary) 50%,
     transparent
   ) !important;
-  color: var(--gy-primary-muted, #cabbff) !important;
+  color: var(--gy-primary) !important;
   font-weight: 600;
-  box-shadow: inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary, #6366f1) 12%, transparent);
+  box-shadow: inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary) 12%, transparent);
 }
 
 [data-theme="dark"]
@@ -819,15 +819,15 @@
   .gy-calendar-picker-item--current:not(.gy-calendar-picker-item--selected):hover {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 24%,
+    var(--gy-primary) 24%,
     rgba(255, 255, 255, 0.06)
   ) !important;
-  border-color: var(--gy-primary, #6366f1) !important;
+  border-color: var(--gy-primary) !important;
   color: #ffffff !important;
   transform: translateY(-1px);
   box-shadow:
-    0 4px 12px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 30%, transparent),
-    inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary, #6366f1) 18%, transparent);
+    0 4px 12px -2px color-mix(in srgb, var(--gy-primary) 30%, transparent),
+    inset 0 0 10px 0 color-mix(in srgb, var(--gy-primary) 18%, transparent);
 }
 
 /* Disabled month / year items in dark mode */
@@ -881,15 +881,15 @@
   font-weight: 500;
   padding: 0.375rem 1rem;
   border-radius: var(--gy-radius-full, 9999px);
-  color: var(--gy-primary-muted, #cabbff);
+  color: var(--gy-primary);
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 14%,
+    var(--gy-primary) 14%,
     rgba(255, 255, 255, 0.03)
   );
   border: 1px solid color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 32%,
+    var(--gy-primary) 32%,
     rgba(255, 255, 255, 0.08)
   );
   cursor: pointer;
@@ -904,11 +904,11 @@
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:hover,
 [data-brand="simantrix"]:not([data-color-mode="light"]) .gy-calendar-today-btn:hover,
 .gy-calendar--dark .gy-calendar-today-btn:hover {
-  background: var(--gy-primary, #6366f1);
-  border-color: var(--gy-primary, #6366f1);
-  color: #ffffff;
+  background: var(--gy-primary);
+  border-color: var(--gy-primary);
+  color: var(--gy-primary-fg, #ffffff);
   box-shadow:
-    0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 50%, transparent),
+    0 4px 14px -2px color-mix(in srgb, var(--gy-primary) 50%, transparent),
     0 2px 4px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
 }
@@ -1010,7 +1010,7 @@
 .gy-calendar--glassmorphic .gy-calendar-nav:hover,
 .gy-calendar--glass .gy-calendar-nav:hover {
   background: transparent !important;
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-calendar--glassmorphic

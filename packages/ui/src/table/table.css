@@ -7,7 +7,7 @@
   width: 100%;
   min-width: 0;
   border-radius: var(--gy-radius-xl, 0.75rem);
-  border: 1px solid var(--gy-border, #e2e8f0);
+  border: 1px solid color-mix(in srgb, var(--gy-primary) 18%, var(--gy-border, #e2e8f0));
   background: var(--gy-surface, #ffffff);
   transition: border-color 0.2s ease;
   box-sizing: border-box;
@@ -113,7 +113,11 @@
 
 /* ── Header ──────────────────────────────────────────────────────────────── */
 .gy-table-header {
-  background: var(--gy-background-subtle, #f8fafc);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 5%,
+    var(--gy-surface, #ffffff)
+  );
 }
 
 .gy-table-header--sticky th {
@@ -126,14 +130,26 @@
 .gy-table-th {
   padding: 0.75rem 1rem;
   font-weight: 600;
-  color: var(--gy-text-muted, #64748b);
+  color: color-mix(
+    in srgb,
+    var(--gy-primary) 45%,
+    var(--gy-text-muted, #64748b)
+  );
   white-space: nowrap;
   letter-spacing: 0.04em;
   font-size: 0.75rem;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  border-bottom: 1px solid color-mix(
+    in srgb,
+    var(--gy-primary) 18%,
+    var(--gy-border, #e2e8f0)
+  );
   user-select: none;
-  background: var(--gy-background-subtle, #f8fafc);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 5%,
+    var(--gy-surface, #ffffff)
+  );
   box-sizing: border-box;
 }
 
@@ -145,8 +161,12 @@
 }
 
 .gy-table-th--sortable:hover {
-  color: var(--gy-text, #0f172a);
-  background: var(--gy-background-muted, #f1f5f9);
+  color: var(--gy-primary);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 10%,
+    var(--gy-surface, #ffffff)
+  );
 }
 
 .gy-table-th-inner {
@@ -174,7 +194,11 @@
   --gy-table-cell-py: 0.75rem;
   --gy-table-cell-px: 1rem;
   padding: var(--gy-table-cell-py) var(--gy-table-cell-px);
-  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  border-bottom: 1px solid color-mix(
+    in srgb,
+    var(--gy-primary) 10%,
+    var(--gy-border, #e2e8f0)
+  );
   vertical-align: middle;
   transition: background-color 0.15s ease;
   color: var(--gy-text, #0f172a);

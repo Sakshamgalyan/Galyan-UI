@@ -131,7 +131,7 @@ export const simantrixLightBrand = {
     raised: "#ffffff",
     overlay: "#ffffff",
     sunken: "#f9f8ff",
-    disabled: "#f0edff",
+    disabled: "#f1f5f9",
     muted: "#f0edff",
     hover: "#f9f8ff",
   },
@@ -140,7 +140,7 @@ export const simantrixLightBrand = {
     default: "#0a0a14",
     muted: "#55556d",
     subtle: "#7b7b99",
-    disabled: "#a8a8c0",
+    disabled: "#94a3b8",
     inverse: "#ffffff",
     link: "#7c5cff",
     "link-hover": "#6438f0",
@@ -165,14 +165,15 @@ export const simantrixLightBrand = {
   },
 
   disabled: {
-    background: "#f0edff",
-    text: "#a8a8c0",
-    border: "#e5e2f6",
+    background: "#f1f5f9",
+    text: "#94a3b8",
+    border: "#e2e8f0",
   },
 
   skeleton: {
-    base: "#f0edff",
-    shimmer: "#e5e2f6",
+    base: "#f1f5f9",
+    shimmer:
+      "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%)",
   },
 
   brand: {

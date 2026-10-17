@@ -23,9 +23,9 @@
   align-items: center;
   justify-content: center;
   padding: 0 0.875rem;
-  background: var(--gy-background-muted, #f8fafc);
-  border: 1px solid var(--gy-border, #cbd5e1);
-  color: var(--gy-text-muted, #64748b);
+  background: color-mix(in srgb, var(--gy-primary) 5%, var(--gy-surface, #f8fafc));
+  border: 1px solid color-mix(in srgb, var(--gy-primary) 18%, var(--gy-border, #cbd5e1));
+  color: color-mix(in srgb, var(--gy-primary) 50%, var(--gy-text-muted, #64748b));
   font-size: var(--gy-font-size-sm, 0.875rem);
   white-space: nowrap;
   box-sizing: border-box;

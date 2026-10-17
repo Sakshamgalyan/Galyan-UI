@@ -35,12 +35,8 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ) {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 6%,
-    var(--gy-surface, #ffffff)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #ffffff);
 }
 
 /* Hover: icon color transition */
@@ -51,25 +47,21 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled)
   .gy-timepicker-right-addons
   svg {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
   transition: color 0.15s ease;
 }
 
 /* Open / Active focus ring matching dropdown (3px glow ring) */
 .gy-timepicker-trigger--open .gy-input-wrapper:not(.gy-input-wrapper--error),
 .gy-timepicker .gy-input-wrapper--focused {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 8%,
-    var(--gy-surface, #ffffff)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #ffffff);
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
+    color-mix(in srgb, var(--gy-primary) 20%, transparent);
 }
 
 .gy-timepicker-trigger--open .gy-timepicker-right-addons svg {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-timepicker-trigger.gy-timepicker-trigger--disabled {
@@ -145,7 +137,7 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.375rem 0.5rem;
-  border-bottom: 1px solid var(--gy-border, #f1f5f9);
+  border-bottom: 1px solid var(--gy-divider, var(--gy-border, #f1f5f9));
   overflow-x: auto;
   scrollbar-width: none;
   background: var(--gy-background-muted, #f8fafc);
@@ -167,18 +159,19 @@
   transition: all 0.15s ease;
 }
 .gy-timepicker-preset-btn:hover {
-  border-color: var(--gy-primary, #6366f1);
-  color: var(--gy-primary, #6366f1);
+  border-color: var(--gy-primary);
+  color: var(--gy-primary);
   background: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 8%,
+    var(--gy-primary) 10%,
     var(--gy-surface, #ffffff)
   );
 }
 .gy-timepicker-preset-btn--active {
-  background: var(--gy-primary, #6366f1);
-  color: #ffffff;
-  border-color: var(--gy-primary, #6366f1);
+  background: var(--gy-primary);
+  color: var(--gy-primary-fg, #ffffff);
+  border-color: var(--gy-primary);
+  box-shadow: 0 2px 6px -1px color-mix(in srgb, var(--gy-primary) 35%, transparent);
 }
 
 /* ── Header Display ── */
@@ -186,11 +179,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.375rem 0.75rem;
-  border-bottom: 1px solid var(--gy-border, #e2e8f0);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--gy-divider, var(--gy-border, #e2e8f0));
   background: var(--gy-surface, #ffffff);
   font-size: 0.9375rem;
-  font-weight: normal;
+  font-weight: 700;
   color: var(--gy-text, #0f172a);
   letter-spacing: 0.02em;
 }
@@ -203,21 +196,21 @@
 /* ── Column Headers Row (Fixed above scrollable lists) ── */
 .gy-timepicker-column-headers {
   display: flex;
-  background: var(--gy-surface, #ffffff);
-  border-bottom: 1px solid var(--gy-border, #f1f5f9);
+  background: var(--gy-background-subtle, var(--gy-surface, #ffffff));
+  border-bottom: 1px solid var(--gy-divider, var(--gy-border, #f1f5f9));
 }
 
 .gy-timepicker-column-head {
   flex: 1;
   min-width: 48px;
   font-size: 0.625rem;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--gy-text-subtle, #94a3b8);
+  color: var(--gy-primary);
   text-align: center;
-  padding: 0.25rem 0.125rem;
-  letter-spacing: 0.06em;
-  border-right: 1px solid var(--gy-border, #f1f5f9);
+  padding: 0.3125rem 0.125rem;
+  letter-spacing: 0.08em;
+  border-right: 1px solid var(--gy-divider, var(--gy-border, #f1f5f9));
   user-select: none;
 }
 .gy-timepicker-column-head:first-child {
@@ -245,7 +238,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.25rem 0.125rem;
-  border-right: 1px solid var(--gy-border, #f1f5f9);
+  border-right: 1px solid var(--gy-divider, var(--gy-border, #f1f5f9));
   scroll-behavior: smooth;
   gap: 1px;
 }
@@ -293,15 +286,20 @@
 .gy-timepicker-item:hover:not(.gy-timepicker-item--disabled):not(
     .gy-timepicker-item--selected
   ) {
-  background: var(--gy-background-muted, #f1f5f9);
-  color: var(--gy-text, #0f172a);
+  background: color-mix(
+    in srgb,
+    var(--gy-primary) 10%,
+    var(--gy-surface, #ffffff)
+  );
+  color: var(--gy-primary);
 }
 
 .gy-timepicker-item--selected {
-  background: var(--gy-primary, #6366f1) !important;
-  color: #ffffff !important;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background: var(--gy-primary) !important;
+  color: var(--gy-primary-fg, #ffffff) !important;
+  font-weight: 600;
+  border-radius: var(--gy-radius-md, 0.375rem);
+  box-shadow: 0 2px 6px -1px color-mix(in srgb, var(--gy-primary) 40%, transparent);
 }
 
 .gy-timepicker-item--disabled {
@@ -316,7 +314,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.375rem 0.5rem;
-  border-top: 1px solid var(--gy-border, #e2e8f0);
+  border-top: 1px solid var(--gy-divider, var(--gy-border, #e2e8f0));
   background: var(--gy-background-muted, #f8fafc);
   gap: 0.375rem;
 }
@@ -445,8 +443,8 @@
 .dark .gy-timepicker--glassmorphic .gy-timepicker-trigger--open .gy-input-wrapper,
 .dark .gy-timepicker--glass .gy-timepicker-trigger--open .gy-input-wrapper {
   background: rgba(30, 41, 59, 0.85) !important;
-  border-color: var(--gy-primary, #6366f1) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
+  border-color: var(--gy-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gy-primary) 25%, transparent) !important;
 }
 
 /* Glassmorphic Popover - Dark Mode */
@@ -555,8 +553,8 @@
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover,
 .dark .gy-timepicker-popover--glassmorphic .gy-timepicker-preset-btn:hover,
 .dark .gy-timepicker-popover--glass .gy-timepicker-preset-btn:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent) !important;
-  border-color: var(--gy-primary, #6366f1) !important;
+  background: color-mix(in srgb, var(--gy-primary) 25%, transparent) !important;
+  border-color: var(--gy-primary) !important;
   color: #ffffff !important;
 }
 
@@ -625,12 +623,8 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--error):not(
     .gy-input-wrapper--disabled
   ) {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 12%,
-    var(--gy-surface, #1e293b)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #1e293b);
 }
 
 .gy-dark
@@ -678,7 +672,7 @@
   .gy-input-wrapper:hover:not(.gy-input-wrapper--disabled)
   .gy-timepicker-right-addons
   svg {
-  color: var(--gy-primary, #6366f1);
+  color: var(--gy-primary);
 }
 
 .gy-dark
@@ -701,14 +695,10 @@
 .dark .gy-timepicker .gy-input-wrapper--focused,
 [data-theme="dark"] .gy-timepicker .gy-input-wrapper--focused,
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-timepicker .gy-input-wrapper--focused {
-  border-color: var(--gy-primary, #6366f1);
-  background: color-mix(
-    in srgb,
-    var(--gy-primary, #6366f1) 14%,
-    var(--gy-surface, #1e293b)
-  );
+  border-color: var(--gy-primary);
+  background: var(--gy-surface, #1e293b);
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
+    color-mix(in srgb, var(--gy-primary) 25%, transparent);
 }
 
 .gy-dark .gy-timepicker-popover,
@@ -728,12 +718,17 @@
 .dark .gy-timepicker-columns,
 .gy-dark .gy-timepicker-column-headers,
 [data-color-mode="dark"] .gy-timepicker-column-headers,
-.dark .gy-timepicker-column-headers,
+.dark .gy-timepicker-column-headers {
+  background: var(--gy-surface, #1e293b);
+  color: var(--gy-text, #f8fafc);
+  border-color: var(--gy-border, #334155);
+}
+
 .gy-dark .gy-timepicker-column-head,
 [data-color-mode="dark"] .gy-timepicker-column-head,
 .dark .gy-timepicker-column-head {
   background: var(--gy-surface, #1e293b);
-  color: var(--gy-text, #f8fafc);
+  color: var(--gy-primary);
   border-color: var(--gy-border, #334155);
 }
 
@@ -772,6 +767,6 @@
 .gy-dark .gy-timepicker-preset-btn:hover,
 [data-color-mode="dark"] .gy-timepicker-preset-btn:hover,
 .dark .gy-timepicker-preset-btn:hover {
-  background: color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent);
+  background: color-mix(in srgb, var(--gy-primary) 20%, transparent);
   color: #ffffff;
 }

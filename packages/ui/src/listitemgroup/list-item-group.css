@@ -1,7 +1,10 @@
-﻿/* ── List Item Group Container ────────────────────────────────────────────── */
+/* ── List Item Group Container ────────────────────────────────────────────── */
 .gy-list-item-group {
-  --gy-list-item-accent: var(--gy-primary, #6d28d9);
-  --gy-list-item-selected-bg: rgba(124, 58, 237, 0.08);
+  --gy-list-item-accent: var(--gy-primary);
+  --gy-list-item-selected-bg: var(
+    --gy-primary-subtle,
+    color-mix(in srgb, var(--gy-list-item-accent, var(--gy-primary)) 10%, transparent)
+  );
 
   display: flex;
   flex-direction: column;
@@ -63,28 +66,48 @@
 
 /* Hover & Focus State */
 .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected) {
-  background-color: var(--gy-surface-hover, #f1f5f9);
+  background-color: color-mix(
+    in srgb,
+    var(--gy-list-item-accent, var(--gy-primary)) 6%,
+    var(--gy-surface, #ffffff)
+  );
+  color: var(--gy-text, #0f172a);
 }
 
 .gy-list-item:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--gy-primary, #6d28d9);
+  box-shadow: inset 0 0 0 2px var(--gy-list-item-accent, var(--gy-primary));
 }
 
 /* ── Selected State ──────────────────────────────────────────────────────── */
 .gy-list-item--selected {
-  background-color: var(--gy-list-item-selected-bg, #f5f3ff);
-  color: var(--gy-list-item-accent, #6d28d9);
+  background-color: var(
+    --gy-list-item-selected-bg,
+    color-mix(
+      in srgb,
+      var(--gy-list-item-accent, var(--gy-primary)) 10%,
+      transparent
+    )
+  );
+  color: var(--gy-list-item-accent, var(--gy-primary));
   font-weight: 600;
 }
 
-/* Variant: Left Accent Bar (Matches Screenshot) */
+.gy-list-item--selected:hover:not(.gy-list-item--disabled) {
+  background-color: color-mix(
+    in srgb,
+    var(--gy-list-item-accent, var(--gy-primary)) 14%,
+    transparent
+  );
+}
+
+/* Variant: Left Accent Bar */
 .gy-list-item-accent-bar {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   width: 3.5px;
-  background-color: var(--gy-list-item-accent, #6d28d9);
+  background-color: var(--gy-list-item-accent, var(--gy-primary));
   opacity: 0;
   transition: opacity 0.18s ease;
   pointer-events: none;
@@ -123,10 +146,10 @@
 }
 
 .gy-list-item--variant-outline.gy-list-item--selected {
-  border-color: var(--gy-list-item-accent, var(--gy-primary, #6d28d9));
+  border-color: var(--gy-list-item-accent, var(--gy-primary));
   background-color: color-mix(
     in srgb,
-    var(--gy-list-item-accent, var(--gy-primary, #6d28d9)) 12%,
+    var(--gy-list-item-accent, var(--gy-primary)) 10%,
     transparent
   );
 }
@@ -170,10 +193,11 @@
   margin-right: 0.625rem;
   color: var(--gy-text-muted, #64748b);
   flex-shrink: 0;
+  transition: color 0.15s ease;
 }
 
 .gy-list-item--selected .gy-list-item-icon {
-  color: var(--gy-list-item-accent, #6d28d9);
+  color: var(--gy-list-item-accent, var(--gy-primary));
 }
 
 /* ── Right Side Suffix / Dot Indicator Slot ──────────────────────────────── */
@@ -185,15 +209,19 @@
   margin-left: 0.75rem;
 }
 
-/* Circular Dot Indicator (Matching Screenshot) */
+/* Circular Dot Indicator */
 .gy-list-item-dot {
   width: 7.5px;
   height: 7.5px;
   border-radius: 50%;
-  background-color: var(--gy-list-item-accent, #6d28d9);
+  background-color: var(--gy-list-item-accent, var(--gy-primary));
   display: inline-block;
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.15);
+  box-shadow: 0 0 0 2px color-mix(
+    in srgb,
+    var(--gy-list-item-accent, var(--gy-primary)) 20%,
+    transparent
+  );
 }
 
 .gy-list-item-badge {
@@ -209,8 +237,12 @@
 }
 
 .gy-list-item--selected .gy-list-item-badge {
-  background-color: rgba(109, 40, 217, 0.15);
-  color: var(--gy-list-item-accent, #6d28d9);
+  background-color: color-mix(
+    in srgb,
+    var(--gy-list-item-accent, var(--gy-primary)) 16%,
+    transparent
+  );
+  color: var(--gy-list-item-accent, var(--gy-primary));
 }
 
 .gy-list-item-suffix {
@@ -224,22 +256,22 @@
 .gy-dark .gy-list-item-group,
 [data-color-mode="dark"] .gy-list-item-group,
 [data-theme="dark"] .gy-list-item-group,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-group,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-group,
 .dark .gy-list-item-group {
   background: var(--gy-surface-raised, #1e293b);
   border-color: var(--gy-border, #334155);
   --gy-list-item-selected-bg: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 18%,
+    var(--gy-list-item-accent, var(--gy-primary)) 18%,
     transparent
   );
-  --gy-list-item-accent: var(--gy-primary, #818cf8);
+  --gy-list-item-accent: var(--gy-primary);
 }
 
 .gy-dark .gy-list-item,
 [data-color-mode="dark"] .gy-list-item,
 [data-theme="dark"] .gy-list-item,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item,
 .dark .gy-list-item {
   color: var(--gy-text, #f8fafc);
 }
@@ -250,13 +282,13 @@
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
 [data-theme="dark"]
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
-[data-theme="simantrix"]:not([data-color-mode="light"])
+[data-theme^="simantrix"]:not([data-color-mode="light"])
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected),
 .dark
   .gy-list-item:hover:not(.gy-list-item--disabled):not(.gy-list-item--selected) {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 14%,
+    var(--gy-list-item-accent, var(--gy-primary)) 14%,
     rgba(255, 255, 255, 0.05)
   );
   color: #ffffff;
@@ -265,37 +297,45 @@
 .gy-dark .gy-list-item--selected,
 [data-color-mode="dark"] .gy-list-item--selected,
 [data-theme="dark"] .gy-list-item--selected,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item--selected,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item--selected,
 .dark .gy-list-item--selected {
   background-color: var(
     --gy-list-item-selected-bg,
-    color-mix(in srgb, var(--gy-primary, #6366f1) 18%, transparent)
+    color-mix(
+      in srgb,
+      var(--gy-list-item-accent, var(--gy-primary)) 18%,
+      transparent
+    )
   );
-  color: var(--gy-list-item-accent, #818cf8);
+  color: var(--gy-list-item-accent, var(--gy-primary));
 }
 
 .gy-dark .gy-list-item:focus-visible,
 [data-color-mode="dark"] .gy-list-item:focus-visible,
 [data-theme="dark"] .gy-list-item:focus-visible,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item:focus-visible,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item:focus-visible,
 .dark .gy-list-item:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--gy-primary, #6366f1);
+  box-shadow: inset 0 0 0 2px var(--gy-list-item-accent, var(--gy-primary));
 }
 
 .gy-dark .gy-list-item-dot,
 [data-color-mode="dark"] .gy-list-item-dot,
 [data-theme="dark"] .gy-list-item-dot,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-dot,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-dot,
 .dark .gy-list-item-dot {
-  background-color: var(--gy-list-item-accent, #818cf8);
+  background-color: var(--gy-list-item-accent, var(--gy-primary));
   box-shadow: 0 0 8px
-    color-mix(in srgb, var(--gy-list-item-accent, #818cf8) 50%, transparent);
+    color-mix(
+      in srgb,
+      var(--gy-list-item-accent, var(--gy-primary)) 50%,
+      transparent
+    );
 }
 
 .gy-dark .gy-list-item-badge,
 [data-color-mode="dark"] .gy-list-item-badge,
 [data-theme="dark"] .gy-list-item-badge,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-badge,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-badge,
 .dark .gy-list-item-badge {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--gy-text-muted, #94a3b8);
@@ -304,14 +344,14 @@
 .gy-dark .gy-list-item--selected .gy-list-item-badge,
 [data-color-mode="dark"] .gy-list-item--selected .gy-list-item-badge,
 [data-theme="dark"] .gy-list-item--selected .gy-list-item-badge,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item--selected .gy-list-item-badge,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item--selected .gy-list-item-badge,
 .dark .gy-list-item--selected .gy-list-item-badge {
   background-color: color-mix(
     in srgb,
-    var(--gy-primary, #6366f1) 25%,
+    var(--gy-primary) 25%,
     transparent
   );
-  color: var(--gy-list-item-accent, #818cf8);
+  color: var(--gy-list-item-accent, var(--gy-primary));
 }
 
 .gy-dark .gy-list-item-description,
@@ -323,9 +363,9 @@
 [data-theme="dark"] .gy-list-item-description,
 [data-theme="dark"] .gy-list-item-suffix,
 [data-theme="dark"] .gy-list-item-icon,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-description,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-suffix,
-[data-theme="simantrix"]:not([data-color-mode="light"]) .gy-list-item-icon,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-description,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-suffix,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-list-item-icon,
 .dark .gy-list-item-description,
 .dark .gy-list-item-suffix,
 .dark .gy-list-item-icon {

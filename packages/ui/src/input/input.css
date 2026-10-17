@@ -1,4 +1,4 @@
-/* ── Input Component ──────────────────────────────────────────────────────── */
+ /* ── Input Component ──────────────────────────────────────────────────────── */
 .gy-input-root {
   display: flex;
   flex-direction: column;
@@ -112,10 +112,73 @@
 
 /* ── Disabled State ── */
 .gy-input-wrapper--disabled {
-  background: var(--gy-disabled-bg, #f8fafc);
-  border-color: var(--gy-disabled-border, #e2e8f0);
-  cursor: not-allowed;
-  opacity: 0.6;
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.gy-input-wrapper--disabled:hover {
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
+}
+
+.gy-input-wrapper--disabled .gy-input,
+.gy-input:disabled {
+  cursor: not-allowed !important;
+  color: var(--gy-text-disabled, #94a3b8) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #94a3b8) !important;
+}
+
+.gy-input-wrapper--disabled .gy-input::placeholder,
+.gy-input:disabled::placeholder {
+  color: var(--gy-text-disabled, #94a3b8) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #94a3b8) !important;
+}
+
+.gy-input-wrapper--disabled .gy-input-addon {
+  color: var(--gy-text-disabled, #94a3b8) !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.gy-dark .gy-input-wrapper--disabled,
+[data-color-mode="dark"] .gy-input-wrapper--disabled,
+[data-theme="dark"] .gy-input-wrapper--disabled,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-input-wrapper--disabled,
+.dark .gy-input-wrapper--disabled {
+  background: var(--gy-disabled-bg, #13131f) !important;
+  border-color: var(--gy-disabled-border, #1c1c2b) !important;
+}
+
+.gy-dark .gy-input-wrapper--disabled .gy-input,
+.gy-dark .gy-input:disabled,
+[data-color-mode="dark"] .gy-input-wrapper--disabled .gy-input,
+[data-color-mode="dark"] .gy-input:disabled,
+[data-theme="dark"] .gy-input-wrapper--disabled .gy-input,
+[data-theme="dark"] .gy-input:disabled,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-input-wrapper--disabled .gy-input,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-input:disabled,
+.dark .gy-input-wrapper--disabled .gy-input,
+.dark .gy-input:disabled {
+  color: var(--gy-text-disabled, #64748b) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #64748b) !important;
+}
+
+.gy-dark .gy-input-wrapper--disabled .gy-input::placeholder,
+.gy-dark .gy-input:disabled::placeholder,
+[data-color-mode="dark"] .gy-input-wrapper--disabled .gy-input::placeholder,
+[data-color-mode="dark"] .gy-input:disabled::placeholder,
+[data-theme="dark"] .gy-input-wrapper--disabled .gy-input::placeholder,
+[data-theme="dark"] .gy-input:disabled::placeholder,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-input-wrapper--disabled .gy-input::placeholder,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-input:disabled::placeholder,
+.dark .gy-input-wrapper--disabled .gy-input::placeholder,
+.dark .gy-input:disabled::placeholder {
+  color: var(--gy-text-disabled, #64748b) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #64748b) !important;
 }
 
 /* ── Addon (Icons) ── */

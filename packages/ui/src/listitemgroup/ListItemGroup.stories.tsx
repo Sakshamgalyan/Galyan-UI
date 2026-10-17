@@ -223,3 +223,55 @@ export const WithIconsAndDescriptions: Story = {
     );
   },
 };
+
+export const ColorSchemes: Story = {
+  name: "Theme Roles & Color Schemes",
+  render: function Render() {
+    const [selected, setSelected] = useState<string>("status");
+
+    const schemes = [
+      { name: "Coral (Authority Rose)", role: "coral" as const },
+      { name: "Simantrix (Platform Violet)", role: "simantrix" as const },
+      { name: "Blue (Manager Cobalt)", role: "blue" as const },
+      { name: "Green (Active Emerald)", role: "green" as const },
+      { name: "Cyan (Sky)", role: "cyan" as const },
+      { name: "Amber (Governance)", role: "amber" as const },
+    ];
+
+    return (
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "1.5rem",
+          padding: "1rem",
+        }}
+      >
+        {schemes.map((s) => (
+          <div
+            key={s.role}
+            style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+          >
+            <span
+              style={{
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                color: "var(--gy-text-muted)",
+              }}
+            >
+              {s.name}
+            </span>
+            <ListItemGroup
+              width="100%"
+              colorScheme={s.role}
+              value={selected}
+              onChange={(val) => setSelected(val as string)}
+              items={screenshotFilterItems}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+

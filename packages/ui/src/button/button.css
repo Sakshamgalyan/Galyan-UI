@@ -125,19 +125,35 @@
 
 /* 2. Secondary (Soft background with outlined border) */
 .gy-btn--secondary {
-  background-color: var(--gy-secondary-subtle, #f0fdfa);
-  border-color: var(--gy-secondary-muted, #99f6e4);
-  color: var(--gy-secondary-hover, #0d9488);
+  background-color: color-mix(
+    in srgb,
+    var(--gy-primary) 10%,
+    var(--gy-surface, #ffffff)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--gy-primary) 22%,
+    var(--gy-border, #e2e8f0)
+  );
+  color: var(--gy-primary, #7c5cff);
 }
 
 .gy-btn--secondary:hover:not(:disabled) {
-  background-color: var(--gy-secondary-muted, #99f6e4);
-  border-color: var(--gy-secondary, #14b8a6);
-  color: var(--gy-secondary-hover, #0d9488);
+  background-color: color-mix(
+    in srgb,
+    var(--gy-primary) 18%,
+    var(--gy-surface, #ffffff)
+  );
+  border-color: var(--gy-primary);
+  color: var(--gy-primary);
 }
 
 .gy-btn--secondary:active:not(:disabled) {
-  background-color: #5eead4;
+  background-color: color-mix(
+    in srgb,
+    var(--gy-primary) 26%,
+    var(--gy-surface, #ffffff)
+  );
 }
 
 /* Secondary Outline (when outline prop is true) */
@@ -395,9 +411,13 @@
 
 /* 5. Soft */
 .gy-btn--soft {
-  background-color: var(--gy-primary-subtle, #f0fdf4);
+  background-color: color-mix(
+    in srgb,
+    var(--gy-primary) 12%,
+    transparent
+  );
   border-color: transparent;
-  color: var(--gy-primary-hover, #16a34a);
+  color: var(--gy-primary);
 }
 
 .gy-btn--soft:hover:not(:disabled) {

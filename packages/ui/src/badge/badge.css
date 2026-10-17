@@ -122,8 +122,8 @@
 /* ── Glow Effect ── */
 .gy-badge--glow {
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 20%, transparent),
-    0 4px 14px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 25%, transparent);
+    0 0 0 2px color-mix(in srgb, var(--gy-primary) 25%, transparent),
+    0 4px 14px -2px color-mix(in srgb, var(--gy-primary) 30%, transparent);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -132,8 +132,8 @@
 .gy-badge--interactive.gy-badge--glow:hover {
   transform: scale(1.05);
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--gy-primary, #6366f1) 40%, transparent),
-    0 8px 20px -2px color-mix(in srgb, var(--gy-primary, #6366f1) 35%, transparent);
+    0 0 0 2px color-mix(in srgb, var(--gy-primary) 40%, transparent),
+    0 8px 20px -2px color-mix(in srgb, var(--gy-primary) 35%, transparent);
 }
 
 /* Dot style */
@@ -165,8 +165,8 @@
 
 /* Variants */
 .gy-badge--primary {
-  background-color: var(--gy-primary, #6366f1);
-  color: #ffffff;
+  background-color: var(--gy-primary);
+  color: var(--gy-primary-fg, #ffffff);
 }
 
 .gy-badge--secondary {

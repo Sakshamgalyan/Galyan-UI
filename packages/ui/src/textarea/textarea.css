@@ -157,16 +157,56 @@
 
 /* ── Disabled State ── */
 .gy-textarea--disabled {
-  background: var(--gy-disabled-bg, #f8fafc);
-  border-color: var(--gy-disabled-border, #e2e8f0);
-  cursor: not-allowed;
-  opacity: 0.6;
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
   resize: none;
 }
 
+.gy-textarea--disabled:hover {
+  background: var(--gy-disabled-bg, #f1f5f9) !important;
+  border-color: var(--gy-disabled-border, #e2e8f0) !important;
+  box-shadow: none !important;
+}
+
 .gy-textarea:disabled {
-  cursor: not-allowed;
-  color: var(--gy-text-disabled, #94a3b8);
+  cursor: not-allowed !important;
+  color: var(--gy-text-disabled, #94a3b8) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #94a3b8) !important;
+}
+
+.gy-textarea:disabled::placeholder {
+  color: var(--gy-text-disabled, #94a3b8) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #94a3b8) !important;
+}
+
+.gy-dark .gy-textarea--disabled,
+[data-color-mode="dark"] .gy-textarea--disabled,
+[data-theme="dark"] .gy-textarea--disabled,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-textarea--disabled,
+.dark .gy-textarea--disabled {
+  background: var(--gy-disabled-bg, #13131f) !important;
+  border-color: var(--gy-disabled-border, #1c1c2b) !important;
+}
+
+.gy-dark .gy-textarea:disabled,
+[data-color-mode="dark"] .gy-textarea:disabled,
+[data-theme="dark"] .gy-textarea:disabled,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-textarea:disabled,
+.dark .gy-textarea:disabled {
+  color: var(--gy-text-disabled, #64748b) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #64748b) !important;
+}
+
+.gy-dark .gy-textarea:disabled::placeholder,
+[data-color-mode="dark"] .gy-textarea:disabled::placeholder,
+[data-theme="dark"] .gy-textarea:disabled::placeholder,
+[data-theme^="simantrix"]:not([data-color-mode="light"]) .gy-textarea:disabled::placeholder,
+.dark .gy-textarea:disabled::placeholder {
+  color: var(--gy-text-disabled, #64748b) !important;
+  -webkit-text-fill-color: var(--gy-text-disabled, #64748b) !important;
 }
 
 /* ── Auto Resize ── */

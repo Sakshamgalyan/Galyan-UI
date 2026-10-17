@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
+import type { ThemeRole, ColorMode } from "@galyan/theme";
 import "./list-item-group.css";
 import { Typography } from "../typography";
 
@@ -53,6 +54,9 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   selectedVariant?: ListItemSelectedVariant;
   accentColor?: string;
   size?: ListItemGroupSize;
+  colorScheme?: ThemeRole;
+  themeRole?: ThemeRole;
+  colorMode?: ColorMode;
   children?: React.ReactNode;
 }
 
@@ -72,6 +76,9 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       selectedVariant,
       accentColor,
       size,
+      colorScheme,
+      themeRole,
+      colorMode,
       className = "",
       style,
       children,
@@ -115,11 +122,23 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       .filter(Boolean)
       .join(" ");
 
+    const role = colorScheme ?? themeRole;
+    const dataProps: Record<string, string> = {};
+    if (role) {
+      dataProps["data-theme"] = role;
+      dataProps["data-role"] = role;
+      dataProps["data-color-scheme"] = role;
+    }
+    if (colorMode) {
+      dataProps["data-color-mode"] = colorMode;
+    }
+
     const customStyles: React.CSSProperties = {
       ...style,
       ...(effectiveAccent
         ? ({
             "--gy-list-item-accent": effectiveAccent,
+            "--gy-list-item-selected-bg": `color-mix(in srgb, ${effectiveAccent} 10%, transparent)`,
           } as React.CSSProperties)
         : {}),
     };
@@ -138,10 +157,10 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
           if (disabled) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            // Dispatch a real click so onClick receives a proper MouseEvent
             e.currentTarget.click();
           }
         }}
+        {...dataProps}
         {...props}
       >
         {/* Left Accent Bar Indicator for "accent-bar" variant */}
@@ -171,7 +190,7 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
           {hasDot && (
             <span
               className="gy-list-item-dot"
-              style={{ backgroundColor: dotColor }}
+              style={dotColor ? { backgroundColor: dotColor } : undefined}
               aria-hidden="true"
             />
           )}
@@ -207,6 +226,9 @@ export interface ListItemGroupProps extends Omit<
   bordered?: boolean;
   width?: string | number;
   className?: string;
+  colorScheme?: ThemeRole;
+  themeRole?: ThemeRole;
+  colorMode?: ColorMode;
   children?: React.ReactNode;
 }
 
@@ -223,6 +245,9 @@ export function ListItemGroup({
   width,
   className = "",
   style,
+  colorScheme,
+  themeRole,
+  colorMode,
   children,
   ...props
 }: ListItemGroupProps) {
@@ -262,8 +287,25 @@ export function ListItemGroup({
     .filter(Boolean)
     .join(" ");
 
+  const role = colorScheme ?? themeRole;
+  const dataProps: Record<string, string> = {};
+  if (role) {
+    dataProps["data-theme"] = role;
+    dataProps["data-role"] = role;
+    dataProps["data-color-scheme"] = role;
+  }
+  if (colorMode) {
+    dataProps["data-color-mode"] = colorMode;
+  }
+
   const containerStyle: React.CSSProperties = {
     width: typeof width === "number" ? `${width}px` : width,
+    ...(accentColor
+      ? ({
+          "--gy-list-item-accent": accentColor,
+          "--gy-list-item-selected-bg": `color-mix(in srgb, ${accentColor} 10%, transparent)`,
+        } as React.CSSProperties)
+      : {}),
     ...style,
   };
 
@@ -282,6 +324,7 @@ export function ListItemGroup({
         role="group"
         className={containerClasses}
         style={containerStyle}
+        {...dataProps}
         {...props}
       >
         {items

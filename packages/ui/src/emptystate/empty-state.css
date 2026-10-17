@@ -41,7 +41,7 @@
 .gy-empty-state--dashed {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #3b82f6) 2%,
+    var(--gy-primary) 2%,
     var(--gy-surface, #ffffff)
   );
   border: 1.5px dashed var(--gy-border-strong, #cbd5e1);
@@ -55,12 +55,12 @@
 .gy-empty-state--dashed:hover {
   border-color: color-mix(
     in srgb,
-    var(--gy-primary, #3b82f6) 55%,
+    var(--gy-primary) 55%,
     var(--gy-border-strong, #cbd5e1)
   );
   background: color-mix(
     in srgb,
-    var(--gy-primary, #3b82f6) 5%,
+    var(--gy-primary) 5%,
     var(--gy-surface, #ffffff)
   );
 }
@@ -70,7 +70,7 @@
   background:
     radial-gradient(
       120% 90% at 50% 0%,
-      color-mix(in srgb, var(--gy-primary, #3b82f6) 10%, transparent) 0%,
+      color-mix(in srgb, var(--gy-primary) 10%, transparent) 0%,
       transparent 70%
     ),
     linear-gradient(
@@ -87,11 +87,11 @@
 .gy-empty-state--gradient .gy-empty-state-icon-badge {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #3b82f6) 10%,
+    var(--gy-primary) 10%,
     var(--gy-surface, #ffffff)
   );
-  border-color: color-mix(in srgb, var(--gy-primary, #3b82f6) 25%, transparent);
-  color: var(--gy-primary, #3b82f6);
+  border-color: color-mix(in srgb, var(--gy-primary) 25%, transparent);
+  color: var(--gy-primary);
 }
 
 /* Glass — matches the glassmorphic treatment used by Card and Accordion */
@@ -135,7 +135,7 @@
   transform: translateX(-50%);
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--gy-primary, #3b82f6) 18%, transparent) 0%,
+    color-mix(in srgb, var(--gy-primary) 18%, transparent) 0%,
     transparent 65%
   );
   pointer-events: none;
@@ -149,12 +149,12 @@
 
 .gy-empty-state--spotlight .gy-empty-state-icon-badge {
   background: var(--gy-surface, #ffffff);
-  border-color: color-mix(in srgb, var(--gy-primary, #3b82f6) 30%, transparent);
-  color: var(--gy-primary, #3b82f6);
+  border-color: color-mix(in srgb, var(--gy-primary) 30%, transparent);
+  color: var(--gy-primary);
   box-shadow:
-    0 0 0 6px color-mix(in srgb, var(--gy-primary, #3b82f6) 7%, transparent),
-    0 0 0 14px color-mix(in srgb, var(--gy-primary, #3b82f6) 4%, transparent),
-    0 4px 14px color-mix(in srgb, var(--gy-primary, #3b82f6) 18%, transparent);
+    0 0 0 6px color-mix(in srgb, var(--gy-primary) 7%, transparent),
+    0 0 0 14px color-mix(in srgb, var(--gy-primary) 4%, transparent),
+    0 4px 14px color-mix(in srgb, var(--gy-primary) 18%, transparent);
 }
 
 /* ── Sizes ── */
@@ -260,17 +260,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gy-surface-disabled, #f8fafc);
-  border: 1px solid var(--gy-border, #e2e8f0);
+  background: color-mix(in srgb, var(--gy-primary) 8%, var(--gy-surface, #ffffff));
+  border: 1px solid color-mix(in srgb, var(--gy-primary) 20%, var(--gy-border, #e2e8f0));
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-  color: var(--gy-text-subtle, #94a3b8);
+  color: var(--gy-primary);
   transition:
     transform 0.2s ease,
     border-color 0.2s ease;
 }
 
 .gy-empty-state:hover .gy-empty-state-icon-badge {
-  border-color: var(--gy-border-strong, #cbd5e1);
+  border-color: var(--gy-primary);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--gy-primary) 20%, transparent);
   transform: translateY(-1px);
 }
 
@@ -308,7 +309,7 @@
 [data-theme="simantrix"]:not([data-color-mode="light"]) .gy-empty-state--dashed {
   background: color-mix(
     in srgb,
-    var(--gy-primary, #3b82f6) 4%,
+    var(--gy-primary) 4%,
     var(--gy-surface, #1e293b)
   );
   border-color: rgba(255, 255, 255, 0.16);
@@ -322,7 +323,7 @@
   background:
     radial-gradient(
       120% 90% at 50% 0%,
-      color-mix(in srgb, var(--gy-primary, #3b82f6) 16%, transparent) 0%,
+      color-mix(in srgb, var(--gy-primary) 16%, transparent) 0%,
       transparent 70%
     ),
     linear-gradient(
