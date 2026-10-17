@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.15
+
+### Patch Changes
+
+- Release update (patch):
+  - 92ae4d5 fix: coloring in compo
+  - 386e90c chore(release): v1.0.14
+  - 526b256 fix: border radius
+  - 635195b chore(release): v1.0.13
+  - 5948b7e fix: simantrix brand color
+
 ## 1.0.14
 
 ### Patch Changes
