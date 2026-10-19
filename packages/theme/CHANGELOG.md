@@ -1,5 +1,16 @@
 # @galyan/theme
 
+## 1.0.16
+
+### Patch Changes
+
+- Release update (patch):
+  - 99ee390 Fix: sideabr
+  - ebc635b chore(release): v1.0.15
+  - 92ae4d5 fix: coloring in compo
+  - 386e90c chore(release): v1.0.14
+  - 526b256 fix: border radius
+
 ## 1.0.15
 
 ### Patch Changes
