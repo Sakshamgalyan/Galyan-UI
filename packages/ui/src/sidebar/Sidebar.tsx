@@ -3,6 +3,7 @@
 import React, {
   useState,
   useEffect,
+  useRef,
   createContext,
   useContext,
   useMemo,
@@ -326,6 +327,58 @@ export function Sidebar({
     },
   );
 
+  // Helper to normalize IDs for flexible route matching
+  const normalizeId = (id?: string) => (id ? id.replace(/^\/+|\/+$/g, "").toLowerCase() : "");
+
+  // Ref tracking the currently active item to auto-scroll it into view
+  const activeItemRef = useRef<HTMLButtonElement | null>(null);
+
+  // Auto-scroll active item into view when activeItemId changes
+  useEffect(() => {
+    if (activeItemId && activeItemRef.current) {
+      const timer = setTimeout(() => {
+        activeItemRef.current?.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+          behavior: "smooth",
+        });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [activeItemId]);
+
+  // Auto-expand any parent accordion item if activeItemId is inside a nested group
+  useEffect(() => {
+    if (!activeItemId || !items) return;
+    const normActive = normalizeId(activeItemId);
+    const findParents = (itemList: SidebarItemData[], parents: string[] = []): string[] => {
+      for (const it of itemList) {
+        if (normalizeId(it.id) === normActive) {
+          return parents;
+        }
+        if (it.children && it.children.length > 0) {
+          const res = findParents(it.children, [...parents, it.id]);
+          if (res.length > 0) return res;
+        }
+      }
+      return [];
+    };
+    const parentsToExpand = findParents(items);
+    if (parentsToExpand.length > 0) {
+      setExpandedItems((prev) => {
+        const next = { ...prev };
+        let changed = false;
+        parentsToExpand.forEach((pid) => {
+          if (!next[pid]) {
+            next[pid] = true;
+            changed = true;
+          }
+        });
+        return changed ? next : prev;
+      });
+    }
+  }, [activeItemId, items]);
+
   const toggleItemExpand = (id: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
     setExpandedItems((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -436,12 +489,20 @@ export function Sidebar({
 
     const hasChildren = item.children && item.children.length > 0;
     const isExpanded = !!expandedItems[item.id];
-    const isDirectActive = activeItemId === item.id;
+    const isDirectActive =
+      activeItemId === item.id ||
+      (Boolean(activeItemId) && Boolean(item.id) && normalizeId(activeItemId) === normalizeId(item.id));
     const isChildActive =
-      hasChildren && item.children!.some((c) => c.id === activeItemId);
+      hasChildren &&
+      item.children!.some(
+        (c) =>
+          activeItemId === c.id ||
+          (Boolean(activeItemId) && Boolean(c.id) && normalizeId(activeItemId) === normalizeId(c.id)),
+      );
 
     const itemButton = (
       <button
+        ref={isDirectActive ? activeItemRef : undefined}
         type="button"
         key={item.id}
         disabled={item.disabled}
@@ -696,10 +757,29 @@ export function SidebarItem({
   className?: string;
 }) {
   const { isCollapsed, activeItemId, onItemClick, position } = useSidebar();
-  const isSelected = active ?? activeItemId === id;
+  const normalizeId = (s?: string) => (s ? s.replace(/^\/+|\/+$/g, "").toLowerCase() : "");
+  const isSelected =
+    active ??
+    (activeItemId === id ||
+      (Boolean(activeItemId) && Boolean(id) && normalizeId(activeItemId) === normalizeId(id)));
+  const itemRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (isSelected && itemRef.current) {
+      const timer = setTimeout(() => {
+        itemRef.current?.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+          behavior: "smooth",
+        });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isSelected]);
 
   const btn = (
     <button
+      ref={itemRef}
       type="button"
       disabled={disabled}
       className={[

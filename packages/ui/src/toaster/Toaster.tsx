@@ -312,7 +312,7 @@ export interface ToasterProviderProps {
 
 export function ToasterProvider({
   children,
-  position = "bottom-right",
+  position = "top-right",
   defaultVariant = "info",
   defaultStyle = "subtle",
 }: ToasterProviderProps) {
