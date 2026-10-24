@@ -42,8 +42,11 @@ const defaultTagMap: Record<TypographyVariant, React.ElementType> = {
   small: "small",
 };
 
+export type TypographySize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
 export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
+  size?: TypographySize | string;
   weight?: TypographyWeight;
   align?: TypographyAlign;
   margin?: TypographyMargin;
@@ -58,6 +61,7 @@ export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
 
 export function Typography({
   variant = "p",
+  size,
   weight,
   align,
   margin = "none",
@@ -75,6 +79,7 @@ export function Typography({
   const classes = [
     "gy-typography",
     `gy-typography--${variant}`,
+    size ? `gy-typography--size-${size}` : "",
     weight ? `gy-typography--weight-${weight}` : "",
     align ? `gy-typography--align-${align}` : "",
     margin && margin !== "none" ? `gy-typography--margin-${margin}` : "",

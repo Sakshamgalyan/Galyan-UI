@@ -18,7 +18,12 @@ export type BadgeVariant =
   | "blue"
   | "violet"
   | "amber"
-  | "cyan";
+  | "cyan"
+  | "purple"
+  | "live"
+  | "active"
+  | "emerald"
+  | "default";
 
 export type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type BadgeShape = "circle" | "rounded" | "square";
@@ -79,30 +84,49 @@ export function Badge({
   style,
   ...rest
 }: BadgeProps) {
-  // Determine placement default: if children exist, top-right; otherwise inline
-  const resolvedPlacement = placement ?? (children ? "top-right" : "inline");
+  // If children is provided without content and without dot/placed mode,
+  // treat children as the inline badge content instead of wrapping with a floating dot.
+  const isWrapper = Boolean(
+    children && (
+      (content !== undefined && placement !== "inline") ||
+      (dot && placement !== "inline") ||
+      (placement && placement !== "inline")
+    )
+  );
+
+  // Determine placement default: if wrapper, top-right; otherwise inline
+  const resolvedPlacement = placement ?? (isWrapper ? "top-right" : "inline");
 
   // Format content for numeric caps
-  let displayContent = content;
-  if (typeof content === "number") {
-    if (content === 0 && !showZero && !dot) {
+  let displayContent = content !== undefined ? content : (!isWrapper ? children : undefined);
+  if (typeof displayContent === "number") {
+    if (displayContent === 0 && !showZero && !dot) {
       invisible = true;
-    } else if (max && content > max) {
+    } else if (max && displayContent > max) {
       displayContent = `${max}+`;
     }
   }
 
   if (invisible) {
-    return children ? <span className="gy-badge-wrapper">{children}</span> : null;
+    return isWrapper ? <span className="gy-badge-wrapper">{children}</span> : null;
   }
 
   const isClickable = Boolean(rest.onClick || interactive);
+
+  const variantMap: Record<string, string> = {
+    purple: "violet",
+    live: "success",
+    active: "success",
+    emerald: "success",
+    default: "neutral",
+  };
+  const resolvedVariant = variantMap[variant] ?? variant;
 
   const badgeElement = (
     <span
       className={[
         "gy-badge",
-        `gy-badge--${variant}`,
+        `gy-badge--${resolvedVariant}`,
         `gy-badge--${size}`,
         shape ? `gy-badge--${shape}` : "",
         glow ? "gy-badge--glow" : "",
@@ -110,21 +134,21 @@ export function Badge({
         interactive ? "gy-badge--interactive" : "",
         dot ? "gy-badge--dot" : "",
         resolvedPlacement !== "inline" ? `gy-badge--placed gy-badge--${resolvedPlacement}` : "",
-        !children ? className : "",
+        !isWrapper ? className : "",
       ]
         .filter(Boolean)
         .join(" ")}
-      style={!children ? style : undefined}
-      role={!children && isClickable ? "button" : undefined}
-      tabIndex={!children && isClickable ? 0 : undefined}
-      {...(!children ? rest : {})}
+      style={!isWrapper ? style : undefined}
+      role={!isWrapper && isClickable ? "button" : undefined}
+      tabIndex={!isWrapper && isClickable ? 0 : undefined}
+      {...(!isWrapper ? rest : {})}
     >
       {ping && <span className="gy-badge__ping" />}
       {!dot && displayContent}
     </span>
   );
 
-  if (children) {
+  if (isWrapper) {
     return (
       <span
         className={`gy-badge-wrapper ${className}`.trim()}

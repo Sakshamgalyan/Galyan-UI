@@ -4,8 +4,15 @@ import React, { useState } from "react";
 import "./avatar.css";
 
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-export type AvatarShape = "circle" | "rounded" | "square";
-export type AvatarVariant = "default" | "glass" | "bordered" | "ring";
+export type AvatarShape = "circle" | "rounded" | "square" | "squircle";
+export type AvatarVariant =
+  | "default"
+  | "glass"
+  | "bordered"
+  | "ring"
+  | "gradient"
+  | "purple"
+  | "neutral";
 export type AvatarStatus =
   | "online"
   | "away"
@@ -38,6 +45,8 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   name?: string;
   /** Custom fallback text or node */
   fallback?: React.ReactNode;
+  /** Fallback initials alias */
+  initials?: string;
   /** Size preset */
   size?: AvatarSize;
   /** Avatar shape */
@@ -86,6 +95,7 @@ export function Avatar({
   alt = "",
   name,
   fallback,
+  initials: initialsProp,
   size = "md",
   shape = "circle",
   variant = "default",
@@ -100,7 +110,7 @@ export function Avatar({
   ...rest
 }: AvatarProps) {
   const [imageError, setImageError] = useState(false);
-  const initials = fallback ?? (name ? getInitials(name) : "?");
+  const initials = fallback ?? initialsProp ?? (name ? getInitials(name) : "?");
   const hasImage = Boolean(src) && !imageError;
   const normalizedStatus = normalizeStatus(status);
   const isClickable = Boolean(onClick || interactive);

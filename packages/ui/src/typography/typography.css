@@ -151,3 +151,24 @@
 .gy-typography--padding-xl {
   padding: 2rem !important;
 }
+
+/* Font Sizes */
+.gy-typography--size-xs {
+  font-size: var(--gy-font-size-xs, 0.75rem);
+}
+.gy-typography--size-sm {
+  font-size: var(--gy-font-size-sm, 0.875rem);
+}
+.gy-typography--size-md {
+  font-size: var(--gy-font-size-md, 1rem);
+}
+.gy-typography--size-lg {
+  font-size: var(--gy-font-size-lg, 1.125rem);
+}
+.gy-typography--size-xl {
+  font-size: var(--gy-font-size-xl, 1.25rem);
+}
+.gy-typography--size-2xl {
+  font-size: var(--gy-font-size-2xl, 1.5rem);
+}
+

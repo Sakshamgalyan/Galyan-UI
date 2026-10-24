@@ -67,6 +67,10 @@
   border-radius: var(--gy-radius-lg, 0.5rem);
 }
 
+.gy-avatar--squircle {
+  border-radius: var(--gy-radius-xl, 0.75rem);
+}
+
 .gy-avatar--square {
   border-radius: 0;
 }
@@ -153,6 +157,21 @@
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gy-avatar--gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
+  color: #ffffff !important;
+}
+
+.gy-avatar--purple {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+  color: #ffffff !important;
+}
+
+.gy-avatar--neutral {
+  background-color: var(--gy-surface-muted, #f1f5f9) !important;
+  color: var(--gy-text, #1e293b) !important;
 }
 
 /* Status Dot Indicator */

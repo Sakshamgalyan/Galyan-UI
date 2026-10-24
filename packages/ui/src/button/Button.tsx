@@ -29,16 +29,19 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   /** Show loading state with spinner */
   isLoading?: boolean;
+  loading?: boolean;
   /** Text to render next to spinner while loading (replaces children) */
   loadingText?: string;
   /** Stretch to full width of parent container */
   fullWidth?: boolean;
   /** Render outlined version of variant styling */
   outline?: boolean;
-  /** Icon placed before children */
+  /** Icon placed before children (alias: leftIcon) */
   leftIcon?: React.ReactNode;
-  /** Icon placed after children */
+  iconLeft?: React.ReactNode;
+  /** Icon placed after children (alias: rightIcon) */
   rightIcon?: React.ReactNode;
+  iconRight?: React.ReactNode;
   /** Click handler */
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Override theme role for this button component */
@@ -71,11 +74,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       variant = "primary",
       size = "md",
       isLoading = false,
+      loading,
       loadingText,
       fullWidth = false,
       outline = false,
       leftIcon,
+      iconLeft,
       rightIcon,
+      iconRight,
       disabled,
       children,
       className = "",
@@ -94,7 +100,10 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     },
     ref,
   ) {
-    const isButtonDisabled = Boolean(disabled) || isLoading;
+    const finalLoading = isLoading || Boolean(loading);
+    const finalLeftIcon = leftIcon ?? iconLeft;
+    const finalRightIcon = rightIcon ?? iconRight;
+    const isButtonDisabled = Boolean(disabled) || finalLoading;
     const isLink = Boolean(href) || as === "a";
     const Component = as ?? (href ? "a" : "button");
 
@@ -181,14 +190,14 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       <Component
         ref={ref}
         className={classes}
-        aria-busy={isLoading}
+        aria-busy={finalLoading}
         aria-disabled={isButtonDisabled}
         onClick={handleClick}
         {...dataProps}
         {...elementProps}
         {...rest}
       >
-        {isLoading ? (
+        {finalLoading ? (
           <>
             <span className="gy-btn__spinner" aria-hidden="true" />
             {loadingText ? (
@@ -203,12 +212,12 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
           </>
         ) : (
           <>
-            {leftIcon && (
+            {finalLeftIcon && (
               <span
                 className="gy-btn__icon gy-btn__icon--left"
                 aria-hidden="true"
               >
-                {leftIcon}
+                {finalLeftIcon}
               </span>
             )}
             {children && (
@@ -216,12 +225,12 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 {children}
               </Typography>
             )}
-            {rightIcon && (
+            {finalRightIcon && (
               <span
                 className="gy-btn__icon gy-btn__icon--right"
                 aria-hidden="true"
               >
-                {rightIcon}
+                {finalRightIcon}
               </span>
             )}
           </>
