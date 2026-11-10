@@ -726,6 +726,12 @@
   vertical-align: middle;
 }
 
+@keyframes gy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .gy-btn__text,
 .gy-btn__loading-text,
 .gy-btn .gy-typography {
